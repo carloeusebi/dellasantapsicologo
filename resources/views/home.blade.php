@@ -5,7 +5,7 @@
       <div class="col-50">
         <div class="hero-container">
 
-          <h3 class="mb-30">DR. Dellasanta Federico</h3>
+          <h3 class="mb-30">Staging</h3>
           <h1 class="">Psicologo Psicoterapeuta <span>Cognitivo Comportamentale</span></h1>
           <p class="mb-50">
             Mi occupo di psicoterapia, consulenze psicologiche, sostegno e propongo percorsi
