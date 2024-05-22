@@ -18,6 +18,11 @@ class PatientController extends Controller
         return Patient::create($request->validated());
     }
 
+    public function edit(Patient $patient)
+    {
+        return view('patients.edit', compact('patient'));
+    }
+
     public function show(Patient $patient)
     {
     }

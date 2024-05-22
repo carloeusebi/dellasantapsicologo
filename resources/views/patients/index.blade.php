@@ -1,7 +1,3 @@
-Pazienti
-<form method="POST" action="{{ route('logout') }}">
-  @csrf
-  <div>
-    <button>Logout</button>
-  </div>
-</form>
+<x-layouts.app title="Pazienti">
+  @livewire('patient-table')
+</x-layouts.app>

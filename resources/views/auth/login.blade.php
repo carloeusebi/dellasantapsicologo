@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/ico">
   <title>Login</title>
-  @vite('resources/css/app.scss')
+  @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-50">
 <main class="h-screen flex justify-center items-center">

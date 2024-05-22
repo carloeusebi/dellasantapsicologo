@@ -27,5 +27,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::resource('pazienti', PatientController::class)->names('patients');
+    Route::resource('pazienti', PatientController::class)->parameter('pazienti', 'patient')->names('patients');
 });
