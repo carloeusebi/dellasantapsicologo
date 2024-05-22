@@ -1,21 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    presets: [
-        require("./vendor/power-components/livewire-powergrid/tailwind.config.js"),
-        require('./vendor/wireui/wireui/tailwind.config.js'),
-    ],
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.vue",
-        './app/Livewire/**/*Table.php',
-        './vendor/power-components/livewire-powergrid/resources/views/**/*.php',
-        './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php',
-        './vendor/wireui/wireui/resources/**/*.blade.php',
-        './vendor/wireui/wireui/ts/**/*.ts',
-        './vendor/wireui/wireui/src/View/**/*.php'
     ],
-    darkMode: 'false',
+    darkMode: 'class',
     theme: {
         extend: {
             colors: {
@@ -24,8 +14,56 @@ export default {
             },
         },
     },
+    daisyui: {
+        themes: [
+            {
+                light: {
+                    ...require('daisyui/src/theming/themes').light,
+                    primary: '#6ecc84',
+                    secondary: '#264e32',
+                },
+            },
+            {
+                dark: {
+                    ...require('daisyui/src/theming/themes').dark,
+                    primary: '#264e32',
+                    secondary: '#6ecc84',
+                }
+            },
+            "cupcake",
+            "bumblebee",
+            "emerald",
+            "corporate",
+            "synthwave",
+            "retro",
+            "cyberpunk",
+            "valentine",
+            "halloween",
+            "garden",
+            "forest",
+            "aqua",
+            "lofi",
+            "pastel",
+            "fantasy",
+            "wireframe",
+            "black",
+            "luxury",
+            "dracula",
+            "cmyk",
+            "autumn",
+            "business",
+            "acid",
+            "lemonade",
+            "night",
+            "coffee",
+            "winter",
+            "dim",
+            "nord",
+            "sunset",
+        ],
+    },
     plugins: [
-        // require('@tailwindcss/forms'),
+        require('daisyui')
     ],
 }
 

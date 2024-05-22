@@ -6,13 +6,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "blade-ui-kit/blade-heroicons": "^2.3",
         "joelbutcher/laravel-archivable": "^1.4",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
-        "livewire/volt": "^1.6",
-        "power-components/livewire-powergrid": "^5.6",
-        "wireui/wireui": "^1.19"
+        "livewire/volt": "^1.6"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",

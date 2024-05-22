@@ -1,119 +1,50 @@
-<!doctype html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-  >
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/ico">
-  <title>Login</title>
-  @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-50">
-<main class="h-screen flex justify-center items-center">
-  <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <!-- LOGO -->
-      <img
-          class="mx-auto h-max w-3/12 md:w-auto"
-          src="{{asset('images/logo-without-text.png')}}"
-          alt="Della Santa Psicologo Logo"
-          width="168"
-          height="168"
-      />
-      <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Accedi al tuo account</h2>
-    </div>
+<x-layouts.app>
+  <x-slot name="breadcrumb">
+    <ul>
+      <li>Login</li>
+    </ul>
+  </x-slot>
 
-    <div class="relative mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <!-- FORM -->
-      <form
-          id="form"
-          method="POST"
-          action="{{ route('authenticate') }}"
-          class="space-y-6 mb-5"
-          novalidate
-      >
-        @csrf
-        <!-- EMAIL -->
-        <div>
-          <label
-              for="email"
-              class="block text-sm font-medium leading-6 text-gray-900"
-          >Email
+  <div class="h-full flex flex-col justify-center items-center gap-y-5">
+    <figure class="px-10 pt-10">
+      <img src="{{ asset('images/logo-without-text.png') }}" alt="Logo" class="drop-shadow-2xl"/>
+    </figure>
+
+    <div class="card max-w-96 w-screen bg-base-300 shadow-xl">
+      <div class="card-body items-center text-center">
+        <h2 class="card-title">Accedi al tuo account</h2>
+        <form
+            method="POST"
+            action="{{ route('authenticate') }}"
+            class="space-y-5 w-full"
+            x-data="{submitting: false}"
+            x-on:submit="submitting = true"
+        >
+          @csrf
+          <label class="input input-bordered flex items-center gap-2">
+            <x-heroicon-c-envelope class="w-5 h-5"/>
+            <input type="text" class="grow" placeholder="Email" name="email"/>
           </label>
-          <div class="mt-2">
-            <input
-                v-model="form.email"
-                id="email"
-                type="email"
-                name="email"
-                autocomplete="email"
-                required
-                class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-        <!-- PASSWORD -->
-        <div>
-          <div class="flex items-center justify-between">
-            <label
-                for="password"
-                class="block text-sm font-medium leading-6 text-gray-900"
-            >Password</label
-            >
-          </div>
-          <div class="mt-2">
-            <input
-                v-model="form.password"
-                id="password"
-                name="password"
-                type="password"
-                autocomplete="current-password"
-                required
-                class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
+          <label class="input input-bordered flex items-center gap-2">
+            <x-heroicon-c-key class="w-5 h-5"/>
+            <input type="password" class="grow" name="password" placeholder="Password"/>
+          </label>
 
-        <!-- BUTTON -->
-        <div>
-          <button
-              id="submit-button"
-              class="relative disabled:opacity-70 disabled:hover:bg-primary select-none flex w-full justify-center rounded-md bg-primary px-3 py-1.5 mb-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              type="submit"
-          >
-            <x-loading-icon class="absolute hidden left-3"/>
-            Accedi
-          </button>
-          <a
-              class="select-none flex w-full justify-center rounded-md border border-primary px-3 py-1.5 text-sm font-semibold leading-6 text-primary shadow-sm hover:bg-primary hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              href="https://dellasantapsicologo.it"
-          >Torna alla homepage</a
-          >
-        </div>
-      </form>
-
-      @error('login')
-      <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
-        <p class="font-bold">Attenzione</p>
-        <span>{{$message}}</span>
+          @error('login')
+          <div class="text-error flex items-center gap-1">
+            <x-heroicon-o-exclamation-triangle class="w-6 h-6"/>
+            <span>{{ $message }}</span>
+          </div>
+          @enderror
+          <div class="card-actions">
+            <button type="submit" class="btn btn-primary w-full relative" :disabled="submitting">
+              <span x-show="submitting" class="loading loading-spinner loading-md absolute left-3"></span>
+              Accedi
+            </button>
+            <a href="{{ route('home') }}" class="btn btn-secondary w-full btn-outline">Torna alla Homepage</a>
+          </div>
+        </form>
       </div>
-      @enderror
     </div>
   </div>
-</main>
-
-<script>
-    const form = document.getElementById('form');
-    const loader = document.querySelector('.loader');
-    const submitButton = document.getElementById('submit-button')
-
-    form.addEventListener('submit', function () {
-        loader.classList.remove('hidden');
-        submitButton.setAttribute('disabled', 'true');
-    });
-</script>
-</body>
-</html>
+</x-layouts.app>

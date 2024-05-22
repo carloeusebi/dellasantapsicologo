@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArchivable\Archivable;
 
+/**
+ * @property Carbon $archived_at
+ */
 class Patient extends Model
 {
     use Archivable;
@@ -35,7 +38,8 @@ class Patient extends Model
 
     protected $casts = [
         'birth_date' => 'datetime',
-        'therapy_start_date' => 'datetime'
+        'therapy_start_date' => 'datetime',
+        'archived_at' => 'datetime',
     ];
 
     /** @noinspection PhpUnused */
