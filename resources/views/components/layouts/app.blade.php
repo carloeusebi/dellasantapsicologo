@@ -78,7 +78,7 @@
               <li>
                 <form method="POST" action="{{ route('logout') }}" class="flex p-0">
                   @csrf
-                  <button type="submit" class="flex-grow text-start px-4 py-2">Logout</button>
+                  <button type="submit" class="flex-grow text-start px-4 py-2">Esci</button>
                 </form>
               </li>
             </ul>
@@ -95,7 +95,7 @@
   </div>
   <div class="drawer-side">
     <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-    <ul class="menu disabled p-4 w-80 min-h-full bg-base-200 text-base-content">
+    <ul class="menu disabled p-4 w-80 md:w-64 xl:w-80 min-h-full bg-base-200 text-base-content">
       <div class="mb-5">
         <img src="{{ asset('images/Logo.webp') }}" alt="logo" class="pe-3"/>
       </div>
