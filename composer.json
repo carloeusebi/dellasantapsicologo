@@ -9,9 +9,11 @@
         "blade-ui-kit/blade-heroicons": "^2.3",
         "joelbutcher/laravel-archivable": "^1.4",
         "laravel/framework": "^11.0",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
-        "livewire/volt": "^1.6"
+        "livewire/volt": "^1.6",
+        "spatie/laravel-medialibrary": "^11.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
