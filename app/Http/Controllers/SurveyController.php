@@ -14,7 +14,7 @@ class SurveyController extends Controller
 
     public function create()
     {
-
+        return view('surveys.create');
     }
 
     public function store(SurveyRequest $request)
@@ -23,6 +23,8 @@ class SurveyController extends Controller
 
     public function show(Survey $survey)
     {
+        $survey->load('patient');
+        return view('surveys.show', compact('survey'));
     }
 
     public function update(SurveyRequest $request, Survey $survey)

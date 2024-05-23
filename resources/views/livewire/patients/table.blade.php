@@ -52,7 +52,7 @@
   <x-slot:body>
     @forelse($patients as $patient)
       <x-table-row
-          :disabled="$patient->isArchived()" :error="$patient->has_pending_surveys"
+          :disabled="$patient->isArchived()" :error="$patient->pending_surveys > 0"
           :destination="route('patients.show', $patient)"
       >
         <x-table-cell>{{ $patient->first_name }}</x-table-cell>

@@ -31,7 +31,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pazienti', PatientController::class)
         ->parameter('pazienti', 'patient')
         ->names('patients');
+
     Route::resource('batterie', SurveyController::class)
         ->parameter('batterie', 'survey')
-        ->names('surveys');
+        ->names('surveys')
+        ->except('edit');
 });

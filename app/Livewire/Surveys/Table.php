@@ -32,26 +32,33 @@ class Table extends TableComponent
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
-        $surveys = Survey::query()
-            ->with('patient')
-            ->when($this->search, function (Builder $query, string $search) {
-                collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                    $query->where(function (Builder $query) use ($term) {
-                        $query->where('title', 'like', "%{$term}%")
-                            ->orWhereRelation('patient', 'first_name', 'LIKE', "%{$term}%")
-                            ->orWhereRelation('patient', 'last_name', 'LIKE', "%{$term}%");
+        while (true) {
+            $surveys = Survey::query()
+                ->with('patient')
+                ->when($this->search, function (Builder $query, string $search) {
+                    collect(explode(' ', $search))->each(function (string $term) use ($query) {
+                        $query->where(function (Builder $query) use ($term) {
+                            $query->where('title', 'like', "%$term%")
+                                ->orWhereRelation('patient', 'first_name', 'LIKE', "%$term%")
+                                ->orWhereRelation('patient', 'last_name', 'LIKE', "%$term%");
+                        });
                     });
-                });
-            })
-            ->when($this->state === 'completati', function (Builder $query) {
-                $query->where('completed', true);
-            })
-            ->when($this->state === 'non_completati', function (Builder $query) {
-                $query->where('completed', false)
-                    ->orwherenull('completed');
-            })
-            ->orderBy($this->column, $this->direction)
-            ->paginate(10, pageName: self::$pageName);
+                })
+                ->when($this->state === 'completati', function (Builder $query) {
+                    $query->where('completed', true);
+                })
+                ->when($this->state === 'non_completati', function (Builder $query) {
+                    $query->where('completed', false)
+                        ->orwherenull('completed');
+                })
+                ->orderBy($this->column, $this->direction)
+                ->paginate(10, pageName: self::$pageName);
+
+            if ($surveys->count() > 0 || $this->getPage(self::$pageName) === 1) {
+                break;
+            }
+            $this->resetPage(self::$pageName);
+        }
 
         return view('livewire.surveys.table', compact('surveys'));
     }

@@ -28,11 +28,17 @@ class Table extends TableComponent
     {
         while (true) {
             $patients = Patient::query()
+                ->withCount([
+                    'surveys as pending_surveys' => function (Builder $query) {
+                        $query->where('completed', false)
+                            ->orWhereNull('completed');
+                    }
+                ])
                 ->when($this->search, function (Builder $query, string $search) {
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
                         $query->where(function (Builder $query) use ($term) {
-                            $query->where('first_name', 'LIKE', "%{$term}%")
-                                ->orwhere('last_name', 'LIKE', "%{$term}%");
+                            $query->where('first_name', 'LIKE', "%$term%")
+                                ->orwhere('last_name', 'LIKE', "%$term%");
                         });
                     });
                 })

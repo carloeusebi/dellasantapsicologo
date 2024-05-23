@@ -51,7 +51,9 @@
           @isset($breadcrumb)
             <slot name="breadcrumb">
               <div class="text-sm breadcrumbs overflow-x-hidden">
-                {{ $breadcrumb }}
+                <ul>
+                  {{ $breadcrumb }}
+                </ul>
               </div>
             </slot>
           @endisset
@@ -85,15 +87,14 @@
       </div>
     </div>
 
-    <main class="max-w-[1400px] h-full w-full px-2 my-5">
+    <main class="max-w-[1400px] h-full w-full px-2 md:px-6 my-5">
       {{$slot}}
     </main>
-
-
   </div>
+
   <div class="drawer-side shadow-xl">
     <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-    <ul class="menu disabled p-4 w-80 md:w-64 xl:w-80 min-h-full bg-base-200 text-base-content">
+    <ul class="menu disabled p-4 w-80 md:w-64 xl:w-80 min-h-full bg-base-200 text-base-content pt-20 lg:pt-4">
       <div class="mb-5">
         <img src="{{ asset('images/Logo.webp') }}" alt="logo" class="pe-3"/>
       </div>
@@ -122,6 +123,15 @@
               class="@if(Route::is('surveys.index') && !Route::is('surveys.create')) active @endif"
               wire:navigate.hover
           >Batterie</a>
+          <ul>
+            <li>
+              <a
+                  href="{{ route('surveys.create') }}" class="@if(Route::is('surveys.create')) active @endif"
+                  wire:navigate.hover
+              >Nuovo</a>
+            </li>
+            <li><a>Templates</a></li>
+          </ul>
         </li>
         <li><a>Questionari</a></li>
       @endauth

@@ -19,8 +19,8 @@
     <x-table-heading sortable :$column :$direction key="title">Titolo
     </x-table-heading>
     <x-table-heading>Paziente</x-table-heading>
-    <x-table-heading sortable :$column :$direction key="created_at">Creato</x-table-heading>
-    <x-table-heading sortable :$column :$direction key="updated_at">Ultima modifica</x-table-heading>
+    <x-table-heading sortable :$column :$direction key="created_at" responsive>Creato</x-table-heading>
+    <x-table-heading sortable :$column :$direction key="updated_at" responsive>Ultima modifica</x-table-heading>
   </x-slot:headers>
 
   <x-slot:legend>

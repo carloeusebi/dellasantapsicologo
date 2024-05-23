@@ -1,7 +1,7 @@
 <div class="card shadow-2xl">
   <div class="card-body px-2">
 
-    <div class="md:flex gap-2 space-y-2 md:space-y-0 mb-5">
+    <div class="md:flex gap-2 space-y-2 md:space-y-0">
       {{ $filters }}
     </div>
 
