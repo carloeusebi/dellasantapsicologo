@@ -2,6 +2,13 @@
     <!DOCTYPE html>
 <html lang="it">
 <head>
+  <script async crossorigin="anonymous">
+    const selectedTheme = localStorage.getItem("theme");
+    if (selectedTheme) {
+      document.documentElement.setAttribute("data-theme", selectedTheme);
+    }
+  </script>
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,17 +27,8 @@
 
   <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/ico">
 
-  <script async crossorigin="anonymous">
-      const selectedTheme = localStorage.getItem("theme");
-      if (selectedTheme) {
-          document.documentElement.setAttribute("data-theme", selectedTheme);
-      }
-  </script>
-
   @livewireStyles
   @vite('resources/css/app.css')
-  @vite('resources/js/app.js')
-
 </head>
 
 <body class="min-h-screen h-full">
@@ -144,5 +142,6 @@
 </div>
 
 @livewireScripts
+@vite('resources/js/app.js')
 </body>
 </html>
