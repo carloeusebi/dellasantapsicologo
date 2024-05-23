@@ -16,6 +16,7 @@ return new class extends Migration {
                 $table->text('text');
                 $table->boolean('reversed')->default(false);
                 $table->json('answers')->nullable();
+                $table->integer('old_id')->nullable();
                 $table->softDeletes();
                 $table->timestamps();
             });
@@ -40,6 +41,7 @@ return new class extends Migration {
                     'text' => $item['text'],
                     'reversed' => $item['reversed'] ?? false,
                     'answers' => $item['multipleAnswers'] ?? null,
+                    'old_id' => $item['id'] ?? null,
                 ]);
                 if ($key !== 0) {
                     $question->previousQuestion()->associate($previousQuestion)->save();

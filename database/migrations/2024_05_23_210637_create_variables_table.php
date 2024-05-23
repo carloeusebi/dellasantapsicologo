@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(Questionnaire::class)->constrained()->cascadeOnDelete();
             $table->string('name');
+            $table->boolean('gender_based')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -27,6 +28,7 @@ return new class extends Migration {
 
     public function down(): void
     {
+        Schema::dropIfExists('question_variable');
         Schema::dropIfExists('variables');
     }
 };

@@ -17,6 +17,7 @@ class Question extends Model
         'next_question',
         'reversed',
         'answers',
+        'old_id',
     ];
 
     public function questionnaire(): BelongsTo
