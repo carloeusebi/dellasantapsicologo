@@ -12,7 +12,7 @@
             individualizzati a
             Fano e online.
           </p>
-          <a href="/contatti" class="btn mb-50">Prenota un appuntamento</a>
+          <a href="{{ route('contatti') }}" class="btn mb-50" wire:navigate.hover>Prenota un appuntamento</a>
         </div>
       </div>
       <div class="col-50">
