@@ -11,7 +11,7 @@
     </figure>
 
     <div class="card max-w-96 w-screen bg-base-300 shadow-xl">
-      <div class="card-body items-center text-center">
+      <div class="card-body items-center text-center px-4 md:px-8">
         <h2 class="card-title">Accedi al tuo account</h2>
         <form
             method="POST"

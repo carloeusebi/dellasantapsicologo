@@ -87,7 +87,7 @@
       </div>
     </div>
 
-    <main class="max-w-7xl h-full w-full">
+    <main class="max-w-7xl h-full w-full px-2">
       {{$slot}}
     </main>
 
