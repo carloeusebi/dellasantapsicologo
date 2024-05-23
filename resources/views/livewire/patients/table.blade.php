@@ -17,7 +17,7 @@
   </x-slot:filters>
 
   <x-slot:legend>
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 select-none">
       <button class="inline-block h-4 w-4 table-error border border-base-300" disabled></button>
       <span>Batterie non completate</span>
     </div>
@@ -25,28 +25,24 @@
 
   <x-slot:headers>
     <x-table-heading
-        wire:click="sort('first_name')" sortable
-        :direction="$column === 'first_name' ? $direction : null"
+        :$direction :$column sortable key="first_name"
     >Nome
     </x-table-heading>
     <x-table-heading
-        wire:click="sort('last_name')"
-        :direction="$column === 'last_name' ? $direction : null"
+        :$direction :$column sortable key="last_name"
         responsive
         sortable
     >Cognome
     </x-table-heading>
     <x-table-heading
-        wire:click="sort('birth_date')"
-        :direction="$column === 'birth_date' ? $direction : null"
+        :$direction :$column sortable key="birth_date"
         sortable
         responsive
     >Età
     </x-table-heading>
     <x-table-heading responsive>Email</x-table-heading>
     <x-table-heading
-        wire:click="sort('therapy_start_date')"
-        :direction="$column === 'therapy_start_date' ? $direction : null"
+        :$direction :$column sortable key="therapy_start_date"
         sortable
     >Inizio Terapia
     </x-table-heading>

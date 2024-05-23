@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -27,5 +28,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::resource('pazienti', PatientController::class)->parameter('pazienti', 'patient')->names('patients');
+    Route::resource('pazienti', PatientController::class)
+        ->parameter('pazienti', 'patient')
+        ->names('patients');
+    Route::resource('batterie', SurveyController::class)
+        ->parameter('batterie', 'survey')
+        ->names('surveys');
 });

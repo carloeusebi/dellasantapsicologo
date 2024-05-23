@@ -118,7 +118,13 @@
             </li>
           </ul>
         </li>
-        <li><a>Batterie</a></li>
+        <li>
+          <a
+              href="{{ route('surveys.index') }}"
+              class="@if(Route::is('surveys.index') && !Route::is('surveys.create')) active @endif"
+              wire:navigate.hover
+          >Batterie</a>
+        </li>
         <li><a>Questionari</a></li>
       @endauth
       @guest()

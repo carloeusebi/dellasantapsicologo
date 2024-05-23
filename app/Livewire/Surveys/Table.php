@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Livewire\Surveys;
+
+use App\Livewire\TableComponent;
+use App\Models\Survey;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\View\View;
+use Livewire\Attributes\Url;
+use Livewire\WithPagination;
+
+class Table extends TableComponent
+{
+    use WithPagination;
+
+    protected static $pageName = 'pagina';
+
+    #[Url(as: 'ordina')]
+    public string $column = 'created_at';
+
+    #[Url(as: 'direzione')]
+    public string $direction = 'desc';
+
+    #[Url(as: 'stato')]
+    public string $state = 'tutti';
+
+    #[Url(as: 'cerca')]
+    public string $search = '';
+
+    public function render(
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
+    {
+        $surveys = Survey::query()
+            ->with('patient')
+            ->when($this->search, function (Builder $query, string $search) {
+                collect(explode(' ', $search))->each(function (string $term) use ($query) {
+                    $query->where(function (Builder $query) use ($term) {
+                        $query->where('title', 'like', "%{$term}%")
+                            ->orWhereRelation('patient', 'first_name', 'LIKE', "%{$term}%")
+                            ->orWhereRelation('patient', 'last_name', 'LIKE', "%{$term}%");
+                    });
+                });
+            })
+            ->when($this->state === 'completati', function (Builder $query) {
+                $query->where('completed', true);
+            })
+            ->when($this->state === 'non_completati', function (Builder $query) {
+                $query->where('completed', false)
+                    ->orwherenull('completed');
+            })
+            ->orderBy($this->column, $this->direction)
+            ->paginate(10, pageName: self::$pageName);
+
+        return view('livewire.surveys.table', compact('surveys'));
+    }
+}
