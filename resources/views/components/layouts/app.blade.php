@@ -37,7 +37,7 @@
 <div class="drawer lg:drawer-open sticky">
   <input id="my-drawer-2" type="checkbox" class="drawer-toggle"/>
   <div class="drawer-content flex flex-col items-center h-full">
-    <div class="navbar bg-base-100 shadow-xl px-2 lg:pe-10 justify-between">
+    <div class="navbar bg-base-100 shadow-xl px-2 lg:pe-10 justify-between sticky top-0 z-10">
       <div class="flex flex-shrink overflow-x-scroll">
         <div>
           <label for="my-drawer-2" class="btn drawer-button lg:hidden">
@@ -87,13 +87,13 @@
       </div>
     </div>
 
-    <main class="max-w-7xl h-full w-full px-2 my-5">
+    <main class="max-w-[1400px] h-full w-full px-2 my-5">
       {{$slot}}
     </main>
 
 
   </div>
-  <div class="drawer-side">
+  <div class="drawer-side shadow-xl">
     <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
     <ul class="menu disabled p-4 w-80 md:w-64 xl:w-80 min-h-full bg-base-200 text-base-content">
       <div class="mb-5">
