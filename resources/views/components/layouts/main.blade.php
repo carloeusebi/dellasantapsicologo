@@ -80,6 +80,11 @@
             Contatti
           </a>
         </li>
+        @auth()
+          <li>
+            <a href="{{ route('admin') }}">Admin</a>
+          </li>
+        @endauth
       </ul>
     </nav>
   </div>
@@ -263,5 +268,5 @@
         }
     };
 </script>
-<!--suppress HtmlUnknownAttribute -->
+<!--suppress HtmlUnknownAttribute, JSUnresolvedLibraryURL -->
 <script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8"  async></script>
