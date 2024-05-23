@@ -63,6 +63,12 @@ class Patient extends Model
         );
     }
 
+    //  TODO Proper calculate the property
+    public function hasPendingSurveys(): Attribute
+    {
+        return Attribute::make(fn() => false);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

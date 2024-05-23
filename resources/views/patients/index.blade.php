@@ -5,9 +5,5 @@
     </ul>
   </x-slot>
 
-  <div class="card shadow-2xl">
-    <div class="card-body px-2">
-      <livewire:patients.table/>
-    </div>
-  </div>
+  <livewire:patients.table/>
 </x-layouts.app>
