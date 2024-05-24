@@ -78,7 +78,10 @@
               <li>
                 <form method="POST" action="{{ route('logout') }}" class="flex p-0">
                   @csrf
-                  <button type="submit" class="flex-grow text-start px-4 py-2">Esci</button>
+                  <button type="submit" class="flex-grow flex justify-between text-start px-4 py-2">
+                    <span>Esci</span>
+                    <x-heroicon-s-arrow-right-end-on-rectangle class="h-5 w-5"/>
+                  </button>
                 </form>
               </li>
             </ul>
@@ -100,40 +103,24 @@
       </div>
       <!-- Sidebar content here -->
       @auth()
-        <li>
-          <a
-              href="{{ route('patients.index') }}"
-              class="@if(Route::is('patients.*') && !Route::is('patients.create')) active @endif"
-              wire:navigate.hover
-          >
-            Pazienti
-          </a>
-          <ul>
-            <li>
-              <a
-                  href="{{ route('patients.create') }}" class="@if(Route::is('patients.create')) active @endif"
-                  wire:navigate.hover
-              >Nuovo</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a
-              href="{{ route('surveys.index') }}"
-              class="@if(Route::is('surveys.index') && !Route::is('surveys.create')) active @endif"
-              wire:navigate.hover
-          >Batterie</a>
-          <ul>
-            <li>
-              <a
-                  href="{{ route('surveys.create') }}" class="@if(Route::is('surveys.create')) active @endif"
-                  wire:navigate.hover
-              >Nuovo</a>
-            </li>
-            <li><a>Templates</a></li>
-          </ul>
-        </li>
-        <li><a>Questionari</a></li>
+        <x-menu activate-by-route>
+          <x-menu-sub title="Pazienti" icon="o-user-group">
+            <x-menu-item title="Pazienti" link="{{ route('patients.index') }}" route="patients.index"/>
+            <x-menu-item title="Nuovo" link="{{ route('patients.create') }}" route="patients.create"/>
+          </x-menu-sub>
+          <x-menu-separator/>
+          <x-menu-sub title="Batterie" icon="o-list-bullet">
+            <x-menu-item title="Batterie" link="{{ route('surveys.index') }} " route="surveys.index"/>
+            <x-menu-item title="Nuova" link="{{ route('surveys.create') }}" route="surveys.create"/>
+            <x-menu-item title="Templates"/>
+          </x-menu-sub>
+          <x-menu-separator/>
+          <x-menu-sub title="Questionari" icon="o-document-chart-bar">
+            <x-menu-item title="Questionari" link="{{ route('questionnaires.index') }}" route="questionnaires.index"/>
+            <x-menu-item title="Nuovo" link=" {{ route('questionnaires.create') }}" route="questionnaires.create"/>
+            <x-menu-item title="Tags"/>
+          </x-menu-sub>
+        </x-menu>
       @endauth
       @guest()
         <li>

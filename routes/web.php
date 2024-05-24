@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\QuestionnaireController;
 use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +37,8 @@ Route::middleware(['auth'])->group(function () {
         ->parameter('batterie', 'survey')
         ->names('surveys')
         ->except('edit');
+
+    Route::resource('questionari', QuestionnaireController::class)
+        ->parameter('questionari', 'questionnaire')
+        ->names('questionnaires');
 });

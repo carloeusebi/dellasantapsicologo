@@ -6,7 +6,6 @@
     "build": "vite build"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.7",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.4",
     "daisyui": "^4.11.1",
@@ -17,8 +16,6 @@
     "vite": "^5.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.5.2",
-    "flatpickr": "^4.6.13",
-    "theme-change": "^2.5.0"
+    "@fortawesome/fontawesome-free": "^6.5.2"
   }
 }

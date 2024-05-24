@@ -1,20 +1,24 @@
-<x-table :rows="$surveys">
+<x-custom.table :rows="$surveys">
   <x-slot:filters>
-    <select class="select select-bordered w-full md:max-w-xs select-sm" wire:model.live="state">
-      <option selected value="tutti">Tutti</option>
-      <option value="completati">Completati</option>
-      <option value="non_completati">Non Completati</option>
-    </select>
-    <label class="input input-sm input-bordered flex items-center gap-2 w-full">
-      <x-heroicon-o-magnifying-glass class="w-4 h-4"/>
-      <input
-          type="text" class="grow" placeholder="Cerca" wire:model.live.debounce="search" wire:keyup.esc="clearSearch"
+    <x-select
+        class="select-sm w-full md:w-[320px]"
+        wire:model.live.debounce="state"
+        :options="[
+      ['id' => 'tutti', 'name' => 'Tutti'],
+      ['id' => 'completati', 'name' => 'Completati'],
+      ['id' => 'non_completati', 'name' => 'Non Completati'],
+]"
+    />
+    <div class="[&>*]:!w-full grow">
+      <x-input
+          class="!grow input-sm w-full" placeholder="Cerca" wire:model.live.debounce="search"
+          icon="o-magnifying-glass"
+          wire:keyup.esc="clearSearch"
+          clearable
       />
-      <x-heroicon-o-x-mark
-          x-show="$wire.search" class="w-4 h-4 cursor-pointer" x-on:click="$wire.search = ''; $wire.$refresh()"
-      />
-    </label>
+    </div>
   </x-slot:filters>
+
   <x-slot:headers>
     <x-table-heading sortable :$column :$direction key="title">Titolo
     </x-table-heading>
@@ -56,6 +60,11 @@
         </x-table-cell>
       </x-table-row>
     @empty
+      <tr>
+        <td colspan="5">
+          <div class="w-full text-center my-2 opacity-50">Nessuna Batteria trovata</div>
+        </td>
+      </tr>
     @endforelse
   </x-slot:body>
-</x-table>
+</x-custom.table>

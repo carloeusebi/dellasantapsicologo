@@ -21,6 +21,7 @@ class Table extends TableComponent
     #[Url(as: 'stato')]
     public string $state = 'tutti';
 
+    #[Url(as: 'cerca')]
     public string $search = '';
 
     public function render(
