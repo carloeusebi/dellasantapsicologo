@@ -25,6 +25,7 @@
           {{ $footer }}
         @endisset</tfoot>
       </table>
+      <div class="divider !my-1"></div>
       <div class="my-2">
         {{ $rows->links() }}
       </div>

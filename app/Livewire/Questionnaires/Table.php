@@ -39,6 +39,7 @@ class Table extends TableComponent
     {
         while (true) {
             $questionnaires = Questionnaire::query()
+                ->withCount('surveys')
                 ->with('tags')
                 ->when(count($this->tagsFilter), function (Builder $query) {
                     $query->where(function (Builder $query) {

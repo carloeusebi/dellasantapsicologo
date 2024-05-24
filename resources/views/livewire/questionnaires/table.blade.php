@@ -25,7 +25,7 @@
     </x-choices>
     <div class="[&>*]:!w-full grow">
       <x-input
-          class="!grow input-sm w-full" placeholder="Cerca" wire:model.live.debounce="search"
+          class="!grow input-sm w-full h-[33.5px]" placeholder="Cerca" wire:model.live.debounce="search"
           icon="o-magnifying-glass"
           wire:keyup.esc="clearSearch"
           clearable
@@ -36,12 +36,13 @@
   <x-slot:headers>
     <x-table-heading :$direction :$column sortable key="title">Titolo</x-table-heading>
     <x-table-heading>Tags</x-table-heading>
+    <x-table-heading :$direction :$column sortable key="surveys_count">Utilizzi</x-table-heading>
     <x-table-heading :$direction :$column sortable key="created_at" responsive>Creato</x-table-heading>
   </x-slot:headers>
 
   <x-slot:body>
     @forelse($questionnaires as $questionnaire)
-      <x-table-row>
+      <x-table-row :destination="route('questionnaires.show', $questionnaire)">
         <x-table-cell>{{ $questionnaire->title }}</x-table-cell>
         <x-table-cell>
           @foreach($questionnaire->tags as $tag)
@@ -51,6 +52,7 @@
             >{{ $tag->tag }}</div>
           @endforeach
         </x-table-cell>
+        <x-table-cell responsive>{{ $questionnaire->surveys_count }}</x-table-cell>
         <x-table-cell responsive>{{$questionnaire->created_at->translatedFormat('d F Y')}}</x-table-cell>
       </x-table-row>
     @empty
