@@ -133,7 +133,21 @@
             <li><a>Templates</a></li>
           </ul>
         </li>
-        <li><a>Questionari</a></li>
+        <li>
+          <a
+              href="{{ route('questionnaires.index') }}"
+              class="@if(Route::is('questionnaires.*') && !Route::is('questionnaires.create')) active @endif"
+              wire:navigate.hover
+          >Questionari</a>
+          <ul>
+            <li>
+              <a
+                  href="{{ route('questionnaires.create') }}"
+                  class="@if(Route::is('questionnaires.create')) active @endif" wire:navigate.hover
+              >Nuovo</a>
+            </li>
+          </ul>
+        </li>
       @endauth
       @guest()
         <li>
