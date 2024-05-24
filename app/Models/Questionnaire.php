@@ -12,7 +12,8 @@ class Questionnaire extends Model
 {
     public function surveys(): BelongsToMany
     {
-        return $this->belongsToMany(Survey::class);
+        return $this->belongsToMany(Survey::class)
+            ->using(QuestionnaireSurvey::class);
     }
 
     public function questions(): HasMany
