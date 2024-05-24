@@ -8,4 +8,6 @@
       <h2>Crea Questionario</h2>
     </a>
   </div>
+
+  <livewire:questionnaires.table/>
 </x-layouts.app>

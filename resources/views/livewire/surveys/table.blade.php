@@ -1,4 +1,4 @@
-<x-table :rows="$surveys">
+<x-custom.table :rows="$surveys">
   <x-slot:filters>
     <select class="select select-bordered w-full md:max-w-xs select-sm" wire:model.live="state">
       <option selected value="tutti">Tutti</option>
@@ -56,6 +56,11 @@
         </x-table-cell>
       </x-table-row>
     @empty
+      <tr>
+        <td colspan="5">
+          <div class="w-full text-center my-2 opacity-50">Nessuna Batteria trovata</div>
+        </td>
+      </tr>
     @endforelse
   </x-slot:body>
-</x-table>
+</x-custom.table>

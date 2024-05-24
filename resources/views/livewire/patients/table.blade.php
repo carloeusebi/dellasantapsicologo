@@ -1,4 +1,4 @@
-<x-table :rows="$patients">
+<x-custom.table :rows="$patients">
   <x-slot:filters>
     <select class="select select-bordered w-full md:max-w-xs select-sm" wire:model.live="state">
       <option selected value="tutti">Tutti</option>
@@ -73,4 +73,4 @@
       </tr>
     @endforelse
   </x-slot:body>
-</x-table>
+</x-custom.table>

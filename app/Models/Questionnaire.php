@@ -43,4 +43,9 @@ class Questionnaire extends Model
     {
         return $this->hasManyThrough(Cutoff::class, Variable::class);
     }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

@@ -60,6 +60,7 @@ return new class extends Migration {
                     'id' => $key + 1,
                     'legend' => $choice->text
                 ];
+                /** @noinspection SqlResolve */
                 DB::statement('UPDATE `questionnaires` SET `legend` = ? WHERE `id` = ?',
                     [Utils::jsonEncode($legend), $questionnaire->id]);
             });
