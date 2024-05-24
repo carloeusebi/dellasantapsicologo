@@ -138,6 +138,7 @@
   </div>
 </div>
 
+<x-toast/>
 @livewireScripts
 @vite('resources/js/app.js')
 </body>

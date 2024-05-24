@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
+use Illuminate\Support\Facades\Auth;
+use Mary\Traits\Toast;
 
 class PatientController extends Controller
 {
+    use Toast;
 
     public function index()
     {
@@ -15,7 +18,10 @@ class PatientController extends Controller
 
     public function store(PatientRequest $request)
     {
-        return Patient::create($request->validated());
+        Auth::user()->patients()->create($request->all());
+        $this->success('Paziente creato con successo',
+            redirectTo: route('patients.index')
+        );
     }
 
     public function create()

@@ -43,6 +43,19 @@ class Patient extends Model
         'archived_at' => 'datetime',
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+
+        self::creating(function (Patient $patient) {
+            if (empty($patient->therapy_start_date)) {
+                $patient->therapy_start_date = now();
+            }
+            $patient->first_name = ucfirst($patient->first_name);
+            $patient->last_name = ucfirst($patient->last_name);
+        });
+    }
+
     /** @noinspection PhpUnused */
     public function fullName(): Attribute
     {

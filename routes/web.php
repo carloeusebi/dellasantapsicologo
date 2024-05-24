@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\QuestionnaireController;
 use App\Http\Controllers\SurveyController;
+use App\Livewire\Patients\CreatePatient;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -29,8 +30,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    Route::prefix('/pazienti')->name('patients.')->group(function () {
+        Route::get('/crea', CreatePatient::class)->name('create');
+    });
     Route::resource('pazienti', PatientController::class)
         ->parameter('pazienti', 'patient')
+        ->only('index', 'show')
         ->names('patients');
 
     Route::resource('batterie', SurveyController::class)
