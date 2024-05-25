@@ -43,14 +43,14 @@ class Files extends Component
         try {
             $this->patient->addMedia($this->file)->toMediaCollection('files');
         } catch (FileDoesNotExist $e) {
-            $this->error($e->getMessage());
+            $this->error('Errore!', $e->getMessage());
         } catch (FileIsTooBig) {
-            $this->error('File troppo grande!');
+            $this->error('Errore!', 'File troppo grande!');
         }
 
         $this->reset('file');
 
-        return $this->success('File caricato con successo');
+        return $this->success('Successo!', 'File caricato con successo');
     }
 
     public function delete(string $id): void
@@ -61,7 +61,7 @@ class Files extends Component
 
         $this->dispatch('deleted');
 
-        $this->success('File eliminato con successo');
+        $this->success('Successo!', 'File eliminato con successo');
     }
 
     protected function retrieveMedia(string $id): Media

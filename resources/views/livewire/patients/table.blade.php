@@ -63,7 +63,7 @@
         Dottore
       </x-table-heading>
     @endif
-    <x-table-heading></x-table-heading>
+    <x-table-heading class="text-end" responsive>Azioni Rapide</x-table-heading>
   </x-slot:headers>
 
   <x-slot:body>
@@ -77,18 +77,27 @@
         <x-table-cell responsive>{{ $patient->age }}</x-table-cell>
         <x-table-cell responsive>{{ $patient->email }}</x-table-cell>
         <x-table-cell>
-          {{ $patient->therapy_start_date->diffForHumans() }} <span class="text-xs">({{ $patient->therapy_start_date->translatedFormat('d F Y') }})</span>
+          {!! get_formatted_date($patient->therapy_start_date) !!}
         </x-table-cell>
         @if(auth()->user()->isAdmin())
           <x-table-cell responsive>
             {{ $patient->user->name }}
           </x-table-cell>
         @endif
-        <x-table-cell></x-table-cell>
+        <x-table-cell responsive>
+          <div class="flex justify-end gap-2">
+            <a href="{{ route('patients.edit', $patient) }}" wire:navigate>
+              <x-button class="btn-xs" icon="o-pencil" @click.stop tooltip="Modifica"/>
+            </a>
+            <a href="{{ route('surveys.create', ['patient_id' => $patient->id]) }}" wire:navigate>
+              <x-button class="btn-xs" icon="o-plus" @click.stop tooltip="Crea test"/>
+            </a>
+          </div>
+        </x-table-cell>
       </x-table-row>
     @empty
       <tr>
-        <td colspan="5">
+        <td colspan="{{ auth()->user()->isAdmin() ? 7 : 6 }}">
           <div class="w-full text-center my-2 opacity-50">Nessun Paziente trovato</div>
         </td>
       </tr>

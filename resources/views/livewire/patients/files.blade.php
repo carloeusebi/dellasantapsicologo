@@ -35,7 +35,7 @@
 
         @scope('expansion', $file)
         <div class="flex justify-start gap-4">
-          <div class="flex flex-col md:flex-row gap-2 justify-end">
+          <div class="flex ms-2 flex-col md:flex-row gap-2 justify-end">
             <x-button
                 class="btn btn-sm btn-info" icon="o-arrow-down-tray" wire:click="download({{ $file->id }})"
                 spinner="download"

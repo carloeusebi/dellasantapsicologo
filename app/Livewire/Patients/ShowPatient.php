@@ -34,10 +34,10 @@ class ShowPatient extends Component
                 $this->patient->unArchive();
             }
 
-            $this->success('Paziente '.($this->archived ? 'archiviato' : 'attivato').' con successo!');
+            $this->success('Successo!', 'Paziente '.($this->archived ? 'archiviato' : 'attivato').' con successo!');
 
         } catch (Exception $e) {
-            $this->error($e->getMessage());
+            $this->error('Errore!', $e->getMessage());
         }
     }
 
@@ -47,7 +47,7 @@ class ShowPatient extends Component
 
         $this->patient->delete();
 
-        $this->success('Paziente Eliminato con successo!',
+        $this->success('Successo!', 'Paziente Eliminato con successo!',
             redirectTo: route('patients.index')
         );
     }

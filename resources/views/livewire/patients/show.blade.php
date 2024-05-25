@@ -52,24 +52,24 @@
         @endif
         <li>
           <span class="font-bold">Creato:</span>
-          <span>{{ $patient->created_at->translatedFormat('d F Y') }}</span>
+          {!! get_formatted_date($patient->created_at) !!}
         </li>
         @unless($patient->created_at->isSameSecond($patient->updated_at))
           <li>
             <span class="font-bold">Ultima modifica:</span>
-            <span>{{ $patient->updated_at->translatedFormat('d F Y') }}</span>
+            {!! get_formatted_date($patient->updated_at) !!}
           </li>
         @endunless
-        @if ($patient->isArchived())
-          <li>
-            <span class="font-bold">Archiviato:</span>
-            <span>{{ $patient->archived_at->translatedFormat('d F Y') }}</span>
-          </li>
-        @endif
         @if($patient->therapy_start_date)
           <li>
             <span class="font-bold">Data di inizio terapia</span>:
-            <span>{{ $patient->therapy_start_date->translatedFormat('d F Y ') }}</span>
+            {!! get_formatted_date($patient->therapy_start_date) !!}
+          </li>
+        @endif
+        @if ($patient->isArchived())
+          <li>
+            <span class="font-bold">Data di fine Terapia:</span>
+            {!! get_formatted_date($patient->archived_at) !!}
           </li>
         @endif
         @if($patient->gender)

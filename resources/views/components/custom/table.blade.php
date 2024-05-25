@@ -1,31 +1,44 @@
+@php
+  use Illuminate\Pagination\LengthAwarePaginator
+   /** @var LengthAwarePaginator $rows */
+@endphp
+
 <div class="card shadow-2xl">
   <div class="card-body px-2">
 
     <div class="md:flex items-end gap-4 space-y-2 md:space-y-0">
       {{ $filters }}
+      <x-button class="w-full md:w-fit btn-sm btn-primary" wire:click="$dispatch('resetFilters')">Resetta filtri
+      </x-button>
     </div>
 
-    @isset($legend)
-      <div class="flex justify-end">{{ $legend }}</div>
-    @endisset
-    <div class="overflow-x-auto">
+    <div class="flex flex-wrap gap-4 justify-between items-center">
+      <div class="grow min-w-5 h-5">
+        <x-loading class="text-primary w-5 h-5 sm:h-7 sm:w-7" wire:loading/>
+      </div>
+      <div class="flex flex-wrap">
+        @isset($legend)
+          {{ $legend }}
+        @endisset
+      </div>
+    </div>
+    <div class="overflow-x-hidden">
       <div class="my-2">
         {{ $rows->links() }}
       </div>
-      <div class="divider !my-2"></div>
-      <div class="h-5 ">
-        <span class="loading loading-spinner loading-sm opacity-50" wire:loading></span>
-      </div>
+      <x-hr/>
       <table class="table @isset($striped) table-zebra @endisset">
         <thead>
         <tr>{{ $headers }}</tr>
         </thead>
         <tbody>{{ $body }}</tbody>
-        <tfoot>@isset($footer)
-          {{ $footer }}
-        @endisset</tfoot>
+        @isset($footer)
+          <tfoot>{{ $footer }}</tfoot>
+        @endisset
       </table>
-      <div class="divider !my-1"></div>
+      @if($rows->hasPages())
+        <x-hr/>
+      @endif
       <div class="my-2">
         {{ $rows->links() }}
       </div>

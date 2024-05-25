@@ -7,7 +7,7 @@
 
   <div class="my-3 text-2xl font-bold flex justify-end">
     <a href="{{ route('surveys.create') }}" class="hover:underline select-none cursor-pointer" wire:navigate.hover>
-      <h2>Nuova Batteria</h2>
+      <h2>Nuovo Test di Valutazione</h2>
     </a>
   </div>
 

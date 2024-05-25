@@ -19,7 +19,7 @@ class CreatePatient extends Component
     {
         $patient = $this->form->store();
 
-        return $this->success('Paziente creato con successo!',
+        return $this->success('Successo!', 'Paziente creato con successo!',
             redirectTo: route('patients.show', $patient));
     }
 

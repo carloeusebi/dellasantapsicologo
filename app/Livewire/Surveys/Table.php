@@ -40,14 +40,10 @@ class Table extends TableComponent
     {
         while (true) {
             $surveys = Survey::userScope()
-                ->when($this->patient,
-                    function (Builder $query, Patient $patient) {
-                        $query->whereRelation('patient', 'id', $patient->id);
-                    },
-                    function (Builder $query) {
-                        $query->with('patient');
-                    }
-                )
+                ->when($this->patient, function (Builder $query, Patient $patient) {
+                    $query->whereRelation('patient', 'id', $patient->id);
+                })
+                ->with('patient')
                 ->when($this->search, function (Builder $query, string $search) {
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
                         $query->where(function (Builder $query) use ($term) {

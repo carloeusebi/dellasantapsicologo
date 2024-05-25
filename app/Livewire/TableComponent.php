@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -10,7 +11,7 @@ abstract class TableComponent extends Component
     use WithPagination;
 
     protected static $pageName = 'pagina';
-    
+
     public string $column;
     public string $direction;
     public string $search;
@@ -18,6 +19,12 @@ abstract class TableComponent extends Component
     public function clearSearch(): void
     {
         $this->search = '';
+    }
+
+    #[On('resetFilters')]
+    public function resetFilters(): void
+    {
+        $this->reset();
     }
 
     public function sort(string $column): void

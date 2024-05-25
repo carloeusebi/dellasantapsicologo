@@ -5,7 +5,7 @@
     <li>Crea</li>
   </x-slot:breadcrumb>
 
-  <x-header title="Aggiungi un nuovo Paziente" size="text-xl" separator/>
+  <x-header title="Aggiungi un nuovo Paziente" size="text-xl" class="mb-5" separator/>
 
   @include('patients.form')
 </div>

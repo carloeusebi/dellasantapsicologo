@@ -8,7 +8,7 @@
     <li>Modifica</li>
   </x-slot:breadcrumb>
 
-  <x-header :title="'Modifica '. $patient->full_name" size="text-xl" separator/>
+  <x-header :title="'Modifica '. $patient->full_name" class="!mb-5" size="text-xl" separator/>
 
   @include('patients.form')
 

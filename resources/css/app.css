@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+#nprogress .bar {
+  height: 4px !important;
+  background: oklch(var(--p)) !important;
+}
+
 .table-error {
   @apply !bg-error !bg-opacity-25 ;
 }

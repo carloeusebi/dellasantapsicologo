@@ -9,7 +9,11 @@ export default {
   ],
   darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['sans'],
+      },
+    },
   },
   daisyui: {
     themes: [
@@ -20,13 +24,7 @@ export default {
           secondary: '#264e32',
         },
       },
-      {
-        dark: {
-          ...require('daisyui/src/theming/themes').dark,
-          primary: '#264e32',
-          secondary: '#6ecc84',
-        },
-      },
+      "dark",
       "cupcake",
       "bumblebee",
       "emerald",
