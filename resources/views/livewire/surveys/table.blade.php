@@ -1,14 +1,27 @@
 <x-custom.table :rows="$surveys">
   <x-slot:filters>
     <x-select
-        class="select-sm w-full flex-shrink"
+        label="Completati"
+        class="select-sm min-w-[150px] w-full flex-shrink"
         wire:model.live.debounce="state"
         :options="[
-      ['id' => 'tutti', 'name' => 'Tutti'],
-      ['id' => 'completati', 'name' => 'Completati'],
-      ['id' => 'non_completati', 'name' => 'Non Completati'],
-]"
+            ['id' => 'tutti', 'name' => 'Tutti'],
+            ['id' => 'completati', 'name' => 'Completati'],
+            ['id' => 'non_completati', 'name' => 'Non Completati'],
+         ]"
     />
+    @unless ($patient)
+      <x-select
+          label="Stato paziente"
+          class="select-sm min-w-[150px] w-full flex-shrink"
+          wire:model.live="patientState"
+          :options="[
+            ['id' => 'tutti', 'name' => 'Tutti'],
+            ['id' => 'attuali', 'name' => 'Attuali'],
+            ['id' => 'archiviati', 'name' => 'Archiviati']
+        ]"
+      />
+    @endunless
     <div class="[&>*]:!w-full grow">
       <x-input
           class="!grow input-sm w-full" placeholder="Cerca" wire:model.live.debounce="search"
@@ -32,6 +45,10 @@
   <x-slot:legend>
     <div class="select-none flex">
       <div class="flex items-center gap-2 me-2">
+        <button class="inline-block h-4 w-4 opacity-50 bg-base-200 border border-base-300" disabled></button>
+        <span>Paziente archiviato</span>
+      </div>
+      <div class="flex items-center gap-2 me-2">
         <button class="inline-block h-4 w-4 table-success border border-base-300" disabled></button>
         <span>Completato</span>
       </div>
@@ -49,6 +66,7 @@
           :error="!$survey->completed"
           :success="$survey->completed"
           :destination="route('surveys.show', $survey)"
+          :disabled="$survey->patient->isArchived()"
       >
         <x-table-cell>{{ $survey->title }}</x-table-cell>
         @unless($patient)

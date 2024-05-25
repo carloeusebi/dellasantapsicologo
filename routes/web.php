@@ -8,6 +8,8 @@ use App\Http\Controllers\SurveyController;
 use App\Livewire\Patients\CreatePatient;
 use App\Livewire\Patients\EditPatient;
 use App\Livewire\Patients\ShowPatient;
+use App\Livewire\Surveys\CreateSurvey;
+use App\Livewire\Surveys\ShowSurvey;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -39,10 +41,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{patient}/modifica', EditPatient::class)->name('edit');
     });
 
-    Route::resource('batterie', SurveyController::class)
-        ->parameter('batterie', 'survey')
-        ->names('surveys')
-        ->except('edit');
+    Route::prefix('/valutazioni')->name('surveys.')->group(function () {
+        Route::get('/', [SurveyController::class, 'index'])->name('index');
+        Route::get('/crea', CreateSurvey::class)->name('create');
+        Route::get('/{survey}', ShowSurvey::class)->name('show');
+    });
 
     Route::resource('questionari', QuestionnaireController::class)
         ->parameter('questionari', 'questionnaire')

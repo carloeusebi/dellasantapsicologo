@@ -63,6 +63,9 @@
         <x-theme-changer/>
         @auth()
           <x-dropdown class="btn-sm" icon="o-ellipsis-vertical">
+            <x-menu-item :title="auth()->user()->email" class="btn-disabled opacity-50 italic py-0" @click.stop/>
+            <x-menu-item :title="auth()->user()->role->label" class="btn-disabled opacity-50 italic py-0" @click.stop/>
+            <hr/>
             <x-menu-item title="Impostazioni" icon="o-cog-6-tooth"/>
             <x-menu-item icon="o-arrow-right-end-on-rectangle">
               <x-slot:title>
@@ -101,8 +104,8 @@
             <x-menu-item title="Nuovo" link="{{ route('patients.create') }}" route="patients.create"/>
           </x-menu-sub>
           <x-menu-separator/>
-          <x-menu-sub title="Batterie" icon="o-list-bullet">
-            <x-menu-item title="Batterie" link="{{ route('surveys.index') }} " route="surveys.index"/>
+          <x-menu-sub title="Valutazioni" icon="o-list-bullet">
+            <x-menu-item title="Valutazioni" link="{{ route('surveys.index') }} " route="surveys.index"/>
             <x-menu-item title="Nuova" link="{{ route('surveys.create') }}" route="surveys.create"/>
             <x-menu-item title="Templates"/>
           </x-menu-sub>

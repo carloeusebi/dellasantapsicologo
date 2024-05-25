@@ -1,14 +1,23 @@
 <x-custom.table :rows="$patients">
   <x-slot:filters>
     <x-select
+        label="Stato"
         class="select-sm w-full md:w-[320px]"
         wire:model.live.debounce="state"
         :options="[
-      ['id' => 'attivi', 'name' => 'Attivi'],
-      ['id' => 'tutti', 'name' => 'Tutti'],
-      ['id' => 'archiviati', 'name' => 'Solo Archiviati'],
-]"
+            ['id' => 'attivi', 'name' => 'Attivi'],
+            ['id' => 'tutti', 'name' => 'Tutti'],
+            ['id' => 'archiviati', 'name' => 'Solo Archiviati'],
+        ]"
     />
+    @if(auth()->user()->isAdmin())
+      <x-select
+          label="Dottore"
+          placeholder="Tutti"
+          class="select-sm w-full md:w-[320px]" wire:model.live.debounce="user_id"
+          :options="$doctors"
+      />
+    @endif
     <div class="[&>*]:!w-full grow">
       <x-input
           class="!grow input-sm w-full" placeholder="Cerca" wire:model.live.debounce="search"
@@ -49,6 +58,11 @@
         sortable
     >Inizio Terapia
     </x-table-heading>
+    @if(auth()->user()->isAdmin())
+      <x-table-heading responsive>
+        Dottore
+      </x-table-heading>
+    @endif
     <x-table-heading></x-table-heading>
   </x-slot:headers>
 
@@ -65,8 +79,12 @@
         <x-table-cell>
           {{ $patient->therapy_start_date->diffForHumans() }} <span class="text-xs">({{ $patient->therapy_start_date->translatedFormat('d F Y') }})</span>
         </x-table-cell>
-        <x-table-cell>
-        </x-table-cell>
+        @if(auth()->user()->isAdmin())
+          <x-table-cell responsive>
+            {{ $patient->user->name }}
+          </x-table-cell>
+        @endif
+        <x-table-cell></x-table-cell>
       </x-table-row>
     @empty
       <tr>

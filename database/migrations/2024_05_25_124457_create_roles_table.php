@@ -14,11 +14,13 @@ return new class extends Migration {
             Schema::create('roles', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
+                $table->string('label');
             });
         }
 
-        $adminRole = Role::create(['name' => Role::$ADMIN]);
-        $doctorRole = Role::create(['name' => Role::$DOCTOR]);
+        $adminRole = Role::create(['name' => Role::$ADMIN, 'label' => 'Amministratore']);
+        $doctorRole = Role::create(['name' => Role::$DOCTOR, 'label' => 'Dottore']);
+        Role::create(['name' => Role::$PATIENT, 'label' => 'Paziente']);
 
         if (!Schema::hasColumn('users', 'role_id')) {
             Schema::table('users', function (Blueprint $table) {
@@ -26,8 +28,18 @@ return new class extends Migration {
             });
         }
 
-        $doctor = User::find(1)?->role()->associate($doctorRole)->save();
+        if (!Schema::hasColumn('users', 'name')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('name')->after('role_id');
+            });
+        }
+
         User::find(2)?->role()->associate($adminRole)->save();
+        User::whereDoesntHave('role')->get()->each(function (User $user) use ($doctorRole) {
+            $user->role()->associate($doctorRole)->save();
+        });
+
+        $doctor = User::find(1);
 
         Patient::withArchived()
             ->withTrashed()

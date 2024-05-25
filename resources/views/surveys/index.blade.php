@@ -1,7 +1,7 @@
-<x-layouts.app title="Batterie">
+<x-layouts.app title="Valutazioni">
   <x-slot:breadcrumb>
     <ul>
-      <li>Batterie</li>
+      <li>Valutazioni</li>
     </ul>
   </x-slot:breadcrumb>
 

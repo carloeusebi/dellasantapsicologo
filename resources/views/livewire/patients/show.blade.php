@@ -44,6 +44,12 @@
   <div class="grid lg:grid-cols-2 gap-8">
     <div>
       <ul>
+        @if(auth()->user()->isAdmin())
+          <li>
+            <span class="font-bold">Dottore</span>:
+            <span>{{ $patient->user->name }}</span>
+          </li>
+        @endif
         <li>
           <span class="font-bold">Creato:</span>
           <span>{{ $patient->created_at->translatedFormat('d F Y') }}</span>

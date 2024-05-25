@@ -13,7 +13,11 @@
       Pagina non trovata
     </h1>
     <div>
-      <span>Sembra che questa pagina non sia più disponibile.</span>
+      <p>Sembra che questa pagina non sia più disponibile, oppure non hai le autorizzazioni necessarie per
+        accedervi.</p>
+      <p>Se ritieni che si sia stato un errore, per favore <a class="link">clicca qui.</a>
+        <span class="italic text-sm">Funzionalità ancora non presente <x-heroicon-o-face-smile class="h-5 w-5 inline"/></span>
+      </p>
     </div>
   </x-layouts.app>
 @endauth

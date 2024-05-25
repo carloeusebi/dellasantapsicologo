@@ -32,11 +32,14 @@ class Table extends TableComponent
     #[Url(as: 'cerca')]
     public string $search = '';
 
+    #[Url(as: 'stato_paziente')]
+    public string $patientState = '';
+
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
         while (true) {
-            $surveys = Survey::query()
+            $surveys = Survey::userScope()
                 ->when($this->patient,
                     function (Builder $query, Patient $patient) {
                         $query->whereRelation('patient', 'id', $patient->id);
@@ -60,6 +63,12 @@ class Table extends TableComponent
                 ->when($this->state === 'non_completati', function (Builder $query) {
                     $query->where('completed', false)
                         ->orwherenull('completed');
+                })
+                ->when($this->patientState === 'archiviati', function (Builder $query) {
+                    $query->whereRelation('patient', 'archived_at', '<>');
+                })
+                ->when($this->patientState === 'attuali', function (Builder $query) {
+                    $query->whereRelation('patient', 'archived_at');
                 })
                 ->orderBy($this->column, $this->direction)
                 ->paginate(

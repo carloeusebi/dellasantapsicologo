@@ -4,9 +4,11 @@ namespace App\Livewire\Patients;
 
 use App\Livewire\TableComponent;
 use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Url;
 
@@ -24,11 +26,22 @@ class Table extends TableComponent
     #[Url(as: 'cerca')]
     public string $search = '';
 
+    #[Url]
+    public int|null $user_id = null;
+
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
+        $doctors = User::doctors()->get()->toArray();
+
         while (true) {
             $patients = Patient::userScope()
+                ->when(Auth::user()->isAdmin(), function (Builder $query) {
+                    $query->with('user');
+                    $query->when($this->user_id, function (Builder $query, int $id) {
+                        $query->whereRelation('user', 'id', $id);
+                    });
+                })
                 ->withCount([
                     'surveys as pending_surveys' => function (Builder $query) {
                         $query->where('completed', false)
@@ -61,6 +74,6 @@ class Table extends TableComponent
             $this->resetPage(self::$pageName);
         }
 
-        return view('livewire.patients.table', compact('patients'));
+        return view('livewire.patients.table', compact('patients', 'doctors'));
     }
 }

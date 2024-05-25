@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Role extends Model
 {
-    public static $ADMIN = 'admin';
-    public static $DOCTOR = 'doctor';
+    public static string $ADMIN = 'admin';
+    public static string $DOCTOR = 'doctor';
+    public static string $PATIENT = 'patient';
 
     public $timestamps = false;
 
     protected $fillable = [
         'name',
+        'label',
     ];
 
     public function users(): HasMany
