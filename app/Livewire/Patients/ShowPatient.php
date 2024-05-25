@@ -3,6 +3,7 @@
 namespace App\Livewire\Patients;
 
 use App\Models\Patient;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
@@ -26,13 +27,18 @@ class ShowPatient extends Component
 
     public function changeState(): void
     {
-        if ($this->archived) {
-            $this->patient->archive();
-        } else {
-            $this->patient->unArchive();
-        }
+        try {
+            if ($this->archived) {
+                $this->patient->archive();
+            } else {
+                $this->patient->unArchive();
+            }
 
-        $this->success('Paziente '.($this->archived ? 'archiviato' : 'attivato').' con successo!');
+            $this->success('Paziente '.($this->archived ? 'archiviato' : 'attivato').' con successo!');
+
+        } catch (Exception $e) {
+            $this->error($e->getMessage());
+        }
     }
 
     public function delete(): void

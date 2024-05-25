@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use LaravelArchivable\Archivable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -59,7 +61,22 @@ class Patient extends Model implements HasMedia
         });
     }
 
+    protected static function booted(): void
+    {
+        if (Auth::user()->isNotAdmin()) {
+            static::addGlobalScope('user', function (Builder $query) {
+                $query->whereRelation('user', 'id', Auth::id());
+            });
+        }
+    }
+
     /** @noinspection PhpUnused */
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function fullName(): Attribute
     {
         return Attribute::make(
@@ -96,11 +113,6 @@ class Patient extends Model implements HasMedia
                 default => null,
             }
         );
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 
     public function surveys(): HasMany
