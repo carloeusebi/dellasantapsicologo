@@ -19,7 +19,7 @@ class Table extends TableComponent
     public string $direction = 'desc';
 
     #[Url(as: 'stato')]
-    public string $state = 'tutti';
+    public string $state = 'attivi';
 
     #[Url(as: 'cerca')]
     public string $search = '';

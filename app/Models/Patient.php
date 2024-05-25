@@ -80,6 +80,24 @@ class Patient extends Model implements HasMedia
         );
     }
 
+    public function gender(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value) => match ($value) {
+                'M' => 'Maschio',
+                'F' => 'Femmina',
+                'O' => 'Altro',
+                default => null
+            },
+            set: fn(mixed $value) => match ($value) {
+                'Maschio' => 'M',
+                'Femmina' => 'F',
+                'Altro' => 'O',
+                default => null,
+            }
+        );
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -88,5 +106,12 @@ class Patient extends Model implements HasMedia
     public function surveys(): HasMany
     {
         return $this->hasMany(Survey::class);
+    }
+
+    public function resolveRouteBinding($value, $field = null): Patient|null
+    {
+        return $this->whereId($value)
+            ->withArchived()
+            ->firstOrFail();
     }
 }

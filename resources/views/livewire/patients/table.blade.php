@@ -4,9 +4,9 @@
         class="select-sm w-full md:w-[320px]"
         wire:model.live.debounce="state"
         :options="[
-      ['id' => 'tutti', 'name' => 'Tutti'],
       ['id' => 'attivi', 'name' => 'Attivi'],
-      ['id' => 'archiviati', 'name' => 'Archiviati'],
+      ['id' => 'tutti', 'name' => 'Tutti'],
+      ['id' => 'archiviati', 'name' => 'Solo Archiviati'],
 ]"
     />
     <div class="[&>*]:!w-full grow">

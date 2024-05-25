@@ -3,6 +3,7 @@
 namespace App\Livewire\Surveys;
 
 use App\Livewire\TableComponent;
+use App\Models\Patient;
 use App\Models\Survey;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -16,6 +17,8 @@ class Table extends TableComponent
     use WithPagination;
 
     protected static $pageName = 'pagina';
+
+    public ?Patient $patient = null;
 
     #[Url(as: 'ordina')]
     public string $column = 'created_at';
@@ -34,7 +37,14 @@ class Table extends TableComponent
     {
         while (true) {
             $surveys = Survey::query()
-                ->with('patient')
+                ->when($this->patient,
+                    function (Builder $query, Patient $patient) {
+                        $query->whereRelation('patient', 'id', $patient->id);
+                    },
+                    function (Builder $query) {
+                        $query->with('patient');
+                    }
+                )
                 ->when($this->search, function (Builder $query, string $search) {
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
                         $query->where(function (Builder $query) use ($term) {
@@ -52,7 +62,10 @@ class Table extends TableComponent
                         ->orwherenull('completed');
                 })
                 ->orderBy($this->column, $this->direction)
-                ->paginate(10, pageName: self::$pageName);
+                ->paginate(
+                    $this->patient ? 5 : 10,
+                    pageName: self::$pageName
+                );
 
             if ($surveys->count() > 0 || $this->getPage(self::$pageName) === 1) {
                 break;

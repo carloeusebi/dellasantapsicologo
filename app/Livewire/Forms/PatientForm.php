@@ -49,7 +49,7 @@ class PatientForm extends Form
     #[Validate(['required'], as: 'Cognome')]
     public $last_name = null;
 
-    #[Validate(['nullable'], as: 'Genere')]
+    #[Validate(['nullable', 'in:Maschio,Femmina,Altro'], as: 'Genere')]
     public $gender = null;
 
     #[Validate(['nullable', 'date'], as: 'Data di nascita')]

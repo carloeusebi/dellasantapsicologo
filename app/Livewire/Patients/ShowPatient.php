@@ -17,9 +17,22 @@ class ShowPatient extends Component
 
     public bool $deleteModal = false;
 
-    public function mount(Patient $patient): void
+    public bool $archived;
+
+    public function mount(): void
     {
-        $this->patient = $patient;
+        $this->archived = $this->patient->isArchived();
+    }
+
+    public function changeState(): void
+    {
+        if ($this->archived) {
+            $this->patient->archive();
+        } else {
+            $this->patient->unArchive();
+        }
+
+        $this->success('Paziente '.($this->archived ? 'archiviato' : 'attivato').' con successo!');
     }
 
     public function delete(): void

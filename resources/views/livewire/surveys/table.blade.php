@@ -1,7 +1,7 @@
 <x-custom.table :rows="$surveys">
   <x-slot:filters>
     <x-select
-        class="select-sm w-full md:w-[320px]"
+        class="select-sm w-full flex-shrink"
         wire:model.live.debounce="state"
         :options="[
       ['id' => 'tutti', 'name' => 'Tutti'],
@@ -22,7 +22,9 @@
   <x-slot:headers>
     <x-table-heading sortable :$column :$direction key="title">Titolo
     </x-table-heading>
-    <x-table-heading>Paziente</x-table-heading>
+    @unless($patient)
+      <x-table-heading>Paziente</x-table-heading>
+    @endunless
     <x-table-heading sortable :$column :$direction key="created_at" responsive>Creato</x-table-heading>
     <x-table-heading sortable :$column :$direction key="updated_at" responsive>Ultima modifica</x-table-heading>
   </x-slot:headers>
@@ -49,7 +51,9 @@
           :destination="route('surveys.show', $survey)"
       >
         <x-table-cell>{{ $survey->title }}</x-table-cell>
-        <x-table-cell>{{ $survey->patient?->full_name }}</x-table-cell>
+        @unless($patient)
+          <x-table-cell>{{ $survey->patient?->full_name }}</x-table-cell>
+        @endunless
         <x-table-cell responsive>
           <span>{{ $survey->created_at->diffForHumans() }}</span>
           <span class="text-xs">({{ $survey->created_at->translatedFormat('d F Y') }})</span>

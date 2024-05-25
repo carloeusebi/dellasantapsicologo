@@ -32,13 +32,13 @@
 </head>
 
 <body class="min-h-screen h-full">
-<div class="drawer lg:drawer-open sticky">
+<div class="drawer xl:drawer-open sticky">
   <input id="my-drawer-2" type="checkbox" class="drawer-toggle"/>
   <div class="drawer-content flex flex-col items-center h-full">
-    <div class="navbar bg-base-100 shadow-xl px-2 lg:pe-10 justify-between sticky top-0 z-10">
+    <div class="navbar bg-base-100 shadow-xl px-2 xl:pe-10 justify-between sticky top-0 z-10">
       <div class="flex flex-shrink overflow-x-scroll">
         <div>
-          <label for="my-drawer-2" class="btn drawer-button lg:hidden">
+          <label for="my-drawer-2" class="btn drawer-button xl:hidden">
             <svg
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                 class="inline-block w-5 h-5 stroke-current"
@@ -97,7 +97,7 @@
 
   <div class="drawer-side shadow-xl">
     <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-    <ul class="menu disabled p-4 w-80 md:w-64 xl:w-80 min-h-full bg-base-200 text-base-content pt-20 lg:pt-4">
+    <ul class="menu disabled p-4 w-80 md:w-64 xl:w-80 min-h-full bg-base-200 text-base-content pt-20 xl:pt-4">
       <div class="mb-5">
         <img src="{{ asset('images/Logo.webp') }}" alt="logo" class="pe-3"/>
       </div>

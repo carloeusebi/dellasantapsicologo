@@ -32,9 +32,9 @@
       <x-select
           label="Sesso" wire:model="form.gender" :options="[
               ['id' => null, 'name' => ''],
-              ['id' => 'M', 'name' => 'Maschio'],
-              ['id' => 'F', 'name' => 'Femmina'],
-              ['id' => 'O', 'name' => 'Altro'],
+              ['id' => 'Maschio', 'name' => 'Maschio'],
+              ['id' => 'Femmina', 'name' => 'Femmina'],
+              ['id' => 'Altro', 'name' => 'Altro'],
             ]"
       />
     </div>
