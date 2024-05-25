@@ -6,6 +6,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\QuestionnaireController;
 use App\Http\Controllers\SurveyController;
 use App\Livewire\Patients\CreatePatient;
+use App\Livewire\Patients\EditPatient;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -32,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('/pazienti')->name('patients.')->group(function () {
         Route::get('/crea', CreatePatient::class)->name('create');
+        Route::get('/{patient}/modifica', EditPatient::class)->name('edit');
     });
     Route::resource('pazienti', PatientController::class)
         ->parameter('pazienti', 'patient')

@@ -17,9 +17,10 @@ class CreatePatient extends Component
 
     public function save()
     {
-        $this->form->store();
+        $patient = $this->form->store();
 
-        return $this->success('Paziente creato con successo!', redirectTo: route('patients.index'));
+        return $this->success('Paziente creato con successo!',
+            redirectTo: route('patients.show', $patient));
     }
 
     public function resetForm(): void
@@ -31,6 +32,6 @@ class CreatePatient extends Component
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
-        return view('livewire.patients.create-patient');
+        return view('livewire.patients.create');
     }
 }

@@ -22,7 +22,7 @@ class PatientForm extends Form
     #[Validate(['nullable', 'email', 'max:254'], as: 'Email')]
     public $email = null;
 
-    #[Validate(['nullable', 'regex:/^\d{3} \d{6,8}$/'], as: 'Numero di telefono')]
+    #[Validate(['nullable', 'max:20', 'min:6'], as: 'Numero di telefono')]
     public $phone = null;
 
     #[Validate(['nullable', 'integer', 'min:10', 'max:255'], as: 'Peso')]
