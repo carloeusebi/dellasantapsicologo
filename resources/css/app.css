@@ -19,3 +19,7 @@ table .table-error:hover {
 table .table-success:hover {
   @apply !bg-opacity-50;
 }
+
+.full-width-modal .modal-box {
+  @apply !max-w-4xl
+}

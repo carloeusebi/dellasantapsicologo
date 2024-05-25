@@ -9,12 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use LaravelArchivable\Archivable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property Carbon $archived_at
  */
-class Patient extends Model
+class Patient extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     use Archivable;
     use SoftDeletes;
 
