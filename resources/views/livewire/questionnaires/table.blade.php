@@ -1,10 +1,20 @@
-@php use App\Models\Tag; @endphp
+@php use App\Models\Questionnaire;use App\Models\Tag; @endphp
+@php
+  /** @var Questionnaire $questionnaire */
+
+  $headers = [
+    ['key' => 'title', 'label' => 'Titolo'],
+    ['key' => 'tags', 'label' => 'Tags', 'sortable' => false],
+    ['key' => 'surveys_count', 'label' => 'Utilizzi', 'class' => 'hidden md:table-cell'],
+    ['key' => 'created_at', 'label' => 'Creato', 'class' => 'hidden md:table-cell'],
+  ];
+@endphp
 <x-custom.table :rows="$questionnaires">
   <x-slot:filters>
     <x-choices
-        class="select-xs md:w-[320px] w-full" icon="o-tag" :options="$tags" wire:model.live.debounce="tagsFilter"
-        option-label="tag"
-        option-value="tag"
+        class="md:min-w-[420px] !min-h-[56px] w-full" icon="o-tag" :options="$tags"
+        wire:model.live.debounce="tagsFilter"
+        option-label="tag" option-value="tag" placeholder="Cerca per tag"
     >
       @scope('item', $tag)
       <x-list-item :item="$tag" class="h-10">
@@ -25,42 +35,30 @@
     </x-choices>
     <div class="[&>*]:!w-full grow">
       <x-input
-          class="!grow input-sm w-full h-[33.5px]" placeholder="Cerca" wire:model.live.debounce="search"
-          icon="o-magnifying-glass"
+          class="w-full h-[56px]" wire:model.live.debounce="search"
+          icon="o-magnifying-glass" placeholder="Cerca"
           wire:keyup.esc="clearSearch"
           clearable
       />
     </div>
   </x-slot:filters>
 
-  <x-slot:headers>
-    <x-table-heading :$direction :$column sortable key="title">Titolo</x-table-heading>
-    <x-table-heading>Tags</x-table-heading>
-    <x-table-heading :$direction :$column sortable key="surveys_count">Utilizzi</x-table-heading>
-    <x-table-heading :$direction :$column sortable key="created_at" responsive>Creato</x-table-heading>
-  </x-slot:headers>
+  @if($questionnaires->count())
+    <x-table :rows="$questionnaires" :$headers :$sortBy link="/questionari/{id}">
+      @scope('cell_tags', $questionnaire)
+      @foreach($questionnaire->tags as $tag)
+        <div
+            class="badge badge-xs md:badge-sm badge-outline my-1 h-fit font-bold"
+            style="color: {{ $tag->color }}; background-color: {{$tag->color}}20; "
+        >{{ $tag->tag }}</div>
+      @endforeach
+      @endscope
 
-  <x-slot:body>
-    @forelse($questionnaires as $questionnaire)
-      <x-table-row :destination="route('questionnaires.show', $questionnaire)">
-        <x-table-cell>{{ $questionnaire->title }}</x-table-cell>
-        <x-table-cell>
-          @foreach($questionnaire->tags as $tag)
-            <div
-                class="badge badge-xs badge-outline my-1 h-fit font-bold"
-                style="color: {{ $tag->color }}; background-color: {{$tag->color}}20; "
-            >{{ $tag->tag }}</div>
-          @endforeach
-        </x-table-cell>
-        <x-table-cell responsive>{{ $questionnaire->surveys_count }}</x-table-cell>
-        <x-table-cell responsive>{{$questionnaire->created_at->translatedFormat('d F Y')}}</x-table-cell>
-      </x-table-row>
-    @empty
-      <tr>
-        <td colspan="5">
-          <div class="w-full text-center my-2 opacity-50">Nessun Questionario trovato</div>
-        </td>
-      </tr>
-    @endforelse
-  </x-slot:body>
+      @scope('cell_created_at', $questionnaire)
+      {!! get_formatted_date($questionnaire->created_at) !!}
+      @endscope
+    </x-table>
+  @else
+    <x-alert icon="o-exclamation-triangle" title="Nessun Questionario trovato"/>
+  @endif
 </x-custom.table>

@@ -12,19 +12,14 @@ use Illuminate\View\View;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
-class Table extends TableComponent
+class SurveysTable extends TableComponent
 {
     use WithPagination;
-
-    protected static $pageName = 'pagina';
 
     public ?Patient $patient = null;
 
     #[Url(as: 'ordina')]
-    public string $column = 'created_at';
-
-    #[Url(as: 'direzione')]
-    public string $direction = 'desc';
+    public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
 
     #[Url(as: 'stato')]
     public string $state = 'tutti';
@@ -38,12 +33,13 @@ class Table extends TableComponent
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
-        while (true) {
-            $surveys = Survey::userScope()
+        $surveys = $this->goToFirstPageIfResultIsEmpty(function () {
+            return Survey::userScope()
                 ->when($this->patient, function (Builder $query, Patient $patient) {
                     $query->whereRelation('patient', 'id', $patient->id);
                 })
                 ->with('patient')
+                ->has('patient')
                 ->when($this->search, function (Builder $query, string $search) {
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
                         $query->where(function (Builder $query) use ($term) {
@@ -66,17 +62,12 @@ class Table extends TableComponent
                 ->when($this->patientState === 'attuali', function (Builder $query) {
                     $query->whereRelation('patient', 'archived_at');
                 })
-                ->orderBy($this->column, $this->direction)
+                ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
                 ->paginate(
                     $this->patient ? 5 : 10,
                     pageName: self::$pageName
-                );
-
-            if ($surveys->count() > 0 || $this->getPage(self::$pageName) === 1) {
-                break;
-            }
-            $this->resetPage(self::$pageName);
-        }
+                )->withQueryString();
+        });
 
         return view('livewire.surveys.table', compact('surveys'));
     }

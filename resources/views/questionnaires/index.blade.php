@@ -12,5 +12,5 @@
     </a>
   </div>
 
-  <livewire:questionnaires.table/>
+  <livewire:questionnaires.questionnaires-table/>
 </x-layouts.app>

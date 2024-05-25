@@ -9,5 +9,5 @@
     </a>
   </div>
 
-  <livewire:patients.table/>
+  <livewire:patients.patient-table/>
 </x-layouts.app>

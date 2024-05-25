@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Url;
 
-class Table extends TableComponent
+class PatientTable extends TableComponent
 {
     #[Url(as: 'ordina')]
-    public string $column = 'therapy_start_date';
-
-    #[Url(as: 'direzione')]
-    public string $direction = 'desc';
+    public array $sortBy = [
+        'column' => 'therapy_start_date',
+        'direction' => 'desc',
+    ];
 
     #[Url(as: 'stato')]
     public string $state = 'attivi';
@@ -34,8 +34,8 @@ class Table extends TableComponent
     {
         $doctors = User::doctors()->get()->toArray();
 
-        while (true) {
-            $patients = Patient::userScope()
+        $patients = $this->goToFirstPageIfResultIsEmpty(function () {
+            return Patient::userScope()
                 ->when(Auth::user()->isAdmin(), function (Builder $query) {
                     $query->with('user');
                     $query->when($this->user_id, function (Builder $query, int $id) {
@@ -62,17 +62,14 @@ class Table extends TableComponent
                 ->when($this->state === 'archiviati', function (Builder $query) {
                     $query->onlyArchived();
                 })
-                ->when($this->column === 'birth_date', function (Builder $query) {
+                ->when($this->sortBy['column'] === 'birth_date', function (Builder $query) {
                     $query->orderByRaw('birth_date is NULL');
                 })
-                ->orderBy($this->column, $this->direction)
-                ->paginate(10, pageName: self::$pageName);
+                ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
+                ->paginate(10, pageName: self::$pageName)
+                ->withQueryString();
+        });
 
-            if ($patients->count() > 0 || $this->getPage(self::$pageName) === 1) {
-                break;
-            }
-            $this->resetPage(self::$pageName);
-        }
 
         return view('livewire.patients.table', compact('patients', 'doctors'));
     }

@@ -5,7 +5,6 @@
 @tailwind utilities;
 
 #nprogress .bar {
-  height: 4px !important;
   background: oklch(var(--p)) !important;
 }
 
@@ -25,6 +24,11 @@ table .table-success:hover {
   @apply !bg-opacity-50;
 }
 
+table .table-disabled {
+  color: gray !important;
+}
+
 .full-width-modal .modal-box {
   @apply !max-w-4xl
 }
+

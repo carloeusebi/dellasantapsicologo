@@ -15,36 +15,32 @@
     <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-between">
       <div class="flex justify-between flex-1 sm:hidden join">
         @if ($paginator->onFirstPage())
-          <button class="join-item btn btn-sm flex items-center" disabled>
-            <x-heroicon-o-chevron-left class="w-4 h-4"/>
-            <span>Precedente</span>
+          <button class="join-item grow btn btn-sm flex items-center" disabled>
+            <x-heroicon-o-backward class="w-4 h-4"/>
           </button>
         @else
           <button
-              class="join-item btn btn-sm flex items-center"
+              class="join-item grow btn btn-sm flex items-center"
               wire:click="previousPage('{{ $paginator->getPageName() }}')"
               x-on:click="{{ $scrollIntoViewJsSnippet }}" wire:loading.attr="disabled"
           >
-            <x-heroicon-o-chevron-left class="w-4 h-4"/>
-            <span>Precedente</span>
+            <x-heroicon-o-backward class="w-4 h-4"/>
           </button>
         @endif
-        <button class="join-item btn grow btn-sm !border-x-8 border-base-300 no-animation">
+        <button class="join-item grow btn btn-sm !border-x-8 border-base-300 no-animation">
           Pagina {{ $paginator->currentPage() }} di {{ $paginator->lastPage() }}
         </button>
         @if($paginator->hasMorePages())
           <button
-              class="join-item btn btn-sm flex items-center"
+              class="join-item grow btn btn-sm flex items-center"
               wire:click="nextPage('{{ $paginator->getPageName() }}')"
               x-on:click="{{ $scrollIntoViewJsSnippet }}" wire:loading.attr="disabled"
           >
-            <span>Successiva</span>
-            <x-heroicon-o-chevron-right class="w-4 h-4"/>
+            <x-heroicon-o-forward class="w-4 h-4"/>
           </button>
         @else
-          <button class="join-item btn btn-sm flex items-center" disabled>
-            <span>Successiva</span>
-            <x-heroicon-o-chevron-right class="w-4 h-4"/>
+          <button class="join-item grow btn btn-sm flex items-center" disabled>
+            <x-heroicon-o-forward class="w-4 h-4"/>
           </button>
         @endif
       </div>

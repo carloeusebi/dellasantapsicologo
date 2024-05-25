@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,8 +13,6 @@ abstract class TableComponent extends Component
 
     protected static $pageName = 'pagina';
 
-    public string $column;
-    public string $direction;
     public string $search;
 
     public function clearSearch(): void
@@ -27,13 +26,20 @@ abstract class TableComponent extends Component
         $this->reset();
     }
 
-    public function sort(string $column): void
+    /**
+     * @param  callable(): LengthAwarePaginator  $query
+     * @return LengthAwarePaginator $result
+     */
+    protected function goToFirstPageIfResultIsEmpty(callable $query): LengthAwarePaginator
     {
-        if ($this->column === $column) {
-            $this->direction = $this->direction === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->direction = 'asc';
+        while (true) {
+            $result = $query();
+
+            if ($result->count() > 0 || $this->getPage(self::$pageName) === 1) {
+                break;
+            }
+            $this->resetPage(self::$pageName);
         }
-        $this->column = $column;
+        return $result;
     }
 }

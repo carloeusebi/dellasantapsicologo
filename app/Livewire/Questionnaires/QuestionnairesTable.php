@@ -12,13 +12,10 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Url;
 
-class Table extends TableComponent
+class QuestionnairesTable extends TableComponent
 {
     #[Url(as: 'ordina')]
-    public string $column = 'title';
-
-    #[Url(as: 'direzione')]
-    public string $direction = 'asc';
+    public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
 
     #[Url(as: 'cerca')]
     public string $search = '';
@@ -29,16 +26,14 @@ class Table extends TableComponent
 
     public Collection $tags;
 
-    public function mount(): void
-    {
-        $this->tags = Tag::orderBy('tag')->get();
-    }
 
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
-        while (true) {
-            $questionnaires = Questionnaire::query()
+        $this->tags = Tag::orderBy('tag')->get();
+
+        $questionnaires = $this->goToFirstPageIfResultIsEmpty(function () {
+            return Questionnaire::query()
                 ->withCount('surveys')
                 ->with('tags')
                 ->when(count($this->tagsFilter), function (Builder $query) {
@@ -55,14 +50,11 @@ class Table extends TableComponent
                         });
                     });
                 })
-                ->orderBy($this->column, $this->direction)
-                ->paginate(10, pageName: self::$pageName);
+                ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
+                ->paginate(10, pageName: self::$pageName)
+                ->withQueryString();
+        });
 
-            if ($questionnaires->count() > 0 || $this->getPage(self::$pageName) === 1) {
-                break;
-            }
-            $this->resetPage(self::$pageName);
-        }
         return view('livewire.questionnaires.table', compact('questionnaires'));
     }
 }
