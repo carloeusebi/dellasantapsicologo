@@ -43,6 +43,8 @@ class ShowPatient extends Component
 
     public function delete(): void
     {
+        $this->authorize('delete', $this->patient);
+
         $this->patient->delete();
 
         $this->success('Paziente Eliminato con successo!',
@@ -53,6 +55,8 @@ class ShowPatient extends Component
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
+        $this->authorize('view', $this->patient);
+
         return view('livewire.patients.show');
     }
 }

@@ -13,12 +13,10 @@ class Survey extends Model
 {
     use SoftDeletes;
 
-    protected static function booted(): void
+    public function scopeUserScope(Builder $query): void
     {
         if (Auth::user()->isNotAdmin()) {
-            static::addGlobalScope('user', function (Builder $query) {
-                $query->whereRelation('patient.user', 'id', Auth::id());
-            });
+            $query->whereRelation('patient.user', 'id', Auth::id());
         }
     }
 

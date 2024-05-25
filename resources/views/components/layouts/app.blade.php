@@ -62,30 +62,22 @@
       <div class="flex-shrink-0 space-x-3">
         <x-theme-changer/>
         @auth()
-          <div class="dropdown-end dropdown">
-            <button class="btn btn-square btn-sm btn-ghost">
-              <svg
-                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                  class="inline-block w-5 h-5 stroke-current"
-              >
-                <path
-                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-                ></path>
-              </svg>
-            </button>
-            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-              <li>
-                <form method="POST" action="{{ route('logout') }}" class="flex p-0">
+          <x-dropdown class="btn-sm" icon="o-ellipsis-vertical">
+            <x-menu-item title="Impostazioni" icon="o-cog-6-tooth"/>
+            <x-menu-item icon="o-arrow-right-end-on-rectangle">
+              <x-slot:title>
+                <form
+                    method="POST" action="{{ route('logout') }}" x-data="{loading: false}" x-on:submit="loading = true"
+                >
                   @csrf
-                  <button type="submit" class="flex-grow flex justify-between text-start px-4 py-2">
+                  <button type="submit" class="w-full flex items-center justify-between" @click.stop>
                     <span>Esci</span>
-                    <x-heroicon-s-arrow-right-end-on-rectangle class="h-5 w-5"/>
+                    <x-loading x-show="loading" class="loading-xs"/>
                   </button>
                 </form>
-              </li>
-            </ul>
-          </div>
+              </x-slot:title>
+            </x-menu-item>
+          </x-dropdown>
         @endauth
       </div>
     </div>

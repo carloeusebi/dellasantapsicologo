@@ -36,6 +36,8 @@ class Files extends Component
 
     public function save()
     {
+        $this->authorize('update', $this->patient);
+
         $this->validate();
 
         try {
@@ -53,6 +55,8 @@ class Files extends Component
 
     public function delete(string $id): void
     {
+        $this->authorize('view', $this->patient);
+
         $this->retrieveMedia($id)->delete();
 
         $this->dispatch('deleted');
@@ -67,6 +71,8 @@ class Files extends Component
 
     public function download(string $id): Media
     {
+        $this->authorize('view', $this->patient);
+
         return $this->retrieveMedia($id);
     }
 

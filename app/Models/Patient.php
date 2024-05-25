@@ -61,12 +61,11 @@ class Patient extends Model implements HasMedia
         });
     }
 
-    protected static function booted(): void
+
+    public function scopeUserScope(Builder $query)
     {
         if (Auth::user()->isNotAdmin()) {
-            static::addGlobalScope('user', function (Builder $query) {
-                $query->whereRelation('user', 'id', Auth::id());
-            });
+            $query->whereRelation('user', 'id', Auth::id());
         }
     }
 

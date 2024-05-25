@@ -28,7 +28,7 @@ class Table extends TableComponent
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
         while (true) {
-            $patients = Patient::query()
+            $patients = Patient::userScope()
                 ->withCount([
                     'surveys as pending_surveys' => function (Builder $query) {
                         $query->where('completed', false)

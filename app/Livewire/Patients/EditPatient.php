@@ -21,7 +21,7 @@ class EditPatient extends Component
         $this->form->setPatient($patient);
     }
 
-    public function resetForm()
+    public function resetForm(): void
     {
         $this->form->setPatient($this->form->patient);
         $this->clearValidation();
@@ -29,6 +29,8 @@ class EditPatient extends Component
 
     public function save()
     {
+        $this->authorize('update', $this->form->patient);
+
         $patient = $this->form->update();
 
         return $this->success('Paziente modificato con successo!',
@@ -38,6 +40,8 @@ class EditPatient extends Component
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
+        $this->authorize('view', $this->form->patient);
+
         return view('livewire.patients.edit', ['patient' => $this->form->patient]);
     }
 }
