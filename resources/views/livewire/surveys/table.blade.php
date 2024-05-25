@@ -43,7 +43,7 @@
   </x-slot:headers>
 
   <x-slot:legend>
-    <div class="select-none flex">
+    <div class="select-none flex text-xs justify-center grow sm:text-sm sm:grow-0">
       <div class="flex items-center gap-2 me-2">
         <button class="inline-block h-4 w-4 opacity-50 bg-base-200 border border-base-300" disabled></button>
         <span>Paziente archiviato</span>

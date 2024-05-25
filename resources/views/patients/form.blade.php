@@ -88,6 +88,6 @@
 
   <x-slot:actions>
     <x-button label="Reset" class="btn-neutral" type="button" spinner="resetForm" wire:click="resetForm"/>
-    <x-button label="Salva" class="btn-primary" type="submit" spinner="save"/>
+    <x-button label="Salva" class="btn-primary btn-wide" type="submit" spinner="save"/>
   </x-slot:actions>
 </x-form>
