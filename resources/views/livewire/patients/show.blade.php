@@ -160,7 +160,7 @@
     </div>
 
     <div>
-      <livewire:patients.surveys-table :$patient/>
+      <livewire:patients.surveys-table :$patient lazy/>
     </div>
   </div>
 

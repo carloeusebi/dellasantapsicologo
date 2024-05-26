@@ -13,6 +13,7 @@ class Answer extends Model
     protected $fillable = [
         'value',
         'comment',
+        'key'
     ];
 
     public function questionnaireSurvey(): BelongsTo
@@ -20,16 +21,10 @@ class Answer extends Model
         return $this->belongsTo(QuestionnaireSurvey::class);
     }
 
-    public function questionnaire()
+    public function choice(): BelongsTo
     {
-        return $this->belongsTo(Questionnaire::class);
+        return $this->belongsTo(Choice::class);
     }
-
-    public function survey()
-    {
-        return $this->questionnaireSurvey->survey;
-    }
-
 
     public function question(): BelongsTo
     {

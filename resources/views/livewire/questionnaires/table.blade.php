@@ -28,6 +28,7 @@
       @endscope
       @scope('selection', $tag)
       <div
+          @click.stop
           class="badge badge-xs badge-outline my-1 h-fit font-bold"
           style="color: {{ $tag->color }}; background-color: {{$tag->color}}20; "
       >{{ $tag->tag }}</div>
