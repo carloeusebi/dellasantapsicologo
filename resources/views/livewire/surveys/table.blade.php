@@ -18,7 +18,7 @@
 
 @endphp
 
-<x-custom.table :rows="$surveys">
+<x-custom.table :rows="$surveys" :without-reset="$patient">
   <x-slot:filters>
     <x-select
         label="Completati" inline

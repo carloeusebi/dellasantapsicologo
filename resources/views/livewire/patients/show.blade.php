@@ -160,7 +160,7 @@
     </div>
 
     <div>
-      <livewire:surveys.surveys-table :$patient/>
+      <livewire:patients.surveys-table :$patient/>
     </div>
   </div>
 

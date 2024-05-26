@@ -7,9 +7,11 @@
 
   <div class="md:flex items-end gap-2 space-y-2 md:space-y-0">
     {{ $filters }}
-    <x-button class="w-full md:w-fit btn-primary h-[56px]" wire:click="$dispatch('resetFilters')">
-      Resetta filtri
-    </x-button>
+    @unless(isset($withoutReset))
+      <x-button class="w-full md:w-fit btn-primary h-[56px]" wire:click="$dispatch('resetFilters')">
+        Resetta filtri
+      </x-button>
+    @endunless
   </div>
 
   <div class="flex flex-wrap gap-4 justify-between items-center">
