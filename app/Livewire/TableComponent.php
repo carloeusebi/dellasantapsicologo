@@ -13,7 +13,7 @@ abstract class TableComponent extends Component
 
     protected static $pageName = 'pagina';
 
-    public string $search;
+    public string $search = '';
 
     public function clearSearch(): void
     {

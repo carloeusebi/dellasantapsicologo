@@ -43,7 +43,7 @@
             class="w-full md:w-[320px]" wire:model.live.debounce="user_id"
             label="Dottore" inline
             placeholder="Tutti"
-            :options="$doctors"
+            :options="$this->doctors"
         />
       </div>
     @endif

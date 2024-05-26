@@ -8,36 +8,40 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Session;
 use Livewire\Attributes\Url;
 
 class PatientTable extends TableComponent
 {
-    #[Url(as: 'ordina')]
+    #[Url(as: 'ordina', except: ['column' => 'therapy_start_date', 'direction' => 'desc']), Session]
     public array $sortBy = [
         'column' => 'therapy_start_date',
         'direction' => 'desc',
     ];
 
-    #[Url(as: 'stato')]
+    #[Url(as: 'stato', except: 'attivi'), Session]
     public string $state = 'attivi';
 
-    #[Url(as: 'cerca')]
+    #[Url(as: 'cerca', except: ''), Session]
     public string $search = '';
 
-    #[Url]
+    #[Url, Session]
     public int|null $user_id = null;
 
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
-        $doctors = User::doctors()->get()->toArray();
-
         $patients = $this->goToFirstPageIfResultIsEmpty(function () {
-            return Patient::userScope()
+            return Patient::select([
+                'id', 'first_name', 'last_name', 'birth_date', 'email', 'therapy_start_date', 'user_id', 'archived_at'
+            ])
+                ->userScope()
                 ->when(Auth::user()->isAdmin(), function (Builder $query) {
-                    $query->with('user');
+                    $query->with(['user' => fn(BelongsTo $query) => $query->select('id', 'name')]);
                     $query->when($this->user_id, function (Builder $query, int $id) {
                         $query->whereRelation('user', 'id', $id);
                     });
@@ -71,6 +75,12 @@ class PatientTable extends TableComponent
         });
 
 
-        return view('livewire.patients.table', compact('patients', 'doctors'));
+        return view('livewire.patients.table', compact('patients'));
+    }
+
+    #[Computed(cache: true)]
+    public function doctors(): array
+    {
+        return User::doctors()->get()->toArray();
     }
 }

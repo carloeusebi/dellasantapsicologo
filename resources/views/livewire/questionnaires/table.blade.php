@@ -12,7 +12,7 @@
 <x-custom.table :rows="$questionnaires">
   <x-slot:filters>
     <x-choices
-        class="md:min-w-[420px] !min-h-[56px] w-full" icon="o-tag" :options="$tags"
+        class="md:min-w-[420px] !min-h-[56px] w-full" icon="o-tag" :options="$this->tags"
         wire:model.live.debounce="tagsFilter"
         option-label="tag" option-value="tag" placeholder="Cerca per tag"
     >

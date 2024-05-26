@@ -10,30 +10,33 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Session;
 use Livewire\Attributes\Url;
 
 class QuestionnairesTable extends TableComponent
 {
-    #[Url(as: 'ordina')]
+    #[Url(as: 'ordina', except: ['column' => 'title', 'direction' => 'asc']), Session]
     public array $sortBy = ['column' => 'title', 'direction' => 'asc'];
 
-    #[Url(as: 'cerca')]
+    #[Url(as: 'cerca', except: ''), Session]
     public string $search = '';
 
     /** @var array<string> $tags @ */
-    #[Url(as: 'tags')]
+    #[Url(as: 'tags', except: []), Session]
     public array $tagsFilter = [];
 
-    public Collection $tags;
-
+    #[Computed(cache: true)]
+    public function tags(): Collection
+    {
+        return Tag::orderBy('tag')->get();
+    }
 
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
-        $this->tags = Tag::orderBy('tag')->get();
-
         $questionnaires = $this->goToFirstPageIfResultIsEmpty(function () {
-            return Questionnaire::query()
+            return Questionnaire::select(['id', 'title', 'created_at'])
                 ->withCount('surveys')
                 ->with('tags')
                 ->when(count($this->tagsFilter), function (Builder $query) {
