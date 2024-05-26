@@ -34,7 +34,10 @@
 <body class="font-sans antialiased">
 
 {{-- The navbar with `sticky` and `full-width` --}}
-<x-nav sticky full-width class="shadow-lg h-[73px] [&>div]:!py-0 [&>div]:h-full">
+<x-nav
+    sticky full-width
+    class="shadow-lg h-[73px] [&>div]:!py-0 [&>div]:h-full [&>div]:max-w-full max-w-screen"
+>
 
   <x-slot:brand>
     {{-- Drawer toggle for "main-drawer" --}}
@@ -47,7 +50,10 @@
       <img src="{{ asset('images/Logo.webp') }}" alt="logo" class="h-14"/>
     </div>
 
-    <div class="lg:ms-12 text-xs md:text-sm breadcrumbs">
+    <div
+        class="lg:ms-12 text-xs md:text-sm breadcrumbs overflow-x-scroll me-3"
+        style="max-width: calc(100vw - 130px)"
+    >
       <ul>
         {{ $breadcrumb }}
       </ul>
@@ -67,7 +73,7 @@
 
   {{-- This is a sidebar that works also as a drawer on small screens --}}
   {{-- Notice the `main-drawer` reference here --}}
-  <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200 shadow-2xl">
+  <x-slot:sidebar drawer="main-drawer" collapsible collapse-text="Chiudi" class="bg-base-200 shadow-2xl">
 
     {{-- User --}}
     @if($user = auth()->user())
@@ -89,20 +95,20 @@
     {{-- Activates the menu item when a route matches the `link` property --}}
     @auth()
       <x-menu :title="null" activate-by-route>
-        <x-menu-sub title="Pazienti" icon="o-user-group">
-          <x-menu-item title="Pazienti" link="{{ route('patients.index') }}" route="patients.*"/>
+        <x-custom-menu-sub title="Pazienti" icon="o-user-group" route="patients.*">
+          <x-menu-item title="Pazienti" link="{{ route('patients.index') }}" route="patients.index"/>
           <x-menu-item title="Nuovo" link="{{ route('patients.create') }}" route="patients.create"/>
-        </x-menu-sub>
-        <x-menu-sub title="Valutazioni" icon="o-list-bullet">
-          <x-menu-item title="Valutazioni" link="{{ route('surveys.index') }} " route="surveys.*"/>
+        </x-custom-menu-sub>
+        <x-custom-menu-sub title="Valutazioni" icon="o-list-bullet" route="surveys.*">
+          <x-menu-item title="Valutazioni" link="{{ route('surveys.index') }} " route="surveys.index"/>
           <x-menu-item title="Nuovo" link="{{ route('surveys.create') }}" route="surveys.create"/>
           <x-menu-item title="Templates"/>
-        </x-menu-sub>
-        <x-menu-sub title="Questionari" icon="o-document-chart-bar">
-          <x-menu-item title="Questionari" link="{{ route('questionnaires.index') }}" route="questionnaires.*"/>
+        </x-custom-menu-sub>
+        <x-custom-menu-sub title="Questionari" icon="o-document-chart-bar" route="questionnaires.*">
+          <x-menu-item title="Questionari" link="{{ route('questionnaires.index') }}" route="questionnaires.index"/>
           <x-menu-item title="Nuovo" link=" {{ route('questionnaires.create') }}" route="questionnaires.create"/>
           <x-menu-item title="Tags"/>
-        </x-menu-sub>
+        </x-custom-menu-sub>
       </x-menu>
     @endauth
     @guest()
