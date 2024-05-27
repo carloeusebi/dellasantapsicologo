@@ -80,7 +80,7 @@
 
       @unless($patient)
         @scope('actions', $survey)
-        <div class="flex gap-2">
+        <div class="hidden sm:flex gap-2">
           <x-button class="btn-xs" icon="o-user" :link="route('patients.show', $survey->patient)"/>
         </div>
         @endscope

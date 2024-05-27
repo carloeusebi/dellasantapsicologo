@@ -79,7 +79,7 @@
       @endscope
 
       @scope('actions', $patient)
-      <div class="flex gap-2">
+      <div class="hidden sm:flex gap-2">
         <x-button class="btn-xs" icon="o-pencil" :link="route('patients.edit', $patient)"/>
         <x-button class="btn-xs" icon="o-list-bullet" :link="route('surveys.create', ['patient_id' => $patient->id])"/>
       </div>

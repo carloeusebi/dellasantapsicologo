@@ -56,7 +56,7 @@
       </x-slot:actions>
     </x-list-item>
   @empty
-    <div class="flex justify-center my-10 text-lg italic text-primary-content/75">
+    <div class="flex justify-center my-10 text-lg italic text-base-content/50">
       Nessun commento
     </div>
   @endforelse

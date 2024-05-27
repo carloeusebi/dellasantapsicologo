@@ -5,7 +5,7 @@
     <li>{{ $survey->title }}</li>
   </x-slot:breadcrumb>
 
-  <x-header :title="$survey->title.' di '. $survey->patient->full_name" size="text-xl" separator class="!mb-2"/>
+  <x-header :title="$survey->title.' di '. $survey->patient->full_name" size="text-xl" separator class="!mb-0"/>
 
 
   <x-tabs wire:model.live="tab">
@@ -24,4 +24,16 @@
       <livewire:surveys.comments :$survey lazy/>
     </x-tab>
   </x-tabs>
+
+  <!--suppress CssUnusedSymbol -->
+  <style>
+    .tab-content {
+      padding-bottom: 0;
+    }
+
+    .tab-content > div {
+      max-height: calc(100vh - 240px);
+      overflow-y: scroll;
+    }
+  </style>
 </div>
