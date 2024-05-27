@@ -6,6 +6,7 @@ use App\Models\Patient;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -15,24 +16,18 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Files extends Component
+#[Lazy]
+class PatientFiles extends Component
 {
     use Toast;
     use WithFileUploads;
 
     public Patient $patient;
 
-    public bool $modal = false;
-
     #[Validate('required|mimes:pdf', as: 'File')]
     public $file;
 
     public array $expanded = [];
-
-    public function mount(Patient $patient): void
-    {
-        $this->patient = $patient;
-    }
 
     public function save()
     {

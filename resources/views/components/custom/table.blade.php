@@ -8,7 +8,7 @@
   <div class="md:flex items-end gap-2 space-y-2 md:space-y-0">
     {{ $filters }}
     @unless(isset($withoutReset))
-      <x-button class="w-full md:w-fit btn-primary h-[56px]" wire:click="$dispatch('resetFilters')">
+      <x-button class="w-full btn-sm md:w-fit btn-primary" wire:click="$dispatch('resetFilters')">
         Resetta filtri
       </x-button>
     @endunless

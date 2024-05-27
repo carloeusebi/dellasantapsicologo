@@ -6,7 +6,6 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\QuestionnaireController;
 use App\Http\Controllers\SurveyController;
 use App\Livewire\Patients\CreatePatient;
-use App\Livewire\Patients\EditPatient;
 use App\Livewire\Patients\ShowPatient;
 use App\Livewire\Surveys\CreateSurvey;
 use App\Livewire\Surveys\ShowSurvey;
@@ -38,7 +37,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [PatientController::class, 'index'])->name('index');
         Route::get('/crea', CreatePatient::class)->name('create');
         Route::get('/{patient}', ShowPatient::class)->name('show');
-        Route::get('/{patient}/modifica', EditPatient::class)->name('edit');
     });
 
     Route::prefix('/valutazioni')->name('surveys.')->group(function () {

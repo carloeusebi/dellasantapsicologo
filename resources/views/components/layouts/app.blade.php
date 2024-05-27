@@ -31,7 +31,7 @@
   @vite('resources/css/app.css')
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased bg-base-200/50">
 
 {{-- The navbar with `sticky` and `full-width` --}}
 <x-nav
@@ -46,12 +46,13 @@
     </label>
 
     {{-- Brand --}}
-    <div class="hidden lg:block">
-      <img src="{{ asset('images/Logo.webp') }}" alt="logo" class="h-14"/>
+    <div>
+      <img class="hidden xl:block h-14" src="{{ asset('images/Logo.webp') }}" alt="logo"/>
+      <img class="hidden md:block xl:hidden h-12" src="{{ asset('images/favicon.ico') }}" alt="logo"/>
     </div>
 
     <div
-        class="lg:ms-12 text-xs md:text-sm breadcrumbs overflow-x-scroll me-3"
+        class="lg:ms-12 text-xs md:text-sm breadcrumbs overflow-x-auto me-3"
         style="max-width: calc(100vw - 130px)"
     >
       <ul>

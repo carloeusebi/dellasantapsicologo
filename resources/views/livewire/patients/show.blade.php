@@ -1,3 +1,4 @@
+@php use App\Models\Survey; @endphp
 <div x-data="{ confirmedDelete: false }">
   <x-slot:title>{{ $patient->full_name }}</x-slot:title>
   <x-slot:breadcrumb>
@@ -6,42 +7,80 @@
   </x-slot:breadcrumb>
 
 
-  <x-header :title="$patient->full_name" size="text-xl" separator class="mb-5">
-    <x-slot:actions>
-      <livewire:patients.files :$patient/>
-      <a href="{{ route('patients.edit', $patient) }}" wire:navigate.hover>
-        <x-button class="btn-info" label="Modifica" icon="o-pencil-square" responsive/>
-      </a>
-      <x-button class="btn-error" label="Elimina" icon="o-trash" responsive x-on:click="$wire.deleteModal = true"/>
-    </x-slot:actions>
-  </x-header>
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-y-8 xl:gap-x-8 items-start mb-8 xl:mb-4">
+    <x-card :title="$patient->full_name" class="col-span-2" shadow>
+      @include('patients.form')
+    </x-card>
 
-  <div class="grid md:grid-cols-2 gap-8 items-start">
-    <div class=" md:flex gap-2 items-center relative">
-      <x-radio
-          wire:model="archived" wire:change.debounce="changeState"
-          :options="[
-               [ 'id' => 0, 'name' => 'Attuale'],
-               ['id' => 1, 'name' => 'Archiviato']
-            ]"
-      />
-      <x-loading wire:loading wire:target="changeState" class="text-primary"/>
-    </div>
-    <div class=" md:order-1">
-      <x-patients.detail-list :$patient/>
-    </div>
-    <x-header title="Valutazioni" size="text-lg" class="!mb-0 ">
-      <x-slot:actions>
-        <a href="{{ route('surveys.create', ['patient_id' => $patient->id]) }}" wire:navigate.hover>
-          <x-button class="btn-ghost" label="Aggiungi test di valutazione" icon="o-plus-circle"/>
-        </a>
-      </x-slot:actions>
-    </x-header>
-    <div class="order-1">
-      <livewire:patients.surveys-table :$patient lazy/>
+    <div class="space-y-4 col-span-1">
+      <x-card shadow>
+        <div class="grid md:grid-cols-2 gap-2">
+          <div class="flex flex-col gap-2 items-end md:order-1">
+            <x-button class="w-full" label="Elimina" icon="o-trash" x-on:click="$wire.deleteModal = true"/>
+            @if($patient->isArchived())
+              <x-button
+                  class="w-full" label="Ripristina" icon="o-arrow-path" wire:click="changeState"
+                  spinner="changeState"
+              />
+            @else
+              <x-button
+                  class="w-full" label="Archivia" icon="o-archive-box" wire:click="changeState"
+                  spinner="changeState"
+              />
+            @endif
+          </div>
+          <div class="flex flex-wrap justify-between gap-3 md:block md:space-y-3">
+            <div>
+              <div class="font-bold">Creato</div>
+              <div>{{ $patient->created_at->diffForHumans() }}</div>
+            </div>
+            <div>
+              <div class="font-bold">Aggiornato</div>
+              <div>{{ $patient->updated_at->diffForHumans() }}</div>
+            </div>
+            @if($patient->isArchived())
+              <div>
+                <div class="font-bold">Archiviato</div>
+                <div>{{ $patient->archived_at->diffForHumans() }}</div>
+              </div>
+            @endif
+          </div>
+
+        </div>
+      </x-card>
+
+      @php
+        /** @var Survey $survey */
+      $headers = [
+        ['key' => 'title', 'label' => 'Titolo'],
+        ['key' => 'updated_at', 'label' => 'Completato/Ultima Risposta']
+       ];
+        $rowDecoration = [
+          'table-success' => fn (Survey $survey) => $survey->completed,
+          'table-error' => fn (Survey $survey) => !$survey->completed,
+        ];
+      @endphp
+      <x-card title="Valutazioni">
+        <x-app-hr target="previousPage,gotoPage,nextPage"/>
+        @if($this->surveys->isEmpty())
+          <div class="text-base-content/60 my-5 text-center">Nessuna valutazione</div>
+        @else
+          <x-table
+              :$headers :$rowDecoration with-pagination
+              :rows="$this->surveys" link="/valutazioni/{id}"
+          >
+            @scope('cell_updated_at', $survey)
+            <div>{{ $survey->updated_at->diffForHumans() }}</div>
+            @endscope
+          </x-table>
+        @endif
+      </x-card>
     </div>
   </div>
 
+  <div>
+    <livewire:patients.patient-files :patient="$patient"/>
+  </div>
 
   <x-modal wire:model="deleteModal" title="Elimina Paziente" separator class="backdrop-blur">
     <div class="space-y-1 select-none">
