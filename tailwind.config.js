@@ -10,7 +10,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      fontFamily: {},
+      fontFamily: {
+        sans: ['sans', 'sans-serif'],
+      },
     },
   },
   daisyui: {

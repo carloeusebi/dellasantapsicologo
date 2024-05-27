@@ -34,7 +34,7 @@ class Survey extends Model
             ->using(QuestionnaireSurvey::class);
     }
 
-    public function surveyQuestionnaires(): HasMany
+    public function questionnaireSurvey(): HasMany
     {
         return $this->hasMany(QuestionnaireSurvey::class);
     }
