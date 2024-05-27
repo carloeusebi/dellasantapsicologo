@@ -1,4 +1,5 @@
 @import 'flatpickr/dist/flatpickr.css';
+@import "table.css";
 
 @tailwind base;
 @tailwind components;
@@ -6,26 +7,6 @@
 
 #nprogress .bar {
   background: oklch(var(--p)) !important;
-}
-
-.table-error {
-  @apply !bg-error !bg-opacity-25 ;
-}
-
-table .table-error:hover {
-  @apply !bg-opacity-50;
-}
-
-.table-success {
-  @apply !bg-success !bg-opacity-25;
-}
-
-table .table-success:hover {
-  @apply !bg-opacity-50;
-}
-
-table .table-disabled {
-  color: gray !important;
 }
 
 .full-width-modal .modal-box {
