@@ -8,15 +8,15 @@
 @endphp
 <div>
   <x-card shadow>
-    <div class="flex flex-wrap items-center justify-between mb-4">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
       <h3 class="text-2xl font-bold">Allegati</h3>
       <div class="flex">
         <x-file
-            class="[&_input]:rounded-r-none [&_input]:!w-full" wire:model="file" hint="Solo PDF"
+            class="[&_input]:rounded-r-none [&_input]:h-[32px] [&_input]:!w-full" wire:model.live="file" hint="Solo PDF"
             accept="application/pdf"
         />
         <x-button
-            class="mt-1 btn-primary !rounded-l-none" wire:click="save" spinner="save"
+            class="mt-1 btn-primary btn-sm !rounded-l-none" wire:click="save" spinner="save"
             icon="o-arrow-up-tray" responsive label="Carica"
         />
       </div>

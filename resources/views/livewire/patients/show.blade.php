@@ -12,7 +12,7 @@
       @include('patients.form')
     </x-card>
 
-    <div class="space-y-4 col-span-1">
+    <div class="space-y-8 xl:space-y-4 col-span-1">
       <x-card shadow>
         <div class="grid md:grid-cols-2 gap-2">
           <div class="flex flex-col gap-2 items-end md:order-1">
@@ -29,7 +29,7 @@
               />
             @endif
           </div>
-          <div class="flex flex-wrap justify-between gap-3 md:block md:space-y-3">
+          <div class="flex flex-wrap justify-between gap-3 md:flex-col text-sm">
             <div>
               <div class="font-bold">Creato</div>
               <div>{{ $patient->created_at->diffForHumans() }}</div>
@@ -49,32 +49,7 @@
         </div>
       </x-card>
 
-      @php
-        /** @var Survey $survey */
-      $headers = [
-        ['key' => 'title', 'label' => 'Titolo'],
-        ['key' => 'updated_at', 'label' => 'Completato/Ultima Risposta']
-       ];
-        $rowDecoration = [
-          'table-success' => fn (Survey $survey) => $survey->completed,
-          'table-error' => fn (Survey $survey) => !$survey->completed,
-        ];
-      @endphp
-      <x-card title="Valutazioni">
-        <x-app-hr target="previousPage,gotoPage,nextPage"/>
-        @if($this->surveys->isEmpty())
-          <div class="text-base-content/60 my-5 text-center">Nessuna valutazione</div>
-        @else
-          <x-table
-              :$headers :$rowDecoration with-pagination
-              :rows="$this->surveys" link="/valutazioni/{id}"
-          >
-            @scope('cell_updated_at', $survey)
-            <div>{{ $survey->updated_at->diffForHumans() }}</div>
-            @endscope
-          </x-table>
-        @endif
-      </x-card>
+      <livewire:patients.surveys-table :$patient/>
     </div>
   </div>
 

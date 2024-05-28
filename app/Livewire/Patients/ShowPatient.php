@@ -13,14 +13,11 @@ use LaravelIdea\Helper\App\Models\_IH_Survey_C;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 class ShowPatient extends Component
 {
     use Toast;
-
-    use WithPagination;
 
     public PatientForm $form;
 
