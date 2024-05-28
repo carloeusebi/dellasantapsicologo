@@ -62,4 +62,16 @@ class Survey extends Model
             'id',
         )->whereNotNull('comment');
     }
+
+    public function skippedQuestions(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Answer::class,
+            QuestionnaireSurvey::class,
+            'survey_id',
+            'questionnaire_survey_id',
+            'id',
+            'id',
+        )->whereSkipped(true);
+    }
 }

@@ -1,11 +1,11 @@
-<div class="dropdown dropdown-bottom dropdown-end">
+<div class="dropdown dropdown-bottom dropdown-end z-50">
   <div>
     <x-button label="Tema" icon="o-swatch" class="btn-ghost btn-sm" responsive/>
   </div>
   <ul
       id="themes-container"
       tabindex="0"
-      class="dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52 h-96 overflow-y-scroll space-y-2 [&>*]:w-full py-4"
+      class="dropdown-content z-50 p-2 shadow-2xl bg-base-300 rounded-box w-52 h-96 overflow-y-scroll space-y-2 [&>*]:w-full py-4"
   >
     <button
         class="outline-base-content text-start outline-offset-4 [&amp;_svg]:visible w-full" data-set-theme="light"

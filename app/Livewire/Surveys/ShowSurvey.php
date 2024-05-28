@@ -24,7 +24,8 @@ class ShowSurvey extends Component
     {
         $this->authorize('view', $this->survey);
 
-        $this->survey->load('questionnaireSurvey.questionnaire', 'patient');
+        $this->survey->load('questionnaireSurvey.questionnaire', 'patient')
+            ->loadCount('comments', 'skippedQuestions');
 
         return view('livewire.surveys.show');
     }

@@ -34,12 +34,13 @@
   <!--suppress CssUnusedSymbol -->
   <style>
     .tab-content {
+      padding-top: 0;
       padding-bottom: 0;
     }
 
     .tab-content > div {
       max-height: calc(100vh - 240px);
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   </style>
 </div>

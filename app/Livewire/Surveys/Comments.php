@@ -10,15 +10,16 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use LaravelIdea\Helper\App\Models\_IH_Answer_C;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-/**
- * @property Collection<Answer> $comments
- */
 class Comments extends Component
 {
     use Toast;
+
+    #[Url]
+    public ?string $comment_id = null;
 
     public Survey $survey;
 

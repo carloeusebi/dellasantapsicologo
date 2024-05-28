@@ -21,8 +21,8 @@
 <x-custom.table :rows="$surveys" :without-reset="$patient">
   <x-slot:filters>
     <x-select
-        label="Completati" inline
-        class="min-w-[150px] w-full flex-shrink"
+        label="Completati"
+        class="min-w-[150px] select-sm w-full flex-shrink"
         wire:model.live.debounce="state"
         :options="[
             ['id' => 'tutti', 'name' => 'Tutti'],
@@ -30,24 +30,20 @@
             ['id' => 'non_completati', 'name' => 'Non Completati'],
          ]"
     />
-    @unless ($patient)
-      <x-select
-          label="Stato paziente" inline
-          class="min-w-[150px] w-full flex-shrink"
-          wire:model.live="patientState"
-          :options="[
+    <x-select
+        label="Stato paziente"
+        class="min-w-[150px] select-sm w-full flex-shrink"
+        wire:model.live="patientState"
+        :options="[
             ['id' => 'tutti', 'name' => 'Tutti'],
             ['id' => 'attuali', 'name' => 'Attuali'],
             ['id' => 'archiviati', 'name' => 'Archiviati']
         ]"
-      />
-    @endunless
+    />
     <div class="[&>*]:!w-full grow">
       <x-input
-          class="!grow w-full" placeholder="Cerca" wire:model.live.debounce="search"
-          icon="o-magnifying-glass" inline
-          wire:keyup.esc="clearSearch"
-          clearable
+          class="input-sm" placeholder="Cerca" wire:model.live.debounce="search"
+          icon="o-magnifying-glass" wire:keyup.esc="clearSearch" clearable
       />
     </div>
   </x-slot:filters>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -19,7 +20,8 @@ class Question extends Model
         'previous_question',
         'next_question',
         'reversed',
-        'answers',
+        'custom_answers',
+        'order',
         'old_id',
     ];
 
@@ -28,26 +30,18 @@ class Question extends Model
         'reversed' => 'boolean',
     ];
 
-    public function getCustomAnswerText(int $value): string
+    public function getCustomAnswerText(?int $value): string
     {
         if (empty($this->custom_answers)) {
             return '';
         }
 
-        if ($value === -1) {
+        if (!$value) {
             return 'Risposta saltata';
         }
 
         return collect($this->custom_answers)->first(fn(array $answer) => $answer['points'] === $value)['customAnswer'];
     }
-//
-//    public function getQuestionNumber(): int
-//    {
-//        return $this->questionnaire->
-//            load('questions')
-//                ->questions
-//                ->search(fn(Question $question) => $question->is($this)) + 1;
-//    }
 
     public function questionnaire(): BelongsTo
     {
@@ -62,5 +56,10 @@ class Question extends Model
     public function nextQuestion(): BelongsTo
     {
         return $this->belongsTo(Question::class, 'next_question');
+    }
+
+    public function answers(): HasMany
+    {
+        return $this->hasMany(Answer::class);
     }
 }

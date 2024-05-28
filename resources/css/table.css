@@ -3,21 +3,13 @@
 }
 
 .table-error {
-  @apply !bg-error !bg-opacity-25 ;
-}
-
-table .table-error:hover {
-  @apply !bg-opacity-50;
+  @apply bg-error/25 hover:!bg-error/50;
 }
 
 .table-success {
-  @apply !bg-success !bg-opacity-25;
-}
-
-table .table-success:hover {
-  @apply !bg-opacity-50;
+  @apply bg-success/25 hover:!bg-success/50;
 }
 
 table .table-disabled {
-  color: gray !important;
+  @apply text-base-content/50
 }
