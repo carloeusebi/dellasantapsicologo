@@ -17,7 +17,7 @@ class AuthController extends Controller
 
         $user = $request->only(['email', 'password']);
 
-        if (Auth::attempt($user)) {
+        if (Auth::attempt($user, $request->filled('remember'))) {
             return redirect()->intended(route('admin'));
         } else {
             return redirect()->back()->withErrors([
