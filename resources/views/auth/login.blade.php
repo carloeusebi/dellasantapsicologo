@@ -64,7 +64,11 @@
         <x-loading class="loading-sm absolute left-5" x-show="loading"/>
         Login
       </x-button>
-      <x-button class="mt-2 btn-outline w-full btn-secondary btn-sm">Torna alla Homepage</x-button>
+      <a href="{{ route('home') }}">
+        <x-button class="mt-2 btn-outline w-full btn-secondary btn-sm">
+          Torna alla Homepage
+        </x-button>
+      </a>
     </div>
   </x-card>
 
