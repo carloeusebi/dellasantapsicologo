@@ -30,17 +30,9 @@
       <livewire:surveys.comments :$survey lazy/>
     </x-tab>
   </x-tabs>
-
-  <!--suppress CssUnusedSymbol -->
-  <style>
-    .tab-content {
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-
-    .tab-content > div {
-      max-height: calc(100vh - 240px);
-      overflow-y: auto;
-    }
-  </style>
 </div>
+
+
+@push('scripts')
+  @vite('resources/js/quick-answer-handler.js')
+@endpush

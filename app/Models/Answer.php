@@ -12,9 +12,11 @@ class Answer extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'questionnaire_survey_id',
+        'question_id',
         'value',
         'comment',
-        'key',
+        'choice_id',
         'skipped',
     ];
 

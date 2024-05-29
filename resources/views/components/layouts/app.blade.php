@@ -134,4 +134,5 @@
 <x-toast/>
 @livewireScripts
 @vite('resources/js/app.js')
+@stack('scripts')
 </body>

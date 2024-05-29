@@ -15,6 +15,21 @@ class Survey extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = [
+        'title',
+        'completed',
+        'token',
+    ];
+
+    public function updateCompletedStatus(): void
+    {
+        $this->loadCount('answers', 'questions');
+
+        $this->completed = $this->answers_count === $this->questions_count;
+
+        $this->update(['completed' => $this->completed]);
+    }
+
     public function scopeUserScope(Builder $query): void
     {
         if (Auth::user()->isNotAdmin()) {
@@ -61,6 +76,18 @@ class Survey extends Model
             'id',
             'id',
         )->whereNotNull('comment');
+    }
+
+    public function questions(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Question::class,
+            Questionnaire::class,
+            'id',
+            'questionnaire_id',
+            'id',
+            'id',
+        );
     }
 
     public function skippedQuestions(): HasManyThrough

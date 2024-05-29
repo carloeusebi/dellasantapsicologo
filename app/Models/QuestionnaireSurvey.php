@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class QuestionnaireSurvey extends Pivot
 {
-    public $timestamps = false;
-
     public $incrementing = 'questionnaire_survey';
 
     protected $casts = [
@@ -17,14 +16,36 @@ class QuestionnaireSurvey extends Pivot
         'created_at' => 'datetime',
     ];
 
-    public function questionnaire(): BelongsTo
+    public function updateCompletedStatus(): void
     {
-        return $this->belongsTo(Questionnaire::class);
+        $this->loadCount('answers', 'questions');
+
+        $this->completed = $this->answers_count === $this->questions_count;
+
+        $this->update(['completed' => $this->completed]);
+
+        $this->survey->updateCompletedStatus();
     }
 
     public function survey(): BelongsTo
     {
         return $this->belongsTo(Survey::class);
+    }
+
+    public function questions(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Question::class,
+            Questionnaire::class,
+            'id',
+            'questionnaire_id',
+            'questionnaire_id',
+        );
+    }
+
+    public function questionnaire(): BelongsTo
+    {
+        return $this->belongsTo(Questionnaire::class);
     }
 
     public function answers(): HasMany
