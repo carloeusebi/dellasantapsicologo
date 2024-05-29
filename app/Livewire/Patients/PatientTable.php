@@ -12,9 +12,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Url;
 
+#[Lazy]
 class PatientTable extends TableComponent
 {
     #[Url(as: 'ordina', except: ['column' => 'therapy_start_date', 'direction' => 'desc']), Session]

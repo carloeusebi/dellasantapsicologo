@@ -19,10 +19,9 @@
   >
   <title>
     @isset($title)
-      {{ $title }}
-    @else
-      Dellasanta Psicologo
+      {{ $title }} |
     @endisset
+    Dellasanta Psicologo
   </title>
 
   <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/ico">
@@ -31,7 +30,7 @@
   @vite('resources/css/app.css')
 </head>
 
-<body class="font-sans antialiased bg-base-200/50">
+<body class="font-sans antialiased min-h-screen bg-base-200/50">
 
 {{-- The navbar with `sticky` and `full-width` --}}
 <x-nav
@@ -51,14 +50,16 @@
       <img class="hidden md:block xl:hidden h-12" src="{{ asset('images/favicon.ico') }}" alt="logo"/>
     </div>
 
-    <div
-        class="lg:ms-12 text-xs md:text-sm breadcrumbs overflow-x-auto me-3"
-        style="max-width: calc(100vw - 130px)"
-    >
-      <ul>
-        {{ $breadcrumb }}
-      </ul>
-    </div>
+    @isset($breadcrumb)
+      <div
+          class="lg:ms-12 text-xs md:text-sm breadcrumbs overflow-x-auto me-3"
+          style="max-width: calc(100vw - 130px)"
+      >
+        <ul>
+          {{ $breadcrumb }}
+        </ul>
+      </div>
+    @endisset
   </x-slot:brand>
 
   {{-- Right side actions --}}

@@ -22,7 +22,7 @@
   <x-slot:filters>
     <x-select
         label="Completati"
-        class="min-w-[150px] select-sm w-full flex-shrink"
+        class="min-w-[150px] select w-full flex-shrink"
         wire:model.live.debounce="state"
         :options="[
             ['id' => 'tutti', 'name' => 'Tutti'],
@@ -32,7 +32,7 @@
     />
     <x-select
         label="Stato paziente"
-        class="min-w-[150px] select-sm w-full flex-shrink"
+        class="min-w-[150px] select w-full flex-shrink"
         wire:model.live="patientState"
         :options="[
             ['id' => 'tutti', 'name' => 'Tutti'],
@@ -42,7 +42,7 @@
     />
     <div class="[&>*]:!w-full grow">
       <x-input
-          class="input-sm" placeholder="Cerca" wire:model.live.debounce="search"
+          class="input" placeholder="Cerca" wire:model.live.debounce="search"
           icon="o-magnifying-glass" wire:keyup.esc="clearSearch" clearable
       />
     </div>

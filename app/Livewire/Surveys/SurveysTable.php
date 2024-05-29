@@ -10,10 +10,12 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\View\View;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
+#[Lazy]
 class SurveysTable extends TableComponent
 {
     use WithPagination;

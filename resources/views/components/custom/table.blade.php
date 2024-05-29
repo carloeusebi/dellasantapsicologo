@@ -5,10 +5,10 @@
 
 <div>
 
-  <div class="md:flex items-end gap-2 space-y-2 md:space-y-0">
+  <div class="md:flex items-end gap-4 space-y-2 md:space-y-0 xl:px-20">
     {{ $filters }}
     @unless(isset($withoutReset))
-      <x-button class="reset-button w-full btn-sm md:w-fit btn-primary" wire:click="$dispatch('resetFilters')">
+      <x-button class="reset-button w-full md:w-fit" wire:click="$dispatch('resetFilters')">
         Resetta filtri
       </x-button>
     @endunless

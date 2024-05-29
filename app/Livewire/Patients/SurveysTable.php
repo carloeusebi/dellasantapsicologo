@@ -45,7 +45,7 @@ class SurveysTable extends Component
         @else
           <x-table
               :$headers :$rowDecoration with-pagination
-              :rows="$this->surveys" link="/valutazioni/{id}"
+              :rows="$this->surveys" link="/valutazioni/{id}?tab=dettagli"
           >
             @scope('cell_created_at', $survey)
             <div>{{ $survey->created_at->diffForHumans() }}</div>

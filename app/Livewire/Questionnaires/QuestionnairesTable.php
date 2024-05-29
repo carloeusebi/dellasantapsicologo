@@ -11,9 +11,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Session;
 use Livewire\Attributes\Url;
 
+#[Lazy]
 class QuestionnairesTable extends TableComponent
 {
     #[Url(as: 'ordina', except: ['column' => 'title', 'direction' => 'asc']), Session]

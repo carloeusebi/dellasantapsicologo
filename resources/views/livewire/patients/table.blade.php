@@ -4,10 +4,10 @@
 
     $headers = [
       ['key' => 'first_name', 'label' => 'Nome'],
-      ['key' => 'last_name', 'label' => 'Cognome', 'class' => 'hidden md:table-cell'],
+      ['key' => 'last_name', 'label' => 'Cognome'],
       ['key' => 'birth_date', 'label' => 'Età', 'class' => 'hidden md:table-cell'],
       ['key' => 'email', 'label' => 'Email', 'sortable' => false, 'class' => 'hidden xl:table-cell'],
-      ['key' => 'therapy_start_date', 'label' => 'Inizio Terapia'],
+      ['key' => 'therapy_start_date', 'label' => 'Inizio Terapia', 'class' => 'hidden md:table-cell'],
     ];
 
     if ($state !== 'attivi') {
@@ -29,7 +29,7 @@
   <x-slot:filters>
     <x-select
         label="Stato"
-        class="w-full select-sm md:w-[320px]"
+        class="w-full md:w-[320px]"
         wire:model.live.debounce="state"
         :options="[
             ['id' => 'attivi', 'name' => 'Attivi'],
@@ -40,7 +40,7 @@
     @if(auth()->user()->isAdmin())
       <div class="hidden xl:block">
         <x-select
-            class="w-full select-sm md:w-[320px]" wire:model.live.debounce="user_id"
+            class="w-full md:w-[320px]" wire:model.live.debounce="user_id"
             label="Dottore"
             placeholder="Tutti"
             :options="$this->doctors"
@@ -49,7 +49,7 @@
     @endif
     <div class="[&>*]:!w-full grow">
       <x-input
-          class="!grow input-sm  w-full" placeholder="Cerca" wire:model.live.debounce="search"
+          class="!grow w-full" placeholder="Cerca" wire:model.live.debounce="search"
           icon="o-magnifying-glass"
           wire:keyup.esc="clearSearch"
           clearable

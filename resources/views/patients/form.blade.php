@@ -85,17 +85,18 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-4">
     <div class="grid sm:grid-cols-2 gap-x-4">
       <div class="col-span-1">
-        <x-input
-            class="input-sm bg-base-200"
-            label="Peso" wire:model.live.debounce="form.weight" suffix="kg" first-error-only
-        />
+        <x-input class="input-sm bg-base-200" label="Peso" wire:model.live.debounce="form.weight" first-error-only>
+          <x-slot:append>
+            <span class="w-10 text-center">kg</span>
+          </x-slot:append>
+        </x-input>
       </div>
       <div class="col-span-1">
-        <x-input
-            class="input-sm bg-base-200"
-            label="Altezza" wire:model.live.debounce="form.height" suffix="cm"
-            first-error-only
-        />
+        <x-input class="input-sm bg-base-200" label="Altezza" wire:model.live.debounce="form.height" first-error-only>
+          <x-slot:append>
+            <span class="w-10 text-center">cm</span>
+          </x-slot:append>
+        </x-input>
       </div>
     </div>
     <x-input

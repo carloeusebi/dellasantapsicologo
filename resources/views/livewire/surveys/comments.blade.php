@@ -6,49 +6,49 @@
       if (!targetComment) return;
       targetComment.scrollIntoView({behavior: 'instant'});
       targetComment.classList.add('bg-primary/20');
+
+      removeFromQueryString('comment_id');
     "
 >
   @forelse($this->comments as $answer)
     <x-list-item :item="$answer" no-hover :key="$answer->id" class="!items-start" data-comment="{{ $answer->id }}">
       <x-slot:value>
-        <div class="flex justify-between">
-          <div>
+        <div>
+          <div class="flex justify-between items-center">
             <div class="text-wrap">
               {{ $answer->question->questionnaire->title }}
             </div>
-            <div>
-              <span>Domanda:</span>
-              <span class="font-normal text-wrap">
+            <x-button
+                class="btn-error btn-sm" icon="o-trash" onclick="deleteCommentModal{{ $answer->id }}.showModal()"
+            />
+          </div>
+          <div>
+            <span>Domanda:</span>
+            <span class="font-normal text-wrap">
             <span>{{ $answer->question->order }}. {{ $answer->question->text }}</span>
           </span>
-            </div>
-            <div>
-              <span>Risposta:</span>
-              <span class="font-normal text-wrap italic">
+          </div>
+          <div>
+            <span>Risposta:</span>
+            <span class="font-normal text-wrap italic">
             @if ($answer->choice)
-                  {{ $answer->choice->text}}
-                @else
-                  {{ $answer->question->getCustomAnswerText($answer->value) ?: 'Risposta saltata' }}
-                @endif
+                {{ $answer->choice->text}}
+              @else
+                {{ $answer->question->getCustomAnswerText($answer->value) ?: 'Risposta saltata' }}
+              @endif
           </span>
-              <div>
-                <a
-                    class="underline cursor-pointer"
-                    href="{{ route('surveys.show', [
+            <div>
+              <a
+                  class="underline cursor-pointer"
+                  href="{{ route('surveys.show', [
                   $survey,
                   'tab' => 'risposte',
                   'questionnaireSurvey_id' => $answer->questionnaire_survey_id,
                   'question_id' => $answer->question_id
                 ])}}"
-                    wire:navigate.hover
-                >Vai</a>
-              </div>
+                  wire:navigate.hover
+              >Vai</a>
             </div>
-          </div>
-          <div>
-            <x-button
-                class="btn-error btn-sm" icon="o-trash" onclick="deleteCommentModal{{ $answer->id }}.showModal()"
-            />
           </div>
         </div>
         <div class="chat chat-end">

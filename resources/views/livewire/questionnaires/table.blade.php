@@ -13,31 +13,24 @@
   <x-custom.table :rows="$questionnaires">
     <x-slot:filters>
       <x-choices
-          class="md:min-w-[420px] select-sm  w-full" icon="o-tag" :options="$this->tags"
-          wire:model.live.debounce="tagsFilter"
+          class="md:min-w-[420px] w-full" icon="o-tag" :options="$this->tags"
+          wire:model.live.debounce="tagsFilter" @click.stop
           option-label="tag" option-value="tag" placeholder="Cerca per tag"
       >
         @scope('item', $tag)
         <x-list-item :item="$tag" class="h-10">
           <x-slot:value>
-            <div
-                class="badge badge-sm badge-outline my-1 h-fit font-bold"
-                style="color: {{ $tag->color }}; background-color: {{$tag->color}}20; "
-            >{{ $tag->tag }}</div>
+            <x-questionnaires.tag :tag="$tag" :key="$tag->id"/>
           </x-slot:value>
         </x-list-item>
         @endscope
         @scope('selection', $tag)
-        <div
-            @click.stop
-            class="badge badge-xs badge-outline my-1 h-fit font-bold"
-            style="color: {{ $tag->color }}; background-color: {{$tag->color}}20; "
-        >{{ $tag->tag }}</div>
+        <x-questionnaires.tag :tag="$tag" :key="$tag->id"/>
         @endscope
       </x-choices>
       <div class="[&>*]:!w-full grow">
         <x-input
-            class="w-full h-[46px]" wire:model.live.debounce="search"
+            class="w-full" wire:model.live.debounce="search"
             icon="o-magnifying-glass" placeholder="Cerca"
             wire:keyup.esc="clearSearch"
             clearable
@@ -49,10 +42,7 @@
       <x-table :rows="$questionnaires" :$headers :$sortBy link="/questionari/{id}">
         @scope('cell_tags', $questionnaire)
         @foreach($questionnaire->tags as $tag)
-          <div
-              class="badge badge-xs md:badge-sm badge-outline my-1 h-fit font-bold"
-              style="color: {{ $tag->color }}; background-color: {{$tag->color}}20; "
-          >{{ $tag->tag }}</div>
+          <x-questionnaires.tag :tag="$tag" :key="$tag->id"/>
         @endforeach
         @endscope
 

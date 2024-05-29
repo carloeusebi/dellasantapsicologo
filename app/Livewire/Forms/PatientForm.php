@@ -81,6 +81,8 @@ class PatientForm extends Form
         $this->gender = $patient->gender;
         $this->birth_date = $patient->birth_date;
         $this->birth_place = $patient->birth_place;
+
+        $this->resetValidation();
     }
 
     public function store(): Patient
