@@ -9,6 +9,10 @@
   background: oklch(var(--p)) !important;
 }
 
+.drawer-content {
+  @apply !px-2
+}
+
 .full-width-modal .modal-box {
   @apply !max-w-4xl
 }

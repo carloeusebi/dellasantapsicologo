@@ -89,8 +89,6 @@
               @if($questionnaireSurvey->completed)
                 <div class="text-xs text-base-content/50 font-semibold">Completato
                   il {{ $questionnaireSurvey->updated_at->translatedFormat('d F Y H:i') }}</div>
-              @elseif (!$questionnaireSurvey->completed && $questionnaireSurvey->answers_count > 0)
-
               @else
                 <div class="text-xs text-error">Non completato</div>
               @endif
@@ -108,7 +106,8 @@
         <x-slot:content>
           <div x-data="{ filteredAnswers: [] }">
             <div
-                class="grid grid-flow-col grid-rows-{{ (int) ($questionnaireSurvey->questionnaire->choices->count() / 2) }} mb-4 gap-2 "
+                class="grid md:grid-flow-col mb-4 gap-2"
+                style="grid-template-rows: repeat({{ (int) ($questionnaireSurvey->questionnaire->choices->count() / 2) }}, minmax(0, 1fr))"
             >
               @foreach($questionnaireSurvey->questionnaire->choices as $choice)
                 <div class="flex items-center gap-2">
@@ -135,7 +134,7 @@
                   data-questionnaire-survey="{{ $questionnaireSurvey->id }}"
                   x-bind:tabindex="quickEditMode ? 0 : -1"
               >
-                <div class="flex flex-wrap md:flex-nowrap gap-4 items-center justify-between">
+                <div class="md:flex flex-wrap md:flex-nowrap gap-4 items-center justify-between">
                   @if($questionnaireSurvey->questionnaire->choices->isNotEmpty())
                     <div class="text-wrap my-3 md:my-0">
                       <div class="ps-2">{{ $question->order }}. {{ $question->text }}</div>

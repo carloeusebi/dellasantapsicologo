@@ -52,7 +52,7 @@
 
     @isset($breadcrumb)
       <div
-          class="lg:ms-12 text-xs md:text-sm breadcrumbs overflow-x-auto me-3"
+          class="md:ms-6 lg:ms-12 text-xs md:text-sm breadcrumbs overflow-x-auto me-3"
           style="max-width: calc(100vw - 130px)"
       >
         <ul>
