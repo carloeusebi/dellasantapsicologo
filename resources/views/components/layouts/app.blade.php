@@ -126,7 +126,9 @@
 
   {{-- The `$slot` goes here --}}
   <x-slot:content>
-    {{ $slot }}
+    <div class="mb-5">
+      {{ $slot }}
+    </div>
   </x-slot:content>
 </x-main>
 

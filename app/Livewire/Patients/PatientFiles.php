@@ -10,6 +10,7 @@ use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 use Mary\Traits\Toast;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
@@ -24,10 +25,17 @@ class PatientFiles extends Component
 
     public Patient $patient;
 
-    #[Validate('required|mimes:pdf', as: 'File')]
-    public $file;
+    #[Validate('required|mimes:pdf,jpg,jpeg,png,bmp,webp', as: 'File')]
+    public ?TemporaryUploadedFile $file = null;
+
+    public string $fileName = '';
 
     public array $expanded = [];
+
+    public function fileUpdated()
+    {
+        dd($this->file);
+    }
 
     public function save()
     {
@@ -36,7 +44,8 @@ class PatientFiles extends Component
         $this->validate();
 
         try {
-            $this->patient->addMedia($this->file)->toMediaCollection('files');
+            $this->patient->addMedia($this->file)
+                ->toMediaCollection('files');
         } catch (FileDoesNotExist $e) {
             $this->error('Errore!', $e->getMessage());
         } catch (FileIsTooBig) {
