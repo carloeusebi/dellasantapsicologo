@@ -131,7 +131,7 @@
               @php $answer = $question->answers->first(); @endphp
               <div
                   x-show="filteredAnswers.includes({{ $answer?->choice_id }}) || !filteredAnswers.length"
-                  class="border-t border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif"
+                  class="border-t border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif focus:outline-1"
                   data-question="{{ $question->id }}"
                   data-questionnaire-survey="{{ $questionnaireSurvey->id }}"
                   x-bind:tabindex="quickEditMode ? 0 : -1"

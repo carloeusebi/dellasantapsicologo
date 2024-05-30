@@ -28,6 +28,8 @@ class QuickAnswerHandler {
    */
   updatesStore = null;
 
+  tap = new Audio(new URL('./assets/tap.mp3', import.meta.url).href);
+
   constructor() {
     this.questions = Array.from(document.querySelectorAll('[data-question]'));
 
@@ -78,6 +80,11 @@ class QuickAnswerHandler {
   _addChoice(question_id, questionnaire_survey_id, choice_id, points) {
     this.updates = this.updates.filter(u => u.question_id !== question_id);
     this.updates.push({question_id, questionnaire_survey_id, choice_id, points});
+    try {
+      this.tap.play();
+    } catch {
+      console.error('Could not play sound');
+    }
     this.htmlNumberOfUpdatesDisplay.innerText = this.updates.length.toString();
     this.updatesStore.setAttribute('data-store', JSON.stringify(this.updates));
     this._focusNextQuestion();
