@@ -62,20 +62,20 @@ class Patient extends Model implements HasMedia
     }
 
 
-    public function scopeUserScope(Builder $query)
+    /** @noinspection PhpUnused */
+    public function scopeUserScope(Builder $query): void
     {
         if (Auth::user()->isNotAdmin()) {
             $query->whereRelation('user', 'id', Auth::id());
         }
     }
 
-    /** @noinspection PhpUnused */
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /** @noinspection PhpUnused */
     public function fullName(): Attribute
     {
         return Attribute::make(
@@ -94,6 +94,11 @@ class Patient extends Model implements HasMedia
                     : null;
             }
         );
+    }
+
+    public function isFemale(): Attribute
+    {
+        return Attribute::make(fn(mixed $value, array $attributes) => $attributes['gender'] === 'F');
     }
 
     public function gender(): Attribute

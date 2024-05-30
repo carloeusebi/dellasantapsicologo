@@ -20,13 +20,13 @@ class Answer extends Model
         'skipped',
     ];
 
-    public function chosenCustomAnswer(Question $question): string
+    public function chosenCustomChoice(Question $question): string
     {
-        if (!$question->custom_answers) {
+        if (!$question->custom_choices) {
             return '';
         }
 
-        $choices = Arr::first($question->custom_answers, function (array $answer) {
+        $choices = Arr::first($question->custom_choices, function (array $answer) {
             return $answer['points'] === $this->value;
         });
 

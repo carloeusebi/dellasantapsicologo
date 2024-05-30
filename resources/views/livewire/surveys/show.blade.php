@@ -24,6 +24,7 @@
     </x-tab>
 
     <x-tab name="risultati" label="Risultati" icon="o-presentation-chart-line">
+      <livewire:surveys.results :$survey/>
     </x-tab>
 
     <x-tab name="commenti" label="Commenti" icon="o-chat-bubble-bottom-center-text">

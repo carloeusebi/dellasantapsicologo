@@ -15,30 +15,31 @@
         newAnswerText: null,
       },
       init() {
-      const targetQuestionnaire = document.querySelector(`[data-questionnaire='{{ $questionnaireSurvey_id }}']`);
-      const targetQuestion = document.querySelector(`[data-question='{{ $question_id }}']`);
+        const targetQuestionnaire = document.querySelector(`[data-questionnaire='{{ $questionnaireSurvey_id }}']`);
+        const targetQuestion = document.querySelector(`[data-question='{{ $question_id }}']`);
 
-      if (!targetQuestionnaire || !targetQuestion) return;
+        if (!targetQuestionnaire && !targetQuestion) return;
 
-      targetQuestionnaire.querySelector('input').checked = true;
-      targetQuestion.scrollIntoView({behavior: 'instant'});
-      targetQuestion.classList.add('bg-primary/20');
+        targetQuestionnaire.scrollIntoView({behavior: 'instant'});
+        targetQuestionnaire.querySelector('input').checked = true;
+        targetQuestion?.scrollIntoView({behavior: 'instant'});
+        targetQuestion?.classList.add('bg-primary/20');
 
-      removeFromQueryString('questionnaireSurvey_id', 'question_id');
-    },
-    toggleQuickEditMode() {
-      this.quickEditMode = !this.quickEditMode;
-      if (this.quickEditMode) {
-        this.quickAnswer = new QuickAnswerHandler();
-      } else {
-        document.querySelectorAll('[data-questionnaire]').forEach(q => {
-          q.querySelector('input').checked = false;
-        });
-        window.scrollTo(0, 0);
-        $wire.$refresh();
+        removeFromQueryString('questionnaireSurvey_id', 'question_id');
+      },
+      toggleQuickEditMode() {
+        this.quickEditMode = !this.quickEditMode;
+        if (this.quickEditMode) {
+          this.quickAnswer = new QuickAnswerHandler();
+        } else {
+          document.querySelectorAll('[data-questionnaire]').forEach(q => {
+            q.querySelector('input').checked = false;
+          });
+          window.scrollTo(0, 0);
+          $wire.$refresh();
+        }
       }
-    }
-  }"
+    }"
 >
   <div
       class="px-3 flex flex-wrap sm:flex-nowrap justify-end gap-4"
@@ -77,7 +78,8 @@
         /** @var QuestionnaireSurvey $questionnaireSurvey */
       @endphp
       <x-collapse
-          :name="$questionnaireSurvey->id" collapse-plus-minus :key="$questionnaireSurvey->id" class="!rounded-none"
+          :name="$questionnaireSurvey->id" collapse-plus-minus :key="$questionnaireSurvey->id"
+          class="!rounded-none scroll-mt-20"
           data-questionnaire="{{ $questionnaireSurvey->id }}"
       >
 
@@ -129,7 +131,7 @@
               @php $answer = $question->answers->first(); @endphp
               <div
                   x-show="filteredAnswers.includes({{ $answer?->choice_id }}) || !filteredAnswers.length"
-                  class="border-t border-b scroll-mt-40 lg:scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif"
+                  class="border-t border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif"
                   data-question="{{ $question->id }}"
                   data-questionnaire-survey="{{ $questionnaireSurvey->id }}"
                   x-bind:tabindex="quickEditMode ? 0 : -1"
@@ -137,7 +139,8 @@
                 <div class="md:flex flex-wrap md:flex-nowrap gap-4 items-center justify-between">
                   @if($questionnaireSurvey->questionnaire->choices->isNotEmpty())
                     <div class="text-wrap my-3 md:my-0">
-                      <div class="ps-2">{{ $question->order }}. {{ $question->text }}</div>
+                      <div class="ps-2">{{ $question->order }}
+                        . {{ $question->text }}</div>
                       @if ($answer?->comment)
                         <div class="text-xs ms-2 opacity-50">
                           <span>Commento:&nbsp;</span>
@@ -183,10 +186,10 @@
                       @if ($question->text)
                         <span>{{ $question->text }} -</span>
                       @endif
-                      <span class="italic opacity-50">{{ $answer?->chosenCustomAnswer($question) }}</span>
+                      <span class="italic opacity-50">{{ $answer?->chosenCustomChoice($question) }}</span>
                     </div>
                     <div class="flex grow md:grow-0">
-                      @foreach($question->custom_answers as $customChoice)
+                      @foreach($question->custom_choices as $customChoice)
                         <div
                             class="grow"
                             wire:click="updateModal = true"
@@ -204,7 +207,7 @@
                               class="btn w-full rounded-none no-animation @if($answer?->value === $customChoice['points']) btn-primary @endif"
                               data-choice data-points="{{ $customChoice['points'] }}"
                               data-answer-id="{{ $answer?->id }}"
-                              data-old-answer-text="{{ $answer?->chosenCustomAnswer($question) }}"
+                              data-old-answer-text="{{ $answer?->chosenCustomChoice($question) }}"
                           >
                             {{ $customChoice['points'] }}
                           </span>

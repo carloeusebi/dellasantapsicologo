@@ -15,21 +15,11 @@ return new class extends Migration {
                 $table->foreignIdFor(Questionnaire::class)->constrained();
                 $table->text('text');
                 $table->boolean('reversed')->default(false);
-                $table->json('answers')->nullable();
+                $table->json('custom_choices')->nullable();
+                $table->tinyInteger('order')->default(0);
                 $table->integer('old_id')->nullable();
                 $table->softDeletes();
                 $table->timestamps();
-            });
-
-            Schema::table('questions', function (Blueprint $table) {
-                $table->foreignId('previous_question')->after('questionnaire_id')->nullable()->references('id')->on('questions')->nullOnDelete();
-                $table->foreignId('next_question')->after('previous_question')->nullable()->references('id')->on('questions')->nullOnDelete();
-            });
-
-        }
-        if (!Schema::hasColumn('questionnaires', 'first_question_id')) {
-            Schema::table('questionnaires', function (Blueprint $table) {
-                $table->foreignId('first_question_id')->after('id')->nullable()->references('id')->on('questions')->nullOnDelete();
             });
         }
 
@@ -40,15 +30,10 @@ return new class extends Migration {
                 $question = $questionnaire->questions()->create([
                     'text' => $item['text'],
                     'reversed' => $item['reversed'] ?? false,
-                    'answers' => $item['multipleAnswers'] ?? null,
+                    'custom_choices' => $item['multipleAnswers'] ?? null,
                     'old_id' => $item['id'] ?? null,
+                    'order' => $key + 1,
                 ]);
-                if ($key !== 0) {
-                    $question->previousQuestion()->associate($previousQuestion)->save();
-                    $previousQuestion?->nextQuestion()->associate($question)->save();
-                } else {
-                    $questionnaire->firstQuestion()->associate($question)->save();
-                }
             }
         });
 
@@ -60,8 +45,6 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('questionnaires', function (Blueprint $table) {
-            $table->dropForeign('questionnaires_first_question_id_foreign');
-            $table->dropColumn('first_question_id');
             if (!Schema::hasColumn('questionnaires', 'items')) {
                 $table->text('items')->nullable()->after('type');
             }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property array<array{'id': int, 'points': int, 'customAnswer': string }> $custom_answers
+ * @property array<array{'id': int, 'points': int, 'customAnswer': string }> $custom_choices
  */
 class Question extends Model
 {
@@ -20,19 +20,19 @@ class Question extends Model
         'previous_question',
         'next_question',
         'reversed',
-        'custom_answers',
+        'custom_choices',
         'order',
         'old_id',
     ];
 
     protected $casts = [
-        'custom_answers' => 'array',
+        'custom_choices' => 'array',
         'reversed' => 'boolean',
     ];
 
     public function getCustomAnswerText(?int $value): string
     {
-        if (empty($this->custom_answers)) {
+        if (empty($this->custom_choices)) {
             return '';
         }
 
@@ -40,7 +40,7 @@ class Question extends Model
             return 'Risposta saltata';
         }
 
-        return collect($this->custom_answers)->first(fn(array $answer) => $answer['points'] === $value)['customAnswer'];
+        return collect($this->custom_choices)->first(fn(array $answer) => $answer['points'] === $value)['customAnswer'];
     }
 
     public function questionnaire(): BelongsTo

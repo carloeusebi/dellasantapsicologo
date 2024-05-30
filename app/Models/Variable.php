@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -22,6 +23,15 @@ class Variable extends Model
         return [
             'gender_based' => 'boolean'
         ];
+    }
+
+    /** @noinspection PhpUnused */
+    public function score(): Attribute
+    {
+        return Attribute::make(fn() => array_reduce($this->questions->map(
+            fn(Question $question) => $question->answers->first()?->value ?? 0)->flatten()->toArray(),
+            fn(int $total, $answerValue) => $total + $answerValue, 0)
+        );
     }
 
     public function questionnaire(): BelongsTo
