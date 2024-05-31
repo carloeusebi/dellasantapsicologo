@@ -61,8 +61,8 @@ class Answers extends Component
                         $query->where('text', 'like', "%$term%");
                     });
                 });
-
             })
+            ->withCount('skippedAnswers')
             ->get();
     }
 
@@ -133,6 +133,7 @@ class Answers extends Component
             ],
             [
                 'choice_id' => $choice_id,
+                'skipped' => false,
                 'value' => $choice?->value ?? $points,
             ]
         );

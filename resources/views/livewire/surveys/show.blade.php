@@ -14,23 +14,78 @@
     </x-slot:title>
   </x-header>
 
+  <div>
+    <div class="tabs tabs-bordered mb-5 overflow-x-auto">
+      <div
+          class="tab space-x-2" :class="{ 'tab-active': $wire.tab === 'dettagli' }" wire:click="tab = 'dettagli'"
+      >
+        <x-icon name="o-document-magnifying-glass"/>
+        <span class="hidden md:inline">Dettagli</span>
+      </div>
 
-  <x-tabs wire:model.live="tab">
-    <x-tab name="dettagli" label="Dettagli" icon="o-document-magnifying-glass">
-    </x-tab>
+      <div
+          class="tab space-x-2" :class="{ 'tab-active': $wire.tab === 'risposte' }" wire:click="tab = 'risposte'"
+      >
+        <x-icon name="o-list-bullet"/>
+        <span class="hidden md:inline">Risposte</span>
+      </div>
 
-    <x-tab name="risposte" label="Risposte" icon="o-list-bullet">
-      <livewire:surveys.answers :$survey/>
-    </x-tab>
+      <div
+          class="tab space-x-2" :class="{ 'tab-active': $wire.tab === 'risultati' }"
+          wire:click="tab = 'risultati'"
+      >
+        <x-icon name="o-presentation-chart-line"/>
+        <span class="hidden md:inline">Risultati</span>
+      </div>
 
-    <x-tab name="risultati" label="Risultati" icon="o-presentation-chart-line">
-      <livewire:surveys.results :$survey/>
-    </x-tab>
+      @if($survey->comments_count > 0)
+        <div
+            class="tab space-x-2" :class="{ 'tab-active': $wire.tab === 'commenti' }"
+            wire:click="tab = 'commenti'"
+        >
+          <x-icon name="o-chat-bubble-bottom-center-text"/>
+          <span class="hidden md:inline">Commenti</span>
+          <div class="badge badge-primary">{{ $survey->comments_count }}</div>
+        </div>
+      @endif
 
-    <x-tab name="commenti" label="Commenti" icon="o-chat-bubble-bottom-center-text">
-      <livewire:surveys.comments :$survey lazy/>
-    </x-tab>
-  </x-tabs>
+
+      @if($survey->skipped_questions_count > 0)
+        <div
+            class="tab space-x-2" :class="{ 'tab-active': $wire.tab === 'saltate' }" wire:click="tab = 'saltate'"
+        >
+          <x-icon name="o-question-mark-circle"/>
+          <span class="hidden md:inline">Risposte saltate</span>
+          <div class="badge badge-primary">{{ $survey->skipped_questions_count }}</div>
+        </div>
+      @endif
+    </div>
+
+    <div class="px-2">
+      <div x-show="$wire.tab === 'dettagli'">
+        <div>
+          Dettagli
+        </div>
+      </div>
+
+      <div x-show="$wire.tab === 'risposte'">
+        <livewire:surveys.answers :$survey lazy/>
+      </div>
+
+      <div x-show="$wire.tab === 'risultati'">
+        <livewire:surveys.results :$survey lazy/>
+      </div>
+
+      <div x-show="$wire.tab === 'commenti'">
+        <livewire:surveys.comments :$survey lazy/>
+      </div>
+
+      <div x-show="$wire.tab === 'saltate'">
+        <x-surveys.skipped-questions :$survey lazy/>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 

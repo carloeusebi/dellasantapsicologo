@@ -30,11 +30,19 @@
           </div>
           <div>{{ $questionnaireSurvey->answers_count }} risposte
             su {{ $questionnaireSurvey->questions_count }}</div>
+        @else
+          <div class="text-xs text-base-content/50 font-semibold">
+            Mai iniziato
+          </div>
+        @endif
+
+        @if ($questionnaireSurvey->skipped_answers_count > 0)
+          <div class="text-xs text-error">Domande saltate: {{ $questionnaireSurvey->skipped_answers_count }}</div>
         @endif
       </x-slot:subtitle>
 
       <x-slot:description>
-        @if ($questionnaireSurvey->completed)
+        @if ($questionnaireSurvey->completed && $questionnaireSurvey->skipped_answers_count === 0)
           <div class="space-y-4 text-wrap">
             @foreach($questionnaireSurvey->questionnaire->variables as $variable)
               <div>
@@ -51,12 +59,16 @@
                         {{ $cutoff->well_formed_target }}
                       @endif
                     </span>
-                    <span class="p-1">{{ $cutoff->name }}</span>
+                    <span class="p-1 inline-block text-end">{{ $cutoff->name }}</span>
                     </span>
                   </span>
                 @endforeach
               </div>
             @endforeach
+          </div>
+        @elseif ($questionnaireSurvey->completed && $questionnaireSurvey->skipped_answers_count > 0)
+          <div class="text-base-content/50 italic">
+            Il questionario è stato completato, ma sono state saltate delle domande.
           </div>
         @endif
       </x-slot:description>

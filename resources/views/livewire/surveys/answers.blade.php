@@ -94,6 +94,11 @@
               @else
                 <div class="text-xs text-error">Non completato</div>
               @endif
+
+              @if ($questionnaireSurvey->skipped_answers_count > 0)
+                <div class="text-xs text-error">Domande saltate: {{ $questionnaireSurvey->skipped_answers_count }}</div>
+              @endif
+
               @foreach($questionnaireSurvey->questionnaire->tags as $tag)
                 <x-questionnaires.tag :$tag :key="$tag->id"/>
               @endforeach
@@ -139,8 +144,7 @@
                 <div class="md:flex flex-wrap md:flex-nowrap gap-4 items-center justify-between">
                   @if($questionnaireSurvey->questionnaire->choices->isNotEmpty())
                     <div class="text-wrap my-3 md:my-0">
-                      <div class="ps-2">{{ $question->order }}
-                        . {{ $question->text }}</div>
+                      <div class="pl-2">{{ $question->order }}. {{ $question->text }}</div>
                       @if ($answer?->comment)
                         <div class="text-xs ms-2 opacity-50">
                           <span>Commento:&nbsp;</span>
@@ -181,10 +185,20 @@
                       @endforeach
                     </div>
                   @else
-                    <div class="text-wrap ps-0 my-3 md:my-0">
+                    <div class="text-wrap pl-3 my-3 md:my-0">
                       <span> {{  $question->order  }}.&nbsp;</span>
                       @if ($question->text)
                         <span>{{ $question->text }} -</span>
+                      @endif
+                      @if ($answer?->comment)
+                        <div class="text-xs ms-2 opacity-50">
+                          <span>Commento:&nbsp;</span>
+                          <a href="{{ route('surveys.show', [$survey,'tab' => 'commenti', 'comment_id' => $answer->id]) }}">
+                        <span
+                            class="hover:underline cursor-pointer"
+                        >{{ $answer->comment }}</span>
+                          </a>
+                        </div>
                       @endif
                       <span class="italic opacity-50">{{ $answer?->chosenCustomChoice($question) }}</span>
                     </div>

@@ -52,4 +52,10 @@ class QuestionnaireSurvey extends Pivot
     {
         return $this->hasMany(Answer::class, 'questionnaire_survey_id', 'id');
     }
+
+    public function skippedAnswers(): HasMany
+    {
+        return $this->hasMany(Answer::class, 'questionnaire_survey_id', 'id')
+            ->whereSkipped(true);
+    }
 }

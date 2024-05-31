@@ -5,7 +5,6 @@ namespace App\Livewire\Surveys;
 use App\Models\Survey;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Session;
@@ -26,12 +25,7 @@ class ShowSurvey extends Component
         $this->authorize('view', $this->survey);
 
         $this->survey->load('patient')
-            ->load([
-                'questionnaireSurvey' => function (HasMany $query) {
-                    return $query->with('questionnaire.questions.answers.choice')
-                        ->withCount('answers');
-                }
-            ])
+            ->load('skippedQuestions.question.questionnaire')
             ->loadCount('comments', 'skippedQuestions');
 
         return view('livewire.surveys.show');

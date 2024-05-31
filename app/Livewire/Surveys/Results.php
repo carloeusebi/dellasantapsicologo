@@ -27,7 +27,7 @@ class Results extends Component
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->survey->id);
                 }
             ])
-            ->withCount('answers', 'questions')
+            ->withCount('answers', 'questions', 'skippedAnswers')
             ->get();
     }
 }

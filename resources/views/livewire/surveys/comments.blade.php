@@ -71,7 +71,7 @@
       <x-slot:actions>
         <x-button onclick="deleteCommentModal{{ $answer->id }}.close()">Annulla</x-button>
         <x-button
-            icon="o-trash" class="btn-error" spinner="deleteComment" wire:click="removeComment({{ $answer->id }})"
+            icon="o-trash" class="btn-error" spinner="removeComment" wire:click="removeComment({{ $answer->id }})"
             onclick="deleteCommentModal{{ $answer->id }}.close()"
         >
           Elimina
