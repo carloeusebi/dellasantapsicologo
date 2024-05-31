@@ -113,7 +113,10 @@
         <x-slot:content>
           @if ($questionnaireSurvey->completed)
             <div class="mb-4 font-bold underline">
-              <a href="{{ route('surveys.show', [$survey, 'tab' => 'risultati', 'questionnaireSurvey_id' => $questionnaireSurvey->id]) }}">
+              <a
+                  href="{{ route('surveys.show', [$survey, 'tab' => 'risultati', 'questionnaireSurvey_id' => $questionnaireSurvey->id]) }}"
+                  wire:navigate.hover
+              >
                 Vai ai risultati</a>
             </div>
           @endif
@@ -160,7 +163,10 @@
                       @if ($answer?->comment)
                         <div class="text-xs ms-2 opacity-50">
                           <span>Commento:&nbsp;</span>
-                          <a href="{{ route('surveys.show', [$survey,'tab' => 'commenti', 'comment_id' => $answer->id]) }}">
+                          <a
+                              href="{{ route('surveys.show', [$survey,'tab' => 'commenti', 'comment_id' => $answer->id]) }}"
+                              wire:navigate.hover
+                          >
                         <span
                             class="hover:underline cursor-pointer"
                         >{{ $answer->comment }}</span>
@@ -206,7 +212,10 @@
                       @if ($answer?->comment)
                         <div class="text-xs ms-2 opacity-50">
                           <span>Commento:&nbsp;</span>
-                          <a href="{{ route('surveys.show', [$survey,'tab' => 'commenti', 'comment_id' => $answer->id]) }}">
+                          <a
+                              href="{{ route('surveys.show', [$survey,'tab' => 'commenti', 'comment_id' => $answer->id]) }}"
+                              wire:navigate.hover
+                          >
                         <span
                             class="hover:underline cursor-pointer"
                         >{{ $answer->comment }}</span>
