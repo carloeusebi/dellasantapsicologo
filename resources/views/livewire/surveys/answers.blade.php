@@ -190,6 +190,7 @@
                       @if ($question->text)
                         <span>{{ $question->text }} -</span>
                       @endif
+                      <span class="italic opacity-50">{{ $answer?->chosenCustomChoice($question) }}</span>
                       @if ($answer?->comment)
                         <div class="text-xs ms-2 opacity-50">
                           <span>Commento:&nbsp;</span>
@@ -200,7 +201,6 @@
                           </a>
                         </div>
                       @endif
-                      <span class="italic opacity-50">{{ $answer?->chosenCustomChoice($question) }}</span>
                     </div>
                     <div class="flex grow md:grow-0">
                       @foreach($question->custom_choices as $customChoice)
