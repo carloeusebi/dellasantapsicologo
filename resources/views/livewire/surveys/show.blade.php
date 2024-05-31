@@ -73,7 +73,7 @@
       </div>
 
       <div x-show="$wire.tab === 'risultati'">
-        <livewire:surveys.results :$survey lazy/>
+        <livewire:surveys.results :$survey lazy :key="rand(0,9999)"/>
       </div>
 
       <div x-show="$wire.tab === 'commenti'">

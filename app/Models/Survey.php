@@ -23,9 +23,9 @@ class Survey extends Model
 
     public function updateCompletedStatus(): void
     {
-        $this->loadCount('answers', 'questions');
+        $this->loadCount('questionnaireSurvey', 'completedQuestionnaireSurvey');
 
-        $this->completed = $this->answers_count === $this->questions_count;
+        $this->completed = $this->questionnaire_survey_count === $this->completed_questionnaire_survey_count;
 
         $this->update(['completed' => $this->completed]);
     }
@@ -54,6 +54,12 @@ class Survey extends Model
         return $this->hasMany(QuestionnaireSurvey::class);
     }
 
+    public function completedQuestionnaireSurvey(): HasMany
+    {
+        return $this->hasMany(QuestionnaireSurvey::class)
+            ->whereCompleted(true);
+    }
+
     public function answers(): HasManyThrough
     {
         return $this->hasManyThrough(
@@ -76,18 +82,6 @@ class Survey extends Model
             'id',
             'id',
         )->whereNotNull('comment');
-    }
-
-    public function questions(): HasManyThrough
-    {
-        return $this->hasManyThrough(
-            Question::class,
-            Questionnaire::class,
-            'id',
-            'questionnaire_id',
-            'id',
-            'id',
-        );
     }
 
     public function skippedQuestions(): HasManyThrough

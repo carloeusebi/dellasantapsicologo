@@ -1,14 +1,15 @@
-<!--suppress ALL -->
+@php /** @var App\Models\Answer $answer */ @endphp
+    <!--suppress ALL -->
 <div
     class="space-y-5 [&_*]text-wrap"
-    x-init="
-      const targetComment = document.querySelector(`[data-comment='{{ $comment_id }}']`);
+    x-init="() => {
+      const targetComment = document.querySelector(`[data-comment='${$wire.comment_id}']`);
       if (!targetComment) return;
       targetComment.scrollIntoView({behavior: 'instant'});
       targetComment.classList.add('bg-primary/20');
 
       removeFromQueryString('comment_id');
-    "
+    }"
 >
   @forelse($this->comments as $answer)
     <x-list-item :item="$answer" no-hover :key="$answer->id" class="!items-start" data-comment="{{ $answer->id }}">

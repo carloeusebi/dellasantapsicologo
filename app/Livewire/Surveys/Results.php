@@ -8,12 +8,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use LaravelIdea\Helper\App\Models\_IH_QuestionnaireSurvey_C;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 #[Lazy]
 class Results extends Component
 {
     public Survey $survey;
+
+    #[Url]
+    public ?string $questionnaireSurvey_id = null;
 
     #[Computed]
     public function questionnaireSurveys(): Collection|array|_IH_QuestionnaireSurvey_C
@@ -27,6 +31,7 @@ class Results extends Component
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->survey->id);
                 }
             ])
+            ->with('lastAnswer')
             ->withCount('answers', 'questions', 'skippedAnswers')
             ->get();
     }

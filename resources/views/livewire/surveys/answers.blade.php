@@ -1,4 +1,4 @@
-@php use App\Models\QuestionnaireSurvey; @endphp
+@php use App\Models\Choice;use App\Models\QuestionnaireSurvey; @endphp
 <div
     x-data="{
       fullscreen: false,
@@ -12,22 +12,9 @@
         choiceID: null,
         value: null,
         oldAnswerText: null,
-        newAnswerText: null,
+        newAnswerText: null
       },
-      init() {
-        const targetQuestionnaire = document.querySelector(`[data-questionnaire='{{ $questionnaireSurvey_id }}']`);
-        const targetQuestion = document.querySelector(`[data-question='{{ $question_id }}']`);
-
-        if (!targetQuestionnaire && !targetQuestion) return;
-
-        targetQuestionnaire.scrollIntoView({behavior: 'instant'});
-        targetQuestionnaire.querySelector('input').checked = true;
-        targetQuestion?.scrollIntoView({behavior: 'instant'});
-        targetQuestion?.classList.add('bg-primary/20');
-
-        removeFromQueryString('questionnaireSurvey_id', 'question_id');
-      },
-      toggleQuickEditMode() {
+     toggleQuickEditMode() {
         this.quickEditMode = !this.quickEditMode;
         if (this.quickEditMode) {
           this.quickAnswer = new QuickAnswerHandler();
@@ -39,6 +26,19 @@
           $wire.$refresh();
         }
       }
+    }"
+    x-init="() => {
+        const targetQuestionnaire = document.querySelector(`[data-questionnaire='${$wire.questionnaireSurvey_id}']`);
+        const targetQuestion = document.querySelector(`[data-question='${$wire.question_id}']`);
+
+        if (!targetQuestionnaire && !targetQuestion) return;
+
+        targetQuestionnaire.scrollIntoView({behavior: 'instant'});
+        targetQuestionnaire.querySelector('input').checked = true;
+        targetQuestion?.scrollIntoView({behavior: 'instant'});
+        targetQuestion?.classList.add('bg-primary/20');
+
+        removeFromQueryString('questionnaireSurvey_id', 'question_id');
     }"
 >
   <div
@@ -111,6 +111,13 @@
 
 
         <x-slot:content>
+          @if ($questionnaireSurvey->completed)
+            <div class="mb-4 font-bold underline">
+              <a href="{{ route('surveys.show', [$survey, 'tab' => 'risultati', 'questionnaireSurvey_id' => $questionnaireSurvey->id]) }}">
+                Vai ai risultati</a>
+            </div>
+          @endif
+
           <div x-data="{ filteredAnswers: [] }">
             <div
                 class="grid md:grid-flow-col mb-4 gap-2"
@@ -144,7 +151,12 @@
                 <div class="md:flex flex-wrap md:flex-nowrap gap-4 items-center justify-between">
                   @if($questionnaireSurvey->questionnaire->choices->isNotEmpty())
                     <div class="text-wrap my-3 md:my-0">
-                      <div class="pl-2">{{ $question->order }}. {{ $question->text }}</div>
+                      <span class="pl-2">{{ $question->order }}. {{ $question->text }}</span>
+                      @if ($answer)
+                        <span class="italic opacity-50">
+                          - {{ $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}
+                        </span>
+                      @endif
                       @if ($answer?->comment)
                         <div class="text-xs ms-2 opacity-50">
                           <span>Commento:&nbsp;</span>

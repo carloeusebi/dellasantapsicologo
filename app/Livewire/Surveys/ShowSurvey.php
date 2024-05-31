@@ -18,7 +18,7 @@ class ShowSurvey extends Component
     #[Session, Url(except: 'dettagli')]
     public string $tab = 'dettagli';
 
-    #[On('removedComment')]
+    #[On(['removedComment', 'updatedAnswer'])]
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {

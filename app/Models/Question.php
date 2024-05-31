@@ -30,13 +30,33 @@ class Question extends Model
         'reversed' => 'boolean',
     ];
 
+    public function calculateScore(Choice $choice): int
+    {
+        if (!$this->reversed) {
+            return $choice->points;
+        }
+
+        $possibleScores = $this->questionnaire->choices->pluck('points')->toArray();
+        return min($possibleScores) + max($possibleScores) - $choice->points;
+    }
+
+    public function calculateCustomScore(int $score): int
+    {
+        if (!$this->reversed) {
+            return $score;
+        }
+
+        $possibleScores = array_map(fn(array $choice) => $choice['points'], $this->custom_choices);
+        return min($possibleScores) + max($possibleScores) - $score;
+    }
+
     public function getCustomAnswerText(?int $value): string
     {
         if (empty($this->custom_choices)) {
             return '';
         }
 
-        if (!$value) {
+        if (!$value && $value !== 0) {
             return 'Risposta saltata';
         }
 
@@ -46,16 +66,6 @@ class Question extends Model
     public function questionnaire(): BelongsTo
     {
         return $this->belongsTo(Questionnaire::class);
-    }
-
-    public function previousQuestion(): BelongsTo
-    {
-        return $this->belongsTo(Question::class, 'previous_question');
-    }
-
-    public function nextQuestion(): BelongsTo
-    {
-        return $this->belongsTo(Question::class, 'next_question');
     }
 
     public function answers(): HasMany

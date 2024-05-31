@@ -2,9 +2,8 @@
 
 namespace App\Livewire\Surveys;
 
+use App\Actions\AnswerQuestion;
 use App\Models\Answer;
-use App\Models\Choice;
-use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -77,6 +76,8 @@ class Answers extends Component
 
             $answer->delete();
 
+            $this->dispatch('updatedAnswer');
+
             $questionnaireSurvey->updateCompletedStatus();
 
             $this->success('Successo!', 'Risposta eliminata!');
@@ -109,6 +110,8 @@ class Answers extends Component
             );
         }
 
+        $this->dispatch('updatedAnswer');
+
         $this->massUpdateModal = false;
 
         $this->success('Successo!', 'Risposte salvate!');
@@ -119,29 +122,18 @@ class Answers extends Component
         int $question_id,
         ?int $choice_id = null,
         ?int $points = null,
-        bool $isMassUpdate = false
+        bool $isMassUpdate = false,
     ): void {
 
-        $this->authorize('update', $this->survey);
-
-        $choice = Choice::find($choice_id);
-
-        Answer::updateOrCreate(
-            [
-                'questionnaire_survey_id' => $questionnaire_survey_id,
-                'question_id' => $question_id,
-            ],
-            [
-                'choice_id' => $choice_id,
-                'skipped' => false,
-                'value' => $choice?->value ?? $points,
-            ]
+        (new AnswerQuestion)->handle(
+            $questionnaire_survey_id,
+            $question_id,
+            $choice_id,
+            $points,
         );
 
-        QuestionnaireSurvey::find($questionnaire_survey_id)
-            ->updateCompletedStatus();
-
         if (!$isMassUpdate) {
+            $this->dispatch('updatedAnswer');
             $this->updateModal = false;
             $this->success('Successo!', 'Risposta salvata!');
         }

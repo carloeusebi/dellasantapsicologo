@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class QuestionnaireSurvey extends Pivot
@@ -57,5 +58,12 @@ class QuestionnaireSurvey extends Pivot
     {
         return $this->hasMany(Answer::class, 'questionnaire_survey_id', 'id')
             ->whereSkipped(true);
+    }
+
+    public function lastAnswer(): HasOne
+    {
+        return $this->hasOne(Answer::class, 'questionnaire_survey_id', 'id')
+            ->orderByDesc('updated_at')
+            ->latest();
     }
 }
