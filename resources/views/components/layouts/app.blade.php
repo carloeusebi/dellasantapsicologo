@@ -126,11 +126,13 @@
 
   {{-- The `$slot` goes here --}}
   <x-slot:content>
-    <div class="mb-5">
+    <div class="mb-5 md:px-2 lg:px-4 xl:px-8">
       {{ $slot }}
     </div>
   </x-slot:content>
 </x-main>
+
+<x-scroll-top-button/>
 
 {{--  TOAST area --}}
 <x-toast/>
