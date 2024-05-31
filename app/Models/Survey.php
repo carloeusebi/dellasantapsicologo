@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,9 +24,9 @@ class Survey extends Model
 
     public function updateCompletedStatus(): void
     {
-        $this->loadCount('questionnaireSurvey', 'completedQuestionnaireSurvey');
+        $this->loadCount('completedQuestionnaireSurvey');
 
-        $this->completed = $this->questionnaire_survey_count === $this->completed_questionnaire_survey_count;
+        $this->completed = $this->questionnaireSurveys->count() === $this->completed_questionnaire_survey_count;
 
         $this->update(['completed' => $this->completed]);
     }
@@ -35,6 +36,12 @@ class Survey extends Model
         if (Auth::user()->isNotAdmin()) {
             $query->whereRelation('patient.user', 'id', Auth::id());
         }
+    }
+
+    public function getLink(): string
+    {
+        // TODO: Implement getUrl() method.
+        return $this->token;
     }
 
     public function patient(): BelongsTo
@@ -49,7 +56,7 @@ class Survey extends Model
             ->using(QuestionnaireSurvey::class);
     }
 
-    public function questionnaireSurvey(): HasMany
+    public function questionnaireSurveys(): HasMany
     {
         return $this->hasMany(QuestionnaireSurvey::class);
     }
@@ -58,6 +65,18 @@ class Survey extends Model
     {
         return $this->hasMany(QuestionnaireSurvey::class)
             ->whereCompleted(true);
+    }
+
+    public function lastAnswer(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            Answer::class,
+            QuestionnaireSurvey::class,
+            'survey_id',
+            'questionnaire_survey_id',
+            'id',
+            'id'
+        )->latest();
     }
 
     public function answers(): HasManyThrough

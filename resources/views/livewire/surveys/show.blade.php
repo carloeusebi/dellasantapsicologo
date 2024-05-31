@@ -61,11 +61,9 @@
       @endif
     </div>
 
-    <div class="px-2">
+    <div>
       <div x-show="$wire.tab === 'dettagli'">
-        <div>
-          Dettagli
-        </div>
+        <livewire:surveys.details :$survey lazy/>
       </div>
 
       <div x-show="$wire.tab === 'risposte'">

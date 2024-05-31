@@ -22,7 +22,7 @@ class Results extends Component
     #[Computed]
     public function questionnaireSurveys(): Collection|array|_IH_QuestionnaireSurvey_C
     {
-        return $this->survey->questionnaireSurvey()
+        return $this->survey->questionnaireSurveys()
             ->with(
                 'questionnaire.variables.cutoffs'
             )

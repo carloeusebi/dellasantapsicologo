@@ -319,9 +319,14 @@
   </x-modal>
 
   <x-button
-      x-show="quickEditMode" class="fixed bottom-10 right-10 z-50 shadow-xl btn-success"
+      x-show="quickEditMode"
+      class="fixed bottom-6 right-44 z-50 shadow-xl btn-warning"
+      x-on:click="toggleQuickEditMode"
+  >Annulla
+  </x-button>
+  <x-button
+      x-show="quickEditMode" class="fixed bottom-6 right-20 z-50 shadow-xl btn-success"
       wire:click="massUpdateModal = true"
-  >
-    Salva
+  >Salva
   </x-button>
 </div>

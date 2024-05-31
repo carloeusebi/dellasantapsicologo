@@ -40,7 +40,7 @@ class Answers extends Component
     #[Computed]
     public function questionnaires(): Collection|array|_IH_QuestionnaireSurvey_C
     {
-        return $this->survey->questionnaireSurvey()
+        return $this->survey->questionnaireSurveys()
             ->with('questionnaire.choices', 'questionnaire.tags')
             ->with([
                 'questionnaire.questions' => function (HasMany $query) {
