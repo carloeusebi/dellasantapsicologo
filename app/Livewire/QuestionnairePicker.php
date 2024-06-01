@@ -62,6 +62,7 @@ class QuestionnairePicker extends Component
     {
         $this->nonSelectedQuestionnaires = Questionnaire::select(['id', 'title'])
             ->with('tags:id,tag,color')
+            ->current()
             ->filterByTitle($this->search)
             ->when($this->search, function (Builder $query, string $search) {
                 $query->orWhereRelation('tags', 'tag', 'like', "%$search%");

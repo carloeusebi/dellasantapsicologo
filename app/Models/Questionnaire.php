@@ -13,13 +13,7 @@ class Questionnaire extends Model
 {
     use SoftDeletes;
 
-    protected static function booted(): void
-    {
-        static::addGlobalScope('current', function (Builder $query) {
-            $query->whereNull('not_current');
-        });
-    }
-
+    /** @noinspection PhpUnused */
     function scopeFilterByTitle(Builder $query, string $search): void
     {
         $query->when($search, function (Builder $query, string $search) {
@@ -29,6 +23,12 @@ class Questionnaire extends Model
                 });
             });
         });
+    }
+
+    /** @noinspection PhpUnused */
+    function scopeCurrent(Builder $query): void
+    {
+        $query->whereNull('not_current');
     }
 
     public function surveys(): BelongsToMany

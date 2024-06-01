@@ -41,6 +41,7 @@ class QuestionnairesTable extends TableComponent
             return Questionnaire::select(['id', 'title', 'created_at'])
                 ->withCount('surveys')
                 ->with('tags')
+                ->current()
                 ->when(count($this->tagsFilter), function (Builder $query) {
                     $query->where(function (Builder $query) {
                         foreach ($this->tagsFilter as $tag) {
