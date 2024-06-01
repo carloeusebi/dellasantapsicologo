@@ -115,6 +115,8 @@ return [
 
     'admin' => [
         'address' => env('MAIL_ADMIN', 'admin@example.com'),
-    ]
+    ],
+
+    'default_link_to_test_message' => env('DEFAULT_LINK_TO_TEST_MESSAGE'),
 
 ];

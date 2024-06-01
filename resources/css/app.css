@@ -17,7 +17,7 @@
   @apply !max-w-4xl
 }
 
-input, select, .select {
+input, select, .select, textarea {
   @apply !border-base-content/25
 }
 

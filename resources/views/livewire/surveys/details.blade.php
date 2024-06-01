@@ -46,8 +46,8 @@
           >
             Copia Link
           </x-button>
-          <x-button class="w-full lg:btn-wide" icon="o-envelope">Invia email</x-button>
-          <x-button class="w-full lg:btn-wide" icon="o-trash">Elimina</x-button>
+          <x-button class="w-full lg:btn-wide" icon="o-envelope" wire:click="emailModal = true">Invia email</x-button>
+          <x-button class="w-full lg:btn-wide" icon="o-trash" wire:click="deleteModal = true">Elimina</x-button>
         </div>
 
       </div>
@@ -102,4 +102,38 @@
       </x-timeline-item>
     @endforeach
   </x-card>
+
+  <div class="full-width-modal">
+    <x-modal wire:model="emailModal" title="Invia Email" separator class="backdrop-blur">
+      <div class="space-y-4">
+        <x-input label="Email" wire:model.live.debounce="emailAddress"/>
+        <x-input label="Oggetto" wire:model.live.debounce="emailSubject"/>
+        <x-textarea label="Messaggio" wire:model.live.debounce="emailMessage" rows="5"/>
+      </div>
+      <x-slot:actions>
+        <x-button wire:click="emailModal = false">Annulla</x-button>
+        <x-button wire:click="sendEmail" spinner="sendEmail" icon="o-envelope" class="btn-success">Invia</x-button>
+      </x-slot:actions>
+    </x-modal>
+  </div>
+
+  <div x-data="{ confirmed: false }">
+    <x-modal wire:model="deleteModal" title="Elimina Valutazione" class="backdrop-blur">
+      <p>Sei sicuro di voler eliminare {{ $survey->title }} di {{ $survey->patient->full_name }}?</p>
+      <p class=" italic">Questa azione non è reversibile</p>
+      <x-checkbox
+          class="my-2"
+          :label="'Elimina '.$survey->title.' di '.$survey->patient->full_name.' definitivamente'"
+          x-model="confirmed"
+      />
+      <x-slot:actions>
+        <x-button wire:click="deleteModal = false">Annulla</x-button>
+        <x-button
+            wire:click="deleteSurvey" spinner="deleteSurvey" icon="o-trash" class="btn-error"
+            x-bind:disabled="!confirmed"
+        >Elimina
+        </x-button>
+      </x-slot:actions>
+    </x-modal>
+  </div>
 </div>
