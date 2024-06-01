@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Mail\LinkToTestMail;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class Survey extends Model
 {
@@ -21,6 +24,38 @@ class Survey extends Model
         'completed',
         'token',
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (Survey $survey): void {
+            $survey->token = md5(now());
+        });
+    }
+
+    /**
+     * @throws Exception if the email is not sent
+     */
+    public function sendEmail(
+        ?string $subject = 'Questionario per la valutazione',
+        ?string $email = null,
+        ?string $body = null
+    ): bool {
+        Mail::to($email ?? $this->patient->email)->send(new LinkToTestMail(
+            $subject,
+            $body ?? config('mail.default_link_to_test_message'),
+            $this->getLink()
+        ));
+
+        return true;
+    }
+
+    public function getLink(): string
+    {
+        // TODO: Implement getUrl() method.
+        return $this->token;
+    }
 
     public function updateCompletedStatus(): void
     {
@@ -36,12 +71,6 @@ class Survey extends Model
         if (Auth::user()->isNotAdmin()) {
             $query->whereRelation('patient.user', 'id', Auth::id());
         }
-    }
-
-    public function getLink(): string
-    {
-        // TODO: Implement getUrl() method.
-        return $this->token;
     }
 
     public function patient(): BelongsTo

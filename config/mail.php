@@ -117,6 +117,7 @@ return [
         'address' => env('MAIL_ADMIN', 'admin@example.com'),
     ],
 
-    'default_link_to_test_message' => env('DEFAULT_LINK_TO_TEST_MESSAGE'),
+    'default_link_to_test_message' => env('DEFAULT_LINK_TO_TEST_MESSAGE',
+        'Salve, cliccando su questo link potrà iniziare la compilazione dei questionari necessari per portare avanti la Sua valutazione psicologica. Per qualsiasi dubbio inerente le singole domande può lasciare un commento toccando/cliccando sull\'apposito pulsante, riguarderemo le domande assieme in seduta. Buon lavoro.'),
 
 ];

@@ -79,9 +79,13 @@
       @endscope
 
       @scope('actions', $patient)
-      <div class="hidden sm:flex gap-2">
-        <x-button class="btn-xs" icon="o-list-bullet" :link="route('surveys.create', ['patient_id' => $patient->id])"/>
-      </div>
+      @unless($patient->isArchived())
+        <div class="hidden sm:flex gap-2">
+          <x-button
+              class="btn-xs" icon="o-list-bullet" :link="route('surveys.create', ['patient_id' => $patient->id])"
+          />
+        </div>
+      @endif
       @endscope
     </x-table>
   @else

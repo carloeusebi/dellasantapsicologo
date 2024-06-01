@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,6 +12,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Questionnaire extends Model
 {
     use SoftDeletes;
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('current', function (Builder $query) {
+            $query->whereNull('not_current');
+        });
+    }
+
+    function scopeFilterByTitle(Builder $query, string $search): void
+    {
+        $query->when($search, function (Builder $query, string $search) {
+            $query->where(function (Builder $query) use ($search) {
+                collect(explode(' ', $search))->each(function (string $term) use ($query) {
+                    $query->where('title', 'LIKE', "%$term%");
+                });
+            });
+        });
+    }
 
     public function surveys(): BelongsToMany
     {

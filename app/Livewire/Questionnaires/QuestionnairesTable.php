@@ -48,13 +48,7 @@ class QuestionnairesTable extends TableComponent
                         }
                     });
                 })
-                ->when($this->search, function (Builder $query, string $search) {
-                    $query->where(function (Builder $query) use ($search) {
-                        collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                            $query->where('title', 'LIKE', "%$term%");
-                        });
-                    });
-                })
+                ->filterByTitle($this->search)
                 ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
                 ->paginate(10, pageName: self::$pageName)
                 ->withQueryString();

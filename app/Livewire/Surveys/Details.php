@@ -2,14 +2,12 @@
 
 namespace App\Livewire\Surveys;
 
-use App\Mail\LinkToTestMail;
 use App\Models\Survey;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Validate;
@@ -50,12 +48,7 @@ class Details extends Component
         $this->validate();
 
         try {
-            Mail::to($this->emailAddress)->send(new LinkToTestMail(
-                $this->emailSubject,
-                $this->emailMessage,
-                $this->survey->getLink()
-            ));
-
+            $this->survey->sendEmail($this->emailSubject, $this->emailAddress, $this->emailMessage);
             $this->success('Successo!', 'Email inviata correttamente!');
         } catch (Exception $e) {
             Log::error($e->getMessage());
