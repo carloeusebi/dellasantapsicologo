@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 lg:grid-cols-3 items-start gap-8">
   <div class="lg:col-span-2 space-y-8">
     <x-card title="Azioni e dettagli" separator>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div class="order-2 lg:order-1">
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <div class="order-2 xl:order-1">
           <div>
             <span class="font-bold">Creato</span>
             <span>{!! get_formatted_date($survey->created_at) !!}</span>
@@ -34,7 +34,7 @@
 
         <div class="flex flex-col order-1 items-end gap-2">
           <x-button
-              class="w-full lg:btn-wide" icon="o-clipboard-document-list"
+              class="w-full xl:btn-wide" icon="o-clipboard-document-list"
               x-on:click="async () => {
                 try{
                   await navigator.clipboard.writeText('{{ $survey->getLink() }}');
@@ -46,8 +46,8 @@
           >
             Copia Link
           </x-button>
-          <x-button class="w-full lg:btn-wide" icon="o-envelope" wire:click="emailModal = true">Invia email</x-button>
-          <x-button class="w-full lg:btn-wide" icon="o-trash" wire:click="deleteModal = true">Elimina</x-button>
+          <x-button class="w-full xl:btn-wide" icon="o-envelope" wire:click="emailModal = true">Invia email</x-button>
+          <x-button class="w-full xl:btn-wide" icon="o-trash" wire:click="deleteModal = true">Elimina</x-button>
         </div>
 
       </div>
