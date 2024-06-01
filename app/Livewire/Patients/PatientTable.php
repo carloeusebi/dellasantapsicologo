@@ -54,14 +54,7 @@ class PatientTable extends TableComponent
                             ->orWhereNull('completed');
                     }
                 ])
-                ->when($this->search, function (Builder $query, string $search) {
-                    collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                        $query->where(function (Builder $query) use ($term) {
-                            $query->where('first_name', 'LIKE', "%$term%")
-                                ->orwhere('last_name', 'LIKE', "%$term%");
-                        });
-                    });
-                })
+                ->filterByName($this->search)
                 ->when($this->state === 'tutti', function (Builder $query) {
                     $query->withArchived();
                 })

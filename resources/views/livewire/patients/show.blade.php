@@ -27,6 +27,9 @@
                   class="w-full" label="Archivia" icon="o-archive-box" wire:click="changeState"
                   spinner="changeState"
               />
+              <x-button class="w-full" link="{{ route('surveys.create', ['patient_id' => $patient->id]) }}">
+                Nuova Valutazione
+              </x-button>
             @endif
           </div>
           <div class="flex flex-wrap justify-between gap-3 md:flex-col text-sm">

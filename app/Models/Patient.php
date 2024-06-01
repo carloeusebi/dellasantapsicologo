@@ -122,7 +122,19 @@ class Patient extends Model implements HasMedia
     public function surveys(): HasMany
     {
         return $this->hasMany(Survey::class)
-            ->orderByDesc('updated_at');
+            ->latest();
+    }
+
+    public function scopeFilterByName(Builder $query, string $search): void
+    {
+        $query->when($search, function (Builder $query, string $search) {
+            collect(explode(' ', $search))->each(function (string $term) use ($query) {
+                $query->where(function (Builder $query) use ($term) {
+                    $query->where('first_name', 'LIKE', "%$term%")
+                        ->orwhere('last_name', 'LIKE', "%$term%");
+                });
+            });
+        });
     }
 
     public function resolveRouteBinding($value, $field = null): Patient|null
