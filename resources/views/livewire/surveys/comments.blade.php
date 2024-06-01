@@ -12,7 +12,9 @@
     }"
 >
   @forelse($this->comments as $answer)
-    <x-list-item :item="$answer" no-hover :key="$answer->id" class="!items-start" data-comment="{{ $answer->id }}">
+    <x-list-item
+        :item="$answer" no-hover :key="$answer->id" class="!items-start scroll-mt-20" data-comment="{{ $answer->id }}"
+    >
       <x-slot:value>
         <div>
           <div class="flex justify-between items-center">
