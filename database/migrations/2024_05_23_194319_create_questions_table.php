@@ -26,8 +26,8 @@ return new class extends Migration {
         Questionnaire::all()->each(function (Questionnaire $questionnaire) {
             $items = json_decode($questionnaire->items, true);
             foreach ($items as $key => $item) {
-                $previousQuestion = $questionnaire->questions()->orderByDesc('id')->first();
-                $question = $questionnaire->questions()->create([
+                $questionnaire->questions()->orderByDesc('id')->first();
+                $questionnaire->questions()->create([
                     'text' => $item['text'],
                     'reversed' => $item['reversed'] ?? false,
                     'custom_choices' => $item['multipleAnswers'] ?? null,

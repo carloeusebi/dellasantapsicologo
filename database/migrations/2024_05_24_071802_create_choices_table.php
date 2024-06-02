@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Choice;
+use App\Models\Question;
 use App\Models\Questionnaire;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +16,8 @@ return new class extends Migration {
         if (!Schema::hasTable('choices')) {
             Schema::create('choices', function (Blueprint $table) {
                 $table->id();
-                $table->foreignIdFor(Questionnaire::class);
+                $table->foreignId('questionable_id');
+                $table->string('questionable_type');
                 $table->tinyInteger('points');
                 $table->string('text');
             });
@@ -38,6 +40,16 @@ return new class extends Migration {
                     'points' => $points
                 ]);
             }
+        });
+
+        Question::whereNotNull('custom_choices')->each(function (Question $question) {
+            $choices = collect($question->custom_choices)->map(function (array $choice) {
+                return new Choice([
+                    'text' => $choice['customAnswer'],
+                    'points' => $choice['points']
+                ]);
+            });
+            $question->choices()->saveMany($choices);
         });
 
         Schema::table('questionnaires', function (Blueprint $table) {

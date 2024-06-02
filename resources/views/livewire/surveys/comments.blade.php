@@ -34,12 +34,8 @@
           <div>
             <span>Risposta:</span>
             <span class="font-normal text-wrap italic">
-            @if ($answer->choice)
-                {{ $answer->choice->text}}
-              @else
-                {{ $answer->question->getCustomAnswerText($answer->value) ?: 'Risposta saltata' }}
-              @endif
-          </span>
+                {{ $answer->choice?->text ?: 'Risposta saltata' }}
+            </span>
             <div>
               <a
                   class="underline cursor-pointer"

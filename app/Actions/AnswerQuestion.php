@@ -12,15 +12,14 @@ class AnswerQuestion
     public function handle(
         int $questionnaire_survey_id,
         int $question_id,
-        ?int $choice_id = null,
-        ?int $points = null,
+        int $choice_id = null,
     ): void {
 
-        $question = Question::with('questionnaire.choices')->find($question_id);
+        $question = Question::with('questionnaire.choices')->findOrFail($question_id);
 
-        $choice = Choice::find($choice_id);
+        $choice = Choice::findOrFail($choice_id);
 
-        $value = $choice ? $question->calculateScore($choice) : $points;
+        $value = $question->calculateScore($choice);
 
         Answer::updateOrCreate(
             [

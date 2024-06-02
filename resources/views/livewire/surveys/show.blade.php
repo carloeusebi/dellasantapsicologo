@@ -85,8 +85,3 @@
     </div>
   </div>
 </div>
-
-
-@push('scripts')
-  @vite('resources/js/quick-answer-handler.js')
-@endpush

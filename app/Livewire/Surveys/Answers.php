@@ -4,6 +4,7 @@ namespace App\Livewire\Surveys;
 
 use App\Actions\AnswerQuestion;
 use App\Models\Answer;
+use App\Models\Questionnaire;
 use App\Models\Survey;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,7 +18,10 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-#[Lazy]
+/**
+ * @property Collection<Questionnaire> $questionnaires
+ */
+#[Lazy(isolate: false)]
 class Answers extends Component
 {
     use Toast;
@@ -50,8 +54,10 @@ class Answers extends Component
                         });
                     })
                         ->with('answers', function (HasMany $query) {
-                            $query->whereRelation('questionnaireSurvey.survey', 'id', $this->survey->id);
-                        });
+                            $query->whereRelation('questionnaireSurvey.survey', 'id', $this->survey->id)
+                                ->with('choice');
+                        })
+                        ->with('choices');
                 }
             ])
             ->when($this->query, function (Builder $query, string $search) {
@@ -92,20 +98,18 @@ class Answers extends Component
 
     /**
      * @param  array<array{
-     *  'question_id': string,
-     *  'questionnaire_survey_id': string,
-     *  'choice_id'?: string,
-     *  'points'?: string,
+     *  'question_id': number,
+     *  'questionnaire_survey_id': number,
+     *  'choice_id'?: number,
      * }>  $updates
      */
     public function massUpdateAnswers(array $updates): void
     {
         foreach ($updates as $update) {
             $this->changeAnswer(
-                (int) $update['questionnaire_survey_id'],
-                (int) $update['question_id'],
-                $update['choice_id'] ?? null,
-                $update['points'] ?? null,
+                $update['questionnaire_survey_id'],
+                $update['question_id'],
+                $update['choice_id'],
                 true,
             );
         }
@@ -120,8 +124,7 @@ class Answers extends Component
     public function changeAnswer(
         int $questionnaire_survey_id,
         int $question_id,
-        ?int $choice_id = null,
-        ?int $points = null,
+        int $choice_id,
         bool $isMassUpdate = false,
     ): void {
 
@@ -129,7 +132,6 @@ class Answers extends Component
             $questionnaire_survey_id,
             $question_id,
             $choice_id,
-            $points,
         );
 
         if (!$isMassUpdate) {

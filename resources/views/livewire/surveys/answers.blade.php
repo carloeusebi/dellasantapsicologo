@@ -1,54 +1,13 @@
-@php use App\Models\Choice;use App\Models\QuestionnaireSurvey; @endphp
-<div
-    x-data="{
-      fullscreen: false,
-      quickEditMode: false,
-      questions: [],
-      quickAnswer: null,
-      answer: {
-        answerID: null,
-        questionID: null,
-        questionnaireSurveyID: null,
-        choiceID: null,
-        value: null,
-        oldAnswerText: null,
-        newAnswerText: null
-      },
-     toggleQuickEditMode() {
-        this.quickEditMode = !this.quickEditMode;
-        if (this.quickEditMode) {
-          this.quickAnswer = new QuickAnswerHandler();
-        } else {
-          document.querySelectorAll('[data-questionnaire]').forEach(q => {
-            q.querySelector('input').checked = false;
-          });
-          window.scrollTo(0, 0);
-          $wire.$refresh();
-        }
-      }
-    }"
-    x-init="() => {
-        const targetQuestionnaire = document.querySelector(`[data-questionnaire='${$wire.questionnaireSurvey_id}']`);
-        const targetQuestion = document.querySelector(`[data-question='${$wire.question_id}']`);
-
-        if (!targetQuestionnaire && !targetQuestion) return;
-
-        targetQuestionnaire.scrollIntoView({behavior: 'instant'});
-        targetQuestionnaire.querySelector('input').checked = true;
-        targetQuestion?.scrollIntoView({behavior: 'instant'});
-        targetQuestion?.classList.add('bg-primary/20');
-
-        removeFromQueryString('questionnaireSurvey_id', 'question_id');
-    }"
->
-  <div
-      class="px-3 flex flex-wrap sm:flex-nowrap justify-end gap-4"
-  >
+<div x-data="answers" x-on:keyup.window="handleQuickMovement($event)">
+  <div class="px-3 flex flex-wrap sm:flex-nowrap justify-end gap-4">
     <div class="md:flex justify-between w-full">
-      <div>
-        <x-button class="w-full btn-sm hidden xl:block" x-on:click="toggleQuickEditMode">
+      <div class="flex gap-2 items-center">
+        <x-button class="btn-sm hidden xl:block" x-on:click="toggleQuickEditMode">
           <span x-text=" quickEditMode ? 'Esci' : 'Modifica Rapida'"></span>
         </x-button>
+        <span x-show="quickEditMode" class="text-xs text-base-content/75 italic">
+          Usa le frecce per muoverti, e la tastiera per rispondere alle domande
+        </span>
       </div>
       <div class="md:flex grow justify-end gap-4 space-y-4 md:space-y-0">
         <div class="hidden md:flex md:w-7 items-center">
@@ -75,9 +34,6 @@
         icon="o-arrows-pointing-in" class="fixed right-2 top-2 z-[51] shadow-2xl btn-active"
     />
     @forelse($this->questionnaires as $questionnaireSurvey)
-      @php
-        /** @var QuestionnaireSurvey $questionnaireSurvey */
-      @endphp
       <x-collapse
           :name="$questionnaireSurvey->id" collapse-plus-minus :key="$questionnaireSurvey->id"
           class="!rounded-none scroll-mt-20"
@@ -137,9 +93,9 @@
                         : filteredAnswers.push({{ $choice->id }})
                       "
                   >
-                    {{ $choice->points }}
+                    {{ $choice?->points }}
                   </x-button>
-                  <div>{{ $choice->text }}</div>
+                  <div>{{ $choice?->text }}</div>
                 </div>
               @endforeach
             </div>
@@ -147,110 +103,51 @@
               @php $answer = $question->answers->first(); @endphp
               <div
                   x-show="filteredAnswers.includes({{ $answer?->choice_id }}) || !filteredAnswers.length"
-                  class="border-t border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif focus:outline-1"
+                  class="border-t border-2 border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif"
+                  :class="{ 'focus:border-primary': quickEditMode }"
                   data-question="{{ $question->id }}"
                   data-questionnaire-survey="{{ $questionnaireSurvey->id }}"
                   x-bind:tabindex="quickEditMode ? 0 : -1"
+                  x-on:click="focusQuestion({{ $question->id }})"
+                  x-on:keydown="handleKeydownEvent({{  $question->id }}, $event)"
               >
                 <div class="md:flex flex-wrap md:flex-nowrap gap-4 items-center justify-between">
-                  @if($questionnaireSurvey->questionnaire->choices->isNotEmpty())
-                    <div class="text-wrap my-3 md:my-0">
-                      <span class="pl-2">{{ $question->order }}. {{ $question->text }}</span>
-                      @if ($answer)
-                        <span class="italic opacity-50">
-                          - {{ $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}
-                        </span>
-                      @endif
-                      @if ($answer?->comment)
-                        <div class="text-xs ms-2 opacity-50">
-                          <span>Commento:&nbsp;</span>
-                          <a
-                              href="{{ route('surveys.show', [$survey,'tab' => 'commenti', 'comment_id' => $answer->id]) }}"
-                              wire:navigate.hover
-                          >
-                        <span
-                            class="hover:underline cursor-pointer"
-                        >{{ $answer->comment }}</span>
-                          </a>
-                        </div>
-                      @endif
-                    </div>
-                    <div class="flex grow md:grow-0">
-                      @foreach($questionnaireSurvey->questionnaire->choices as $choice)
-                        <div
-                            class="grow"
-                            wire:click="updateModal = true"
-                            wire:ignore.self
-                            x-on:click="(e) => {
-                              answer.answerID = e.target.dataset.answerId;
-                              answer.questionID = {{ $question->id }};
-                              answer.questionnaireSurveyID = {{ $questionnaireSurvey->id }};
-                              answer.choiceID = {{ $choice->id }};
-                              answer.oldAnswerText = e.target.dataset.oldAnswerText;
-                              answer.newAnswerText = '{{ e($choice->text) }}';
-                            }"
-                        >
+                  <div class="text-wrap my-3 md:my-0">
+                    <span class="pl-2">{{ $question->order }}. {{ $question->text }}</span>
+                    @if ($answer)
+                      <span class="italic opacity-50">- {{ $answer->choice?->text }}</span>
+                    @endif
+                    @if ($answer?->comment)
+                      <div class="text-xs ms-2 opacity-50">
+                        <span>Commento:&nbsp;</span>
+                        <a
+                            href="{{ route('surveys.show', [$survey,'tab' => 'commenti', 'comment_id' => $answer->id]) }}"
+                            wire:navigate.hover
+                        > <span class="hover:underline cursor-pointer">{{ $answer->comment }}</span>
+                        </a>
+                      </div>
+                    @endif
+                  </div>
+                  <div class="flex grow md:grow-0">
+                    @foreach($question->choices->isEmpty() ? $questionnaireSurvey->questionnaire->choices : $question->choices as $choice)
+                      <div
+                          class="grow"
+                          wire:ignore.self
+                          x-on:click.stop="handleChoiceClick($event)"
+                      >
                           <span
-                              class="btn w-full rounded-none no-animation @if($choice->id === $answer?->choice_id) btn-primary @endif"
-                              data-answer-id="{{ $answer?->id }}"
-                              data-choice
+                              class="btn w-full rounded-none no-animation @if($answer && $answer->choice?->is($choice)) btn-primary @endif"
                               data-old-answer-text="{{ $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
-                              data-id="{{ $choice->id }}"
+                              data-choice data-id="{{ $choice->id }}" data-text="{{ $choice?->text }}"
+                              data-answer-id="{{ $answer?->id }}" data-question-id="{{ $question->id }}"
                               data-points="{{ $choice->points }}"
+                              data-questionnaire-survey-id="{{ $questionnaireSurvey->id }}"
                           >
                           {{ $choice->points }}
                           </span>
-                        </div>
-                      @endforeach
-                    </div>
-                  @else
-                    <div class="text-wrap pl-3 my-3 md:my-0">
-                      <span> {{  $question->order  }}.&nbsp;</span>
-                      @if ($question->text)
-                        <span>{{ $question->text }} -</span>
-                      @endif
-                      <span class="italic opacity-50">{{ $answer?->chosenCustomChoice($question) }}</span>
-                      @if ($answer?->comment)
-                        <div class="text-xs ms-2 opacity-50">
-                          <span>Commento:&nbsp;</span>
-                          <a
-                              href="{{ route('surveys.show', [$survey,'tab' => 'commenti', 'comment_id' => $answer->id]) }}"
-                              wire:navigate.hover
-                          >
-                        <span
-                            class="hover:underline cursor-pointer"
-                        >{{ $answer->comment }}</span>
-                          </a>
-                        </div>
-                      @endif
-                    </div>
-                    <div class="flex grow md:grow-0">
-                      @foreach($question->custom_choices as $customChoice)
-                        <div
-                            class="grow"
-                            wire:click="updateModal = true"
-                            x-on:click="(e) => {
-                              answer.answerID = e.target.dataset.answerId;
-                              answer.questionID = {{ $question->id }};
-                              answer.questionnaireSurveyID = {{ $questionnaireSurvey->id }};
-                              answer.choiceID = null;
-                              answer.oldAnswerText = e.target.dataset.oldAnswerText;
-                              answer.newAnswerText = '{{ e($customChoice['customAnswer']) }}';
-                              answer.value = parseInt('{{ $customChoice['points'] }}');
-                            }"
-                        >
-                          <span
-                              class="btn w-full rounded-none no-animation @if($answer?->value === $customChoice['points']) btn-primary @endif"
-                              data-choice data-points="{{ $customChoice['points'] }}"
-                              data-answer-id="{{ $answer?->id }}"
-                              data-old-answer-text="{{ $answer?->chosenCustomChoice($question) }}"
-                          >
-                            {{ $customChoice['points'] }}
-                          </span>
-                        </div>
-                      @endforeach
-                    </div>
-                  @endif
+                      </div>
+                    @endforeach
+                  </div>
                 </div>
               </div>
             @endforeach
@@ -286,7 +183,6 @@
               answer.questionnaireSurveyID,
               answer.questionID,
               answer.choiceID,
-              answer.value
             )"
       >Modifica
       </x-button>
@@ -294,25 +190,18 @@
   </x-modal>
 
   <x-modal wire:model="massUpdateModal" title="Salva modifiche Rapide">
-    <div class="mb-5">Ci sono <span id="updates-counter"></span> modifiche non salvate.</div>
+    <div class="mb-5">Ci sono <span x-text="updates.length"></span> modifiche non salvate.</div>
     <span id="updates-store" data-store></span>
     <x-hr/>
     <div class="space-y-2">
       <x-button class="block w-full btn-sm" wire:click="massUpdateModal = false">Annulla</x-button>
-      <x-button
-          class="block w-full btn-sm btn-info"
-          x-on:click="() => {
-            toggleQuickEditMode();
-            $wire.massUpdateModal = false;
-          }"
-      >Esci e resetta le domande
+      <x-button class="block w-full btn-sm btn-info" x-on:click="toggleQuickEditMode">
+        Esci e resetta le domande
       </x-button>
       <x-button
           class="block w-full btn-sm btn-success"
           spinner="massUpdateAnswers"
-          wire:click="massUpdateAnswers(
-            JSON.parse(document.getElementById('updates-store').dataset.store)
-          )"
+          x-on:click="$wire.massUpdateAnswers(updates)"
       >
         Salva le modifiche
       </x-button>
@@ -322,7 +211,7 @@
   <x-button
       x-show="quickEditMode"
       class="fixed bottom-6 right-44 z-50 shadow-xl btn-warning"
-      x-on:click="toggleQuickEditMode"
+      x-on:click="reset"
   >Annulla
   </x-button>
   <x-button
@@ -330,4 +219,182 @@
       wire:click="massUpdateModal = true"
   >Salva
   </x-button>
+
+
+  @script
+  <script>
+    window.answers = function () {
+      /** @property {HTMLDivElement[]} questions */
+      return {
+        fullscreen: false,
+        quickEditMode: false,
+        answer: {
+          answerID: null,
+          questionID: null,
+          questionnaireSurveyID: null,
+          choiceID: null,
+          value: null,
+          oldAnswerText: null,
+          newAnswerText: null,
+        },
+
+        questions: [],
+        updates: [],
+        selectedQuestion: 0,
+
+        tap: new Audio('{{ asset('assets/tap.mp3') }}'),
+
+        init() {
+          const targetQuestionnaire = document.querySelector(`[data-questionnaire='${$wire.questionnaireSurvey_id}']`);
+          const targetQuestion = document.querySelector(`[data-question='${$wire.question_id}']`);
+
+          if (!targetQuestionnaire && !targetQuestion) return;
+
+          targetQuestionnaire.scrollIntoView({behavior: 'instant'});
+          targetQuestionnaire.querySelector('input').checked = true;
+          targetQuestion?.scrollIntoView({behavior: 'instant'});
+          targetQuestion?.classList.add('bg-primary/20');
+
+          removeFromQueryString('questionnaireSurvey_id', 'question_id');
+        },
+
+        reset() {
+          this.quickEditMode = false;
+          this.updates = [];
+          $wire.massUpdateModal = false;
+          $wire.$refresh();
+          document.querySelectorAll('[data-questionnaire]').forEach(q => {
+            q.querySelector('input').checked = false;
+          });
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        },
+
+        toggleQuickEditMode() {
+          if (!this.quickEditMode) {
+            this.quickEditMode = true;
+            this.initQuickEditMode();
+          } else {
+            this.reset();
+          }
+        },
+
+        initQuickEditMode() {
+          this.questions = Array.from(document.querySelectorAll('[data-question]'));
+          document.querySelectorAll('[data-questionnaire]').forEach(q => {
+            q.querySelector('input').checked = true;
+          });
+          this.selectedQuestion = 0;
+          this.questions[0].focus();
+        },
+
+        /**
+         * @param {MouseEvent} e
+         */
+        handleChoiceClick(e) {
+          if (this.quickEditMode) {
+            this.focusQuestion(parseInt(e.target.dataset.questionId));
+            const choices = this.selectedQuestionEl.querySelectorAll('[data-choice]');
+            choices.forEach(el => el.classList.remove('btn-primary'));
+            e.target.classList.add('btn-primary');
+            this.focusNextQuestion();
+            this.addChoice(
+              parseInt(e.target.dataset.questionId),
+              parseInt(e.target.dataset.questionnaireSurveyId),
+              parseInt(e.target.dataset.id),
+            );
+          } else {
+            this.answer.answerID = e.target.dataset.answerId;
+            this.answer.questionID = e.target.dataset.questionId;
+            this.answer.questionnaireSurveyID = e.target.dataset.questionnaireSurveyId;
+            this.answer.choiceID = e.target.dataset.id;
+            this.answer.oldAnswerText = e.target.dataset.oldAnswerText;
+            this.answer.newAnswerText = e.target.dataset.text;
+            $wire.updateModal = true;
+          }
+        },
+
+        /**
+         * @param {number} questionID
+         * @param {KeyboardEvent} e
+         */
+        handleKeydownEvent(questionID, e) {
+          if (!this.quickEditMode) return;
+          if (questionID !== this.selectedQuestionId) return;
+
+          const choices = Array.from(this.selectedQuestionEl.querySelectorAll('[data-choice]'));
+
+          if (!e.key || !choices.map(el => el.dataset.points).includes(e.key)) return;
+
+          choices.forEach(el => el.classList.remove('btn-primary'));
+          const newChoiceEL = choices.find(el => el.dataset.points === e.key);
+          newChoiceEL.classList.add('btn-primary');
+
+          this.addChoice(
+            parseInt(this.selectedQuestionEl.dataset.question),
+            parseInt(this.selectedQuestionEl.dataset.questionnaireSurvey),
+            parseInt(newChoiceEL.dataset.id),
+          );
+          this.focusNextQuestion();
+        },
+
+
+        /**
+         * @param {number} question_id
+         * @param {number} questionnaire_survey_id
+         * @param {number} choice_id
+         */
+        addChoice(question_id, questionnaire_survey_id, choice_id) {
+          this.udpates = this.updates.filter(u => u.question_id !== question_id);
+          this.updates.push({question_id, questionnaire_survey_id, choice_id});
+          try {
+            this.tap.play();
+          } catch (err) {
+            console.error(err);
+          }
+        },
+
+        /** @param {number} id */
+        focusQuestion(id) {
+          if (!this.quickEditMode) return;
+          const index = this.questions.findIndex(q => q.dataset.question === id.toString());
+          this.questions[index].focus();
+          this.selectedQuestion = index;
+        },
+
+        focusPreviousQuestion() {
+          if (this.selectedQuestion === 0) return;
+          this.selectedQuestion--;
+          this.questions[this.selectedQuestion].focus();
+        },
+
+        focusNextQuestion() {
+          if (this.selectedQuestion === this.questions.length - 1) return;
+          this.selectedQuestion++;
+          this.questions[this.selectedQuestion].focus();
+        },
+
+        /** @param {KeyboardEvent} e */
+        handleQuickMovement(e) {
+          if (!this.quickEditMode) return;
+          if (e.key === 'ArrowUp' || (e.shiftKey && e.key === 'Tab')) {
+            this.focusPreviousQuestion();
+            e.preventDefault();
+          } else if (e.key === 'ArrowDown' || e.key === 'Tab') {
+            this.focusNextQuestion();
+            e.preventDefault();
+          }
+        },
+
+        /** @returns {HTMLDivElement} */
+        get selectedQuestionEl() {
+          return this.questions[this.selectedQuestion];
+        },
+
+        get selectedQuestionId() {
+          return parseInt(this.questions[this.selectedQuestion]?.dataset.question);
+        },
+      };
+    };
+  </script>
+  @endscript
 </div>

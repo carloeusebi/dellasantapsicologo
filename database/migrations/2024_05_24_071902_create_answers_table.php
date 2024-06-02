@@ -92,6 +92,8 @@ return new class extends Migration {
 
                     if ($choice) {
                         $answer->choice()->associate($choice)->save();
+                    } else {
+                        $answer->choice()->associate($question->choices()->wherePoints($value)->first())->save();
                     }
                 }
                 $progress->advance();
