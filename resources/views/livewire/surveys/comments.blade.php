@@ -33,7 +33,7 @@
           </div>
           <div>
             <span>Risposta:</span>
-            <span class="font-normal text-wrap italic">
+            <span class="font-normal text-wrap italic @if($answer?->skipped) opacity-50 @endif">
                 {{ $answer->choice?->text ?: 'Risposta saltata' }}
             </span>
             <div>
