@@ -20,6 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
+        'name',
         'email',
         'password',
     ];
@@ -34,14 +35,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    public function patients(): HasMany
+    protected static function boot(): void
     {
-        return $this->hasMany(Patient::class);
+        parent::boot();
+
+        static::creating(function (User $user): void {
+            $user->role()->associate(Role::where('name', Role::$DOCTOR)->firstOrFail());
+        });
     }
 
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function patients(): HasMany
+    {
+        return $this->hasMany(Patient::class);
     }
 
     public function isNotAdmin(): bool

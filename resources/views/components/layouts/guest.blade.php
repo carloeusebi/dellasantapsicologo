@@ -31,9 +31,13 @@
   </div>
 
   <x-card class="w-full sm:w-[500px] spacey-5 lg:px-10" shadow>
-    <figure>
+    <figure class="mb-10">
       <img src="{{ asset('images/Logo.webp') }}" alt="Logo" class="pe-5 max-w-[250px]"/>
     </figure>
+
+    @isset($cardTitle)
+      <h1 class="text-xl font-bold text-center my-5">{{ $cardTitle }}</h1>
+    @endisset
 
     <div class="my-5">
       {{ $slot }}
