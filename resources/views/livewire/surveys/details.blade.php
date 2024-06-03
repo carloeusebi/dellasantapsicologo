@@ -33,20 +33,22 @@
         </div>
 
         <div class="flex flex-col order-1 items-end gap-2">
-          <x-button
-              class="w-full xl:btn-wide" icon="o-clipboard-document-list"
-              x-on:click="async () => {
+          @unless($survey->completed)
+            <x-button
+                class="w-full xl:btn-wide" icon="o-clipboard-document-list"
+                x-on:click="async () => {
                 try{
                   await navigator.clipboard.writeText('{{ $survey->getLink() }}');
                   $wire.dispatch('notify', {type: 'info', title: 'Info', description: 'Link copiato negli appunti.'});
                 } catch (e) {
-                  $wire.dispatch('notify', {type: 'error', title: 'Errore', description: 'Errore, riprovare.'});
+                  $wire.dispatch('notify', {type: 'error', title: 'Errore', description: 'Il tuo Browser non dispone delle autorizzazioni necessarie per compiere questa azione.'});
                 }
               }"
-          >
-            Copia Link
-          </x-button>
-          <x-button class="w-full xl:btn-wide" icon="o-envelope" wire:click="emailModal = true">Invia email</x-button>
+            >
+              Copia Link
+            </x-button>
+            <x-button class="w-full xl:btn-wide" icon="o-envelope" wire:click="emailModal = true">Invia email</x-button>
+          @endif
           <x-button class="w-full xl:btn-wide" icon="o-trash" wire:click="deleteModal = true">Elimina</x-button>
         </div>
 

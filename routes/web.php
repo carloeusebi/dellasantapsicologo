@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\QuestionnaireController;
@@ -21,17 +20,10 @@ Route::get('/home', function () {
     return redirect()->route('admin');
 });
 
-Route::middleware(['guest'])->group(function () {
-    Route::get('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
-});
-
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return to_route('patients.index');
     })->name('admin');
-
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::prefix('/pazienti')->name('patients.')->group(function () {
         Route::get('/', [PatientController::class, 'index'])->name('index');

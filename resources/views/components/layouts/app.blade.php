@@ -85,7 +85,7 @@
             @csrf
             <x-button
                 type="submit"
-                icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="logoff" no-wire-navigate
+                icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="Esci" no-wire-navigate
             />
           </form>
         </x-slot:actions>

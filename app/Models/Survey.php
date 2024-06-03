@@ -42,7 +42,10 @@ class Survey extends Model
         ?string $email = null,
         ?string $body = null
     ): bool {
-        Mail::to($email ?? $this->patient->email)->send(new LinkToTestMail(
+
+        $mailer = app()->isProduction() ? 'smtp' : 'mailtrap';
+
+        Mail::mailer($mailer)->to($email ?? $this->patient->email)->send(new LinkToTestMail(
             $subject,
             $body ?? config('mail.default_link_to_test_message'),
             $this->getLink()
