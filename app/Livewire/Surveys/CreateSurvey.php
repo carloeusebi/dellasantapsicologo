@@ -123,7 +123,9 @@ class CreateSurvey extends Component
         $this->reset(['patientId', 'selectedQuestionnaires', 'title', 'step']);
 
         try {
-            $survey->sendEmail();
+            if ($this->sendEmail) {
+                $survey->sendEmail();
+            }
             $this->success('Successo!', 'Test di valutazione creato con successo!');
         } catch (Exception $e) {
             Log::error($e->getMessage());
