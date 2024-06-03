@@ -23,7 +23,7 @@
             x-transition
             wire:sortable-group.item="{{ $questionnaire->id }}"
             wire:key="questionnaire-{{ $questionnaire->title }}"
-            class="flex items-center justify-between p-2 bg-white border border-gray-200 rounded-lg shadow-sm mb-2"
+            class="flex items-center justify-between p-2 bg-base-100 border border-base-100/50 rounded-lg shadow-sm mb-2"
         >
           <div class="flex gap-2 items-center">
             <x-button
@@ -72,7 +72,7 @@
             x-transition
             wire:sortable-group.item="{{ $questionnaire?->id }}"
             wire:key="selected-questionnaire-{{ $questionnaire?->id }}"
-            class="flex items-center justify-between p-2 bg-white  rounded-lg shadow-sm mb-2"
+            class="flex items-center justify-between p-2 bg-base-100 border border-base-100/50 rounded-lg shadow-sm mb-2"
         >
           <div class="flex gap-2 items-center">
             <x-button
