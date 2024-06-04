@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Test Di Valutazione | Dellasanta Psicologo</title>
 
-  <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/ico">
+  <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico">
   @livewireStyles
   @livewireScripts
   @vite(['resources/css/app.css', 'resources/css/evaluation.css', 'resources/js/app.js'])

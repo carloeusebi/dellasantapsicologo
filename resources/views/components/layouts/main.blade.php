@@ -24,7 +24,7 @@
   </title>
 
   <!-- icon -->
-  <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/ico">
+  <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico">
 
   @livewireStyles
 

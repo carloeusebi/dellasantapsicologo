@@ -19,7 +19,7 @@
 
   <title>{{ $pageTitle }} | Dellasanta Psicologo</title>
 
-  <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/ico">
+  <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico">
 
   @vite(['resources/css/app.css','resources/js/app.js'])
 </head>

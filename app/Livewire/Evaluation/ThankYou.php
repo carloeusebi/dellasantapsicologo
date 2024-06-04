@@ -28,7 +28,7 @@ class ThankYou extends Component
 
     }
 
-    #[Layout('layouts.evaluation')]
+    #[Layout('components.layouts.evaluation')]
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
