@@ -9,6 +9,10 @@
   background: oklch(var(--p)) !important;
 }
 
+.toast {
+  @apply text-wrap;
+}
+
 .drawer-content {
   @apply !px-2
 }
