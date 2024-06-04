@@ -12,7 +12,9 @@ class AnswerQuestion
     public function handle(
         int $questionnaire_survey_id,
         int $question_id,
-        int $choice_id = null,
+        int $choice_id,
+        ?string $comment = null,
+        bool $skipped = false,
     ): void {
 
         $question = Question::with('questionnaire.choices')->findOrFail($question_id);
@@ -28,7 +30,8 @@ class AnswerQuestion
             ],
             [
                 'choice_id' => $choice_id,
-                'skipped' => false,
+                'comment' => $comment,
+                'skipped' => $skipped,
                 'value' => $value
             ]
         );

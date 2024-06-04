@@ -37,11 +37,11 @@
             <x-button
                 class="w-full xl:btn-wide" icon="o-clipboard-document-list"
                 x-on:click="async () => {
-                try{
+                try {
                   await navigator.clipboard.writeText('{{ $survey->getLink() }}');
                   $wire.dispatch('notify', {type: 'info', title: 'Info', description: 'Link copiato negli appunti.'});
                 } catch (e) {
-                  $wire.dispatch('notify', {type: 'error', title: 'Errore', description: 'Il tuo Browser non dispone delle autorizzazioni necessarie per compiere questa azione.'});
+                  $wire.dispatch('notify', {type: 'error', title: 'Impossibile copiare il link', description: 'Controlla le autorizzazione del tuo browser'});
                 }
               }"
             >

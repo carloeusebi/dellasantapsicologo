@@ -4,8 +4,11 @@ namespace App\Livewire\Surveys;
 
 use App\Models\Survey;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -81,5 +84,13 @@ class Details extends Component
         $this->reset('deleteModal');
 
         $this->success('Successo!', 'Questionario eliminato correttamente!', redirectTo: route('surveys.index'));
+    }
+
+    public function render(
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
+    {
+        $this->loadSurvey();
+
+        return view('livewire.surveys.details');
     }
 }

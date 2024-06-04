@@ -29,7 +29,7 @@ class ShowSurvey extends Component
     #[On('notify')]
     public function notify(string $type, string $title, string $description): void
     {
-        $this->toast($type, $title, $description);
+        $this->{$type}($title, $description);
     }
 
     #[On(['removedComment', 'updatedAnswer'])]
