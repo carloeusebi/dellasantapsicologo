@@ -41,10 +41,16 @@ class Questionnaire extends Component
             $this->redirectRoute('evaluation.home', $survey);
         }
 
-        $this->survey->loadCount('questionnaireSurveys', 'completedQuestionnaireSurvey');
-
-        $this->questionnaireSurvey->load('questionnaire.choices', 'questions')
-            ->loadCount('questions');
+        if ($this->questionnaireSurvey->updated_at?->diffInHours() > 2 && $this->questionnaireSurvey->answers->isNotEmpty()) {
+            $this->questionnaireSurvey->answers()->delete();
+            $this->questionnaireSurvey->touch();
+            $this->warning(
+                'Sono passate più di due ore dall\'ultima risposta',
+                'Per questo motivo devi ricominciare il questionario da capo. Ma non ti preoccupare, le risposte dei questionari precedenti sono ancora valide.<br><br> Cliccami per farmi sparire!',
+                css: 'text-wrap alert-warning',
+                timeout: 20_000
+            );
+        }
     }
 
     // Needed to give a different target to skip question spinner
@@ -85,6 +91,11 @@ class Questionnaire extends Component
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
+        $this->survey->loadCount('questionnaireSurveys', 'completedQuestionnaireSurvey');
+
+        $this->questionnaireSurvey->load('questionnaire.choices', 'questions')
+            ->loadCount('questions');
+
         $this->question = $this->questionnaireSurvey->questions->load([
             'answers' => function (HasMany $query) {
                 $query->whereRelation('questionnaireSurvey', 'id', $this->questionnaireSurvey->id);
