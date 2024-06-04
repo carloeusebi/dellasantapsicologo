@@ -8,11 +8,13 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 /**
  * @property Collection<Questionnaire> $nonSelectedQuestionnaires
  * @property \Illuminate\Support\Collection<Questionnaire> $selectedQuestionnaires
+ * @property Collection<Questionnaire> $questionnaires
  */
 class QuestionnairePicker extends Component
 {
@@ -25,6 +27,7 @@ class QuestionnairePicker extends Component
     public function mount(): void
     {
         $this->selectedQuestionnaires = collect();
+        $this->nonSelectedQuestionnaires = $this->questionnaires;
     }
 
     public function updateSelectedQuestionnaires(array $newOrder): void
@@ -39,8 +42,9 @@ class QuestionnairePicker extends Component
     public function selectQ(int $id): void
     {
         if (!$this->selectedQuestionnaires->contains('id', $id)) {
-            $this->selectedQuestionnaires->push(Questionnaire::select(['id', 'title'])->find($id));
+            $this->selectedQuestionnaires->push($this->questionnaires->firstWhere('id', $id));
         }
+        $this->nonSelectedQuestionnaires->reject(fn(Questionnaire $questionnaire) => $questionnaire->id === $id);
         $this->dispatch('questionnairesUpdated', $this->selectedQuestionnaires);
     }
 
@@ -57,19 +61,31 @@ class QuestionnairePicker extends Component
         $this->dispatch('questionnairesUpdated', $this->selectedQuestionnaires);
     }
 
-    public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
+    /**
+     * @return Collection<Questionnaire>
+     */
+    #[Computed]
+    public function questionnaires(): Collection
     {
-        $this->nonSelectedQuestionnaires = Questionnaire::select(['id', 'title'])
+        return Questionnaire::select(['id', 'title'])
             ->with('tags:id,tag,color')
             ->current()
             ->filterByTitle($this->search)
             ->when($this->search, function (Builder $query, string $search) {
-                $query->orWhereRelation('tags', 'tag', 'like', "%$search%");
+                $query->orWhere(function (Builder $query) use ($search) {
+                    collect(explode(' ', $search))->each(function (string $term) use ($query) {
+                        $query->whereRelation('tags', 'tag', 'like', "%$term%");
+                    });
+                });
             })
-            ->whereNotIn('id', $this->selectedQuestionnaires?->pluck('id')->toArray() ?? [])
             ->orderBy('title')
             ->get();
+    }
+
+    public function render(
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
+    {
+        $this->nonSelectedQuestionnaires = $this->questionnaires->diff($this->selectedQuestionnaires);
 
         return view('livewire.questionnaire-picker');
     }

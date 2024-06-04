@@ -4,38 +4,42 @@
 >
   <div class="basis-1/2 " wire:sortable.item="questionnaires">
     <x-input
-        icon-right="o-magnifying-glass" class="input input-xs lg:input-sm my-2" placeholder="Cerca Questionario"
+        icon-right="o-magnifying-glass" class="input input-xs lg:input-sm my-2" placeholder="Cerca Questionario o tag"
         wire:model.live.debounce="search" clearable x-on:keyup.esc="$wire.search = ''; $wire.$refresh()"
     />
     <div
         wire:sortable-group.item-group="questionnaires"
-        wire:sortable-group.options="{ animation: 200, delay: 150 }"
+        wire:sortable-group.options="{ animation: 200, delay: 75 }"
         class="relative bg-base-300 p-2 rounded-xl shadow-inner h-56 lg:h-96 overflow-y-auto"
     >
-      <x-loading class="absolute top-2 right-2 text-primary" wire:loading.delay/>
+      <x-loading class="absolute top-2 right-2 text-primary" wire:loading.delay wire:target.except="selectQ,removeQ"/>
       @forelse($nonSelectedQuestionnaires as $questionnaire)
         <div
+            x-data="{ show: true }"
+            x-show="show"
             wire:sortable-group.handle
             wire:sortable-group.item="{{ $questionnaire->id }}"
             wire:key="questionnaire-{{ $questionnaire->title }}"
             class="flex items-center justify-between p-2 bg-base-100 border border-base-100/50 rounded-lg shadow-sm mb-2 cursor-grab active:cursor-grabbing"
         >
-          <div class="flex gap-2 items-center">
+          <div class="flex w-full gap-2 items-center">
             <div>
-              <span
-                  class="select-none cursor-pointer hover:opacity-80 p-2"
-                  wire:dblclick="selectQ({{ $questionnaire->id }})"
-              >{{ $questionnaire->title }}</span>
+              <span class="select-none">{{ $questionnaire->title }}</span>
               <div>
                 @foreach($questionnaire->tags as $tag)
                   <x-questionnaires.tag :$tag/>
                 @endforeach
               </div>
             </div>
+            <div class="grow"></div>
+            <x-button
+                class="btn-sm" icon="o-chevron-right" wire:click="selectQ({{ $questionnaire->id }})"
+                spinner="selectQ({{ $questionnaire->id }})" x-on:click="show = false"
+            />
           </div>
         </div>
       @empty
-        <div class="text-center text-base-content/50 italic my-5">Nessun questionario trovato/rimasto</div>
+        <div class=" text-center text-base-content/50 italic my-5">Nessun questionario trovato/rimasto</div>
       @endforelse
     </div>
   </div>
@@ -50,28 +54,30 @@
             wire:target="updateSelectedQuestionnaires,selectQ,removeQ,removeAll"
         />
       </div>
-      <x-button class="btn-xs" wire:click="removeAll">Svuota tutti</x-button>
+      <x-button class="btn-xs lg:btn-sm" wire:click="removeAll" spinner="removeAll">Svuota tutti</x-button>
     </div>
     <div
         wire:sortable-group.item-group="selectedQuestionnaires"
-        wire:sortable-group.options="{ animation: 200, delay: 150 }"
+        wire:sortable-group.options="{ animation: 200, delay: 75 }"
         class="bg-base-300 p-2 rounded-xl shadow-inner h-56 lg:h-96 overflow-y-auto"
     >
       @forelse($selectedQuestionnaires as $questionnaire)
         <div
+            x-data="{ show: true}"
+            x-show="show"
             wire:sortable-group.handle
-            wire:sortable-group.item="{{ $questionnaire?->id }}"
+            wire:sortable-group.item="{{ $questionnaire->id }}"
             wire:key="selected-questionnaire-{{ $questionnaire?->id }}"
             class="flex items-center justify-between p-2 bg-base-100 border border-base-100/50 rounded-lg shadow-sm mb-2 cursor-grab active:cursor-grabbing"
         >
           <div class="flex gap-2 items-center">
-            <div class="sortable-drag">
-                  <span
-                      class="select-none cursor-pointer p-2 hover:opacity-80"
-                      wire:dblclick="removeQ({{ $questionnaire?->id }})"
-                  >
-                    {{ $questionnaire?->title }}
-                  </span>
+            <x-button
+                icon="o-chevron-left" class="btn-sm" wire:click="removeQ({{ $questionnaire?->id }})"
+                spinner="removeQ({{ $questionnaire?->id }})" x-on:click="show = false"
+            />
+            <div class="grow"></div>
+            <div>
+              <span class="select-none">{{ $questionnaire?->title }}</span>
               <div class="!text-xs">
                 @foreach($questionnaire->tags as $tag)
                   <x-questionnaires.tag :$tag/>

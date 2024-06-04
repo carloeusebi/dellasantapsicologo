@@ -26,8 +26,7 @@
     <x-step step="{{ self::$CHOOSE_QUESTIONNAIRES }}" text="Questionari" class="min-h-56 overflow-hidden">
       <div class="mb-5 lg:flex justify-between items-center">
         <div><h2 class="font-bold">Paziente: {{ $patient?->full_name }} </h2>
-          <p class="text-base-content/50">Trascina i questionari per selezionarli ed ordinarli, oppure clicca due volte
-            per spostarli.</p>
+          <p class="text-base-content/50">Puoi spostare i questionari trascinandoli, oppure cliccando sulle frecce.</p>
         </div>
         <x-button x-on:click="alert('Feature in costruzione')">Scegli un template</x-button>
       </div>
