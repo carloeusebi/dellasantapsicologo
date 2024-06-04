@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto">
-  <h2 class="text-center text-3xl mb-5">Inserisci prima delle informazioni su dite</h2>
+  <h2 class="text-center text-3xl mb-5">Inserisci prima delle informazioni su di te</h2>
 
   <x-form wire:submit="save" class="[&_label]:!pb-0 !gap-2">
 
