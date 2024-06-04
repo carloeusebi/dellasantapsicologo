@@ -36,8 +36,9 @@ class Question extends Model
         }
 
         $choices = $this->choices->isEmpty() ? $this->questionnaire->choices : $this->choices;
-        $possibleScores = $choices->pluck('points')->toArray();
-        return min($possibleScores) + max($possibleScores) - $choice->points;
+        $chosenIndex = $choices->search(fn(Choice $c) => $c->id === $choice->id);
+        $reversedIndex = $choices->count() - 1 - $chosenIndex;
+        return $choices->get($reversedIndex)?->points;
     }
 
     public function questionnaire(): BelongsTo
