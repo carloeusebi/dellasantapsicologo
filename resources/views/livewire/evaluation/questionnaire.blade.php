@@ -1,5 +1,5 @@
 <div
-    class="flex flex-col grow max-w-lg mx-auto" x-data="{  showQuestionnaireDescription: false }"
+    class="flex flex-col grow max-w-lg w-full mx-auto" x-data="{  showQuestionnaireDescription: true }"
 >
 
   <template x-if="showQuestionnaireDescription">
@@ -22,33 +22,36 @@
       <div
           id="choices-list" class="text-center mx-auto font-semibold w-full"
           wire:key="{{ $question->id }}"
-          x-data="{ show: false }"
-          x-show="show"
-          x-init="setTimeout(() => show = true, 10)"
-          x-transition:enter="transition ease-out duration-700"
-          x-transition:enter-start="opacity-0 -translate-y-full"
-          x-transition:enter-end="opacity-100 transform"
       >
-        <div class="mb-2">{{ $question->order }}. {{ $question->text }}</div>
-        <div class="text-sm text-center font-normal">
-          Questionario {{ $survey->completed_questionnaire_survey_count + 1 }}
-          di {{ $survey->questionnaire_surveys_count }}
-        </div>
-        <div class="my-2">
-          <x-progress
-              class="progress-primary" :value="$question->order - 1" :max="$questionnaireSurvey->questions_count"
-          />
+        <div class="bg-gray-100 relative z-10 -mt-5 pt-5">
+          <div class="mb-2">{{ $question->order }}. {{ $question->text }}</div>
+          <div class="text-sm text-center font-normal">
+            Questionario {{ $survey->completed_questionnaire_survey_count + 1 }}
+            di {{ $survey->questionnaire_surveys_count }}
+          </div>
+          <div class="my-2">
+            <x-progress
+                class="progress-primary" :value="$question->order - 1" :max="$questionnaireSurvey->questions_count"
+            />
+          </div>
         </div>
         <div
+            class="px-1"
             :key="{{ $question->id}}"
             x-data="{
-          answered: false,
-          answerQuestion(choiceId) {
-            if (this.answered) return;
-            this.answered = true;
-            $wire.answerQuestion(choiceId);
-          }
-        }"
+              show: false,
+              answered: false,
+              answerQuestion(choiceId) {
+                if (this.answered) return;
+                this.answered = true;
+                $wire.answerQuestion(choiceId);
+              }
+            }"
+            x-show="show"
+            x-init="setTimeout(() => show = true, 10)"
+            x-transition:enter="transition ease-out duration-700"
+            x-transition:enter-start="opacity-0 -translate-y-full"
+            x-transition:enter-end="opacity-100 transform"
         >
           @foreach($question->choices->isNotEmpty() ? $question->choices :  $questionnaireSurvey->questionnaire->choices as $choice)
             <div

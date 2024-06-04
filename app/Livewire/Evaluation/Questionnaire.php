@@ -23,9 +23,9 @@ class Questionnaire extends Component
 
     public QuestionnaireSurvey $questionnaireSurvey;
 
-    public Question $question;
+    public ?Question $question;
 
-    public string $comment = '';
+    public ?string $comment = null;
 
     public function mount(Survey $survey, QuestionnaireSurvey $questionnaireSurvey): void
     {
@@ -74,8 +74,6 @@ class Questionnaire extends Component
             return;
         }
 
-        usleep(500_000); // 500ms
-
         (new AnswerQuestion())->handle(
             $this->questionnaireSurvey->id,
             $this->question->id,
@@ -85,6 +83,29 @@ class Questionnaire extends Component
         );
 
         $this->reset('comment');
+
+        $nextQuestion = $this->getNextQuestion();
+
+        if ($nextQuestion) {
+            $this->question = $nextQuestion;
+        } else {
+            $this->redirectRoute('evaluation.home', $this->survey, navigate: true);
+        }
+    }
+
+    /**
+     * @return Question|null
+     */
+    public function getNextQuestion(): ?Question
+    {
+        return $this->questionnaireSurvey->questions->load([
+            'answers' => function (HasMany $query) {
+                $query->whereRelation('questionnaireSurvey', 'id', $this->questionnaireSurvey->id);
+            }
+        ])
+            ->where(fn(Question $question) => $question->answers->isEmpty())
+            ->load('choices')
+            ->first();
     }
 
     #[Layout('layouts.evaluation')]
@@ -96,14 +117,7 @@ class Questionnaire extends Component
         $this->questionnaireSurvey->load('questionnaire.choices', 'questions')
             ->loadCount('questions');
 
-        $this->question = $this->questionnaireSurvey->questions->load([
-            'answers' => function (HasMany $query) {
-                $query->whereRelation('questionnaireSurvey', 'id', $this->questionnaireSurvey->id);
-            }
-        ])
-            ->where(fn(Question $question) => $question->answers->isEmpty())
-            ->load('choices')
-            ->first();
+        $this->question = $this->getNextQuestion();
 
         return view('livewire.evaluation.questionnaire');
     }
