@@ -15,6 +15,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
+/**
+ * @property bool $completed
+ */
 class Survey extends Model
 {
     use SoftDeletes;
@@ -56,8 +59,7 @@ class Survey extends Model
 
     public function getLink(): string
     {
-        // TODO: Implement getUrl() method.
-        return $this->token;
+        return route('evaluation.home', $this->token);
     }
 
     public function updateCompletedStatus(): void

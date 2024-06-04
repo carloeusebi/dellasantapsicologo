@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
+/**
+ * @property bool|null $completed
+ */
 class QuestionnaireSurvey extends Pivot
 {
     public $incrementing = 'questionnaire_survey';

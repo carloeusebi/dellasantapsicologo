@@ -1,0 +1,50 @@
+.label-text {
+  color: black !important;
+}
+
+.label-text + div > .rounded-r-lg {
+  background-color: white !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+input:focus, select:focus {
+  outline: 1px solid green !important;
+}
+
+select[disabled] {
+  background-color: white !important;
+}
+
+.progress::-webkit-progress-bar, .progress::-moz-progress-bar {
+  @apply bg-brand
+}
+
+.choice.active {
+  animation: at-click 0.25s ease 0s 2 normal none running;
+  border-width: 2px;
+}
+
+.choice.active .check-icon {
+  display: block;
+}
+
+@keyframes at-click {
+  50% {
+    opacity: .3;
+  }
+}
+
+@keyframes scroll {
+  33% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  34% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  66% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

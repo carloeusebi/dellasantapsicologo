@@ -13,6 +13,10 @@ export default {
       fontFamily: {
         sans: ['sans', 'sans-serif'],
       },
+      colors: {
+        brand: '#6ecc84',
+        'brand-secondary': '#264e32',
+      },
     },
   },
   daisyui: {

@@ -9,6 +9,7 @@ export default defineConfig({
         'resources/css/style.scss',
         'resources/css/my-library.css',
         'resources/css/app.css',
+        'resources/css/evaluation.css',
         'resources/js/app.js',
       ],
       refresh: true,

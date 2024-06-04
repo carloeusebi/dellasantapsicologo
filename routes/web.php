@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\QuestionnaireController;
 use App\Http\Controllers\SurveyController;
+use App\Livewire\Evaluation;
 use App\Livewire\Patients\CreatePatient;
 use App\Livewire\Patients\ShowPatient;
 use App\Livewire\Surveys\CreateSurvey;
@@ -16,8 +17,13 @@ Route::get('/cosa-aspettarsi', HomeController::class)->name('cosa-aspettarsi');
 Route::get('/di-cosa-mi-occupo', HomeController::class)->name('di-cosa-mi-occupo');
 Route::get('/contatti', HomeController::class)->name('contatti');
 
-Route::get('/home', function () {
-    return redirect()->route('admin');
+Route::get('/home', fn() => redirect()->route('admin'));
+
+Route::prefix('/test-per-la-valutazione')->name('evaluation.')->group(function () {
+    Route::get('/{survey:token}', Evaluation\Home::class)->name('home');
+    Route::get('/{survey:token}/paziente', Evaluation\Patient::class)->name('patient');
+    Route::get('/{survey:token}/grazie', Evaluation\ThankYou::class)->name('thank-you');
+    Route::get('/{survey:token}/{questionnaireSurvey}', Evaluation\Questionnaire::class)->name('questionnaire');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
