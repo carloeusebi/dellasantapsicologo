@@ -12,16 +12,16 @@ class AnswerQuestion
     public function handle(
         int $questionnaire_survey_id,
         int $question_id,
-        int $choice_id,
+        ?int $choice_id = null,
         ?string $comment = null,
         bool $skipped = false,
     ): void {
 
         $question = Question::with('questionnaire.choices')->findOrFail($question_id);
 
-        $choice = Choice::findOrFail($choice_id);
+        $choice = Choice::find($choice_id);
 
-        $value = $question->calculateScore($choice);
+        $value = $choice ? $question->calculateScore($choice) : null;
 
         Answer::updateOrCreate(
             [

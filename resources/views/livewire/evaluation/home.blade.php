@@ -15,8 +15,8 @@
       per impostare un trattamento più adeguato al suo problema e alla sua personalità.
     </p>
     <div class="flex justify-center my-6">
-      <a href="{{ route('evaluation.patient', $survey) }}" wire:navigate.hover>
-        <button class="bg-brand px-12 py-3 rounded-lg font-bold text-white hover:opacity-70 active:opacity-70">
+      <a href="{{ route('evaluation.patient', $survey) }}" class="w-full block" wire:navigate.hover>
+        <button class="bg-brand btn-sm w-full rounded-lg font-bold text-white hover:opacity-70 active:opacity-70">
           Inizia
         </button>
       </a>

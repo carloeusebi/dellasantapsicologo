@@ -14,7 +14,7 @@
   @livewireScripts
   @vite(['resources/css/app.css', 'resources/css/evaluation.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100 text-black min-h-screen">
+<body class="bg-gray-100 text-black min-h-dvh flex flex-col">
 <header>
   <div class="bg-white border-b-8 border-brand-secondary relative z-10">
     <img
@@ -24,8 +24,9 @@
     />
   </div>
 </header>
-<main class="container p-5 mx-auto h-full">
+<main class="container p-5 mx-auto h-full grow flex flex-col">
   {{ $slot }}
+  <x-toast/>
 </main>
 </body>
 </html>

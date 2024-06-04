@@ -1,3 +1,7 @@
+#nprogress .bar {
+  background: theme('colors.brand') !important;
+}
+
 .label-text {
   color: black !important;
 }
@@ -7,7 +11,13 @@
   border: 1px solid #e2e8f0 !important;
 }
 
-input:focus, select:focus {
+textarea {
+  resize: none;
+  background-color: white !important;
+  line-height: 1;
+}
+
+input:focus, select:focus, textarea:focus {
   outline: 1px solid green !important;
 }
 
