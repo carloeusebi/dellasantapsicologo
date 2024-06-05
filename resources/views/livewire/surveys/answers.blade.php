@@ -28,7 +28,7 @@
     </div>
   </div>
   <x-hr/>
-  <div :class="{'fixed inset-0 z-50 bg-base-200 p-5 overflow-y-scroll': fullscreen}">
+  <div :class="{'fixed inset-0 z-50 bg-base-200 p-5 overflow-y-scroll': fullscreen}" wire:poll.10s>
     <x-button
         x-show="fullscreen" x-on:click="fullscreen = false" x-on:keyup.escape.window="fullscreen = false"
         icon="o-arrows-pointing-in" class="fixed right-2 top-2 z-[51] shadow-2xl btn-active"

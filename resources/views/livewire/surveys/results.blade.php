@@ -1,5 +1,6 @@
 @php /** @var App\Models\QuestionnaireSurvey $questionnaireSurvey*/@endphp
 <div
+    wire:poll.10s
     x-init="() => {
       const targetQuestionnaireSurvey = document.querySelector(`[data-questionnaire-survey-id='${$wire.questionnaireSurvey_id}']`);
       targetQuestionnaireSurvey?.scrollIntoView({ behavior: 'instant' })
