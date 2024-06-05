@@ -79,8 +79,6 @@ class ShowTemplate extends Component
         $this->template->load('tags:id,tag,color', 'user:id,name', 'questionnaires:id,title',
             'questionnaires.tags:id,tag,color');
 
-        $this->visible = $this->template->visible;
-
         return view('livewire.templates.show-template');
     }
 }
