@@ -77,9 +77,11 @@ class CreateSurvey extends Component
     }
 
     #[On('template-chosen')]
-    public function useTemplate(array $questionnaires): void
+    public function useTemplate(array $questionnaires, string $title): void
     {
         $this->selectedQuestionnaires = $questionnaires;
+
+        $this->title = $title;
 
         $this->usingTemplate = true;
 
@@ -113,7 +115,7 @@ class CreateSurvey extends Component
             return;
         }
 
-        $this->usingTemplate = false;
+        $this->reset('title', 'usingTemplate');
 
         $this->step -= 1;
     }

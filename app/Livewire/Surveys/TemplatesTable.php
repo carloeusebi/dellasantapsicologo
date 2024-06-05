@@ -36,9 +36,12 @@ class TemplatesTable extends Component
 
     public function chooseTemplate(int $id): void
     {
-        $questionnaires = Template::with('questionnaires:id,title')->findOrFail($id)->questionnaires->toArray();
+        $template = Template::with('questionnaires:id,title')->findOrFail($id);
 
-        $this->dispatch('template-chosen', $questionnaires);
+        $this->dispatch('template-chosen',
+            $template->questionnaires->toArray(),
+            $template->name,
+        );
     }
 
     public function render(

@@ -24,7 +24,7 @@
 
     {{-- STEP 2 --}}
     <x-step step="{{ self::$CHOOSE_QUESTIONNAIRES }}" text="Questionari" class="min-h-56 overflow-hidden">
-      <div x-data="{ view: 'picker' }">
+      <div x-data="{ view: 'templates' }">
         <div class="mb-5 lg:flex justify-between items-center">
           <h2 class="font-bold mb-4">Paziente: {{ $patient?->full_name }} </h2>
           <x-button
@@ -63,7 +63,10 @@
           @endforeach
         </ul>
         @unless($usingTemplate)
-          <x-checkbox label="Crea un template con questi questionari" wire:model.live="createTemplate"/>
+          <div class="flex gap-1 justify-start">
+            <x-checkbox label="Crea un template con questi questionari" wire:model.live="createTemplate"/>
+            <x-loading class="loading-sm" wire:loading.delay wire:target="createTemplate"/>
+          </div>
           @if($createTemplate)
             @include('templates.form')
           @endif
