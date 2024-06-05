@@ -11,7 +11,13 @@
     <div class="col-span-2 space-y-4">
 
       @can('update', $template)
-        <x-card :title="$template->name" separator shadow>
+        <x-card separator shadow>
+          <x-slot:figure>
+            <div class="w-full flex flex-wrap justify-between items-center p-5">
+              <h1 class="font-bold text-3xl">{{ $template->name }}</h1>
+              <x-button icon="o-trash" responsive label="Elimina" onclick="deleteModal.showModal()"/>
+            </div>
+          </x-slot:figure>
           <div class="space-y-5">
             <div class="w-full">
               <x-input label="Nome" wire:model.live="name" class="w-full"/>
@@ -54,6 +60,14 @@
             </div>
           </x-slot:actions>
         </x-card>
+
+        <x-modal id="deleteModal" title="Elimina Template" class="backdrop-blur">
+          <p>Sei sicuro di voler eliminare il template {{ $template->name }}?</p>
+          <x-slot:actions>
+            <x-button onclick="deleteModal.close()">Annulla</x-button>
+            <x-button class="btn-error" wire:click="delete" spinner="delete">Elimina</x-button>
+          </x-slot:actions>
+        </x-modal>
 
       @else
 
