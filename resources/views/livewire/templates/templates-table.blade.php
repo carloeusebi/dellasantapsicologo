@@ -39,33 +39,11 @@
   </x-slot:filters>
 
   @if($templates->count())
-    <x-table wire:model="expanded" :rows="$templates" :$headers :$sortBy link="/valutazioni/templates/{id}" expandable>
+    <x-table :rows="$templates" :$headers :$sortBy link="/valutazioni/templates/{id}">
       @scope('cell_tags', $questionnaire)
       @foreach($questionnaire->tags as $tag)
         <x-questionnaires.tag :tag="$tag" :key="$tag->id"/>
       @endforeach
-      @endscope
-      @scope('expansion', $template)
-      <div class="text-xs flex flex-wrap gap-8">
-        <div>
-          <div class="font-bold">Descrizione:</div>
-          <p class="h-5 my-1 flex items-center">{{ $template->description }}</p>
-        </div>
-        <div class="lg:hidden">
-          <div class="font-bold">Tags:</div>
-          @foreach($template->tags as $tag)
-            <x-questionnaires.tag :tag="$tag"/>
-          @endforeach
-        </div>
-        <div class="lg:hidden">
-          <div class="font-bold">Autore:</div>
-          <div class="h-5 my-1 flex items-center">{{ $template->user?->name }}</div>
-        </div>
-        <div class="md:hidden">
-          <div class="font-bold">Questionari:</div>
-          <div class="h-5 my-1 flex items-center">{{ $template->questionnaires_count }}</div>
-        </div>
-      </div>
       @endscope
     </x-table>
   @else

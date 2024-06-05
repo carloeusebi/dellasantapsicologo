@@ -7,15 +7,18 @@
     <li>{{ $template->name }}</li>
   </x-slot:breadcrumb>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-    <div class="col-span-2 space-y-4">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-y-8 lg:gap-x-8 items-start">
+    <div class="col-span-2">
 
       @can('update', $template)
         <x-card separator shadow>
           <x-slot:figure>
-            <div class="w-full flex flex-wrap justify-between items-center p-5">
+            <div class="w-full md:flex flex-wrap justify-between items-center p-5">
               <h1 class="font-bold text-3xl">{{ $template->name }}</h1>
-              <x-button icon="o-trash" responsive label="Elimina" onclick="deleteModal.showModal()"/>
+              <x-button
+                  class="btn-sm w-full mt-2 md:btn-md md:w-fit md:mt-0" icon="o-trash" label="Elimina"
+                  onclick="deleteModal.showModal()"
+              />
             </div>
           </x-slot:figure>
           @include('templates.form')
@@ -31,7 +34,7 @@
         </x-card>
 
         <x-modal id="deleteModal" title="Elimina Template" class="backdrop-blur">
-          <p>Sei sicuro di voler eliminare il template {{ $template->name }}?</p>
+          <p>Sei sicuro di voler eliminare il template <span class="italic">{{ $template->name }}</span>?</p>
           <x-slot:actions>
             <x-button onclick="deleteModal.close()">Annulla</x-button>
             <x-button class="btn-error" wire:click="delete" spinner="delete" icon="o-trash">Elimina</x-button>
@@ -55,7 +58,7 @@
       @endcan
     </div>
 
-    <x-card title="Questionari" shadow class="select-none" wire:ignore>
+    <x-card title="Questionari" shadow class="select-none">
       <div wire:sortable="updateQuestionnairesOrder" wire:sortable.options="{ animation: 250, delay: 0 }">
         <x-hr target="updateQuestionnairesOrder"/>
         @foreach($template->questionnaires as $questionnaire)
@@ -78,7 +81,5 @@
         @endforeach
       </div>
     </x-card>
-
   </div>
-
 </div>
