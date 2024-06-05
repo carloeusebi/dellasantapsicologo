@@ -63,4 +63,9 @@ class Questionnaire extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    public function templates(): BelongsToMany
+    {
+        return $this->belongsToMany(Template::class);
+    }
 }

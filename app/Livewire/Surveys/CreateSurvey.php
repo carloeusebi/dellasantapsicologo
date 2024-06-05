@@ -4,10 +4,12 @@ namespace App\Livewire\Surveys;
 
 use App\Models\Patient;
 use App\Models\Questionnaire;
+use App\Models\Tag;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -44,6 +46,17 @@ class CreateSurvey extends Component
 
     public bool $sendEmail = false;
 
+    public bool $templateModal = false;
+
+    public bool $usingTemplate = false;
+
+    public bool $createTemplate = false;
+
+    public string $templateName = '';
+    public string $templateDescription = '';
+    public bool $templateVisible = false;
+    public array $templateTags = [];
+
     public function mount(): void
     {
         try {
@@ -54,7 +67,7 @@ class CreateSurvey extends Component
         }
     }
 
-    #[Computed]
+    #[Computed(cache: true)]
     public function patients(): Patient|Collection
     {
         return Patient::userScope()
@@ -68,13 +81,14 @@ class CreateSurvey extends Component
         $this->selectedQuestionnaires = $questionnaires;
     }
 
-    public function prev(): void
+    #[On('template-chosen')]
+    public function useTemplate(array $questionnaires): void
     {
-        if ($this->step === self::$CHOOSE_PATIENT) {
-            return;
-        }
+        $this->selectedQuestionnaires = $questionnaires;
 
-        $this->step -= 1;
+        $this->usingTemplate = true;
+
+        $this->next();
     }
 
     public function next(): void
@@ -98,6 +112,17 @@ class CreateSurvey extends Component
         $this->step += 1;
     }
 
+    public function prev(): void
+    {
+        if ($this->step === self::$CHOOSE_PATIENT) {
+            return;
+        }
+
+        $this->usingTemplate = false;
+
+        $this->step -= 1;
+    }
+
     public function store(): null
     {
         $this->validate([
@@ -110,6 +135,10 @@ class CreateSurvey extends Component
             'selectedQuestionnaires.*' => 'Questionari',
             'title' => 'Titolo',
         ]);
+
+        if ($this->createTemplate) {
+            $this->createTemplate();
+        }
 
         $survey = Patient::findOrFail($this->patientId)
             ->surveys()
@@ -134,6 +163,43 @@ class CreateSurvey extends Component
         }
 
         return $this->redirect(route('surveys.show', $survey), true);
+    }
+
+    public function createTemplate(): void
+    {
+        $this->validate([
+            'templateName' => 'required|string|max:255',
+            'templateDescription' => 'nullable|string',
+            'templateVisible' => 'required|boolean',
+            'templateTags' => 'nullable|array',
+            'templateTags.*' => 'exists:tags,id',
+        ], attributes: [
+            'templateName' => 'Nome',
+            'templateDescription' => 'Descrizione',
+            'templateVisible' => 'Visibile',
+            'templateTags' => 'Tags',
+            'templateTags.*' => 'Tag',
+        ]);
+
+        $template = Auth::user()->templates()->create([
+            'name' => $this->templateName,
+            'description' => $this->templateDescription,
+            'visible' => $this->templateVisible,
+        ]);
+
+        $template->tags()->attach($this->templateTags);
+        $template->questionnaires()->attach(array_map(fn(array $q) => $q['id'], $this->selectedQuestionnaires));
+
+        $template->save();
+
+    }
+
+    #[Computed(cache: true)]
+    public function tags(): Collection
+    {
+        return Tag::select(['id', 'tag', 'color'])
+            ->orderBy('tag')
+            ->get();
     }
 
     public function render(

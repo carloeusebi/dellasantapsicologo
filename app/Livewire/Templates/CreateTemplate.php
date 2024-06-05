@@ -77,11 +77,7 @@ class CreateTemplate extends Component
 
     public function store(): void
     {
-        $this->validateOnly('selectedQuestionnaires', [
-            'selectedQuestionnaires' => 'required|array|exists:questionnaires,id',
-        ], attributes: [
-            'selectedQuestionnaires' => 'Questionari',
-        ]);
+        $this->validate();
 
         $template = Auth::user()->templates()->create([
             'name' => $this->name,

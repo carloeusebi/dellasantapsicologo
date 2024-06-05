@@ -29,7 +29,7 @@
           @endscope
         </x-choices>
         <x-textarea label="Descrizione" placeholder="Descrizione" wire:model.live.debounce="description"/>
-        <x-checkbox label="Visibile anche agli altri utenti"/>
+        <x-checkbox label="Visibile anche agli altri utenti" wire:model="visible"/>
       </div>
     </x-step>
 

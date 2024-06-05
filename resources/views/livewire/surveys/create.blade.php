@@ -24,14 +24,24 @@
 
     {{-- STEP 2 --}}
     <x-step step="{{ self::$CHOOSE_QUESTIONNAIRES }}" text="Questionari" class="min-h-56 overflow-hidden">
-      <div class="mb-5 lg:flex justify-between items-center">
-        <div><h2 class="font-bold">Paziente: {{ $patient?->full_name }} </h2>
-          <p class="text-base-content/50">Puoi spostare i questionari trascinandoli, oppure cliccando sulle frecce.</p>
+      <div x-data="{ view: 'picker' }">
+        <div class="mb-5 lg:flex justify-between items-center">
+          <div><h2 class="font-bold">Paziente: {{ $patient?->full_name }} </h2>
+          </div>
+          <x-button
+              x-on:click="view = view === 'picker' ? 'templates' : 'picker'"
+              x-text="view === 'picker' ? 'Scegli un template' : 'Scegli i questionari'"
+          />
         </div>
-        <x-button x-on:click="alert('Feature in costruzione')">Scegli un template</x-button>
-      </div>
 
-      <livewire:questionnaire-picker lazy/>
+        <div x-show="view === 'picker'">
+          <livewire:questionnaire-picker lazy/>
+        </div>
+
+        <div x-show="view === 'templates'">
+          <livewire:surveys.templates-table lazy/>
+        </div>
+      </div>
     </x-step>
 
     {{-- STEP 3 --}}
@@ -53,11 +63,36 @@
             </li>
           @endforeach
         </ul>
+        @unless($usingTemplate)
+          <x-checkbox label="Crea un template con questi questionari" wire:model.live="createTemplate"/>
+          @if($createTemplate)
+            <div class="space-y-5">
+              <x-input label="Nome" placeholder="Dai un nome al Template" wire:model.live.debounce="templateName"/>
+              <x-choices
+                  class="md:min-w-[420px] w-full" icon="o-tag" :options="$this->tags"
+                  wire:model.live.debounce="templateTags" label="Tags"
+                  option-label="tag" option-value="id" placeholder="Cerca per tag"
+                  error-field="selectedTags.*" first-error-only
+              >
+                @scope('item', $tag)
+                <x-list-item :item="$tag" class="h-10">
+                  <x-slot:value>
+                    <x-questionnaires.tag :tag="$tag" :key="$tag->id"/>
+                  </x-slot:value>
+                </x-list-item>
+                @endscope
+                @scope('selection', $tag)
+                <x-questionnaires.tag :tag="$tag" :key="$tag->id"/>
+                @endscope
+              </x-choices>
+              <x-textarea label="Descrizione" placeholder="Descrizione" wire:model.live.debounce="templateDescription"/>
+              <x-checkbox wire:model="templateVisible" label="Visibile anche agli altri utenti"/>
+            </div>
+          @endif
+        @endif
       </div>
     </x-step>
   </x-steps>
-
-  <x-errors class="my-3"/>
 
   {{-- BUTTONS --}}
   <div class="flex justify-end gap-2 items-center">
@@ -87,5 +122,6 @@
       >Prosegui
       </x-button>
     @endif
+
   </div>
 </div>
