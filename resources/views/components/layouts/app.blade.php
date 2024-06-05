@@ -104,7 +104,7 @@
         <x-custom-menu-sub title="Valutazioni" icon="o-list-bullet" route="surveys.*">
           <x-menu-item title="Valutazioni" link="{{ route('surveys.index') }} " route="surveys.index"/>
           <x-menu-item title="Nuovo" link="{{ route('surveys.create') }}" route="surveys.create"/>
-          <x-menu-item title="Templates"/>
+          <x-menu-item title="Templates" link="{{ route('surveys.templates.index') }}" route="surveys.templates.index"/>
         </x-custom-menu-sub>
         <x-custom-menu-sub title="Questionari" icon="o-document-chart-bar" route="questionnaires.*">
           <x-menu-item title="Questionari" link="{{ route('questionnaires.index') }}" route="questionnaires.index"/>

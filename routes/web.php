@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\QuestionnaireController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\TemplatesController;
 use App\Livewire\Evaluation;
 use App\Livewire\Patients\CreatePatient;
 use App\Livewire\Patients\ShowPatient;
@@ -38,10 +39,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('/valutazioni')->name('surveys.')->group(function () {
+        Route::prefix('/templates')->name('templates.')->group(function () {
+            Route::get('/', [TemplatesController::class, 'index'])->name('index');
+        });
+
+
         Route::get('/', [SurveyController::class, 'index'])->name('index');
         Route::get('/crea', CreateSurvey::class)->name('create');
         Route::get('/{survey}', ShowSurvey::class)->name('show');
     });
+
 
     Route::resource('questionari', QuestionnaireController::class)
         ->parameter('questionari', 'questionnaire')
