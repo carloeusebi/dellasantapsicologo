@@ -11,7 +11,7 @@ use App\Livewire\Patients\ShowPatient;
 use App\Livewire\Surveys\CreateSurvey;
 use App\Livewire\Surveys\ShowSurvey;
 use App\Livewire\Templates\CreateTemplate;
-use App\Models\Template;
+use App\Livewire\Templates\ShowTemplate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -44,9 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::prefix('/templates')->name('templates.')->group(function () {
             Route::get('/', [TemplatesController::class, 'index'])->name('index');
             Route::get('/crea', CreateTemplate::class)->name('create');
-            Route::get('/{template}', function (Template $template) {
-                return $template->name;
-            })->name('show');
+            Route::get('/{template}', ShowTemplate::class)->name('show');
         });
 
 

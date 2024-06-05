@@ -1,11 +1,12 @@
 @php
   /** @var App\Models\Tag $tag */
+  /** @var App\Models\Template $template */
   $headers = [
     ['key' => 'name', 'label' => 'Nome'],
     ['key' => 'tags', 'label' => 'Tags', 'sortable' => false],
     ['key' => 'user.name', 'label' => 'Autore', 'sortable' => false, 'class' => 'hidden lg:table-cell'],
     ['key' => 'questionnaires_count', 'label' => 'Questionari', 'class' => 'hidden md:table-cell'],
-    ['key' => 'visible', 'label' => 'Visibile', 'sortable' => false, 'class' => 'hidden lg:table-cell'],
+    ['key' => 'other_users_can_see', 'label' => 'Visibile', 'sortable' => false, 'class' => 'hidden lg:table-cell'],
   ];
 @endphp
 
@@ -13,7 +14,7 @@
   <x-slot:filters>
     <x-choices
         class="md:min-w-[420px] w-full" icon="o-tag" :options="$this->tags"
-        wire:model.live.debounce="tagsFilter" @click.stop
+        wire:model.live.debounce="tagsFilter" label="Tags"
         option-label="tag" option-value="tag" placeholder="Cerca per tag"
     >
       @scope('item', $tag)
@@ -38,7 +39,7 @@
   </x-slot:filters>
 
   @if($templates->count())
-    <x-table :rows="$templates" :$headers :$sortBy link="/templates/{id}">
+    <x-table :rows="$templates" :$headers :$sortBy link="/valutazioni/templates/{id}">
       @scope('cell_tags', $questionnaire)
       @foreach($questionnaire->tags as $tag)
         <x-questionnaires.tag :tag="$tag" :key="$tag->id"/>
