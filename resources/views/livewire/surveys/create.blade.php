@@ -6,7 +6,7 @@
     <li>Crea</li>
   </x-slot:breadcrumb>
 
-  <x-steps wire:model="step" class="border my-5 p-5">
+  <x-steps wire:model="step" class="border my-5 p-5 [&>div]:!overflow-visible">
 
     {{-- STEP 1--}}
     <x-step step="{{ self::$CHOOSE_PATIENT }}" text="Paziente">
@@ -26,8 +26,7 @@
     <x-step step="{{ self::$CHOOSE_QUESTIONNAIRES }}" text="Questionari" class="min-h-56 overflow-hidden">
       <div x-data="{ view: 'picker' }">
         <div class="mb-5 lg:flex justify-between items-center">
-          <div><h2 class="font-bold">Paziente: {{ $patient?->full_name }} </h2>
-          </div>
+          <h2 class="font-bold mb-4">Paziente: {{ $patient?->full_name }} </h2>
           <x-button
               x-on:click="view = view === 'picker' ? 'templates' : 'picker'"
               x-text="view === 'picker' ? 'Scegli un template' : 'Scegli i questionari'"

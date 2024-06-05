@@ -31,6 +31,8 @@ class TemplatesTable extends TableComponent
     #[Url(as: 'tags', except: []), Session]
     public array $tagsFilter = [];
 
+    public array $expanded = [];
+
     /** @var Collection<Tag> $tags @ */
     #[Computed(cache: true)]
     public function tags(): Collection

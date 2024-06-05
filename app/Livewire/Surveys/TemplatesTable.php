@@ -2,20 +2,37 @@
 
 namespace App\Livewire\Surveys;
 
+use App\Models\Tag;
 use App\Models\Template;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
 
+/** @property Collection<Tag> $tags */
 #[Lazy]
 class TemplatesTable extends Component
 {
+    public array $sortBy = [
+        'column' => 'name',
+        'direction' => 'asc',
+    ];
+
     public string $search = '';
 
+    public array $tagsFilter = [];
+
     public array $expanded = [];
+
+    #[Computed]
+    public function tags(): Collection
+    {
+        return Tag::select(['id', 'tag', 'color'])->orderBy('tag')->get();
+    }
 
     public function chooseTemplate(int $id): void
     {
@@ -29,14 +46,20 @@ class TemplatesTable extends Component
     {
         $templates = Template::userScope()
             ->select(['id', 'user_id', 'name', 'description'])
-            ->when($this->search, function (Builder $query, string $search) {
-                collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                    $query->where('title', 'like', "%$term%")
-                        ->orWhereRelation('tags', 'tag', 'like', "%$term%");
-                });
-            })
             ->with('user:id,name', 'tags:id,color,tag')
             ->withCount('questionnaires')
+            ->when($this->search, function (Builder $query, string $search) {
+                collect(explode(' ', $search))->each(function (string $term) use ($query) {
+                    $query->whereRelation('tags', 'tag', 'like', "%$term%");
+                });
+            })
+            ->when($this->tagsFilter, function (Builder $query, array $tags) {
+                $query->where(function (Builder $query) use ($tags) {
+                    foreach ($tags as $id) {
+                        $query->whereRelation('tags', 'tags.id', $id);
+                    }
+                });
+            })
             ->paginate(10, pageName: 'pagina_templates');
 
         return view('livewire.surveys.templates-table', compact('templates'));
