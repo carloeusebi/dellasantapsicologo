@@ -54,6 +54,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Patient::class);
     }
 
+    public function templates(): HasMany
+    {
+        return $this->hasMany(Template::class);
+    }
+
     public function isNotAdmin(): bool
     {
         return !$this->isAdmin();

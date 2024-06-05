@@ -3,6 +3,9 @@
   $headers = [
     ['key' => 'name', 'label' => 'Nome'],
     ['key' => 'tags', 'label' => 'Tags', 'sortable' => false],
+    ['key' => 'user.name', 'label' => 'Autore', 'sortable' => false, 'class' => 'hidden lg:table-cell'],
+    ['key' => 'questionnaires_count', 'label' => 'Questionari', 'class' => 'hidden md:table-cell'],
+    ['key' => 'visible', 'label' => 'Visibile', 'sortable' => false, 'class' => 'hidden lg:table-cell'],
   ];
 @endphp
 
@@ -36,6 +39,11 @@
 
   @if($templates->count())
     <x-table :rows="$templates" :$headers :$sortBy link="/templates/{id}">
+      @scope('cell_tags', $questionnaire)
+      @foreach($questionnaire->tags as $tag)
+        <x-questionnaires.tag :tag="$tag" :key="$tag->id"/>
+      @endforeach
+      @endscope
     </x-table>
   @else
     <x-alert icon="o-exclamation-triangle" title="Nessun Template trovato"/>

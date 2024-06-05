@@ -44,9 +44,10 @@ class TemplatesTable extends TableComponent
         $templates = $this->goToFirstPageIfResultIsEmpty(function () {
             return Template::userScope()
                 ->select([
-                    'id', 'name', 'description'
+                    'id', 'user_id', 'name', 'description', 'visible'
                 ])
-                ->with('tags')
+                ->with('user:id,name', 'tags:id,tag,color')
+                ->withCount('questionnaires')
                 ->when(count($this->tagsFilter), function ($query) {
                     $query->where(function (Builder $query) {
                         foreach ($this->tagsFilter as $tag) {

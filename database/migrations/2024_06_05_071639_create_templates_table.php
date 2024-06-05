@@ -27,10 +27,10 @@ return new class extends Migration {
             $table->foreignIdFor(Template::class)->constrained()->cascadeOnDelete();
         });
 
-        Schema::create('template_tag', function (Blueprint $table) {
+        Schema::create('tag_template', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Template::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Tag::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Template::class)->constrained()->cascadeOnDelete();
         });
     }
 
