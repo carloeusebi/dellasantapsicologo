@@ -2,15 +2,14 @@
 
 namespace App\Livewire\Templates;
 
+use App\Livewire\Forms\TemplateForm;
 use App\Models\Tag;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -26,20 +25,7 @@ class CreateTemplate extends Component
 
     public int $step = 1;
 
-    #[Validate(['required', 'string', 'max:255'], as: 'Nome')]
-    public string $name = '';
-
-    #[Validate(['nullable', 'string'], as: 'Descrizione')]
-    public string $description = '';
-
-    #[Validate('nullable|array', as: 'tags')]
-    public array $selectedTags = [];
-
-    #[Validate('required|array|exists:questionnaires,id', as: 'questionnaires')]
-    public array $selectedQuestionnaires = [];
-
-    #[Validate('required|boolean', as: 'Visibile')]
-    public bool $visible = false;
+    public TemplateForm $form;
 
     public function next(): void
     {
@@ -48,19 +34,10 @@ class CreateTemplate extends Component
         }
 
         if ($this->step === self::$CHOOSE_TITLE) {
-            $this->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'visible' => 'required|boolean',
-                'selectedTags' => 'nullable|array',
-                'selectedTags.*' => 'exists:tags,id',
-            ], attributes: [
-                'name' => 'Nome',
-                'description' => 'Descrizione',
-                'visible' => 'Visibile',
-                'selectedTags' => 'Tags',
-                'selectedTags.*' => 'Tag.*',
-            ]);
+            $this->form->validateOnly('name');
+            $this->form->validateOnly('description');
+            $this->form->validateOnly('visible');
+            $this->form->validateOnly('selectedTags');
         }
 
         $this->step++;
@@ -77,18 +54,7 @@ class CreateTemplate extends Component
 
     public function store(): void
     {
-        $this->validate();
-
-        $template = Auth::user()->templates()->create([
-            'name' => $this->name,
-            'description' => $this->description,
-            'visible' => $this->visible,
-        ]);
-
-        $template->tags()->attach($this->selectedTags);
-        $template->questionnaires()->attach($this->selectedQuestionnaires);
-
-        $template->save();
+        $template = $this->form->store();
 
         $this->success('Successo', 'Template creato con successo!',
             redirectTo: route('surveys.templates.show', $template));
@@ -103,7 +69,7 @@ class CreateTemplate extends Component
     #[On('questionnairesUpdated')]
     public function updateSelectedQuestionnaires(array $questionnaires): void
     {
-        $this->selectedQuestionnaires = collect($questionnaires)->pluck('id')->toArray();
+        $this->form->selectedQuestionnaires = collect($questionnaires)->pluck('id')->toArray();
     }
 
     public function render(

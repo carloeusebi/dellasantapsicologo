@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Surveys;
 
+use App\Livewire\Forms\TemplateForm;
 use App\Models\Patient;
 use App\Models\Questionnaire;
 use App\Models\Tag;
@@ -9,7 +10,6 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -46,16 +46,11 @@ class CreateSurvey extends Component
 
     public bool $sendEmail = false;
 
-    public bool $templateModal = false;
-
     public bool $usingTemplate = false;
 
     public bool $createTemplate = false;
 
-    public string $templateName = '';
-    public string $templateDescription = '';
-    public bool $templateVisible = false;
-    public array $templateTags = [];
+    public TemplateForm $form;
 
     public function mount(): void
     {
@@ -137,7 +132,8 @@ class CreateSurvey extends Component
         ]);
 
         if ($this->createTemplate) {
-            $this->createTemplate();
+            $this->form->selectedQuestionnaires = collect($this->selectedQuestionnaires)->pluck('id')->toArray();
+            $this->form->store();
         }
 
         $survey = Patient::findOrFail($this->patientId)
@@ -163,35 +159,6 @@ class CreateSurvey extends Component
         }
 
         return $this->redirect(route('surveys.show', $survey), true);
-    }
-
-    public function createTemplate(): void
-    {
-        $this->validate([
-            'templateName' => 'required|string|max:255',
-            'templateDescription' => 'nullable|string',
-            'templateVisible' => 'required|boolean',
-            'templateTags' => 'nullable|array',
-            'templateTags.*' => 'exists:tags,id',
-        ], attributes: [
-            'templateName' => 'Nome',
-            'templateDescription' => 'Descrizione',
-            'templateVisible' => 'Visibile',
-            'templateTags' => 'Tags',
-            'templateTags.*' => 'Tag',
-        ]);
-
-        $template = Auth::user()->templates()->create([
-            'name' => $this->templateName,
-            'description' => $this->templateDescription,
-            'visible' => $this->templateVisible,
-        ]);
-
-        $template->tags()->attach($this->templateTags);
-        $template->questionnaires()->attach(array_map(fn(array $q) => $q['id'], $this->selectedQuestionnaires));
-
-        $template->save();
-
     }
 
     #[Computed(cache: true)]
