@@ -47,7 +47,7 @@
     {{-- Brand --}}
     <div>
       <img class="hidden xl:block h-14" src="{{ asset('images/Logo.webp') }}" alt="logo"/>
-      <img class="hidden md:block xl:hidden h-12" src="{{ asset('images/favicon.ico') }}" alt="logo"/>
+      <img class="hidden md:block xl:hidden h-12" src="{{ asset('favicon.ico') }}" alt="logo"/>
     </div>
 
     @isset($breadcrumb)

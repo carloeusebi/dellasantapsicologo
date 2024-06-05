@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Errore</title>
 
-  <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/ico">
+  <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico">
 </head>
 <body>
 
