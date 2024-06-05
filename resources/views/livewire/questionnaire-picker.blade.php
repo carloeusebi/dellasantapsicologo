@@ -13,7 +13,7 @@
       />
       <div
           wire:sortable-group.item-group="questionnaires"
-          wire:sortable-group.options="{ animation: 200, delay: 75 }"
+          wire:sortable-group.options="{ animation: 200, delay: 150 }"
           class="relative bg-base-300 p-2 rounded-xl shadow-inner h-56 lg:h-96 overflow-y-auto"
       >
         <x-loading class="absolute top-2 right-2 text-primary" wire:loading.delay wire:target.except="selectQ,removeQ"/>
@@ -62,7 +62,7 @@
       </div>
       <div
           wire:sortable-group.item-group="selectedQuestionnaires"
-          wire:sortable-group.options="{ animation: 200, delay: 75 }"
+          wire:sortable-group.options="{ animation: 200, delay: 150 }"
           class="bg-base-300 p-2 rounded-xl shadow-inner h-56 lg:h-96 overflow-y-auto"
       >
         @forelse($selectedQuestionnaires as $questionnaire)
