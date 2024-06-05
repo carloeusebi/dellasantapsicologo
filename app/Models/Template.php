@@ -40,7 +40,11 @@ class Template extends Model
 
     public function questionnaires(): BelongsToMany
     {
-        return $this->belongsToMany(Questionnaire::class);
+        return $this->belongsToMany(Questionnaire::class)
+            ->withPivot('order')
+            ->orderByPivot('order')
+            ->orderByPivot('id');
+
     }
 
     public function tags(): BelongsToMany

@@ -84,6 +84,28 @@ class ShowTemplate extends Component
         return Tag::select(['id', 'tag', 'color'])->get();
     }
 
+    /** @param  array<array{'value': string, 'order': int}>  $newOrder */
+    public function updateQuestionnairesOrder(array $newOrder): void
+    {
+        $this->authorize('update', $this->template);
+
+        foreach ($newOrder as $item) {
+            $this->template->questionnaires()->updateExistingPivot($item['value'], ['order' => $item['order']]);
+        }
+
+        $this->success('Successo!', 'Ordine dei questionari aggiornato con successo');
+    }
+
+    public function delete(): void
+    {
+        $this->authorize('delete', $this->template);
+
+        $this->template->delete();
+
+        $this->success('Successo!', 'Template eliminato con successo!',
+            redirectTo: route('surveys.templates.index'));
+    }
+
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {

@@ -65,7 +65,7 @@
           <p>Sei sicuro di voler eliminare il template {{ $template->name }}?</p>
           <x-slot:actions>
             <x-button onclick="deleteModal.close()">Annulla</x-button>
-            <x-button class="btn-error" wire:click="delete" spinner="delete">Elimina</x-button>
+            <x-button class="btn-error" wire:click="delete" spinner="delete" icon="o-trash">Elimina</x-button>
           </x-slot:actions>
         </x-modal>
 
@@ -87,15 +87,27 @@
     </div>
 
     <x-card title="Questionari" shadow class="select-none" wire:ignore>
-      @foreach($template->questionnaires as $questionnaire)
-        <x-list-item :item="$questionnaire" value="title">
-          <x-slot:subValue>
-            @foreach($questionnaire->tags as $tag)
-              <x-questionnaires.tag :tag="$tag" :key="$tag->id"/>
-            @endforeach
-          </x-slot:subValue>
-        </x-list-item>
-      @endforeach
+      <div wire:sortable="updateQuestionnairesOrder" wire:sortable.options="{ animation: 250, delay: 0 }">
+        <x-hr target="updateQuestionnairesOrder"/>
+        @foreach($template->questionnaires as $questionnaire)
+          <div wire:sortable.item="{{ $questionnaire->id }}" class="[&_*]:!text-wrap">
+            <x-list-item :item="$questionnaire" value="title">
+              <x-slot:subValue>
+                @foreach($questionnaire->tags as $tag)
+                  <x-questionnaires.tag :tag="$tag" :key="$tag->id"/>
+                @endforeach
+              </x-slot:subValue>
+              <x-slot:actions>
+                @can('update', $template)
+                  <x-button class="btn btn-sm cursor-grab" type="button" wire:sortable.handle icon="o-bars-3"/>
+                @else
+                  <input type="hidden" wire:sortable.handle/>
+                @endcan
+              </x-slot:actions>
+            </x-list-item>
+          </div>
+        @endforeach
+      </div>
     </x-card>
 
   </div>

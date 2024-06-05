@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(Questionnaire::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Template::class)->constrained()->cascadeOnDelete();
+            $table->unsignedTinyInteger('order')->nullable();
         });
 
         Schema::create('tag_template', function (Blueprint $table) {
@@ -36,7 +37,7 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('template_tag');
+        Schema::dropIfExists('tag_template');
         Schema::dropIfExists('questionnaire_template');
         Schema::dropIfExists('templates');
     }
