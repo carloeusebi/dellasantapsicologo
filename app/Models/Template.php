@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Template extends Model
 {
@@ -27,10 +28,12 @@ class Template extends Model
         );
     }
 
-    public function scopeUserScope(Builder $query): Builder
+    public function scopeUserScope(Builder $query): void
     {
-        return $query->whereRelation('user', 'id', auth()->id())
-            ->orWhereRelation('user.role', 'name', Role::$ADMIN);
+        $query->when(Auth::user()->isNotAdmin(), function (Builder $query) {
+            $query->where('visible', true)
+                ->orWhereRelation('user', 'id', Auth::id());
+        });
     }
 
     public function user(): BelongsTo
