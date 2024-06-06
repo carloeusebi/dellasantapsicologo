@@ -15,6 +15,12 @@
       content="Psicologo Cognitivo Comportamentale, mi occupo di consulenze psicologiche, sostegno e propongo percorsi individualizzati a Fano e online. Prenota la tua consulenza."
   >
 
+  <!-- PWA  -->
+  <meta name="theme-color" content="#6ecc84"/>
+  <link rel="apple-touch-icon" href="{{ asset('images/Logo.png') }}">
+  <link rel="manifest" href="{{ asset('/manifest.json') }}">
+
+
   <title>Dellasanta Psicologo |
     @isset($title)
       {{ $title }}
@@ -80,11 +86,9 @@
             Contatti
           </a>
         </li>
-        @auth()
-          <li>
-            <a href="{{ route('admin') }}">Admin</a>
-          </li>
-        @endauth
+        <li>
+          <a href="{{ route('admin') }}">Admin</a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -231,6 +235,24 @@
 
 @livewireScripts
 @vite('resources/js/app.js')
+
+<script src="{{ asset('/sw.js') }}"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    // Register a service worker hosted at the root of the
+    // site using the default scope.
+    navigator.serviceWorker.register("/sw.js").then(
+      (registration) => {
+        console.log("Service worker registration succeeded:", registration);
+      },
+      (error) => {
+        console.error(`Service worker registration failed: ${error}`);
+      },
+    );
+  } else {
+    console.error("Service workers are not supported.");
+  }
+</script>
 
 
 <!-- iubenda -->
