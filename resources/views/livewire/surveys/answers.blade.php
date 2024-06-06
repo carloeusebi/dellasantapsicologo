@@ -2,7 +2,7 @@
   <div class="px-3 flex flex-wrap sm:flex-nowrap justify-end gap-4">
     <div class="md:flex justify-between w-full">
       <div class="flex gap-2 items-center">
-        <x-button class="btn-sm hidden xl:block" x-on:click="toggleQuickEditMode">
+        <x-button class="btn-sm hidden md:block" x-on:click="toggleQuickEditMode">
           <span x-text=" quickEditMode ? 'Esci' : 'Modifica Rapida'"></span>
         </x-button>
         <span x-show="quickEditMode" class="text-xs text-base-content/75 italic">
@@ -28,7 +28,7 @@
     </div>
   </div>
   <x-hr/>
-  <div :class="{'fixed inset-0 z-50 bg-base-200 p-5 overflow-y-scroll': fullscreen}" wire:poll.10s>
+  <div id="poll" :class="{'fixed inset-0 z-50 bg-base-200 p-5 overflow-y-scroll': fullscreen}" wire:poll.10s>
     <x-button
         x-show="fullscreen" x-on:click="fullscreen = false" x-on:keyup.escape.window="fullscreen = false"
         icon="o-arrows-pointing-in" class="fixed right-2 top-2 z-[51] shadow-2xl btn-active"
@@ -263,15 +263,13 @@
           this.updates = [];
           $wire.massUpdateModal = false;
           $wire.$refresh();
-          document.querySelectorAll('[data-questionnaire]').forEach(q => {
-            q.querySelector('input').checked = false;
-          });
-          window.scrollTo({top: 0, behavior: 'smooth'});
+          document.getElementById('poll').setAttribute('wire:poll.10s', '');
         },
 
         toggleQuickEditMode() {
           if (!this.quickEditMode) {
             this.quickEditMode = true;
+            document.getElementById('poll').removeAttribute('wire:poll.10s');
             this.initQuickEditMode();
           } else {
             this.reset();
