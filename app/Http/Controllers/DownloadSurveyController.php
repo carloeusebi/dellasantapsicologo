@@ -24,7 +24,8 @@ class DownloadSurveyController extends Controller
             ->view('pdf.survey', compact('survey'))
             ->withBrowsershot(function (Browsershot $browsershot) {
                 $browsershot
-                    ->noSandbox();
+                    ->setNpmBinary(config('services.browsershot.npm_path'))
+                    ->setNodeBinary(config('services.browsershot.node_path'));
 
             })
             ->name(Str::kebab("$survey->title di {$survey->patient->full_name}.pdf"));
