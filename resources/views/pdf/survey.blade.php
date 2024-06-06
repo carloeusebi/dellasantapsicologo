@@ -14,6 +14,12 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <style>
+    .bg-brand {
+      background-color: #6ecc84;
+    }
+  </style>
+
 </head>
 <body class="bg-white min-h-screen text-black text-xs">
 <div class="container max-w-6xl mx-auto p-6">
@@ -74,8 +80,7 @@
             <div class="flex">
               @foreach($question->choices->isNotEmpty() ? $question->choices : $questionnaireSurvey->questionnaire->choices as $choice)
                 <span
-                    class="border-l border-black h-full flex justify-center items-center w-fit text-wrap max-w-44 px-2"
-                    @if($answer && $answer->choice?->is($choice)) style="color: red; font-weight: bolder" @endif
+                    class="border-l border-black h-full flex justify-center items-center w-fit text-wrap max-w-44 px-2 @if($answer && $answer->choice?->is($choice)) bg-brand @endif"
                 >
                   {{ $choice->questionable->is($question) ? $choice->text : $choice->points }}
                 </span>
