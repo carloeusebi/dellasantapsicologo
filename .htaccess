@@ -1,2 +1,4 @@
-RewriteEngine On
-RewriteRule ^(.*)$ /staging/public/$1 [L]
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
