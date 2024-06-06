@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadSurveyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\QuestionnaireController;
@@ -33,6 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return to_route('patients.index');
     })->name('admin');
+
+    Route::get('/download/valutazione/{survey}', DownloadSurveyController::class)->name('download.survey');
 
     Route::prefix('/pazienti')->name('patients.')->group(function () {
         Route::get('/', [PatientController::class, 'index'])->name('index');

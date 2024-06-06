@@ -33,6 +33,9 @@
         </div>
 
         <div class="flex flex-col order-1 items-end gap-2">
+          <a href="{{ route('download.survey', $survey) }}" target="_blank">
+            <x-button class="w-full xl:btn-wide" icon="o-printer" wire:click="editModal = true">Stampa</x-button>
+          </a>
           @unless($survey->completed)
             <x-button
                 class="w-full xl:btn-wide" icon="o-clipboard-document-list"
