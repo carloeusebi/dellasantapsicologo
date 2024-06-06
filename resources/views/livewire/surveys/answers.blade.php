@@ -84,14 +84,15 @@
                 style="grid-template-rows: repeat({{ (int) ($questionnaireSurvey->questionnaire->choices->count() / 2) }}, minmax(0, 1fr))"
             >
               @foreach($questionnaireSurvey->questionnaire->choices as $choice)
-                <div class="flex items-center gap-2">
-                  <x-button
-                      class="btn"
-                      x-bind:class="{ 'btn-primary': filteredAnswers.includes({{ $choice->id }}) }"
-                      x-on:click="filteredAnswers.includes({{ $choice->id }})
-                        ? filteredAnswers=filteredAnswers.filter(a=> a !== {{ $choice->id }})
-                        : filteredAnswers.push({{ $choice->id }})
+                <div
+                    class="flex items-center gap-2 cursor-pointer"
+                    x-on:click="filteredAnswers.includes({{ $choice->points }})
+                        ? filteredAnswers=filteredAnswers.filter(a=> a !== {{ $choice->points }})
+                        : filteredAnswers.push({{ $choice->points }})
                       "
+                >
+                  <x-button
+                      class="btn" x-bind:class="{ 'btn-primary': filteredAnswers.includes({{ $choice->points }}) }"
                   >
                     {{ $choice?->points }}
                   </x-button>
@@ -102,11 +103,12 @@
             @foreach($questionnaireSurvey->questionnaire->questions as $question)
               @php $answer = $question->answers->first(); @endphp
               <div
-                  x-show="filteredAnswers.includes({{ $answer?->choice_id }}) || !filteredAnswers.length"
+                  x-show="filteredAnswers.includes({{ $answer?->value }}) || !filteredAnswers.length"
                   class="border-t border-2 border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif"
                   :class="{ 'focus:border-primary': quickEditMode }"
                   data-question="{{ $question->id }}"
                   data-questionnaire-survey="{{ $questionnaireSurvey->id }}"
+                  @if($question->reversed) data-reversed @endif
                   x-bind:tabindex="quickEditMode ? 0 : -1"
                   x-on:click="focusQuestion({{ $question->id }})"
                   x-on:keydown="handleKeydownEvent({{  $question->id }}, $event)"
@@ -136,15 +138,19 @@
                           x-on:click.stop="handleChoiceClick($event)"
                       >
                           <span
-                              class="btn w-full rounded-none no-animation @if($answer && $answer->choice?->is($choice)) btn-primary @endif"
+                              class="btn w-full rounded-none no-animation"
+                              :class="{
+                                'btn-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}),
+                                'btn-secondary': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && filteredAnswers.length
+                              }"
                               data-old-answer-text="{{ $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
                               data-choice data-id="{{ $choice->id }}" data-text="{{ $choice?->text }}"
                               data-answer-id="{{ $answer?->id }}" data-question-id="{{ $question->id }}"
                               data-points="{{ $choice->points }}"
                               data-questionnaire-survey-id="{{ $questionnaireSurvey->id }}"
                           >
-                          {{ $choice->points }}
-                          </span>
+                        {{ $choice->points }}
+                        </span>
                       </div>
                     @endforeach
                   </div>
@@ -201,7 +207,7 @@
       <x-button
           class="block w-full btn-sm btn-success"
           spinner="massUpdateAnswers"
-          x-on:click="$wire.massUpdateAnswers(updates)"
+          x-on:click="$wire.massUpdateAnswers(updates); quickEditMode = false; updates = []; $wire.$refresh();"
       >
         Salva le modifiche
       </x-button>

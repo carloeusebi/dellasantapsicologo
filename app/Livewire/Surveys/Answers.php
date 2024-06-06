@@ -4,7 +4,7 @@ namespace App\Livewire\Surveys;
 
 use App\Actions\AnswerQuestion;
 use App\Models\Answer;
-use App\Models\Questionnaire;
+use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,7 +19,7 @@ use Livewire\Component;
 use Mary\Traits\Toast;
 
 /**
- * @property Collection<Questionnaire> $questionnaires
+ * @property Collection<QuestionnaireSurvey> $questionnaires
  */
 #[Lazy(isolate: false)]
 class Answers extends Component

@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Survey;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
 use Wnx\SidecarBrowsershot\BrowsershotLambda;
 
 class DownloadSurveyController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __invoke(Survey $survey)
     {
+        $this->authorize('view', $survey);
+
         $survey->load(
             [
                 'patient',
