@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Survey;
 use Illuminate\Support\Str;
-use Spatie\Browsershot\Browsershot;
 use Wnx\SidecarBrowsershot\BrowsershotLambda;
-use function Spatie\LaravelPdf\Support\pdf;
 
 class DownloadSurveyController extends Controller
 {
@@ -19,15 +17,17 @@ class DownloadSurveyController extends Controller
             'questionnaireSurveys.questionnaire.questions.choices.questionable',
         );
 
-        return pdf()
-            ->view('pdf.survey', compact('survey'))
-            ->withBrowsershot(function (Browsershot $browsershot) {
-                $browsershot = new BrowsershotLambda();
+//        return pdf()
+//            ->view('pdf.survey', compact('survey'))
+//            ->name(Str::kebab("$survey->title di {$survey->patient->full_name}.pdf"));
 
-            })
-            ->name(Str::kebab("$survey->title di {$survey->patient->full_name}.pdf"));
+        $base64 = BrowsershotLambda::html(view('pdf.survey', compact('survey')))
+            ->base64pdf();
 
-//        BrowsershotLambda::html(view('pdf.survey', compact('survey')))
-//            ->save(Str::kebab("$survey->title di {$survey->patient->full_name}.pdf"));
+        $filename = Str::kebab("$survey->title di {$survey->patient->full_name}.pdf");
+
+        file_put_contents($filename, base64_decode($base64));
+
+        return response()->download($filename)->deleteFileAfterSend();
     }
 }
