@@ -19,7 +19,7 @@
 
   <!-- PWA  -->
   <meta name="theme-color" content="#6777ef"/>
-  <link rel="apple-touch-icon" href="{{ asset('images/Logo.png') }}">
+  <link rel="apple-touch-icon" href="{{ asset('images/logo-without-text.png') }}">
   <link rel="manifest" href="{{ asset('/manifest.json') }}">
 
   <title>{{ $pageTitle }} | Dellasanta Psicologo</title>

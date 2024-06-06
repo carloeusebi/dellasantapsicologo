@@ -47,7 +47,7 @@
   <div class="container d-flex justify-space-between align-center">
     <div id="hdr-logo">
       <a href="https://www.dellasantapsicologo.it" target="_blank">
-        <img class="fluid-img" src="{{asset('/images/Logo.webp')}}" alt="logo del sito">
+        <img class="fluid-img" src="{{asset('/images/logo-without-text.png')}}" alt="logo del sito">
       </a>
     </div>
     <div id="hamburger-menu" class="m-20" :class="{ open }" @click="open = !open" style="user-select: none">
