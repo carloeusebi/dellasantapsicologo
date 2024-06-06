@@ -2,7 +2,7 @@
   "name": "Dellasanta Psicologo",
   "short_name": "DSP",
   "start_url": "/index.php",
-  "background_color": "#6777ef",
+  "background_color": "#000000",
   "description": "Tutorial of Laravel Package",
   "display": "fullscreen",
   "theme_color": "#6ecc84",
