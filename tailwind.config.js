@@ -27,8 +27,13 @@ export default {
           primary: '#6ecc84',
           secondary: '#264e32',
         },
+      }, {
+        dark: {
+          ...require('daisyui/src/theming/themes').dark,
+          primary: '#6ecc84',
+          secondary: '#264e32',
+        },
       },
-      "dark",
       "cupcake",
       "bumblebee",
       "emerald",
