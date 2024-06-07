@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 /**
@@ -21,7 +22,7 @@ class QuestionnaireWizard extends Component
     public static int $CHOOSE_QUESTIONS = 2;
     public static int $CHOOSE_VARIABLES = 3;
 
-    public int $step = 1;
+    public int $step = 2;
 
     public QuestionnaireForm $form;
 
@@ -45,27 +46,25 @@ class QuestionnaireWizard extends Component
         return Tag::select(['id', 'tag', 'color'])->orderBy('tag')->get();
     }
 
-//    public function addChoice(): void
-//    {
-//        $this->validate([
-//            'newChoicePoints' => 'required|int|min:0|max:10',
-//            'newChoiceText' => 'required|string',
-//        ], attributes: [
-//            'newChoicePoints' => 'Punti',
-//            'newChoiceText' => 'Testo',
-//        ]);
-//
-//        if ($this->choices === null) {
-//            $this->choices = collect();
-//        }
-//
-//        $this->choices->push([
-//            'points' => (int) $this->newChoicePoints,
-//            'text' => $this->newChoiceText,
-//        ]);
-//
-//        $this->reset('newChoicePoints', 'newChoiceText');
-//    }
+    public function addChoice(): void
+    {
+        $this->validate([
+            'newChoicePoints' => 'required|int|min:0|max:10',
+            'newChoiceText' => 'required|string',
+        ], attributes: [
+            'newChoicePoints' => 'Punti',
+            'newChoiceText' => 'Testo',
+        ]);
+
+        $this->questionnaire?->choices()->create([
+            'points' => $this->newChoicePoints,
+            'text' => $this->newChoiceText,
+        ]);
+
+        $this->form->choices = $this->questionnaire->choices;
+
+        $this->reset('newChoicePoints', 'newChoiceText');
+    }
 
     public function previous(): void
     {
@@ -89,9 +88,12 @@ class QuestionnaireWizard extends Component
         $this->step++;
     }
 
+    #[On('choice-deleted')]
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
+        $this->questionnaire?->loadCount('surveys');
+
         return view('livewire.questionnaires.questionnaire-wizard');
     }
 }
