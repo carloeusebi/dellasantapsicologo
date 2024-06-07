@@ -27,7 +27,7 @@ jobs:
           script:
             cd public_html/admin &&
             git pull origin main &&
-            npm install && npm run build &&
+            npm i && npm run build &&
             composer2 install --no-dev --optimize-autoloader &&
             php artisan migrate --force &&
             php artisan optimize
