@@ -25,6 +25,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script:
+            source ~/.nvm/nvm.sh;
             cd public_html/admin &&
             git pull origin main &&
             ~/.nvm/versions/node/v20.14.0/bin/npm i && ~/.nvm/versions/node/v20.14.0/bin/npm run build &&
