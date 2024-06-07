@@ -19,8 +19,8 @@
     "livewire/livewire": "^3.5",
     "livewire/volt": "^1.6",
     "robsontenorio/mary": "^1.30",
+    "spatie/browsershot": "^4.0",
     "spatie/laravel-medialibrary": "^11.5",
-    "spatie/laravel-pdf": "^1.5",
     "wnx/sidecar-browsershot": "^2.3"
   },
   "require-dev": {
