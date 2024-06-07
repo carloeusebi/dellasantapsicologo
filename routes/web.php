@@ -8,6 +8,7 @@ use App\Http\Controllers\TemplatesController;
 use App\Livewire\Evaluation;
 use App\Livewire\Patients\CreatePatient;
 use App\Livewire\Patients\ShowPatient;
+use App\Livewire\Questionnaires\QuestionnaireWizard;
 use App\Livewire\Surveys\CreateSurvey;
 use App\Livewire\Surveys\ShowSurvey;
 use App\Livewire\Templates\CreateTemplate;
@@ -49,8 +50,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{survey}', ShowSurvey::class)->name('show');
     });
 
+    Route::prefix('/questionari')->name('questionnaires.')->group(function () {
+        Route::get('/', [QuestionnaireController::class, 'index'])->name('index');
+        Route::get('/crea', QuestionnaireWizard::class)->name('create');
+        Route::get('/{questionnaire}', QuestionnaireWizard::class)->name('show');
+    });
 
-    Route::resource('questionari', QuestionnaireController::class)
-        ->parameter('questionari', 'questionnaire')
-        ->names('questionnaires');
 });

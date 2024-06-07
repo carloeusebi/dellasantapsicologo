@@ -4,15 +4,42 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Questionnaire extends Model
 {
     use SoftDeletes;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'visible'
+    ];
+
+    protected $casts = [
+        'visible' => 'boolean'
+    ];
+
+    /** @noinspection PhpUnused */
+    public function scopeUserScope(Builder $query): void
+    {
+        $query->when(Auth::user()->isNotAdmin(), function (Builder $query) {
+            $query->where('visible', true)
+                ->orWhereRelation('user', 'id', Auth::id());
+        });
+    }
+
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /** @noinspection PhpUnused */
     function scopeFilterByTitle(Builder $query, string $search): void
@@ -24,12 +51,6 @@ class Questionnaire extends Model
                 });
             });
         });
-    }
-
-    /** @noinspection PhpUnused */
-    function scopeCurrent(Builder $query): void
-    {
-        $query->whereNull('not_current');
     }
 
     public function surveys(): BelongsToMany

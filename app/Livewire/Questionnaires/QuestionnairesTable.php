@@ -40,8 +40,8 @@ class QuestionnairesTable extends TableComponent
         $questionnaires = $this->goToFirstPageIfResultIsEmpty(function () {
             return Questionnaire::select(['id', 'title', 'created_at'])
                 ->withCount('surveys')
+                ->userScope()
                 ->with('tags')
-                ->current()
                 ->when(count($this->tagsFilter), function (Builder $query) {
                     $query->where(function (Builder $query) {
                         foreach ($this->tagsFilter as $tag) {
