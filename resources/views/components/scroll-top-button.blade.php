@@ -1,6 +1,6 @@
 <div
     x-data="{ show: false }"
-    x-on:scroll.window="show = window.scrollY >= 800"
+    x-on:scroll.window="show = window.scrollY >= (1600 * 2)"
     class="fixed bottom-4 right-4"
 >
   <button
