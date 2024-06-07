@@ -61,13 +61,6 @@ class Questionnaire extends Component
 
     public function answerQuestion(?int $choiceId = null): void
     {
-        if ($this->question->is($this->questionnaireSurvey->questions->last())) {
-            if ($this->questionnaireSurvey->is($this->survey->questionnaireSurveys->last())) {
-                $this->redirectRoute('evaluation.thank-you', [$this->survey], navigate: true);
-            } else {
-                $this->redirectRoute('evaluation.home', $this->survey, navigate: true);
-            }
-        }
 
         if (!$choiceId && !$this->comment) {
             $this->error('Per favore inserisci un <br>commento se vuoi saltare la domanda');
@@ -83,6 +76,16 @@ class Questionnaire extends Component
         );
 
         $this->reset('comment');
+
+        if ($this->question->is($this->questionnaireSurvey->questions->last())) {
+            if ($this->questionnaireSurvey->is($this->survey->questionnaireSurveys->last())) {
+                $this->redirectRoute('evaluation.thank-you', $this->survey, navigate: true);
+                return;
+            } else {
+                $this->redirectRoute('evaluation.home', $this->survey, navigate: true);
+                return;
+            }
+        }
 
         $nextQuestion = $this->getNextQuestion();
 
