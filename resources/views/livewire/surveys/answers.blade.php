@@ -140,7 +140,7 @@
                           <span
                               class="btn w-full rounded-none no-animation"
                               :class="{
-                                'btn-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}),
+                                'btn-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || (filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
                                 'btn-secondary': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && filteredAnswers.length
                               }"
                               data-old-answer-text="{{ $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
