@@ -12,7 +12,7 @@ return new class extends Migration {
         if (!Schema::hasTable('questions')) {
             Schema::create('questions', function (Blueprint $table) {
                 $table->id();
-                $table->foreignIdFor(Questionnaire::class)->constrained();
+                $table->foreignIdFor(Questionnaire::class)->constrained()->cascadeOnDelete();
                 $table->text('text');
                 $table->boolean('reversed')->default(false);
                 $table->json('custom_choices')->nullable();

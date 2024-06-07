@@ -74,6 +74,11 @@ class User extends Authenticatable implements MustVerifyEmail
         $query->whereRelation('role', 'name', Role::$DOCTOR);
     }
 
+    public function questionnaires(): HasMany
+    {
+        return $this->hasMany(Questionnaire::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *

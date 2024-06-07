@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Questionnaire;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -38,7 +39,7 @@ class QuestionnaireForm extends Form
     {
         $this->validate();
 
-        $questionnaire = Questionnaire::create([
+        $questionnaire = Auth::user()->questionnaires()->create([
             'title' => $this->title,
             'description' => $this->description,
         ]);

@@ -32,8 +32,14 @@ class QuestionnaireWizard extends Component
 
     public ?string $newChoiceText = null;
 
-    public function mount(?Questionnaire $questionnaire = null): void
+    public ?string $newQuestionText = null;
+
+    public ?bool $newQuestionReversed = false;
+
+    public function mount(?string $id = null): void
     {
+        $questionnaire = Questionnaire::find($id);
+
         if ($questionnaire) {
             $this->form->setQuestionnaire($questionnaire);
             $this->questionnaire = $questionnaire;
@@ -66,6 +72,35 @@ class QuestionnaireWizard extends Component
         $this->reset('newChoicePoints', 'newChoiceText');
     }
 
+    public function addQuestion(): void
+    {
+        $this->validate([
+            'newQuestionText' => 'required|string',
+        ], attributes: [
+            'newQuestionText' => 'Testo',
+        ]);
+
+        $this->questionnaire?->loadCount('questions');
+
+        $this->questionnaire?->questions()->create([
+            'text' => $this->newQuestionText,
+            'reversed' => $this->newQuestionReversed,
+            'order' => $this->questionnaire->questions_count + 1,
+        ]);
+
+        $this->form->questions = $this->questionnaire->questions;
+
+        $this->reset('newQuestionText', 'newQuestionReversed');
+    }
+
+    public function updateQuestionsOrder(array $orders): void
+    {
+        $orders = array_map(fn(array $order) => [$order['value'], $order['order']], $orders);
+        foreach ($orders as [$id, $order]) {
+            $this->questionnaire?->questions()->find($id)->update(['order' => $order]);
+        }
+    }
+
     public function previous(): void
     {
         if ($this->step === self::$CHOOSE_TITLE) {
@@ -88,7 +123,7 @@ class QuestionnaireWizard extends Component
         $this->step++;
     }
 
-    #[On('choice-deleted')]
+    #[On(['choice-deleted', 'question-deleted'])]
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {

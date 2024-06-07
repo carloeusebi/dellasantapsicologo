@@ -57,7 +57,7 @@
         <span class="text-xs text-base-content/75">Lasciare vuoto se ogni domanda ha il suo set di risposte.</span>
       </div>
       <div class="space-y-4">
-        @forelse($questionnaire?->choices as $choice)
+        @forelse($questionnaire?->choices ?? [] as $choice)
           <livewire:questionnaires.choice
               :choice="$choice" :key="$choice->id"
               :can-edit-text="auth()->user()->can('updateText', $questionnaire)"
@@ -92,6 +92,49 @@
       <x-hr/>
       <div>
         <div class="label label-text font-semibold">Domande</div>
+        <div class="space-y-2" wire:sortable="updateQuestionsOrder" wire:sortable.options="{ animation: 250 }">
+          @forelse($questionnaire?->questions ?? [] as $question)
+            <div
+                class="flex items-center gap-1 sm:gap-2"
+                wire:sortable.item="{{ $question->id }}" wire:key="{{ $question->id }}"
+            >
+              @can('updateText', $questionnaire)
+                <x-button
+                    class="btn btn-xs md:btn-sm cursor-grab" type="button" wire:sortable.handle icon="o-bars-3"
+                />
+              @else
+                <input type="hidden" wire:sortable.handle/>
+              @endcan
+              <div class="grow">
+                <livewire:questionnaires.question
+                    :question="$question" :key="$question->id"
+                    :can-edit-text="auth()->user()->can('updateText', $questionnaire)"
+                    :can-edit-structure="auth()->user()->can('updateStructure', $questionnaire)"
+                />
+              </div>
+            </div>
+          @empty
+            <div class="my-5 text-center text-base-content/50 italic">Nessuna Domanda</div>
+          @endforelse
+        </div>
+        {{--        @can('updateStructure', $questionnaire)--}}
+        <x-divider/>
+        <div class="flex items-start gap-2 md:gap-4">
+          <div class="flex items-center h-full">
+            <x-checkbox wire:model="newQuestionReversed"/>
+          </div>
+          <div class="grow">
+            <x-input
+                wire:model="newQuestionText" class="input-sm grow" placeholder="Testo" first-error-only
+                wire:keyup.enter="addQuestion"
+            />
+          </div>
+          <x-button
+              class="btn-sm btn-info" wire:click="addQuestion" spinner="addQuestion" label="Aggiungi domanda"
+              icon="o-plus" responsive
+          />
+        </div>
+        {{--        @endcan--}}
       </div>
     </x-step>
 

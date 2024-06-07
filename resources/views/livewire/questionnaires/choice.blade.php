@@ -1,7 +1,7 @@
-<div class="flex gap-2 md:gap-4 items-end">
+<div class="flex gap-2 md:gap-4 items-center">
   <div class="w-[50px] lg:w-[100px]">
     <x-input
-        wire:model="points" class="input-sm" placeholder="Punti" first-error-only
+        wire:model="points" class="input-sm text-center" placeholder="Punti" first-error-only
         x-bind:disabled="!$wire.canEditStructure" wire:keyup.enter="update"
     />
   </div>
@@ -11,14 +11,14 @@
         x-bind:disabled="!$wire.canEditText" wire:keyup.enter="update"
     />
   </div>
-  <div class="flex gap-2">
-    <x-button class="btn-sm btn-info" wire:click="update" spinner="update" responsive icon="o-pencil">
-      Modifica
-    </x-button>
+  <div class="flex gap-2 items-center">
+    <x-button
+        class="btn-xs md:btn-sm" wire:click="update" spinner="update" responsive icon="o-pencil" label="Modifica"
+    />
     @if($canEditStructure)
-      <x-button class="btn-sm btn-error" wire:click="deleteModal = true" responsive icon="o-trash">
-        Elimina
-      </x-button>
+      <x-button
+          class="btn-xs md:btn-sm btn-error" wire:click="deleteModal = true" responsive icon="o-trash" label="Elimina"
+      />
     @endif
   </div>
 
