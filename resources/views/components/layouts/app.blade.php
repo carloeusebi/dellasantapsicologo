@@ -9,11 +9,8 @@
     }
   </script>
 
-  <!-- PWA  -->
-  <meta name="theme-color" content="#6ecc84"/>
-  <link rel="apple-touch-icon" href="{{ asset('images/logo-without-text.png') }}">
-  <link rel="manifest" href="{{ asset('/manifest.json') }}">
-
+  @laravelPWA
+  
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,6 +30,7 @@
 
   @livewireStyles
   @vite('resources/css/app.css')
+
 </head>
 
 <body class="font-sans antialiased min-h-screen bg-base-200/50">
@@ -118,15 +116,6 @@
         </x-custom-menu-sub>
       </x-menu>
     @endauth
-    @guest()
-      <x-menu title="Ti sei perso?">
-        <x-menu-item link="{{ route('home') }}" title="Home"/>
-        <x-menu-item link="{{ route('chi-sono') }}" title="Chi sono"/>
-        <x-menu-item link="{{ route('cosa-aspettarsi') }}" title="Cosa aspettarsi dalla Terapia"/>
-        <x-menu-item link="{{ route('di-cosa-mi-occupo') }}" title="Di cosa mi Occupo"/>
-        <x-menu-item link="{{ route('contatti') }}" title="Contatti"/>
-      </x-menu>
-    @endguest
   </x-slot:sidebar>
 
   {{-- The `$slot` goes here --}}
@@ -141,23 +130,6 @@
 
 {{--  TOAST area --}}
 <x-toast/>
-<script src="{{ asset('/sw.js') }}"></script>
-<script>
-  if ("serviceWorker" in navigator) {
-    // Register a service worker hosted at the root of the
-    // site using the default scope.
-    navigator.serviceWorker.register("/sw.js").then(
-      (registration) => {
-        console.log("Service worker registration succeeded:", registration);
-      },
-      (error) => {
-        console.error(`Service worker registration failed: ${error}`);
-      },
-    );
-  } else {
-    console.error("Service workers are not supported.");
-  }
-</script>
 
 @livewireScripts
 @vite('resources/js/app.js')

@@ -11,7 +11,6 @@
     "php": "^8.2",
     "hammerstone/sidecar": "^0.6.1",
     "joelbutcher/laravel-archivable": "^1.4",
-    "ladumor/laravel-pwa": "^0.0.4",
     "laravel/fortify": "^1.21",
     "laravel/framework": "^11.0",
     "laravel/sanctum": "^4.0",
@@ -19,6 +18,7 @@
     "livewire/livewire": "^3.5",
     "livewire/volt": "^1.6",
     "robsontenorio/mary": "^1.30",
+    "silviolleite/laravelpwa": "^2.0",
     "spatie/browsershot": "^4.0",
     "spatie/laravel-medialibrary": "^11.5",
     "wnx/sidecar-browsershot": "^2.3"

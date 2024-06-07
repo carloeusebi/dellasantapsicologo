@@ -20,6 +20,7 @@ class Question extends Model
         'questionnaire_id',
         'previous_question',
         'next_question',
+        'custom_choices', // Leave this here for backwards compatibility
         'reversed',
         'order',
         'old_id',
@@ -27,6 +28,7 @@ class Question extends Model
 
     protected $casts = [
         'reversed' => 'boolean',
+        'custom_choices' => 'array', // Leave this here for backwards compatibility
     ];
 
     public function calculateScore(Choice $choice): int
