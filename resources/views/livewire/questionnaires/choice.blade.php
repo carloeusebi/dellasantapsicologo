@@ -12,9 +12,11 @@
     />
   </div>
   <div class="flex gap-2 items-center">
-    <x-button
-        class="btn-xs md:btn-sm" wire:click="update" spinner="update" responsive icon="o-pencil" label="Modifica"
-    />
+    @if ($canEditText)
+      <x-button
+          class="btn-xs md:btn-sm" wire:click="update" spinner="update" responsive icon="o-pencil" label="Modifica"
+      />
+    @endif
     @if($canEditStructure)
       <x-button
           class="btn-xs md:btn-sm btn-error" wire:click="deleteModal = true" responsive icon="o-trash" label="Elimina"

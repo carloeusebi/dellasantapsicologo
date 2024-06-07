@@ -1,7 +1,9 @@
 <div class="flex gap-2 md:gap-4 items-center">
-  <x-checkbox wire:model="reversed" wire:keyup.enter="update" wire:change="update"/>
+  @if ($canEditText)
+    <x-checkbox wire:model="reversed" wire:keyup.enter="update"/>
+  @endif
   <div class="grow">
-    <x-input class="input-sm" wire:model="text" wire:keyup.enter="update"/>
+    <x-input class="input-sm" wire:model="text" wire:keyup.enter="update" x-bind:disabled="!$wire.canEditText"/>
   </div>
   <div class="flex  gap-1 md:gap-2">
     @if($canEditText)

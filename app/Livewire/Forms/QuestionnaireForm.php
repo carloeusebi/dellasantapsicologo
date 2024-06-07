@@ -25,7 +25,7 @@ class QuestionnaireForm extends Form
 
     public $questions = null;
 
-    public function setQuestionnaire(Questionnaire $questionnaire)
+    public function setQuestionnaire(Questionnaire $questionnaire): void
     {
         $this->title = $questionnaire->title;
         $this->description = $questionnaire->description;

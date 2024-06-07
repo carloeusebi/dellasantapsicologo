@@ -117,24 +117,24 @@
             <div class="my-5 text-center text-base-content/50 italic">Nessuna Domanda</div>
           @endforelse
         </div>
-        {{--        @can('updateStructure', $questionnaire)--}}
-        <x-divider/>
-        <div class="flex items-start gap-2 md:gap-4">
-          <div class="flex items-center h-full">
-            <x-checkbox wire:model="newQuestionReversed"/>
-          </div>
-          <div class="grow">
-            <x-input
-                wire:model="newQuestionText" class="input-sm grow" placeholder="Testo" first-error-only
-                wire:keyup.enter="addQuestion"
+        @can('updateStructure', $questionnaire)
+          <x-divider/>
+          <div class="flex items-start gap-2 md:gap-4">
+            <div class="flex items-center h-full">
+              <x-checkbox wire:model="newQuestionReversed"/>
+            </div>
+            <div class="grow">
+              <x-input
+                  wire:model="newQuestionText" class="input-sm grow" placeholder="Testo" first-error-only
+                  wire:keyup.enter="addQuestion"
+              />
+            </div>
+            <x-button
+                class="btn-sm btn-info" wire:click="addQuestion" spinner="addQuestion" label="Aggiungi domanda"
+                icon="o-plus" responsive
             />
           </div>
-          <x-button
-              class="btn-sm btn-info" wire:click="addQuestion" spinner="addQuestion" label="Aggiungi domanda"
-              icon="o-plus" responsive
-          />
-        </div>
-        {{--        @endcan--}}
+        @endcan
       </div>
     </x-step>
 

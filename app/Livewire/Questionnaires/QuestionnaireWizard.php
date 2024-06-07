@@ -22,7 +22,7 @@ class QuestionnaireWizard extends Component
     public static int $CHOOSE_QUESTIONS = 2;
     public static int $CHOOSE_VARIABLES = 3;
 
-    public int $step = 2;
+    public int $step = 1;
 
     public QuestionnaireForm $form;
 
@@ -36,13 +36,10 @@ class QuestionnaireWizard extends Component
 
     public ?bool $newQuestionReversed = false;
 
-    public function mount(?string $id = null): void
+    public function mount(): void
     {
-        $questionnaire = Questionnaire::find($id);
-
-        if ($questionnaire) {
-            $this->form->setQuestionnaire($questionnaire);
-            $this->questionnaire = $questionnaire;
+        if ($this->questionnaire) {
+            $this->form->setQuestionnaire($this->questionnaire);
         }
     }
 
