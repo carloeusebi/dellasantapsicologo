@@ -20,6 +20,8 @@ class Cutoff extends Model
         'fem_to',
     ];
 
+    protected $touches = ['variable.questionnaire'];
+
     public function hasScored(int $score, bool $isFemale = false): bool
     {
         $from = $isFemale && isset($this->fem_from) ? $this->fem_from : $this->from;

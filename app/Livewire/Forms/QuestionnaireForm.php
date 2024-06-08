@@ -9,6 +9,8 @@ use Livewire\Form;
 
 class QuestionnaireForm extends Form
 {
+    public ?Questionnaire $questionnaire = null;
+
     #[Validate('required|string|max:255', as: 'Titolo')]
     public $title = '';
 
@@ -27,6 +29,8 @@ class QuestionnaireForm extends Form
 
     public function setQuestionnaire(Questionnaire $questionnaire): void
     {
+        $this->questionnaire = $questionnaire;
+
         $this->title = $questionnaire->title;
         $this->description = $questionnaire->description;
         $this->visible = $questionnaire->visible;
@@ -48,4 +52,18 @@ class QuestionnaireForm extends Form
 
         return $questionnaire;
     }
+
+    public function update(): void
+    {
+        $this->validate();
+
+        $this->questionnaire->update([
+            'title' => $this->title,
+            'description' => $this->description,
+            'visible' => $this->visible,
+        ]);
+
+        $this->questionnaire->tags()->sync($this->selectedTags);
+    }
+
 }

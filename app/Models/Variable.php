@@ -11,12 +11,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Variable extends Model
 {
+
     use SoftDeletes;
 
     protected $fillable = [
         'name',
         'gender_based'
     ];
+
+    protected $touches = ['questionnaire'];
 
     public function casts(): array
     {

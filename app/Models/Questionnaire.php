@@ -19,7 +19,7 @@ class Questionnaire extends Model
     protected $fillable = [
         'title',
         'description',
-        'visible'
+        'visible',
     ];
 
     protected $casts = [

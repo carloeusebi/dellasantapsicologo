@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * @property array<array{'id': int, 'points': int, 'text': string }> $custom_choices
- */
 class Question extends Model
 {
     use SoftDeletes;
@@ -30,6 +27,8 @@ class Question extends Model
         'reversed' => 'boolean',
         'custom_choices' => 'array', // Leave this here for backwards compatibility
     ];
+
+    protected $touches = ['questionnaire'];
 
     public function calculateScore(Choice $choice): int
     {

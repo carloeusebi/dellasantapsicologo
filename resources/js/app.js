@@ -11,6 +11,7 @@ flatpickr.localize(Italian);
  */
 function removeFromQueryString(...keys) {
   const searchParams = new URLSearchParams(window.location.search);
+  if (!searchParams.size) return;
   keys.forEach(key => searchParams.delete(key));
 
   history.replaceState(null, '', `${window.location.pathname}?${searchParams.toString()}`);

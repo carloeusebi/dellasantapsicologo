@@ -12,6 +12,8 @@ class Choice extends Component
 
     public string $points = '';
 
+    public bool $isFirst = false;
+
     public bool $canEditText = false;
 
     public bool $canEditStructure = false;

@@ -50,19 +50,21 @@ return new class extends Migration {
             }
         });
 
-        Questionnaire::with('questions')->get()->each(function (Questionnaire $questionnaire) {
-            $items = [];
-            $questionnaire->questions->each(function (Question $question, int $key) use (&$items) {
-                $items[] = [
-                    'id' => $key + 1,
-                    'text' => $question->text,
-                    'reversed' => $question->reversed,
-                    'multipleAnswers' => $question->answers,
-                    'hasMultipleAnswers' => isset($question->answers) && count($question->answers) > 0,
-                ];
+        Questionnaire::withoutTouching(function () {
+            Questionnaire::with('questions')->get()->each(function (Questionnaire $questionnaire) {
+                $items = [];
+                $questionnaire->questions->each(function (Question $question, int $key) use (&$items) {
+                    $items[] = [
+                        'id' => $key + 1,
+                        'text' => $question->text,
+                        'reversed' => $question->reversed,
+                        'multipleAnswers' => $question->answers,
+                        'hasMultipleAnswers' => isset($question->answers) && count($question->answers) > 0,
+                    ];
+                });
+                $questionnaire->items = $items;
+                $questionnaire->save();
             });
-            $questionnaire->items = $items;
-            $questionnaire->save();
         });
 
         Schema::dropIfExists('questions');

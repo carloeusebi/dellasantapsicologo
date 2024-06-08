@@ -2,31 +2,17 @@
 
 namespace App\Livewire\Questionnaires;
 
-use App\Livewire\Forms\QuestionnaireForm;
 use App\Models\Questionnaire;
-use App\Models\Tag;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Support\Collection;
 use Illuminate\View\View;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\On;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 
-/**
- * @property \Illuminate\Database\Eloquent\Collection<Tag> $tags
- */
-class QuestionnaireWizard extends Component
+#[Lazy]
+class QuestionsTab extends Component
 {
-    public static int $CHOOSE_TITLE = 1;
-    public static int $CHOOSE_QUESTIONS = 2;
-    public static int $CHOOSE_VARIABLES = 3;
-
-    public int $step = 1;
-
-    public QuestionnaireForm $form;
-
-    public ?Questionnaire $questionnaire = null;
+    public Questionnaire $questionnaire;
 
     public ?string $newChoicePoints = null;
 
@@ -35,19 +21,6 @@ class QuestionnaireWizard extends Component
     public ?string $newQuestionText = null;
 
     public ?bool $newQuestionReversed = false;
-
-    public function mount(): void
-    {
-        if ($this->questionnaire) {
-            $this->form->setQuestionnaire($this->questionnaire);
-        }
-    }
-
-    #[Computed(cache: true)]
-    public function tags(): Collection
-    {
-        return Tag::select(['id', 'tag', 'color'])->orderBy('tag')->get();
-    }
 
     public function addChoice(): void
     {
@@ -98,34 +71,10 @@ class QuestionnaireWizard extends Component
         }
     }
 
-    public function previous(): void
-    {
-        if ($this->step === self::$CHOOSE_TITLE) {
-            return;
-        }
 
-        $this->step--;
-    }
-
-    public function next(): void
-    {
-        if ($this->step === self::$CHOOSE_TITLE && !$this->questionnaire) {
-            $this->questionnaire = $this->form->store();
-        }
-
-        if ($this->step === self::$CHOOSE_VARIABLES) {
-            return;
-        }
-
-        $this->step++;
-    }
-
-    #[On(['choice-deleted', 'question-deleted'])]
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
-        $this->questionnaire?->loadCount('surveys');
-
-        return view('livewire.questionnaires.questionnaire-wizard');
+        return view('livewire.questionnaires.questions-tab');
     }
 }

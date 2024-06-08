@@ -2,25 +2,26 @@
   <div class="w-[50px] lg:w-[100px]">
     <x-input
         wire:model="points" class="input-sm text-center" placeholder="Punti" first-error-only
-        x-bind:disabled="!$wire.canEditStructure" wire:keyup.enter="update"
+        :disabled="!$canEditStructure" wire:keyup.enter="update" :label="$isFirst ? 'Punti' : ' '" type="number"
     />
   </div>
   <div class="grow">
     <x-input
         wire:model="text" class="input-sm grow" placeholder="Testo" first-error-only
-        x-bind:disabled="!$wire.canEditText" wire:keyup.enter="update"
-    />
+        :disabled="!$canEditText" wire:keyup.enter="update" :label="$isFirst ? 'Testo' : ' '"
+    >
+      @if($canEditText)
+        <x-slot:append>
+          <x-button
+              class="btn-sm rounded-s-none" icon="o-check" wire:click="update" spinner="update" responsive label="Salva"
+          />
+        </x-slot:append>
+      @endif
+    </x-input>
   </div>
   <div class="flex gap-2 items-center">
-    @if ($canEditText)
-      <x-button
-          class="btn-xs md:btn-sm" wire:click="update" spinner="update" responsive icon="o-pencil" label="Modifica"
-      />
-    @endif
     @if($canEditStructure)
-      <x-button
-          class="btn-xs md:btn-sm btn-error" wire:click="deleteModal = true" responsive icon="o-trash" label="Elimina"
-      />
+      <x-button class="btn-sm btn-error" wire:click="deleteModal = true" responsive icon="o-trash"/>
     @endif
   </div>
 

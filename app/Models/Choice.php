@@ -9,6 +9,8 @@ class Choice extends Model
 {
     public $timestamps = false;
 
+    protected $touches = ['questionable'];
+
     protected $fillable = [
         'questionable_id',
         'points',

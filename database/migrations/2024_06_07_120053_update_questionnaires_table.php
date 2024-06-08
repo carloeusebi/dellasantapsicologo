@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Questionnaire::where('not_current', true)->delete();
+        Questionnaire::where('not_current', true)->forceDelete();
 
         Schema::table('questionnaires', function (Blueprint $table) {
             $table->foreignIdFor(User::class)->nullable()->after('id')->constrained()->nullOnDelete();
@@ -21,9 +21,9 @@ return new class extends Migration {
         $user = User::find(1);
 
         Questionnaire::withTrashed()->get()?->each(function (Questionnaire $questionnaire) use ($user) {
-            $questionnaire->visible = true;
+            $questionnaire->timestamps = false;
             $questionnaire->user()->associate($user);
-            $questionnaire->save();
+            $questionnaire->update(['visible' => true], ['timestamps' => false]);
         });
     }
 
