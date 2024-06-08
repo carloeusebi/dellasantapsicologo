@@ -50,12 +50,12 @@
     <div class="space-y-2" wire:sortable="updateQuestionsOrder" wire:sortable.options="{ animation: 250 }">
       @forelse($questionnaire?->questions ?? [] as $question)
         <div
-            class="flex items-center border-t border-base-content/10 py-3 @if($loop->last) border-b @endif"
+            class="flex items-start border-t border-base-content/10 py-3 @if($loop->last) border-b @endif"
             wire:sortable.item="{{ $question->id }}" wire:key="question{{ $question->id }}"
         >
           @can('updateText', $questionnaire)
             <x-button
-                class="btn btn-xs !h-[31px] cursor-grab !rounded-r-none" type="button" wire:sortable.handle
+                class="btn btn-xs !h-[31px] cursor-grab btn-ghost" type="button" wire:sortable.handle
                 icon="o-bars-3"
             />
           @else

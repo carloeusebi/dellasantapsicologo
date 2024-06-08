@@ -46,6 +46,8 @@
       <livewire:questionnaires.questions-tab :$questionnaire lazy/>
     </x-tab>
 
-    <x-tab :name="self::$VARIABLES" label="Variabili"></x-tab>
+    <x-tab :name="self::$VARIABLES" label="Variabili">
+      <livewire:questionnaires.variables-tab :$questionnaire lazy/>
+    </x-tab>
   </x-tabs>
 </div>

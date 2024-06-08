@@ -42,10 +42,12 @@
   </div>
   <div class="text-sm mt-2 [&_*]:font-normal !text-base-content/75 flex flex-wrap items-center gap-4 select-none">
     <x-checkbox wire:model="reversed" wire:change="update" label="Punteggio invertito"/>
-    <x-button
-        class="btn-xs" wire:click="toggleExpanded" :label="$expanded ? 'Nascondi risposte' : 'Mostra risposte'"
-        spinner="toggleExpanded"
-    />
+    @if(auth()->user()->can('updateStructure', $questionnaire) || $question->choices->isNotEmpty())
+      <x-button
+          class="btn-xs" wire:click="toggleExpanded" :label="$expanded ? 'Nascondi risposte' : 'Mostra risposte'"
+          spinner="toggleExpanded"
+      />
+    @endif
     @if($questionnaire->choices->isEmpty() && $question->choices->isEmpty())
       <div class="flex items-center text-warning gap-2">
         <x-icon name="o-exclamation-triangle"/>
