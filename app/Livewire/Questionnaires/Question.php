@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Questionnaires;
 
+use App\Models\Questionnaire;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -12,16 +14,20 @@ class Question extends Component
 {
     public \App\Models\Question|null $question = null;
 
-    #[Validate('required|string|max:255')]
+    public Questionnaire $questionnaire;
+
+    #[Validate('nullable|string|max:255')]
     public string $text = '';
 
     public bool $reversed = false;
 
-    public bool $canEditText = false;
-
-    public bool $canEditStructure = false;
-
     public bool $deleteModal = false;
+
+    public bool $expanded = false;
+
+    public string $newChoicePoints = '';
+
+    public string $newChoiceText = '';
 
     public function mount(\App\Models\Question $question): void
     {
@@ -34,9 +40,7 @@ class Question extends Component
 
     public function update(): void
     {
-        $this->validate([
-            'text' => 'required|string|max:255',
-        ]);
+        $this->validate();
 
         $this->question->update([
             'text' => $this->text,
@@ -53,9 +57,35 @@ class Question extends Component
         $this->dispatch('question-deleted');
     }
 
+    public function addChoice(): void
+    {
+        $this->validate([
+            'newChoicePoints' => 'required|int|min:0|max:10',
+            'newChoiceText' => 'required|string',
+        ], attributes: [
+            'newChoicePoints' => 'Punti',
+            'newChoiceText' => 'Testo',
+        ]);
+
+        $this->question->choices()->create([
+            'points' => $this->newChoicePoints,
+            'text' => $this->newChoiceText,
+        ]);
+
+        $this->reset('newChoicePoints', 'newChoiceText');
+    }
+
+    public function toggleExpanded(): void
+    {
+        $this->expanded = !$this->expanded;
+    }
+
+    #[On('choice-deleted')]
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
+        $this->question->load('choices');
+
         return view('livewire.questionnaires.question');
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
 use Livewire\Attributes\Lazy;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 #[Lazy]
@@ -37,8 +38,6 @@ class QuestionsTab extends Component
             'text' => $this->newChoiceText,
         ]);
 
-        $this->form->choices = $this->questionnaire->choices;
-
         $this->reset('newChoicePoints', 'newChoiceText');
     }
 
@@ -58,8 +57,6 @@ class QuestionsTab extends Component
             'order' => $this->questionnaire->questions_count + 1,
         ]);
 
-        $this->form->questions = $this->questionnaire->questions;
-
         $this->reset('newQuestionText', 'newQuestionReversed');
     }
 
@@ -72,9 +69,12 @@ class QuestionsTab extends Component
     }
 
 
+    #[On('choice-deleted')]
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
+        $this->questionnaire->load('questions.choices');
+
         return view('livewire.questionnaires.questions-tab');
     }
 }

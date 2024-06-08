@@ -47,9 +47,4 @@ class Choice extends Component
 
         $this->dispatch('choice-deleted');
     }
-
-    public function render()
-    {
-        return view('livewire.questionnaires.choice');
-    }
 }

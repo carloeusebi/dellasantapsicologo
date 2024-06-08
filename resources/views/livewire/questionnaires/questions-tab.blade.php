@@ -8,7 +8,7 @@
   <div class="space-y-1">
     @forelse($questionnaire?->choices ?? [] as $choice)
       <livewire:questionnaires.choice
-          :choice="$choice" :key="$choice->id"
+          :choice="$choice" :key="'choice'.$choice->id"
           :can-edit-text="auth()->user()->can('updateText', $questionnaire)"
           :can-edit-structure="auth()->user()->can('updateStructure', $questionnaire)"
           :is-first="$loop->first"
@@ -50,8 +50,8 @@
     <div class="space-y-2" wire:sortable="updateQuestionsOrder" wire:sortable.options="{ animation: 250 }">
       @forelse($questionnaire?->questions ?? [] as $question)
         <div
-            class="flex items-center"
-            wire:sortable.item="{{ $question->id }}" wire:key="{{ $question->id }}"
+            class="flex items-center border-t border-base-content/10 py-3 @if($loop->last) border-b @endif"
+            wire:sortable.item="{{ $question->id }}" wire:key="question{{ $question->id }}"
         >
           @can('updateText', $questionnaire)
             <x-button
@@ -63,7 +63,8 @@
           @endcan
           <div class="grow">
             <livewire:questionnaires.question
-                :question="$question" :key="$question->id . '-' . $question->order"
+                :$questionnaire
+                :question="$question" :key="$questionnaire->choices->count().'-'.$question->id . '-' . $question->order"
                 :can-edit-text="auth()->user()->can('updateText', $questionnaire)"
                 :can-edit-structure="auth()->user()->can('updateStructure', $questionnaire)"
             />

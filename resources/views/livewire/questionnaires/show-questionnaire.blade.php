@@ -7,7 +7,7 @@
     <li>{{ $questionnaire->title }}</li>
   </x-slot:breadcrumb>
 
-  <x-header :title="$questionnaire->title" size="text-xl">
+  <x-header :title="$questionnaire->title" size="text-xl" class="[&_.flex.items-center.gap-3]:!w-full">
     <x-slot:subtitle>
       @if ($questionnaire->user)
         Caricato da: {{ $questionnaire->user->name }}, {{ $questionnaire->created_at->translatedFormat('d F Y') }}
@@ -18,20 +18,22 @@
       <div>Utilizzato in {{ $questionnaire->surveys_count }} valutazioni</div>
     </x-slot:subtitle>
     <x-slot:actions>
-      <x-button
-          label="Crea una copie del questionario" icon="o-clipboard-document-list"
-          x-on:click="alert('Feature in costruzione')"
-      />
-      @can('delete', $questionnaire)
-        <x-button icon="o-trash" label="Elimina" onclick="deleteModal.showModal()"/>
-        <x-modal id="deleteModal" title="Elimina Questionario" class="backdrop-blur">
-          <p>Sei sicuro di voler eliminare il questionario?</p>
-          <x-slot:actions>
-            <x-button onclick="deleteModal.close()" label="Annulla"/>
-            <x-button class="btn-error" icon="o-trash" wire:click="delete" spinner="delete" label="Elimina"/>
-          </x-slot:actions>
-        </x-modal>
-      @endcan
+      <div class="flex flex-col md:flex-row gap-4 w-full justify-end">
+        <x-button
+            label="Crea una copie del questionario"
+            icon="o-clipboard-document-list" x-on:click="alert('Feature in costruzione')"
+        />
+        @can('delete', $questionnaire)
+          <x-button icon="o-trash" label="Elimina" onclick="deleteModal.showModal()"/>
+          <x-modal id="deleteModal" title="Elimina Questionario" class="backdrop-blur">
+            <p>Sei sicuro di voler eliminare il questionario?</p>
+            <x-slot:actions>
+              <x-button onclick="deleteModal.close()" label="Annulla"/>
+              <x-button class="btn-error" icon="o-trash" wire:click="delete" spinner="delete" label="Elimina"/>
+            </x-slot:actions>
+          </x-modal>
+        @endcan
+      </div>
     </x-slot:actions>
   </x-header>
 
