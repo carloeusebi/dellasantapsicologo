@@ -21,7 +21,7 @@
       @csrf
       <x-input
           class="input w-full input-sm" placeholder="Inserisci il tuo indirizzo email" label="Email" icon="o-envelope"
-          autofocus name="email"
+          autofocus name="email" value="{{ old('email') }}"
       />
       <button class="btn btn-primary w-full btn-sm">
         <x-loading x-show="loading"/>
