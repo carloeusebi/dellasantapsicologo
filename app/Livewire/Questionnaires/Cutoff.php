@@ -15,6 +15,13 @@ class Cutoff extends Component
     #[Validate('required|string|max:255')]
     public string $name = '';
 
+    public function delete(): void
+    {
+        $this->cutoff->delete();
+
+        $this->dispatch('cutoff-deleted');
+    }
+
     public function mount(): void
     {
         $this->name = $this->cutoff->name;
