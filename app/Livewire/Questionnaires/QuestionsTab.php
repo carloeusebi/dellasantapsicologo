@@ -69,7 +69,7 @@ class QuestionsTab extends Component
     }
 
 
-    #[On('choice-deleted')]
+    #[On(['choice-deleted', 'question-deleted'])]
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {

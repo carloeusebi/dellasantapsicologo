@@ -9,9 +9,12 @@ use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 class Question extends Component
 {
+    use Toast;
+
     public \App\Models\Question|null $question = null;
 
     public Questionnaire $questionnaire;
@@ -53,6 +56,8 @@ class Question extends Component
         $this->question->delete();
 
         $this->reset('deleteModal');
+
+        $this->success('Successo', 'Domanda eliminata con successo.', timeout: 1500);
 
         $this->dispatch('question-deleted');
     }

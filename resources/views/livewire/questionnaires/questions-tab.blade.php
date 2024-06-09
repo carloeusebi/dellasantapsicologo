@@ -76,14 +76,11 @@
     </div>
     @can('updateStructure', $questionnaire)
       <x-divider/>
-      <div class="flex items-start gap-2 md:gap-4">
-        <div class="h-8 flex items-center">
-          <x-checkbox wire:model="newQuestionReversed"/>
-        </div>
+      <div class="flex items-start gap-2 md:gap-4 mb-28">
         <div class="grow">
           <x-input
               wire:model="newQuestionText" class="input-sm grow" placeholder="Testo" first-error-only
-              x-on:keyup.enter="$wire.addQuestion; window.scrollBy(0, 48)"
+              x-on:keyup.enter="$wire.addQuestion; window.scrollBy(0, 98)"
           />
         </div>
         <x-button

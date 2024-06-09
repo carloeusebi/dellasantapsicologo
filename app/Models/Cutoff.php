@@ -20,7 +20,7 @@ class Cutoff extends Model
         'fem_to',
     ];
 
-    protected $touches = ['variable.questionnaire'];
+    protected $touches = ['variable'];
 
     public function hasScored(int $score, bool $isFemale = false): bool
     {

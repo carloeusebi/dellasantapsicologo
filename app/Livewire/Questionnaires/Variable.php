@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Questionnaires;
 
+use App\Livewire\Forms\CutoffForm;
 use App\Models\Questionnaire;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -15,12 +16,21 @@ class Variable extends Component
 
     public \App\Models\Variable $variable;
 
+    public CutoffForm $form;
+
     public bool $questionsModal = false;
 
     public array $selectedQuestions = [];
 
+    public bool $deleteModal = false;
+
+    public bool $newCutoffModal = false;
+
     #[Validate('required|string|max:255')]
     public string $name;
+
+    #[Validate('required|bool')]
+    public bool $genderBased = false;
 
     public function mount(): void
     {
@@ -28,13 +38,53 @@ class Variable extends Component
 
         $this->name = $this->variable->name;
 
-        $this->selectedQuestions = $this->getVariableIds();
+        $this->genderBased = $this->variable->gender_based;
+
+        $this->selectedQuestions = $this->getQuestionsIds();
     }
 
     /** @return int[] */
-    public function getVariableIds(): array
+    public function getQuestionsIds(): array
     {
         return $this->variable->questions->pluck('id')->toArray();
+    }
+
+    public function storeCutoff(): void
+    {
+        $this->authorize('updateStructure', $this->questionnaire);
+
+        $this->form->store($this->variable);
+
+        $this->reset('newCutoffModal');
+
+        $this->form->reset();
+
+        $this->success('Successo!', 'Soglia aggiunta con successo!');
+    }
+
+    public function update(): void
+    {
+        $this->authorize('updateStructure', $this->questionnaire);
+
+        $this->validate();
+
+        $this->variable->update([
+            'name' => $this->name,
+            'gender_based' => $this->genderBased
+        ]);
+
+        $this->success('Successo!', 'Variabile aggiornata con successo!');
+    }
+
+    public function delete(): void
+    {
+        $this->authorize('updateStructure', $this->questionnaire);
+
+        $this->variable->delete();
+
+        $this->deleteModal = false;
+
+        $this->dispatch('variable-deleted');
     }
 
     public function openQuestionsModal(): void
@@ -50,7 +100,7 @@ class Variable extends Component
     {
         $this->questionsModal = false;
 
-        $this->selectedQuestions = $this->getVariableIds();
+        $this->selectedQuestions = $this->getQuestionsIds();
     }
 
     public function syncQuestions(): void
@@ -74,8 +124,12 @@ class Variable extends Component
         $this->selectedQuestions = [];
     }
 
-    public function render()
+    public function closeNewCutoffModal(): void
     {
-        return view('livewire.questionnaires.variable');
+        $this->reset('newCutoffModal');
+
+        $this->form->reset();
+
+        $this->resetValidation();
     }
 }

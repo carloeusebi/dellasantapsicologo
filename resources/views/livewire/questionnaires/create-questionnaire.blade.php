@@ -7,11 +7,16 @@
     <li>Crea</li>
   </x-slot:breadcrumb>
 
-  <x-card title="Crea Questionario" separator shadow>
-    @include('questionnaires.form')
+  <x-header
+      title="Creazione Questionario" size="text-2xl" subtitle="Compila i campi per creare un nuovo questionario."
+      separator
+  />
 
-    <x-slot:actions>
-      <x-button wire:click="store" spinner="store" label="Salva"/>
-    </x-slot:actions>
-  </x-card>
+  @include('questionnaires.form')
+
+  <x-hr/>
+
+  <div class="flex justify-end">
+    <x-button class="btn-wide" wire:click="store" spinner="store" label="Salva"/>
+  </div>
 </div>
