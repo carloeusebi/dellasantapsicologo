@@ -47,7 +47,7 @@
 
     <x-modal wire:model="newCutoffModal" title="Crea Soglia" class="backdrop-blur" persistent>
       <x-form wire:submit="storeCutoff">
-        <x-cutoffs.form :form="$form" :variable="$variable"/>
+        <x-forms.cutoff-form :$form :$variable/>
         <x-slot:actions>
           <x-button wire:click="closeNewCutoffModal">Annulla</x-button>
           <x-button class="md:btn-wide" type="submit" spinner="storeCutoff">Salva</x-button>

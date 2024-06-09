@@ -12,8 +12,7 @@
       separator
   />
 
-  @include('questionnaires.form')
-
+  <x-forms.questionnaire-form :questionnaire="null" :tags="$this->tags"/>
   <x-hr/>
 
   <div class="flex justify-end">

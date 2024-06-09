@@ -1,5 +1,6 @@
 <div>
-  @include('questionnaires.form')
+  <x-forms.questionnaire-form :$questionnaire :tags="$this->tags"/>
+
 
   @can('update', $questionnaire)
     <div class="flex justify-end">

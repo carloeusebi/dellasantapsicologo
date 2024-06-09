@@ -5,7 +5,6 @@ namespace App\Livewire\Questionnaires;
 use App\Livewire\Forms\QuestionnaireForm;
 use App\Models\Questionnaire;
 use App\Models\Tag;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
@@ -58,37 +57,6 @@ class ShowQuestionnaire extends Component
         $this->success('Successo!', $message);
     }
 
-    public function previous(): void
-    {
-        if ($this->step === self::$CHOOSE_TITLE) {
-            return;
-        }
-
-        $this->step--;
-    }
-
-    public function next(): void
-    {
-        if ($this->step === self::$CHOOSE_TITLE) {
-            try {
-                $this->authorize('updateText', $this->questionnaire);
-                $this->form->update();
-            } catch (AuthorizationException) {
-                // Do nothing
-            }
-        }
-
-        if ($this->step === self::$CHOOSE_QUESTIONS) {
-            $this->questionnaire?->update(['step' => self::$CHOOSE_VARIABLES]);
-        }
-
-        if ($this->step === self::$CHOOSE_VARIABLES) {
-            return;
-        }
-
-        $this->step++;
-    }
-    
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
