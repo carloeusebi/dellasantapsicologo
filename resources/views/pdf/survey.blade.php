@@ -18,6 +18,10 @@
     .bg-brand {
       background-color: #6ecc84;
     }
+
+    .page-break {
+      page-break-after: always;
+    }
   </style>
 
 </head>
@@ -61,7 +65,10 @@
         @unless($questionnaireSurvey->questionnaire->choices->isEmpty())
           <div
               class="border border-black my-5 p-2 grid grid-flow-col gap-2"
-              style="grid-template-rows: repeat({{ (int) ($questionnaireSurvey->questionnaire->choices->count() / 2) }}, minmax(0, 1fr))"
+              style="grid-template-rows: repeat({{ $questionnaireSurvey->questionnaire->choices->count() % 2 === 0
+                ? $questionnaireSurvey->questionnaire->choices->count() / 2
+                : intval($questionnaireSurvey->questionnaire->choices->count() / 2) + 1
+              }}, minmax(0, 1fr))"
           >
             @foreach($questionnaireSurvey->questionnaire->choices as $choice)
               <div class="flex items-center">
@@ -89,7 +96,7 @@
           </div>
         @endforeach
       </section>
-      @pageBreak
+      <div class="page-break"></div>
     @endforeach
   </main>
 </div>
