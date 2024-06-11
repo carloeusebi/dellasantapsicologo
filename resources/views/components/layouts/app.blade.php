@@ -10,7 +10,7 @@
   </script>
 
   @laravelPWA
-  
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -101,18 +101,18 @@
     @auth()
       <x-menu :title="null" activate-by-route>
         <x-custom-menu-sub title="Pazienti" icon="o-user-group" route="patients.*">
-          <x-menu-item title="Pazienti" link="{{ route('patients.index') }}" route="patients.index"/>
-          <x-menu-item title="Nuovo" link="{{ route('patients.create') }}" route="patients.create"/>
+          <x-menu-item title="Pazienti" :link="route('patients.index')" route="patients.index"/>
+          <x-menu-item title="Nuovo" :link="route('patients.create')" route="patients.create"/>
         </x-custom-menu-sub>
         <x-custom-menu-sub title="Valutazioni" icon="o-list-bullet" route="surveys.*">
-          <x-menu-item title="Valutazioni" link="{{ route('surveys.index') }} " route="surveys.index"/>
-          <x-menu-item title="Nuovo" link="{{ route('surveys.create') }}" route="surveys.create"/>
-          <x-menu-item title="Templates" link="{{ route('surveys.templates.index') }}" route="surveys.templates.index"/>
+          <x-menu-item title="Valutazioni" :link="route('surveys.index')" route="surveys.index"/>
+          <x-menu-item title="Nuovo" :link="route('surveys.create')" route="surveys.create"/>
+          <x-menu-item title="Templates" :link="route('surveys.templates.index')" route="surveys.templates.index"/>
         </x-custom-menu-sub>
         <x-custom-menu-sub title="Questionari" icon="o-document-chart-bar" route="questionnaires.*">
-          <x-menu-item title="Questionari" link="{{ route('questionnaires.index') }}" route="questionnaires.index"/>
-          <x-menu-item title="Nuovo" link=" {{ route('questionnaires.create') }}" route="questionnaires.create"/>
-          <x-menu-item title="Tags"/>
+          <x-menu-item title="Questionari" :link="route('questionnaires.index')" route="questionnaires.index"/>
+          <x-menu-item title="Nuovo" :link="route('questionnaires.create')" route="questionnaires.create"/>
+          <x-menu-item title="Tags" :link="route('tags.index')" route="tags.index"/>
         </x-custom-menu-sub>
       </x-menu>
     @endauth

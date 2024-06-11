@@ -12,6 +12,7 @@ use App\Livewire\Questionnaires\CreateQuestionnaire;
 use App\Livewire\Questionnaires\ShowQuestionnaire;
 use App\Livewire\Surveys\CreateSurvey;
 use App\Livewire\Surveys\ShowSurvey;
+use App\Livewire\Tags\TagsIndex;
 use App\Livewire\Templates\CreateTemplate;
 use App\Livewire\Templates\ShowTemplate;
 use Illuminate\Support\Facades\Route;
@@ -56,5 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/crea', CreateQuestionnaire::class)->name('create');
         Route::get('/{questionnaire}', ShowQuestionnaire::class)->name('show');
     });
+
+    Route::get('/tags', TagsIndex::class)->name('tags.index');
 
 });
