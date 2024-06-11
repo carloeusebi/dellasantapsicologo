@@ -119,7 +119,7 @@
           <span>Reset</span>
         </button>
         <button
-            class="flex justify-center items-center gap-2 bg-brand px-12 py-1 rounded-lg font-bold text-white hover:opacity-70 active:opacity-70 btn-wide"
+            class="flex justify-center items-center gap-2 bg-brand px-12 w-full  py-1 rounded-lg font-bold text-white hover:opacity-70 active:opacity-70 lg:btn-wide"
             type="submit" spinner="save"
         >
           <x-loading class="loading-xs" wire:loading wire:target="save"/>
