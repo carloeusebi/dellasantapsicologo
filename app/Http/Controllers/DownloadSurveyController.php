@@ -28,6 +28,15 @@ class DownloadSurveyController extends Controller
             ]);
 
         $base64 = BrowsershotLambda::html(view('pdf.survey', compact('survey')))
+            ->margins(15, 0, 15, 0)
+            ->showBrowserHeaderAndFooter()
+            ->headerHtml(
+                '<div style="display:flex; justify-content: space-between; font-size: 10px; width: 100%; margin: 0 24px">
+                    <span>'.now()->translatedFormat('d F Y H:i').'</span>
+                    <span>'.$survey->title.' di '.$survey->patient->full_name.'</span>
+                </div>'
+            )
+            ->footerHtml('<div style="font-size: 10px; width: 100%; text-align: center;">Pagina <span class="pageNumber"></span> / <span class="totalPages"></span></div>')
             ->setOption('printBackground', true)
             ->base64pdf();
 
