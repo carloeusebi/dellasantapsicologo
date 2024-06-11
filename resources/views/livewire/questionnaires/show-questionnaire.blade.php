@@ -20,7 +20,7 @@
     <x-slot:actions>
       <div class="flex flex-col md:flex-row gap-4 w-full justify-end">
         <x-button
-            label="Crea una copie del questionario"
+            label="Crea una copia del questionario"
             icon="o-clipboard-document-list" x-on:click="alert('Feature in costruzione')"
         />
         @can('delete', $questionnaire)
