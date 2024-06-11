@@ -3,7 +3,7 @@
     <div class="w-full">
       <x-input
           wire:model="name" :disabled="auth()->user()->cannot('updateText', $questionnaire)"
-          placeholder="Nome Variabile" label="Nome Variable"
+          placeholder="Nome Variabile" label="Nome Variable" wire:keyup.enter="update"
       >
         @can('updateText', $questionnaire)
           <x-slot:append>
@@ -34,13 +34,13 @@
   <div class="ps-3 xl:ps-6 label label-text font-bold">Soglie</div>
   <div class="m-2 !mt-2 xl:m-5 border border-base-content/5 space-y-2">
     @can('updateStructure', $questionnaire)
-      <div class="flex justify-end mb-5 p-2">
-        <x-button class="w-full md:btn-wide" x-on:click="$wire.newCutoffModal = true">Crea Soglia</x-button>
+      <div class="flex justify-end p-2">
+        <x-button class="w-full md:btn-wide" x-on:click="$wire.newCutoffModal = true">Aggiungi Soglia</x-button>
       </div>
     @endcan
     @forelse($variable->cutoffs as $cutoff)
       <div class="border-t border-base-content/5 py-2 p-2 xl:p-5 @if($loop->last) border-b @endif">
-        <livewire:questionnaires.cutoff :$questionnaire :$variable :$cutoff :key="'cutoff'.$cutoff->id"/>
+        <livewire:questionnaires.cutoff :$questionnaire :$variable :$cutoff :key="'cutoff'.$cutoff->id.rand(0,99)"/>
       </div>
     @empty
       <div class="text-center text-base-content/50 py-5">Nessuna soglia presente</div>

@@ -26,7 +26,7 @@ class CutoffForm extends Form
     #[Validate(['nullable', 'integer'], as: 'Da femminile')]
     public $fem_from = null;
 
-    #[Validate(['nullable', 'integer', 'required_if:type,range', 'gt:fem_from'], as: 'A femminile')]
+    #[Validate(['nullable', 'integer', 'gt:fem_from'], as: 'A femminile')]
     public $fem_to = null;
 
     public array $cutoffTypes = [
@@ -35,12 +35,13 @@ class CutoffForm extends Form
         ['id' => 'range', 'name' => 'Compreso tra'],
     ];
 
-    public function setCutoff(Cutoff $cutoff)
+    public function setCutoff(Cutoff $cutoff): void
     {
         $this->cutoff = $cutoff;
 
         $this->name = $cutoff->name;
         $this->from = $cutoff->from;
+        $this->type = $cutoff->type;
         $this->to = $cutoff->to;
         $this->fem_from = $cutoff->fem_from;
         $this->fem_to = $cutoff->fem_to;
@@ -64,13 +65,19 @@ class CutoffForm extends Form
 
     protected function performAdditionalValidation(Variable $variable): void
     {
-        if ($this->type === 'range') {
+        if ($this->type === 'range' && $variable->gender_based) {
             $this->validate([
                 'from' => 'lt:to',
                 'fem_from' => 'lt:fem_to',
             ], attributes: [
                 'from' => 'Da',
                 'fem_from' => 'Da femminile',
+            ]);
+        } elseif ($this->type === 'range' && !$variable->gender_based) {
+            $this->validate([
+                'from' => 'lt:to',
+            ], attributes: [
+                'from' => 'Da',
             ]);
         }
 

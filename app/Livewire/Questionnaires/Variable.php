@@ -6,6 +6,7 @@ use App\Livewire\Forms\CutoffForm;
 use App\Models\Questionnaire;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -68,15 +69,18 @@ class Variable extends Component
 
     public function update(): void
     {
-        $this->authorize('updateStructure', $this->questionnaire);
+        $this->authorize('updateText', $this->questionnaire);
 
         $this->validateOnly('name');
         $this->validateOnly('genderBased');
 
-        $this->variable->update([
-            'name' => $this->name,
-            'gender_based' => $this->genderBased
-        ]);
+        $data = ['name' => $this->name];
+
+        if (Auth::user()->can('updateStructure', $this->questionnaire)) {
+            $data['gender_based'] = $this->genderBased;
+        }
+
+        $this->variable->update($data);
 
         $this->success('Successo!', 'Variabile aggiornata con successo!');
     }
