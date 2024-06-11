@@ -30,10 +30,10 @@ class Variable extends Component
 
     public bool $newCutoffModal = false;
 
-    #[Validate('required|string|max:255')]
+    #[Validate('required|string|max:255', as: 'Nome variabile')]
     public string $name;
 
-    #[Validate('required|bool')]
+    #[Validate('required|bool', as: 'Basata sul genere')]
     public bool $genderBased = false;
 
     public function mount(): void
@@ -70,7 +70,8 @@ class Variable extends Component
     {
         $this->authorize('updateStructure', $this->questionnaire);
 
-        $this->validate();
+        $this->validateOnly('name');
+        $this->validateOnly('genderBased');
 
         $this->variable->update([
             'name' => $this->name,

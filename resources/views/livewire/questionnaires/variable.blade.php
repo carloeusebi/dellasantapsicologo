@@ -4,7 +4,18 @@
       <x-input
           wire:model="name" :disabled="auth()->user()->cannot('updateText', $questionnaire)"
           placeholder="Nome Variabile" label="Nome Variable"
-      />
+      >
+        @can('updateText', $questionnaire)
+          <x-slot:append>
+            <div class="[&_*]:font-bold">
+              <x-button
+                  class=" rounded-s-none" icon="o-check" wire:click="update" spinner="update"
+                  label="Salva" responsive
+              />
+            </div>
+          </x-slot:append>
+        @endcan
+      </x-input>
     </div>
     <x-button
         class="w-full md:w-fit" label="Gestisci le domande" wire:click="openQuestionsModal" spinner="openQuestionsModal"
@@ -18,6 +29,7 @@
         label="Le soglie variano in base al sesso del paziente" wire:model="genderBased" wire:change="update"
         :disabled="auth()->user()->cannot('updateStructure', $questionnaire)"
     />
+    <x-errors/>
   </div>
   <div class="ps-3 xl:ps-6 label label-text font-bold">Soglie</div>
   <div class="m-2 !mt-2 xl:m-5 border border-base-content/5 space-y-2">
@@ -31,7 +43,7 @@
         <livewire:questionnaires.cutoff :$questionnaire :$variable :$cutoff :key="'cutoff'.$cutoff->id"/>
       </div>
     @empty
-      <div class="text-center text-base-content/50 py-5">Nessun cutoff presente</div>
+      <div class="text-center text-base-content/50 py-5">Nessuna soglia presente</div>
     @endforelse
   </div>
 
