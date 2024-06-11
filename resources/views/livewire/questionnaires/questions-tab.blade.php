@@ -7,7 +7,7 @@
   </div>
   <div class="space-y-1">
     @forelse($questionnaire?->choices ?? [] as $choice)
-      <livewire:questionnaires.choice
+      <livewire:questionnaires.choice-component
           :choice="$choice" :key="'choice'.$choice->id"
           :can-edit-text="auth()->user()->can('updateText', $questionnaire)"
           :can-edit-structure="auth()->user()->can('updateStructure', $questionnaire)"
@@ -62,7 +62,7 @@
             <input type="hidden" wire:sortable.handle/>
           @endcan
           <div class="grow">
-            <livewire:questionnaires.question
+            <livewire:questionnaires.question-component
                 :$questionnaire
                 :question="$question" :key="$questionnaire->choices->count().'-'.$question->id . '-' . $question->order"
                 :can-edit-text="auth()->user()->can('updateText', $questionnaire)"

@@ -5,17 +5,17 @@
     $headers = [
       ['key' => 'first_name', 'label' => 'Nome'],
       ['key' => 'last_name', 'label' => 'Cognome'],
-      ['key' => 'birth_date', 'label' => 'Età', 'class' => 'hidden md:table-cell'],
-      ['key' => 'email', 'label' => 'Email', 'sortable' => false, 'class' => 'hidden xl:table-cell'],
-      ['key' => 'therapy_start_date', 'label' => 'Inizio Terapia', 'class' => 'hidden md:table-cell'],
+      ['key' => 'birth_date', 'label' => 'Età'],
+      ['key' => 'email', 'label' => 'Email', 'sortable' => false],
+      ['key' => 'therapy_start_date', 'label' => 'Inizio Terapia'],
     ];
 
     if ($state !== 'attivi') {
-    $headers[] = ['key' => 'archived_at', 'label' => 'Fine Terapia', 'class' => 'hidden xl:table-cell'];
+    $headers[] = ['key' => 'archived_at', 'label' => 'Fine Terapia'];
     }
 
     if (auth()->user()->isAdmin()) {
-      $headers[] = ['key' => 'user.name', 'label' => 'Dottore', 'class' => 'hidden xl:table-cell', 'sortable' => false];
+      $headers[] = ['key' => 'user.name', 'label' => 'Dottore'];
     }
 
     $rowDecoration = [
@@ -29,7 +29,7 @@
   <x-slot:filters>
     <x-select
         label="Stato"
-        class="w-full md:w-[320px]"
+        class="w-full md:w-[175] xl:w-[320px]"
         wire:model.live.debounce="state"
         :options="[
             ['id' => 'attivi', 'name' => 'Attivi'],
@@ -38,14 +38,12 @@
         ]"
     />
     @if(auth()->user()->isAdmin())
-      <div class="hidden xl:block">
-        <x-select
-            class="w-full md:w-[320px]" wire:model.live.debounce="user_id"
-            label="Dottore"
-            placeholder="Tutti"
-            :options="$this->doctors"
-        />
-      </div>
+      <x-select
+          class="w-full md:w-[200px] xl:w-[320px]" wire:model.live.debounce="user_id"
+          label="Dottore"
+          placeholder="Tutti"
+          :options="$this->doctors"
+      />
     @endif
     <div class="[&>*]:!w-full grow">
       <x-input

@@ -24,7 +24,7 @@ class CreateQuestionnaire extends Component
         return Tag::select(['id', 'tag', 'color'])->orderBy('tag')->get();
     }
 
-    public function store(): void
+    public function save(): void
     {
         $questionnaire = $this->form->store();
 

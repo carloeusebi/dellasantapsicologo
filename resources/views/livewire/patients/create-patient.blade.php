@@ -6,6 +6,6 @@
   </x-slot:breadcrumb>
 
   <x-card title="Aggiungi un nuovo Paziente" shadow separator>
-    @include('patients.form')
+    <x-forms.patient-form/>
   </x-card>
 </div>

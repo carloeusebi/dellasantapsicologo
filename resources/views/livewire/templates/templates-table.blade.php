@@ -4,9 +4,9 @@
   $headers = [
     ['key' => 'name', 'label' => 'Nome'],
     ['key' => 'tags', 'label' => 'Tags', 'sortable' => false],
-    ['key' => 'user.name', 'label' => 'Autore', 'sortable' => false, 'class' => 'hidden lg:table-cell'],
-    ['key' => 'questionnaires_count', 'label' => 'Questionari', 'class' => 'hidden md:table-cell'],
-    ['key' => 'other_users_can_see', 'label' => 'Visibile', 'sortable' => false, 'class' => 'hidden lg:table-cell'],
+    ['key' => 'user.name', 'label' => 'Autore', 'sortable' => false],
+    ['key' => 'questionnaires_count', 'label' => 'Questionari'],
+    ['key' => 'other_users_can_see', 'label' => 'Visibile', 'sortable' => false],
   ];
 @endphp
 

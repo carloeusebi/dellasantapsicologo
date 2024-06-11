@@ -38,10 +38,10 @@ class QuestionnairesTable extends TableComponent
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
         $questionnaires = $this->goToFirstPageIfResultIsEmpty(function () {
-            return Questionnaire::select(['id', 'title', 'created_at'])
+            return Questionnaire::select(['id', 'user_id', 'title', 'created_at'])
                 ->withCount('surveys')
                 ->userScope()
-                ->with('tags')
+                ->with('tags:id,tag,color', 'user:id,name')
                 ->when(count($this->tagsFilter), function (Builder $query) {
                     $query->where(function (Builder $query) {
                         foreach ($this->tagsFilter as $tag) {
@@ -55,6 +55,6 @@ class QuestionnairesTable extends TableComponent
                 ->withQueryString();
         });
 
-        return view('livewire.questionnaires.table', compact('questionnaires'));
+        return view('livewire.questionnaires.questionnaires-table', compact('questionnaires'));
     }
 }

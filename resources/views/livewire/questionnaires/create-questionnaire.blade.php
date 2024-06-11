@@ -16,6 +16,6 @@
   <x-hr/>
 
   <div class="flex justify-end">
-    <x-button class="btn-wide" wire:click="store" spinner="store" label="Salva"/>
+    <x-button form="questionnaire-form" type="submit" class="btn-wide" spinner="save" label="Salva"/>
   </div>
 </div>

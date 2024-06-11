@@ -88,7 +88,7 @@
       @endscope
     </x-table>
     @if ($patient->getMedia('files')->isEmpty())
-      <div class="text-center text-base-content/50 my-5 italic">Nessun allegato presente</div>
+      <div class="text-center text-base-content/50 mt-5 italic">Nessun allegato presente</div>
     @endif
   </x-card>
 </div>

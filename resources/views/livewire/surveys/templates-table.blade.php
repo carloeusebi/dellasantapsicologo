@@ -3,9 +3,9 @@
   /** @var App\Models\Template $template */
   $headers = [
     ['key' => 'name', 'label' => 'Nome'],
-    ['key' => 'tags', 'label' => 'Tags', 'sortable' => false, 'class' => 'hidden lg:table-cell'],
-    ['key' => 'user.name', 'label' => 'Autore', 'sortable' => false, 'class' => 'hidden lg:table-cell'],
-    ['key' => 'questionnaires_count', 'label' => 'Questionari', 'class' => 'hidden md:table-cell'],
+    ['key' => 'tags', 'label' => 'Tags', 'sortable' => false],
+    ['key' => 'user.name', 'label' => 'Autore', 'sortable' => false],
+    ['key' => 'questionnaires_count', 'label' => 'Questionari'],
   ];
 @endphp
 

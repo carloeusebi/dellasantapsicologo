@@ -42,6 +42,6 @@ class ShowSurvey extends Component
             ->load('skippedQuestions.question.questionnaire')
             ->loadCount('comments', 'skippedQuestions');
 
-        return view('livewire.surveys.show');
+        return view('livewire.surveys.show-survey');
     }
 }

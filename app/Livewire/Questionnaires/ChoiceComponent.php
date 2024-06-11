@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Questionnaires;
 
+use App\Models\Choice;
 use Livewire\Component;
 
-class Choice extends Component
+class ChoiceComponent extends Component
 {
-    public \App\Models\Choice $choice;
+    public Choice $choice;
 
     public string $text = '';
 
@@ -20,7 +21,7 @@ class Choice extends Component
 
     public bool $deleteModal = false;
 
-    public function mount(\App\Models\Choice $choice): void
+    public function mount(Choice $choice): void
     {
         $this->choice = $choice;
         $this->text = $choice->text;

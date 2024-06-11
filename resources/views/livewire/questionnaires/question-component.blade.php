@@ -41,7 +41,10 @@
     @endcan
   </div>
   <div class="text-sm mt-2 [&_*]:font-normal !text-base-content/75 flex flex-wrap items-center gap-4 select-none">
-    <x-checkbox wire:model="reversed" wire:change="update" label="Punteggio invertito"/>
+    <x-checkbox
+        wire:model="reversed" wire:change="update" label="Punteggio invertito"
+        :disabled="auth()->user()->cannot('updateStructure', $questionnaire)"
+    />
     @if(auth()->user()->can('updateStructure', $questionnaire) || $question->choices->isNotEmpty())
       <x-button
           class="btn-xs" wire:click="toggleExpanded" :label="$expanded ? 'Nascondi risposte' : 'Mostra risposte'"
@@ -59,7 +62,7 @@
     <div class="p-1 m-1 md:p-5 md:m-5 border border-base-content/5 relative">
       <x-button class="btn-xs absolute right-2 top-2" wire:click="toggleExpanded" label="-"/>
       @forelse($question->choices as $choice)
-        <livewire:questionnaires.choice
+        <livewire:questionnaires.choice-component
             :choice="$choice"
             :key="'question'.$question->id.'choice'.$choice->id"
             :can-edit-text="auth()->user()->can('updateText', $questionnaire)"

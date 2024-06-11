@@ -81,6 +81,6 @@ class SurveysTable extends TableComponent
                 )->withQueryString();
         });
 
-        return view('livewire.surveys.table', compact('surveys'));
+        return view('livewire.surveys.surveys-table', compact('surveys'));
     }
 }

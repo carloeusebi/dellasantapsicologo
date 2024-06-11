@@ -1,11 +1,11 @@
-<div {{ $attributes->class(['space-y-5']) }}>
+<x-form {{ $attributes->class(['space-y-5']) }} wire:submit="save" id="questionnaire-form">
   <x-input
       wire:model.live.debounce="form.title" label="Titolo" placeholder="Nome del questionario" first-error-only
-      :disabled="$questionnaire && auth()->user()->cannot('updateText', $questionnaire)"
+      :disabled="$questionnaire && auth()->user()->cannot('updateText', $questionnaire)" required
   />
   <x-textarea
       wire:model.live.debounce="form.description" label="Descrizione" placeholder="Descrizione del questionario"
-      first-error-only rows="5"
+      first-error-only rows="5" required
       :disabled="$questionnaire && auth()->user()->cannot('updateText', $questionnaire)"
   />
 
@@ -31,4 +31,4 @@
       label="Visibile anche agli altri utenti" wire:model="form.visible"
       :disabled="$questionnaire && auth()->user()->cannot('updateText', $questionnaire)"
   />
-</div>
+</x-form>

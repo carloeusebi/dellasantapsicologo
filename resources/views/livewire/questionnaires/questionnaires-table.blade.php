@@ -5,8 +5,9 @@
   $headers = [
     ['key' => 'title', 'label' => 'Titolo'],
     ['key' => 'tags', 'label' => 'Tags', 'sortable' => false],
-    ['key' => 'surveys_count', 'label' => 'Utilizzi', 'class' => 'hidden md:table-cell'],
-    ['key' => 'created_at', 'label' => 'Creato', 'class' => 'hidden md:table-cell'],
+    ['key' => 'surveys_count', 'label' => 'Utilizzi'],
+    ['key' => 'created_at', 'label' => 'Creato'],
+    ['key' => 'user.name', 'label' => 'Creato da'],
   ];
 @endphp
 <div class="[&_.reset-button]:h-[46px]">

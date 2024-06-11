@@ -9,7 +9,7 @@
         wire:key="variable{{ $variable->id }}"
         class="py-5 px-1 md:px-5 border-t border-base-content/10 @if($loop->last) border-b @endif"
     >
-      <livewire:questionnaires.variable :$questionnaire :$variable :key="'variable'.$variable->id"/>
+      <livewire:questionnaires.variable-component :$questionnaire :$variable :key="'variable'.$variable->id"/>
     </div>
   @empty
     <div class="text-center text-base-content/50 py-5">Nessuna variabile presente</div>

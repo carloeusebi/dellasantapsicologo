@@ -63,19 +63,19 @@
 
     <div>
       <div x-show="$wire.tab === 'dettagli'">
-        <livewire:surveys.details :$survey lazy/>
+        <livewire:surveys.details-tab :$survey lazy/>
       </div>
 
       <div x-show="$wire.tab === 'risposte'">
-        <livewire:surveys.answers :$survey lazy/>
+        <livewire:surveys.answers-tab :$survey lazy/>
       </div>
 
       <div x-show="$wire.tab === 'risultati'">
-        <livewire:surveys.results :$survey lazy :key="rand(0,9999)"/>
+        <livewire:surveys.results-tab :$survey lazy :key="rand(0,9999)"/>
       </div>
 
       <div x-show="$wire.tab === 'commenti'">
-        <livewire:surveys.comments :$survey lazy/>
+        <livewire:surveys.comments-tab :$survey lazy/>
       </div>
 
       <div x-show="$wire.tab === 'saltate'">

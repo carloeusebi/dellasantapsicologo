@@ -14,7 +14,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-class Comments extends Component
+class CommentsTab extends Component
 {
     use Toast;
 
@@ -39,7 +39,7 @@ class Comments extends Component
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
-        return view('livewire.surveys.comments');
+        return view('livewire.surveys.comments-tab');
     }
 
     #[Computed]

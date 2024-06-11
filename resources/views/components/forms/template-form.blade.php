@@ -1,5 +1,7 @@
-<div class="space-y-5">
-  <x-input label="Nome" placeholder="Dai un nome al Template" wire:model.live.debounce="form.name"/>
+<x-form class="space-y-5" id="template-form">
+  <x-input
+      label="Nome" placeholder="Dai un nome al Template" wire:model.live.debounce="form.name" required first-error-only
+  />
   <x-choices
       class="md:min-w-[420px] w-full" icon="o-tag" :options="$this->tags"
       wire:model.live.debounce="form.selectedTags" label="Tags"
@@ -19,4 +21,4 @@
   </x-choices>
   <x-textarea label="Descrizione" placeholder="Descrizione" wire:model.live.debounce="form.description"/>
   <x-checkbox label="Visibile anche agli altri utenti" wire:model="form.visible"/>
-</div>
+</x-form>

@@ -84,6 +84,6 @@ class PatientFiles extends Component
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
-        return view('livewire.patients.files');
+        return view('livewire.patients.patient-files');
     }
 }

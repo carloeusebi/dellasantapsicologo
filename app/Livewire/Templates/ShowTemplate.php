@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
@@ -42,6 +43,8 @@ class ShowTemplate extends Component
 
         $this->form->update();
 
+        $this->dispatch('updated');
+
         $this->success('Successo!', 'Template aggiornato con successo');
     }
 
@@ -73,6 +76,7 @@ class ShowTemplate extends Component
             redirectTo: route('surveys.templates.index'));
     }
 
+    #[On('updated')]
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {

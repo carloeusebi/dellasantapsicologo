@@ -12,7 +12,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 
 #[Lazy]
-class Results extends Component
+class ResultsTab extends Component
 {
     public Survey $survey;
 

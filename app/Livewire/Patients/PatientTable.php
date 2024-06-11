@@ -70,7 +70,7 @@ class PatientTable extends TableComponent
         });
 
 
-        return view('livewire.patients.table', compact('patients'));
+        return view('livewire.patients.patient-table', compact('patients'));
     }
 
     #[Computed(cache: true)]

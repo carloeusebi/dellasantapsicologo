@@ -19,6 +19,7 @@
           placeholder="Seleziona un Paziente"
           :disabled="$queryStringPatientId != null"
           icon="o-user"
+          required
       />
     </x-step>
 
@@ -46,7 +47,7 @@
     {{-- STEP 3 --}}
     <x-step step="{{ self::$CONFIRM }}" text="Conferma">
       <div class="space-y-3">
-        <x-input label="Titolo" placeholder="Dai un nome alla Valutazione" wire:model.live="title"/>
+        <x-input label="Titolo" placeholder="Dai un nome alla Valutazione" wire:model.live="title" required/>
         @if ($patient?->email)
           <x-checkbox
               wire:model="sendEmail"
@@ -68,7 +69,7 @@
             <x-loading class="loading-sm" wire:loading.delay wire:target="createTemplate"/>
           </div>
           @if($createTemplate)
-            @include('templates.form')
+            <x-forms.template-form/>
           @endif
         @endunless
       </div>

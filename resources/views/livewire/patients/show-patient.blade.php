@@ -9,7 +9,7 @@
 
   <div class="grid grid-cols-1 xl:grid-cols-3 gap-y-8 xl:gap-x-8 items-start mb-8 xl:mb-4">
     <x-card :title="$patient->full_name" class="col-span-2" shadow>
-      @include('patients.form')
+      <x-forms.patient-form/>
     </x-card>
 
     <div class="space-y-8 xl:space-y-4 col-span-1">

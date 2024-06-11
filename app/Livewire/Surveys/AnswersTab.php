@@ -22,7 +22,7 @@ use Mary\Traits\Toast;
  * @property Collection<QuestionnaireSurvey> $questionnaires
  */
 #[Lazy(isolate: false)]
-class Answers extends Component
+class AnswersTab extends Component
 {
     use Toast;
 

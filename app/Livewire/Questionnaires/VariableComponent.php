@@ -4,6 +4,7 @@ namespace App\Livewire\Questionnaires;
 
 use App\Livewire\Forms\CutoffForm;
 use App\Models\Questionnaire;
+use App\Models\Variable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Auth;
@@ -13,13 +14,13 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-class Variable extends Component
+class VariableComponent extends Component
 {
     use Toast;
 
     public Questionnaire $questionnaire;
 
-    public \App\Models\Variable $variable;
+    public Variable $variable;
 
     public CutoffForm $form;
 
@@ -146,6 +147,6 @@ class Variable extends Component
     public function render(
     ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application
     {
-        return view('livewire.questionnaires.variable');
+        return view('livewire.questionnaires.variable-component');
     }
 }

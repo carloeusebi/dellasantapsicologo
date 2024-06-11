@@ -1,3 +1,8 @@
+table {
+  table-layout: auto !important;
+  white-space: nowrap !important;
+}
+
 .table thead {
   @apply text-base-content
 }

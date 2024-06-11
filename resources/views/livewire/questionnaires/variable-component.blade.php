@@ -40,7 +40,9 @@
     @endcan
     @forelse($variable->cutoffs as $cutoff)
       <div class="border-t border-base-content/5 py-2 p-2 xl:p-5 @if($loop->last) border-b @endif">
-        <livewire:questionnaires.cutoff :$questionnaire :$variable :$cutoff :key="'cutoff'.$cutoff->id.rand(0,99)"/>
+        <livewire:questionnaires.cutoff-component
+            :$questionnaire :$variable :$cutoff :key="'cutoff'.$cutoff->id.rand(0,99)"
+        />
       </div>
     @empty
       <div class="text-center text-base-content/50 py-5">Nessuna soglia presente</div>

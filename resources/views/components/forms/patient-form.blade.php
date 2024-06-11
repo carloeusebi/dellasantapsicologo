@@ -5,9 +5,10 @@
         class="input-sm bg-base-200" icon="o-user"
         label=" Nome"
         wire:model.live="form.first_name"
+        required
     />
     <x-input
-        icon="o-user"
+        icon="o-user" required
         class="input-sm bg-base-200" label="Cognome" wire:model.live="form.last_name"
     />
   </div>

@@ -9,7 +9,7 @@
 
   <x-steps wire:model="step" class="border my-5 p-5">
     <x-step step="{{ self::$CHOOSE_TITLE }}" text="Titolo">
-      @include('templates.form')
+      <x-forms.template-form/>
     </x-step>
 
     <x-step step="{{ self::$CHOOSE_QUESTIONNAIRES }}" text="Questionari">

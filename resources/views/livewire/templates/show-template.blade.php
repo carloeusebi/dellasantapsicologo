@@ -21,7 +21,7 @@
               />
             </div>
           </x-slot:figure>
-          @include('templates.form')
+          <x-forms.template-form/>
           <x-slot:actions>
             <div class="flex flex-col md:flex-row md:justify-end gap-2 w-full">
               <x-button class="btn-sm w-full md:w-fit" wire:click="resetForm" spinner="resetForm">

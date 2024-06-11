@@ -7,8 +7,8 @@
    if (!$patient) {
     $headers[] = ['key' => 'patient.full_name', 'label' => 'Paziente', 'sortable' => false];
   }
-    $headers[] = ['key' => 'created_at', 'label' => 'Creato', 'class' => 'hidden md:table-cell'];
-    $headers[] = ['key' => 'updated_at', 'label' => 'Ultima modifica', 'class' => 'hidden md:table-cell'];
+    $headers[] = ['key' => 'created_at', 'label' => 'Creato'];
+    $headers[] = ['key' => 'updated_at', 'label' => 'Ultima modifica'];
 
   $rowDecoration = [
       'table-success' => fn (Survey $survey) => $survey->completed,

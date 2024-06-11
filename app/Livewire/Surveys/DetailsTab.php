@@ -16,7 +16,7 @@ use Livewire\Component;
 use Mary\Traits\Toast;
 
 #[Lazy]
-class Details extends Component
+class DetailsTab extends Component
 {
     use Toast;
 
@@ -91,6 +91,6 @@ class Details extends Component
     {
         $this->loadSurvey();
 
-        return view('livewire.surveys.details');
+        return view('livewire.surveys.details-tab');
     }
 }

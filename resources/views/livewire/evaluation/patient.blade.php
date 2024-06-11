@@ -111,7 +111,7 @@
     <x-slot:actions>
       <div class="grow flex flex-col sm:flex-row sm:justify-end items-stretch gap-2">
         <button
-            class="flex justify-center items-center gap-2 bg-gray-400 px-12 py-1 rounded-lg font-bold text-white hover:opacity-70 active:opacity-70"
+            class="flex justify-center items-center gap-2 bg-gray-300 px-4 py-1 rounded-lg font-bold text-white hover:opacity-70 active:opacity-70"
             type="button"
             wire:click="resetForm"
         >
@@ -119,7 +119,7 @@
           <span>Reset</span>
         </button>
         <button
-            class="flex justify-center items-center gap-2 bg-brand px-12 py-1 rounded-lg font-bold text-white hover:opacity-70 active:opacity-70"
+            class="flex justify-center items-center gap-2 bg-brand px-12 py-1 rounded-lg font-bold text-white hover:opacity-70 active:opacity-70 btn-wide"
             type="submit" spinner="save"
         >
           <x-loading class="loading-xs" wire:loading wire:target="save"/>

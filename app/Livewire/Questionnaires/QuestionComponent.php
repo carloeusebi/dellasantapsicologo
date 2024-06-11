@@ -2,20 +2,22 @@
 
 namespace App\Livewire\Questionnaires;
 
+use App\Models\Question;
 use App\Models\Questionnaire;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-class Question extends Component
+class QuestionComponent extends Component
 {
     use Toast;
 
-    public \App\Models\Question|null $question = null;
+    public Question|null $question = null;
 
     public Questionnaire $questionnaire;
 
@@ -32,7 +34,7 @@ class Question extends Component
 
     public string $newChoiceText = '';
 
-    public function mount(\App\Models\Question $question): void
+    public function mount(Question $question): void
     {
         $this->question = $question;
 
@@ -45,10 +47,15 @@ class Question extends Component
     {
         $this->validate();
 
-        $this->question->update([
-            'text' => $this->text,
-            'reversed' => $this->reversed,
-        ]);
+        $data = ['test' => $this->text];
+
+        if (Auth::user()->can('updateStructure', $this->questionnaire)) {
+            $data['reversed'] = $this->reversed;
+        } else {
+            $this->reversed = $this->question->reversed;
+        }
+
+        $this->question->update($data);
     }
 
     public function delete(): void
@@ -91,6 +98,6 @@ class Question extends Component
     {
         $this->question->load('choices');
 
-        return view('livewire.questionnaires.question');
+        return view('livewire.questionnaires.question-component');
     }
 }

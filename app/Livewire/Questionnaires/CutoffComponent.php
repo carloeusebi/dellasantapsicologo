@@ -3,20 +3,22 @@
 namespace App\Livewire\Questionnaires;
 
 use App\Livewire\Forms\CutoffForm;
+use App\Models\Cutoff;
 use App\Models\Questionnaire;
+use App\Models\Variable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class Cutoff extends Component
+class CutoffComponent extends Component
 {
-    public \App\Models\Cutoff $cutoff;
+    public Cutoff $cutoff;
 
     public Questionnaire $questionnaire;
 
-    public \App\Models\Variable $variable;
+    public Variable $variable;
 
     public CutoffForm $form;
 
@@ -56,6 +58,6 @@ class Cutoff extends Component
     public function render(
     ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application
     {
-        return view('livewire.questionnaires.cutoff');
+        return view('livewire.questionnaires.cutoff-component');
     }
 }

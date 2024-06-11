@@ -76,7 +76,7 @@ class ShowPatient extends Component
     {
         $this->authorize('view', $this->patient);
 
-        return view('livewire.patients.show');
+        return view('livewire.patients.show-patient');
     }
 
     public function delete(): void
