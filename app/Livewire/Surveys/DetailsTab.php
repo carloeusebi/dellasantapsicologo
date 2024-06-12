@@ -64,7 +64,7 @@ class DetailsTab extends Component
         $this->validate();
 
         try {
-            $this->survey->sendEmail($this->emailSubject, $this->emailAddress, $this->emailMessage);
+            $this->survey->sendEmailWithLink($this->emailSubject, $this->emailAddress, $this->emailMessage);
             $this->success('Successo!', 'Email inviata correttamente!');
         } catch (Exception $e) {
             Log::error($e->getMessage());

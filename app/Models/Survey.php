@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Mail\LinkToTestMail;
+use App\Mail\SurveyCompletedNotificationMail;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -40,19 +41,26 @@ class Survey extends Model
     /**
      * @throws Exception if the email is not sent
      */
-    public function sendEmail(
+    public function sendEmailWithLink(
         ?string $subject = 'Questionario per la valutazione',
         ?string $email = null,
-        ?string $body = null
+        ?string $body = null,
+        bool $shouldQueue = false
     ): bool {
 
-        $mailer = app()->isProduction() ? 'smtp' : 'mailtrap';
+        $mail = Mail::to($email ?? $this->patient->email);
 
-        Mail::mailer($mailer)->to($email ?? $this->patient->email)->send(new LinkToTestMail(
+        $mailable = new LinkToTestMail(
             $subject,
             $body ?? config('mail.default_link_to_test_message'),
             $this->getLink()
-        ));
+        );
+
+        if ($shouldQueue) {
+            $mail->queue($mailable);
+        } else {
+            $mail->send($mailable);
+        }
 
         return true;
     }
@@ -68,7 +76,25 @@ class Survey extends Model
 
         $this->completed = $this->questionnaireSurveys->count() === $this->completed_questionnaire_survey_count;
 
+        if ($this->completed) {
+            $this->sendCompletedEmail();
+        }
+
         $this->update(['completed' => $this->completed]);
+    }
+
+    public function sendCompletedEmail(): void
+    {
+        $this->patient->load('user:id,name,email');
+
+        Mail::to($this->patient->user->email)
+            ->queue(new SurveyCompletedNotificationMail(
+                $this->patient->full_name,
+                $this->title,
+                now(),
+                $this->id
+            ));
+
     }
 
     public function scopeUserScope(Builder $query): void

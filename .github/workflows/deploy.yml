@@ -31,4 +31,5 @@ jobs:
             ~/.nvm/versions/node/v20.14.0/bin/npm i && ~/.nvm/versions/node/v20.14.0/bin/npm run build &&
             composer2 install --no-dev --optimize-autoloader &&
             php artisan migrate --force &&
-            php artisan optimize
+            php artisan optimize &&
+            php artisan queue:restart

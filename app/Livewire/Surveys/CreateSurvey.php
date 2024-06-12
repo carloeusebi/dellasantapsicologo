@@ -151,7 +151,7 @@ class CreateSurvey extends Component
 
         try {
             if ($this->sendEmail) {
-                $survey->sendEmail();
+                $survey->sendEmailWithLink(shouldQueue: true);
             }
             $this->success('Successo!', 'Test di valutazione creato con successo!');
         } catch (Exception $e) {
