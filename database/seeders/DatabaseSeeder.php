@@ -25,7 +25,9 @@ class DatabaseSeeder extends Seeder
             ->has(Patient::factory()->count(3)->archived(), 'patients')
             ->create();
 
-        $this->call(TagSeeder::class);
-        $this->call(QuestionnaireSeeder::class, parameters: ['user' => User::first()]);
+        $this->call([
+            TagSeeder::class, QuestionnaireSeeder::class, QuestionSeeder::class, ChoiceSeeder::class,
+            VariableSeeder::class, CutoffSeeder::class
+        ]);
     }
 }
