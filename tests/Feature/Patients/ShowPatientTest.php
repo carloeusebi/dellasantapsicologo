@@ -7,21 +7,23 @@ use Livewire\Livewire;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertTrue;
 
-it('displays patient', function () {
-    $user = User::factory()->create();
-    $patient = Patient::factory()->recycle($user)->create();
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    $this->livewire = Livewire::actingAs($this->user);
+});
 
-    Livewire::actingAs($user)
+it('displays patient', function () {
+    $patient = Patient::factory()->recycle($this->user)->create();
+
+    $this->livewire
         ->test(ShowPatient::class, ['patient' => $patient])
-        ->assertSee($patient->full_name);
+        ->assertViewHas('patient', $patient);
 });
 
 it('changes patient state', function () {
-    $user = User::factory()->create();
+    $patient = Patient::factory()->recycle($this->user)->create();
 
-    $patient = Patient::factory()->recycle($user)->create();
-
-    Livewire::actingAs($user)
+    $this->livewire
         ->test(ShowPatient::class, ['patient' => $patient])
         ->call('changeState');
 
@@ -29,10 +31,9 @@ it('changes patient state', function () {
 });
 
 it('resets form', function () {
-    $user = User::factory()->create();
-    $patient = Patient::factory()->recycle($user)->create();
+    $patient = Patient::factory()->recycle($this->user)->create();
 
-    $component = Livewire::actingAs($user)
+    $component = $this->livewire
         ->test(ShowPatient::class, ['patient' => $patient])
         ->set('form.first_name', 'New Name')
         ->call('resetForm');
@@ -41,12 +42,11 @@ it('resets form', function () {
 });
 
 it('saves patient', function () {
-    $user = User::factory()->create();
-    $patient = Patient::factory()->recycle($user)->create();
+    $patient = Patient::factory()->recycle($this->user)->create();
 
     $newName = 'New Name';
 
-    $component = Livewire::actingAs($user)
+    $this->livewire
         ->test(ShowPatient::class, ['patient' => $patient])
         ->set('form.first_name', $newName)
         ->call('save');
@@ -55,12 +55,20 @@ it('saves patient', function () {
 });
 
 it('deletes patient', function () {
-    $user = User::factory()->create();
-    $patient = Patient::factory()->recycle($user)->create();
+    $patient = Patient::factory()->recycle($this->user)->create();
 
-    Livewire::actingAs($user)
+    $this->livewire
         ->test(ShowPatient::class, ['patient' => $patient])
         ->call('delete');
 
     assertTrue($patient->fresh()->trashed());
+});
+
+it('hides other user patients', function () {
+    $otherUser = User::factory()->create();
+    $otherPatient = Patient::factory()->recycle($otherUser)->create();
+
+    $this->livewire
+        ->test(ShowPatient::class, ['patient' => $otherPatient])
+        ->assertNotFound();
 });

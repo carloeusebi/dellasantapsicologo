@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Evaluation;
 
-use App\Livewire\Forms\PatientForm;
 use App\Models\Survey;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -11,9 +10,9 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Patient extends Component
+class EvaluationPatientForm extends Component
 {
-    public PatientForm $form;
+    public EvaluationPatientForm $form;
 
     public Survey $survey;
 

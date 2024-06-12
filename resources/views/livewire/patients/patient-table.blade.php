@@ -32,9 +32,9 @@
         class="w-full md:w-[175] xl:w-[320px]"
         wire:model.live.debounce="state"
         :options="[
-            ['id' => 'attivi', 'name' => 'Attivi'],
-            ['id' => 'tutti', 'name' => 'Tutti'],
-            ['id' => 'archiviati', 'name' => 'Solo Archiviati'],
+            ['id' => self::$archivedState, 'name' => 'Attivi'],
+            ['id' => self::$allState, 'name' => 'Tutti'],
+            ['id' => self::$archivedState, 'name' => 'Solo Archiviati'],
         ]"
     />
     @if(auth()->user()->isAdmin())

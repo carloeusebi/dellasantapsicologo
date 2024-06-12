@@ -15,7 +15,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-class Questionnaire extends Component
+class QuestionnaireScroller extends Component
 {
     use Toast;
 

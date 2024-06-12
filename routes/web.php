@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/test-per-la-valutazione')->name('evaluation.')->group(function () {
     Route::get('/{survey:token}', Evaluation\Home::class)->name('home');
-    Route::get('/{survey:token}/paziente', Evaluation\Patient::class)->name('patient');
+    Route::get('/{survey:token}/paziente', Evaluation\EvaluationPatientForm::class)->name('patient');
     Route::get('/{survey:token}/grazie', Evaluation\ThankYou::class)->name('thank-you');
-    Route::get('/{survey:token}/{questionnaireSurvey}', Evaluation\Questionnaire::class)->name('questionnaire');
+    Route::get('/{survey:token}/{questionnaireSurvey}', Evaluation\QuestionnaireScroller::class)->name('questionnaire');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
