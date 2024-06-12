@@ -1,6 +1,6 @@
 # Dellasanta Psicologo
 
-Links: [dellasantapsicologo.it](https://dellasantapsicologo.it)
+Links: [dellasantapsicologo.it](https://admin.dellasantapsicologo.it)
 
 > Built with Laravel 11, PHP 8.3 and Livewire 3
 
