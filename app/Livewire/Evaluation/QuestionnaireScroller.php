@@ -61,7 +61,6 @@ class QuestionnaireScroller extends Component
 
     public function answerQuestion(?int $choiceId = null): void
     {
-
         if (!$choiceId && !$this->comment) {
             $this->error('Per favore inserisci un <br>commento se vuoi saltare la domanda');
             return;
