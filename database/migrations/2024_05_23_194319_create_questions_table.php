@@ -16,7 +16,7 @@ return new class extends Migration {
                 $table->text('text')->nullable();
                 $table->boolean('reversed')->default(false);
                 $table->json('custom_choices')->nullable();
-                $table->tinyInteger('order')->default(0);
+                $table->tinyInteger('order')->unsigned()->default(0);
                 $table->integer('old_id')->nullable();
                 $table->softDeletes();
                 $table->timestamps();

@@ -19,7 +19,7 @@ return new class extends Migration {
                 $table->string('name');
                 $table->smallInteger('from')->nullable();
                 $table->smallInteger('to')->nullable();
-                $table->set('type', ['lesser_than', 'greater_than', 'range']);
+                $table->enum('type', ['lesser_than', 'greater_than', 'range']);
                 $table->smallInteger('fem_from')->nullable();
                 $table->smallInteger('fem_to')->nullable();
                 $table->softDeletes();

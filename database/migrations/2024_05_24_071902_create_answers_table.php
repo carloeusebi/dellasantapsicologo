@@ -33,12 +33,18 @@ return new class extends Migration {
             });
         }
 
-        $progress = new ProgressBar(new ConsoleOutput(), QuestionnaireSurvey::count());
+        $questionnaireSurveyCount = QuestionnaireSurvey::count();
 
-        $progress->start();
+        $progress = new ProgressBar(new ConsoleOutput(), $questionnaireSurveyCount);
+
+        $showProgress = $questionnaireSurveyCount > 10;
+
+        if ($showProgress) {
+            $progress->start();
+        }
         QuestionnaireSurvey::with('questionnaire.choices', 'survey')
             ->get()
-            ?->each(function (QuestionnaireSurvey $qs) use ($progress) {
+            ?->each(function (QuestionnaireSurvey $qs) use ($progress, $showProgress) {
                 $answers_assoc = json_decode($qs->answers, true);
                 if (!$answers_assoc) {
                     return;
@@ -96,9 +102,13 @@ return new class extends Migration {
                         $answer->choice()->associate($question->choices()->wherePoints($value)->first())->save();
                     }
                 }
-                $progress->advance();
+                if ($showProgress) {
+                    $progress->advance();
+                }
             });
-        $progress->finish();
+        if ($showProgress) {
+            $progress->finish();
+        }
 
         if (Schema::hasColumn('questionnaire_survey', 'answers')) {
             Schema::table('questionnaire_survey', function (Blueprint $table) {

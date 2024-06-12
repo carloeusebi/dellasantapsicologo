@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class QuestionnaireSurvey extends Pivot
 {
+    use HasFactory;
+
     public $incrementing = 'questionnaire_survey';
 
     protected $casts = [
