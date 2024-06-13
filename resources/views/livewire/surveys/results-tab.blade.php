@@ -10,9 +10,9 @@
 >
 
   <div class="mb-5">
-    <div class="grid md:grid-cols-2 justify-between items-start">
-      <h1 class="text-2xl font-bold">Risultati</h1>
-      <div class="flex flex-col md:flex-row items-end gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 justify-between items-start w-full gap-y-4">
+      <h1 class="text-2xl font-bold hidden md:block">Risultati</h1>
+      <div class="flex flex-col md:flex-row items-end gap-4 px-2">
         <div class="w-full">
           <x-select
               wire:model="comparisonSurvey_id" label="Confronta" :options="$this->comparisonSurveys"
