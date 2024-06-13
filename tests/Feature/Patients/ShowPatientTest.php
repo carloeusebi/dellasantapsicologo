@@ -65,10 +65,9 @@ it('deletes patient', function () {
 });
 
 it('hides other user patients', function () {
-    $otherUser = User::factory()->create();
-    $otherPatient = Patient::factory()->recycle($otherUser)->create();
+    $otherUserPatient = Patient::factory()->create();
 
     $this->livewire
-        ->test(ShowPatient::class, ['patient' => $otherPatient])
+        ->test(ShowPatient::class, ['patient' => $otherUserPatient])
         ->assertNotFound();
 });

@@ -12,7 +12,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ThankYou extends Component
 {
+    protected static int $minutesFromCompletionBeforeThrowingNotFound = 5;
     public Survey $survey;
+
+    static function getMinutesFromCompletionBeforeThrowingNotFound(): int
+    {
+        return self::$minutesFromCompletionBeforeThrowingNotFound;
+    }
 
     public function mount(Survey $survey): void
     {
@@ -22,10 +28,9 @@ class ThankYou extends Component
             $this->redirectRoute('evaluation.home', $this->survey);
         }
 
-        if ($this->survey->updated_at->diffInMinutes() > 5) {
+        if ($this->survey->updated_at->diffInMinutes() > self::$minutesFromCompletionBeforeThrowingNotFound) {
             throw new NotFoundHttpException();
         }
-
     }
 
     #[Layout('components.layouts.evaluation')]
