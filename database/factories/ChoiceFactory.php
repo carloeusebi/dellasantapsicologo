@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Choice;
+use App\Models\Questionnaire;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ChoiceFactory extends Factory
@@ -14,8 +15,8 @@ class ChoiceFactory extends Factory
         $questionable = $this->questionable();
 
         return [
-            'questionable_id' => $questionable::factory(),
-            'questionable_type' => $questionable,
+            'questionable_id' => Questionnaire::factory(),
+            'questionable_type' => Questionnaire::class,
             'points' => $this->faker->randomNumber(),
             'text' => $this->faker->text(),
         ];

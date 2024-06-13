@@ -36,7 +36,7 @@ class Survey extends Model
         parent::boot();
 
         static::creating(function (Survey $survey): void {
-            $survey->token = md5(now());
+            $survey->token = md5(rand(0, 1000000));
         });
     }
 
