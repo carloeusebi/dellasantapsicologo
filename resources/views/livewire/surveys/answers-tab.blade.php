@@ -114,8 +114,8 @@
                   x-on:keydown="handleKeydownEvent({{  $question->id }}, $event)"
               >
                 <div class="md:flex flex-wrap md:flex-nowrap gap-4 items-center justify-between">
-                  <div class="text-wrap my-3 md:my-0">
-                    <span class="pl-2">{{ $question->order }}. {{ $question->text }}</span>
+                  <div class="text-wrap my-3 md:my-0 p-2">
+                    <span>{{ $question->order }}. {{ $question->text }}</span>
                     @if ($answer)
                       <span class="italic opacity-50">- {{ $answer->choice?->text }}</span>
                     @endif
