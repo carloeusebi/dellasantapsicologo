@@ -19,6 +19,10 @@ use Livewire\Attributes\Url;
 #[Lazy]
 class PatientTable extends TableComponent
 {
+    public static string $archivedState = 'archiviati';
+    public static string $allState = 'tutti';
+    public static string $activeState = 'attivi';
+
     #[Url(as: 'ordina', except: ['column' => 'therapy_start_date', 'direction' => 'desc']), Session]
     public array $sortBy = [
         'column' => 'therapy_start_date',

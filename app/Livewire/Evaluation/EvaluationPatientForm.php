@@ -11,7 +11,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Patient extends Component
+class EvaluationPatientForm extends Component
 {
     public PatientForm $form;
 

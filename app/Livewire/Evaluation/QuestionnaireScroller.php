@@ -15,20 +15,25 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-class Questionnaire extends Component
+class QuestionnaireScroller extends Component
 {
     use Toast;
 
+    protected static float $hoursBetweenAnswersBeforeReset = 2;
     public Survey $survey;
-
     public QuestionnaireSurvey $questionnaireSurvey;
-
     public ?Question $question;
-
     public ?string $comment = null;
 
-    public function mount(Survey $survey, QuestionnaireSurvey $questionnaireSurvey): void
+    static function getHoursBetweenAnswersBeforeReset(): float|int
     {
+        return self::$hoursBetweenAnswersBeforeReset;
+    }
+
+    public function mount(
+        Survey $survey,
+        QuestionnaireSurvey $questionnaireSurvey
+    ): void {
         if (!$questionnaireSurvey->survey->is($survey)) {
             throw new Error('Invalid questionnaire survey');
         }
@@ -41,7 +46,7 @@ class Questionnaire extends Component
             $this->redirectRoute('evaluation.home', $survey);
         }
 
-        if ($this->questionnaireSurvey->updated_at?->diffInHours() > 2 && $this->questionnaireSurvey->answers->isNotEmpty()) {
+        if ($this->questionnaireSurvey->updated_at?->diffInHours() > self::$hoursBetweenAnswersBeforeReset && $this->questionnaireSurvey->answers->isNotEmpty()) {
             $this->questionnaireSurvey->answers()->delete();
             $this->questionnaireSurvey->touch();
             $this->warning(
@@ -61,7 +66,6 @@ class Questionnaire extends Component
 
     public function answerQuestion(?int $choiceId = null): void
     {
-
         if (!$choiceId && !$this->comment) {
             $this->error('Per favore inserisci un <br>commento se vuoi saltare la domanda');
             return;

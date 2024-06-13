@@ -9,7 +9,7 @@ use App\Models\QuestionnaireSurvey;
 
 class AnswerQuestion
 {
-    public function handle(
+    public static function handle(
         int $questionnaire_survey_id,
         int $question_id,
         ?int $choice_id = null,

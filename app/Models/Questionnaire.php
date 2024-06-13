@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Questionnaire extends Model
 {
+    use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
@@ -88,5 +90,10 @@ class Questionnaire extends Model
     public function templates(): BelongsToMany
     {
         return $this->belongsToMany(Template::class);
+    }
+
+    public function questionnaireSurveys(): HasMany
+    {
+        return $this->hasMany(QuestionnaireSurvey::class);
     }
 }
