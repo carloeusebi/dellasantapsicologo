@@ -81,10 +81,10 @@
         @foreach($questionnaireSurvey->questionnaire->questions as $question)
           @php $answer = $question->answers->first(); @endphp
           <div class="py-0 border border-black flex justify-between text-xs h-fit min-h-8">
-            <span class="m-2">
+            <span class="m-2 @if(!$question->text) shrink min-w-10 @endif">
             {{ $question->order }}. {{ $question->text }}
             </span>
-            <div class="flex">
+            <div class="flex @if(!$question->text) grow @endif">
               @foreach($question->choices->isNotEmpty() ? $question->choices : $questionnaireSurvey->questionnaire->choices as $choice)
                 <span
                     class="border-l border-black h-full flex justify-center items-center w-fit text-wrap max-w-44 px-2 @if($answer && $answer->choice?->is($choice)) bg-brand @endif"
