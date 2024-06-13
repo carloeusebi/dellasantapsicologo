@@ -40,6 +40,13 @@ class Survey extends Model
         });
     }
 
+    public function casts(): array
+    {
+        return [
+            'completed' => 'boolean',
+        ];
+    }
+
     /**
      * @throws Exception if the email is not sent
      */

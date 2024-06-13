@@ -91,4 +91,9 @@ class Questionnaire extends Model
     {
         return $this->belongsToMany(Template::class);
     }
+
+    public function questionnaireSurveys(): HasMany
+    {
+        return $this->hasMany(QuestionnaireSurvey::class);
+    }
 }

@@ -17,7 +17,7 @@ class ChoiceFactory extends Factory
         return [
             'questionable_id' => Questionnaire::factory(),
             'questionable_type' => Questionnaire::class,
-            'points' => $this->faker->randomNumber(),
+            'points' => fake()->numberBetween(0, 10),
             'text' => $this->faker->text(),
         ];
     }

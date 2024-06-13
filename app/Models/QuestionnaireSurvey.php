@@ -19,6 +19,7 @@ class QuestionnaireSurvey extends Pivot
     public $incrementing = 'questionnaire_survey';
 
     protected $casts = [
+        'completed' => 'boolean',
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];

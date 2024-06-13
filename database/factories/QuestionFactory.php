@@ -14,10 +14,15 @@ class QuestionFactory extends Factory
     {
         return [
             'text' => fake()->words(3, true),
-            'reversed' => fake()->boolean(),
+            'reversed' => false,
             'order' => fake()->numberBetween(0, 255),
 
             'questionnaire_id' => Questionnaire::factory(),
         ];
+    }
+
+    public function reversed(): QuestionFactory
+    {
+        return $this->state(fn(array $attributes) => ['reversed' => true]);
     }
 }
