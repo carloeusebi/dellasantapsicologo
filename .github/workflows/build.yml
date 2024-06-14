@@ -27,7 +27,6 @@ jobs:
           script:
             source ~/.nvm/nvm.sh;
             cd public_html/admin &&
-            git pull origin main &&
             ~/.nvm/versions/node/v20.14.0/bin/npm i && ~/.nvm/versions/node/v20.14.0/bin/npm run build &&
             composer2 install --no-dev --optimize-autoloader &&
             php artisan migrate --force &&
