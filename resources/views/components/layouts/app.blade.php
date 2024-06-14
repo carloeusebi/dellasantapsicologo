@@ -84,13 +84,19 @@
     @if($user = auth()->user())
       <x-list-item :item="$user" value="name" sub-value="role.label" no-separator no-hover class="pt-2">
         <x-slot:actions>
-          <form method="POST" action="{{ route('logout') }}">
-            @csrf
+          <div class="flex gap-2 items-end">
             <x-button
-                type="submit"
-                icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="Esci" no-wire-navigate
+                icon="o-cog-6-tooth" class="btn-circle btn-ghost btn-xs" tooltip-left="Profilo"
+                :link="route('profile')"
             />
-          </form>
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <x-button
+                  type="submit"
+                  icon="o-power" class="btn-circle btn-ghost btn-xs" tooltip-left="Esci" no-wire-navigate
+              />
+            </form>
+          </div>
         </x-slot:actions>
       </x-list-item>
 

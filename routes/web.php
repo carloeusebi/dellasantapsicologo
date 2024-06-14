@@ -8,6 +8,7 @@ use App\Http\Controllers\TemplatesController;
 use App\Livewire\Evaluation;
 use App\Livewire\Patients\CreatePatient;
 use App\Livewire\Patients\ShowPatient;
+use App\Livewire\Profile\ShowProfile;
 use App\Livewire\Questionnaires\CreateQuestionnaire;
 use App\Livewire\Questionnaires\ShowQuestionnaire;
 use App\Livewire\Surveys\CreateSurvey;
@@ -24,6 +25,8 @@ Route::prefix('/test-per-la-valutazione')->name('evaluation.')->group(function (
     Route::get('/{survey:token}/grazie', Evaluation\ThankYou::class)->name('thank-you');
     Route::get('/{survey:token}/{questionnaireSurvey}', Evaluation\QuestionnaireScroller::class)->name('questionnaire');
 });
+
+Route::view('/profilo', 'profile.show-profile')->middleware('auth:web')->name('profile');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
