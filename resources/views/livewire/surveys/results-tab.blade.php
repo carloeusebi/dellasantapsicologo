@@ -41,7 +41,7 @@
         'grid gap-4',
         'lg:grid-cols-2' => $comparisonSurvey_id && $comparisonQuestionnaireSurveys && $comparisonQuestionnaireSurveys->isNotEmpty()
       ])>
-        <div data-questionnaire-survey-id="{{ $questionnaireSurvey->id }}">
+        <div class="scroll-mt-24" data-questionnaire-survey-id="{{ $questionnaireSurvey->id }}">
           <x-surveys.questionnaire-result :$questionnaireSurvey :$survey/>
         </div>
         <div>
