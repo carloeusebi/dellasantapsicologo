@@ -7,7 +7,7 @@
       document.documentElement.setAttribute("data-theme", selectedTheme);
     }
   </script>
-  
+
   @laravelPWA
 
   <meta charset="UTF-8">
@@ -27,7 +27,7 @@
 
 </head>
 <body class="bg-base-200/50 px-1">
-<div class="h-screen flex flex-col justify-center items-center gap-y-5" x-data="{ loading: false }">
+<div class="h-dvh flex flex-col justify-center items-center gap-y-5" x-data="{ loading: false }">
 
   <div class="fixed right-5 top-5 lg:right-10 lg:top-10 z-50">
     <x-theme-changer/>
