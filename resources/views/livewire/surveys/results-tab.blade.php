@@ -21,7 +21,7 @@
             <x-slot:append>
               <x-button
                   x-bind:disabled="!$wire.isComparing" icon="o-x-mark" wire:click="clearComparison"
-                  spinner="clearComparison"
+                  spinner="clearComparison" class="rounded-s-none"
               />
             </x-slot:append>
           </x-select>
