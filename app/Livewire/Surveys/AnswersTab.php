@@ -45,7 +45,7 @@ class AnswersTab extends Component
     public function questionnaires(): Collection|array|_IH_QuestionnaireSurvey_C
     {
         return $this->survey->questionnaireSurveys()
-            ->with('questionnaire.choices', 'questionnaire.tags')
+            ->with('questionnaire.choices', 'questionnaire.tags', 'questionnaire.variables.questions:id')
             ->with([
                 'questionnaire.questions' => function (HasMany $query) {
                     $query->when($this->query, function (Builder $query, string $search) {

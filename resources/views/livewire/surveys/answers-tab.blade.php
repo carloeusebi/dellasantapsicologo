@@ -78,7 +78,24 @@
             </div>
           @endif
 
-          <div x-data="{ filteredAnswers: [] }">
+          <div
+              x-data="{
+                showReversed: false,
+                filteredAnswers: [],
+                variableQuestionIds: [],
+                handleVariableClick(checked, questionIds) {
+                  if (checked) {
+                    this.variableQuestionIds = [...this.variableQuestionIds, ...questionIds];
+                  } else {
+                    this.variableQuestionIds = this.variableQuestionIds.filter(id => !questionIds.includes(id));
+                  }
+                },
+                showQuestion(value, questionId) {
+                  return (this.filteredAnswers.includes(value) || !this.filteredAnswers.length)
+                  && (this.variableQuestionIds.includes(questionId) || !this.variableQuestionIds.length)
+                }
+           }"
+          >
             <div
                 class="grid md:grid-flow-col mb-4 gap-2"
                 style="grid-template-rows: repeat({{ (int) ($questionnaireSurvey->questionnaire->choices->count() / 2) }}, minmax(0, 1fr))"
@@ -100,12 +117,36 @@
                 </div>
               @endforeach
             </div>
+            @unless($questionnaireSurvey->questionnaire->questions->where('reversed', true)->isEmpty())
+              <div class="select-none">
+                <x-checkbox
+                    :label="'Evidenzia domande a punteggio invertito ('. $questionnaireSurvey->questionnaire->questions->where('reversed', true)->count() .')'"
+                    x-model="showReversed"
+                />
+              </div>
+            @endunless
+            @unless($questionnaireSurvey->questionnaire->variables->isEmpty())
+              <div class="my-5">
+                <div class="font-bold mb-2">Filtra le risposte per variabile</div>
+                <div class="space-y-2">
+                  @foreach($questionnaireSurvey->questionnaire->variables as $variable)
+                    <x-checkbox
+                        :label="$variable->name"
+                        x-on:change="handleVariableClick($event.target.checked, {{ json_encode($variable->questions->pluck('id')->toArray()) }})"
+                    />
+                  @endforeach
+                </div>
+              </div>
+            @endunless
             @foreach($questionnaireSurvey->questionnaire->questions as $question)
               @php $answer = $question->answers->first(); @endphp
               <div
-                  x-show="filteredAnswers.includes({{ $answer?->value }}) || !filteredAnswers.length"
+                  x-show="showQuestion({{ $answer?->value }}, {{ $question->id }})"
                   class="border-t border-2 border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif"
-                  :class="{ 'focus:border-primary': quickEditMode }"
+                  :class="{
+                    'focus:border-primary': quickEditMode,
+                    'bg-primary/20': showReversed && {{ json_encode($question->reversed) }}
+                   }"
                   data-question="{{ $question->id }}"
                   data-questionnaire-survey="{{ $questionnaireSurvey->id }}"
                   @if($question->reversed) data-reversed @endif
@@ -140,8 +181,8 @@
                           <span
                               class="btn w-full rounded-none no-animation"
                               :class="{
-                                'btn-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || (filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
-                                'btn-secondary': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && filteredAnswers.length
+                                'btn-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
+                                'btn-secondary': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }})
                               }"
                               data-old-answer-text="{{ $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
                               data-choice data-id="{{ $choice->id }}" data-text="{{ $choice?->text }}"
