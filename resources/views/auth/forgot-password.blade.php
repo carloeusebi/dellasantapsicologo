@@ -29,7 +29,9 @@
       </button>
     </form>
     <div class="text-xs text-center">
-      <a href="{{ route('login') }}" class="hover:underline">Torna alla schermata di login.</a>
+      <a href="{{ route('login') }}" class="hover:underline" wire:navigate.hover>
+        Torna alla schermata di login.
+      </a>
     </div>
   </div>
 </x-layouts.guest>

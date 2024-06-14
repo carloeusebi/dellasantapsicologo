@@ -14,7 +14,9 @@
       />
       <div class="flex justify-between items-center">
         <x-checkbox class="checkbox-sm" label="Ricordati" name="remember"/>
-        <a href="{{ route('password.request') }}" class="text-sm hover:underline">Password dimenticata?</a>
+        <a href="{{ route('password.request') }}" wire:navigate.hover class="text-sm hover:underline">
+          Password dimenticata?
+        </a>
       </div>
     </form>
     @foreach($errors->all() as $message)
@@ -30,13 +32,8 @@
         <x-loading class="loading-sm absolute left-5" x-show="loading"/>
         Login
       </x-button>
-      <a href="{{ route('home') }}">
-        <x-button class="mt-2 btn-outline w-full btn-secondary btn-sm">
-          Torna alla Homepage
-        </x-button>
-      </a>
       <div class="text-center mt-5">
-        <a href="{{ route('register') }}" class="text-xs hover:underline">
+        <a href="{{ route('register') }}" class="text-xs hover:underline" wire:navigate.hover>
           Non ho un account, voglio registrarmi.
         </a>
       </div>

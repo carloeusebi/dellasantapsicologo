@@ -27,7 +27,7 @@
       Registrati
     </button>
   </form>
-  <a href="{{ route('login') }}" class="hover:underline">
+  <a href="{{ route('login') }}" class="hover:underline" wire:navigate.hover>
     <div class="text-center text-xs">Ho già un account, accedi.</div>
   </a>
 </x-layouts.guest>
