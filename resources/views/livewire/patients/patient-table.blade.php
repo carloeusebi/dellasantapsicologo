@@ -58,7 +58,7 @@
   <x-slot:legend>
     <div class="flex items-center gap-2 select-none">
       <button class="inline-block h-4 w-4 table-error border border-base-300" disabled></button>
-      <span>Batterie non completate</span>
+      <span>Valutazioni non completate</span>
     </div>
   </x-slot:legend>
 
