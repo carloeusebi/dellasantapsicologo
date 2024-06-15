@@ -12,6 +12,6 @@ return new class extends Migration {
             'label' => 'Superuser',
         ]);
 
-        User::find(1)->role()->associate($role)->save();
+        User::find(1)?->role()->associate($role)->save();
     }
 };
