@@ -11,7 +11,7 @@ $headers = [
 
 <x-custom.table :rows="$tags">
   <x-slot:filters>
-    <div class="[&>*]:!w-full grow">
+    <div class="[&>*]:!w-full grow mt-9">
       <x-input
           class="!grow w-full" placeholder="Cerca" wire:model.live.debounce="search"
           icon="o-magnifying-glass"

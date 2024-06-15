@@ -5,11 +5,7 @@
   </x-slot:breadcrumb>
 
   @can('create', App\Models\Tag::class)
-    <div class="my-3 text-xl font-bold flex justify-end">
-      <a class="hover:underline select-none cursor-pointer" wire:click="create">
-        <h2 class="underline">Aggiungi Tag</h2>
-      </a>
-    </div>
+    <x-create-button wire:click.prevent="create" label="Crea nuovo Tag"/>
   @endcan
 
   <livewire:tags.tags-table lazy wire:key="{{ $key }}"/>
