@@ -80,6 +80,6 @@ class PatientTable extends TableComponent
     #[Computed(cache: true)]
     public function doctors(): array
     {
-        return User::doctors()->get()->toArray();
+        return User::all()->toArray();
     }
 }
