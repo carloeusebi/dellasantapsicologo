@@ -1,4 +1,3 @@
-@php use App\Models\Patient; @endphp
 <div>
   <x-slot:title>Crea Test di Valutazione</x-slot:title>
   <x-slot:breadcrumb>
@@ -10,17 +9,26 @@
 
     {{-- STEP 1--}}
     <x-step step="{{ self::$CHOOSE_PATIENT }}" text="Paziente">
-      <x-select
+      <x-choices
           wire:model.live="patientId"
           label="Scegli il Paziente"
-          :options="$this->patients"
-          option-value="id"
+          :options="$searchablePatients"
+          search-function="searchPatients"
           option-label="full_name"
           placeholder="Seleziona un Paziente"
           :disabled="$queryStringPatientId != null"
           icon="o-user"
+          min-chars="2"
+          debounce="300ms"
+          searchable
+          single
+          clearable
           required
-      />
+      >
+        @scope('selection', $patient)
+        <span>{{ $patient->full_name }}</span>
+        @endscope
+      </x-choices>
     </x-step>
 
     {{-- STEP 2 --}}
@@ -35,7 +43,9 @@
         </div>
 
         <div x-show="view === 'picker'">
-          <livewire:questionnaire-picker lazy/>
+          <div class="-mx-4 md:mx-0">
+            <livewire:questionnaire-picker lazy/>
+          </div>
         </div>
 
         <div x-show="view === 'templates'">

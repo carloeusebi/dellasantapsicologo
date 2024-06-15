@@ -10,6 +10,7 @@ use App\Services\SurveyService;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -22,7 +23,7 @@ use Mary\Traits\Toast;
 
 /**
  * @property array<Questionnaire> $selectedQuestionnaires
- * @property Collection<Patient> $patients
+ * @property Collection<Patient> $searchablePatients
  */
 class CreateSurvey extends Component
 {
@@ -36,6 +37,8 @@ class CreateSurvey extends Component
     public ?string $queryStringPatientId = null;
 
     public ?Patient $patient;
+
+    public Collection $searchablePatients;
 
     public $patientId;
 
@@ -58,35 +61,14 @@ class CreateSurvey extends Component
         try {
             $this->validate(['queryStringPatientId' => 'nullable|exists:patients,id',]);
             $this->patientId = $this->queryStringPatientId;
+            if ($this->patientId && $this->step === self::$CHOOSE_PATIENT) {
+                $this->next();
+            }
         } catch (ValidationException) {
             $this->queryStringPatientId = null;
         }
-    }
 
-    #[Computed(cache: true)]
-    public function patients(): Patient|Collection
-    {
-        return Patient::userScope()
-            ->orderBy('first_name')
-            ->get();
-    }
-
-    #[On('questionnairesUpdated')]
-    public function updateSelectedQuestionnaires(array $questionnaires): void
-    {
-        $this->selectedQuestionnaires = $questionnaires;
-    }
-
-    #[On('template-chosen')]
-    public function useTemplate(array $questionnaires, string $title): void
-    {
-        $this->selectedQuestionnaires = $questionnaires;
-
-        $this->title = $title;
-
-        $this->usingTemplate = true;
-
-        $this->next();
+        $this->searchPatients();
     }
 
     public function next(): void
@@ -108,6 +90,39 @@ class CreateSurvey extends Component
         }
 
         $this->step += 1;
+    }
+
+    public function searchPatients(string $search = ''): void
+    {
+        $selectedOption = Patient::whereId($this->patientId)->get();
+
+        $this->searchablePatients = Patient::userScope()
+            ->when($search, function (Builder $query, string $search) {
+                collect(explode(' ', $search))->each(function (string $term) use ($query) {
+                    $query->whereAny(['first_name', 'last_name'], 'like', "%$term%");
+                });
+            })
+            ->orderBy('first_name')
+            ->get(['id', 'first_name', 'last_name'])
+            ->merge($selectedOption);
+    }
+
+    #[On('questionnairesUpdated')]
+    public function updateSelectedQuestionnaires(array $questionnaires): void
+    {
+        $this->selectedQuestionnaires = $questionnaires;
+    }
+
+    #[On('template-chosen')]
+    public function useTemplate(array $questionnaires, string $title): void
+    {
+        $this->selectedQuestionnaires = $questionnaires;
+
+        $this->title = $title;
+
+        $this->usingTemplate = true;
+
+        $this->next();
     }
 
     public function prev(): void
