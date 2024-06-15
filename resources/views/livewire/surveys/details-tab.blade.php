@@ -41,7 +41,7 @@
                 class="w-full xl:btn-wide" icon="o-clipboard-document-list"
                 x-on:click="async () => {
                 try {
-                  await navigator.clipboard.writeText('{{ $survey->getLink() }}');
+                  await navigator.clipboard.writeText('{{ $survey->url }}');
                   $wire.dispatch('notify', {type: 'info', title: 'Info', description: 'Link copiato negli appunti.'});
                 } catch (e) {
                   $wire.dispatch('notify', {type: 'error', title: 'Impossibile copiare il link', description: 'Controlla le autorizzazione del tuo browser'});
@@ -88,11 +88,11 @@
           <div class="text-xs">
             @if($questionnaireSurvey->completed)
               <div>
-                Completato {{ $questionnaireSurvey->lastAnswer->created_at->translatedFormat('D d F Y H:i') }}
+                Completato {{ $questionnaireSurvey->updated_at->translatedFormat('D d F Y H:i') }}
               </div>
-            @elseif ($questionnaireSurvey->lastAnswer)
+            @elseif ($questionnaireSurvey->has_been_updated)
               <div>
-                Ultima riposta {{ $questionnaireSurvey->lastAnswer->created_at->translatedFormat('D d F Y H:i') }}
+                Ultima riposta {{ $questionnaireSurvey->updated_at->translatedFormat('D d F Y H:i') }}
               </div>
               <div>
                 {{ $questionnaireSurvey->answers_count }} risposte su {{ $questionnaireSurvey->questions_count }}

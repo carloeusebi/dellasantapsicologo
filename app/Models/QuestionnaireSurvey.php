@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,9 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-/**
- * @property bool|null $completed
- */
 class QuestionnaireSurvey extends Pivot
 {
     use HasFactory;
@@ -24,15 +22,32 @@ class QuestionnaireSurvey extends Pivot
         'created_at' => 'datetime',
     ];
 
-    public function updateCompletedStatus(): void
+    /** @noinspection PhpUnused */
+    public function hasBeenUpdated(): Attribute
+    {
+        return Attribute::get(
+            fn(mixed $value, array $attributes) => $attributes['created_at'] !== $attributes['updated_at']
+        );
+    }
+
+    /**
+     * @return array<bool, bool> [$questionnaireSurveyCompleted, $surveyCompleted]
+     */
+    public function updateCompletedStatus(): array
     {
         $this->loadCount('answers', 'questions');
 
-        $this->completed = $this->answers_count === $this->questions_count;
+        $previousStatus = $this->completed;
 
-        $this->update(['completed' => $this->completed]);
+        $completed = $this->answers_count === $this->questions_count;
 
-        $this->survey->updateCompletedStatus();
+        $this->update(['completed' => $completed]);
+
+        if ($previousStatus !== $completed) {
+            $this->survey->updateCompletedStatus();
+        }
+
+        return [$completed, $this->survey->fresh()->completed];
     }
 
     public function survey(): BelongsTo

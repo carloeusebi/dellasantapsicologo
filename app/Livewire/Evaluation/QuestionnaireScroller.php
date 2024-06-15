@@ -6,6 +6,7 @@ use App\Actions\AnswerQuestion;
 use App\Models\Question;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
+use App\Services\SurveyService;
 use Error;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -71,7 +72,7 @@ class QuestionnaireScroller extends Component
             return;
         }
 
-        (new AnswerQuestion())->handle(
+        [$questionnaireSurveyCompleted, $surveyCompleted] = AnswerQuestion::handle(
             $this->questionnaireSurvey->id,
             $this->question->id,
             $choiceId,
@@ -81,14 +82,13 @@ class QuestionnaireScroller extends Component
 
         $this->reset('comment');
 
-        if ($this->question->is($this->questionnaireSurvey->questions->last())) {
-            if ($this->questionnaireSurvey->is($this->survey->questionnaireSurveys->last())) {
-                $this->redirectRoute('evaluation.thank-you', $this->survey, navigate: true);
-                return;
-            } else {
-                $this->redirectRoute('evaluation.home', $this->survey, navigate: true);
-                return;
-            }
+        if ($surveyCompleted) {
+            SurveyService::sendCompletedEmail($this->survey);
+            $this->redirectRoute('evaluation.thank-you', $this->survey, navigate: true);
+            return;
+        } elseif ($questionnaireSurveyCompleted) {
+            $this->redirectRoute('evaluation.home', $this->survey, navigate: true);
+            return;
         }
 
         $nextQuestion = $this->getNextQuestion();

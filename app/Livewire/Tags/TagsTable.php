@@ -19,7 +19,7 @@ class TagsTable extends TableComponent
     #[Url(as: 'Cerca'), Session]
     public string $search = '';
 
-    #[Url(as: 'ordina', except: ['column' => 'name', 'direction' => 'asc'])]
+    #[Url(as: 'ordina', except: ['column' => 'name', 'direction' => 'asc']), Session]
     public array $sortBy = [
         'column' => 'name',
         'direction' => 'asc',

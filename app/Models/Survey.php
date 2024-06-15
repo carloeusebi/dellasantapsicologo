@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Mail\LinkToTestMail;
-use App\Mail\SurveyCompletedNotificationMail;
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 /**
  * @property bool $completed
@@ -47,63 +44,22 @@ class Survey extends Model
         ];
     }
 
-    /**
-     * @throws Exception if the email is not sent
-     */
-    public function sendEmailWithLink(
-        ?string $subject = 'Questionario per la valutazione',
-        ?string $email = null,
-        ?string $body = null,
-        bool $shouldQueue = false
-    ): bool {
-
-        $mail = Mail::to($email ?? $this->patient->email);
-
-        $mailable = new LinkToTestMail(
-            $subject,
-            $body ?? config('mail.default_link_to_test_message'),
-            $this->getLink()
-        );
-
-        if ($shouldQueue) {
-            $mail->queue($mailable);
-        } else {
-            $mail->send($mailable);
-        }
-
-        return true;
-    }
-
-    public function getLink(): string
+    public function url(): Attribute
     {
-        return route('evaluation.home', $this->token);
+        return Attribute::get(
+            fn(mixed $value, array $attributes) => route('evaluation.home', $attributes['token'])
+        );
     }
 
-    public function updateCompletedStatus(): void
+    public function updateCompletedStatus(): bool
     {
         $this->loadCount('completedQuestionnaireSurvey');
 
         $this->completed = $this->questionnaireSurveys->count() === $this->completed_questionnaire_survey_count;
 
-        if ($this->completed) {
-            $this->sendCompletedEmail();
-        }
-
         $this->update(['completed' => $this->completed]);
-    }
 
-    public function sendCompletedEmail(): void
-    {
-        $this->patient->load('user:id,name,email');
-
-        Mail::to($this->patient->user->email)
-            ->queue(new SurveyCompletedNotificationMail(
-                $this->patient->full_name,
-                $this->title,
-                now(),
-                $this->id
-            ));
-
+        return $this->completed;
     }
 
     public function scopeUserScope(Builder $query): void

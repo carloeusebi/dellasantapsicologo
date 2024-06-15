@@ -3,6 +3,7 @@
 namespace App\Livewire\Surveys;
 
 use App\Models\Survey;
+use App\Services\SurveyService;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -53,18 +54,22 @@ class DetailsTab extends Component
                     ->withCount('answers', 'questions');
             }
         ])
-            ->load('lastAnswer')
             ->loadCount('answers', 'skippedQuestions', 'comments');
     }
 
-    public function sendEmail(): void
+    public function sendEmail(SurveyService $service): void
     {
         $this->authorize('view', $this->survey);
 
         $this->validate();
 
         try {
-            $this->survey->sendEmailWithLink($this->emailSubject, $this->emailAddress, $this->emailMessage);
+            $service->sendEmailWithLinkToTest(
+                $this->survey,
+                $this->emailAddress,
+                $this->emailSubject,
+                $this->emailMessage
+            );
             $this->success('Successo!', 'Email inviata correttamente!');
         } catch (Exception $e) {
             Log::error($e->getMessage());

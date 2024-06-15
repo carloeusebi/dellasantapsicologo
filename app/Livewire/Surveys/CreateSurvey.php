@@ -6,6 +6,7 @@ use App\Livewire\Forms\TemplateForm;
 use App\Models\Patient;
 use App\Models\Questionnaire;
 use App\Models\Tag;
+use App\Services\SurveyService;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -120,7 +121,7 @@ class CreateSurvey extends Component
         $this->step -= 1;
     }
 
-    public function store(): null
+    public function store(SurveyService $service): null
     {
         $this->validate([
             'patientId' => 'required|integer|exists:patients,id',
@@ -151,7 +152,7 @@ class CreateSurvey extends Component
 
         try {
             if ($this->sendEmail) {
-                $survey->sendEmailWithLink(shouldQueue: true);
+                $service->sendEmailWithLinkToTest($survey, shouldQueue: true);
             }
             $this->success('Successo!', 'Test di valutazione creato con successo!');
         } catch (Exception $e) {

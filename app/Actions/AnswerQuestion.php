@@ -6,18 +6,30 @@ use App\Models\Answer;
 use App\Models\Choice;
 use App\Models\Question;
 use App\Models\QuestionnaireSurvey;
+use Lorisleiva\Actions\Concerns\AsAction;
 
 class AnswerQuestion
 {
+    use AsAction;
+
+    /**
+     * @param  int  $questionnaire_survey_id
+     * @param  int  $question_id
+     * @param  int|null  $choice_id
+     * @param  string|null  $comment
+     * @param  bool  $skipped
+     *
+     * @return array<bool, bool> [$questionnaireSurveyCompleted, $surveyCompleted]
+     */
     public static function handle(
         int $questionnaire_survey_id,
         int $question_id,
         ?int $choice_id = null,
         ?string $comment = null,
         bool $skipped = false,
-    ): void {
+    ): array {
 
-        $question = Question::with('questionnaire.choices')->findOrFail($question_id);
+        $question = Question::with('choices', 'questionnaire.choices')->findOrFail($question_id);
 
         $choice = Choice::find($choice_id);
 
@@ -36,7 +48,6 @@ class AnswerQuestion
             ]
         );
 
-        QuestionnaireSurvey::find($questionnaire_survey_id)
-            ->updateCompletedStatus();
+        return QuestionnaireSurvey::find($questionnaire_survey_id)->updateCompletedStatus();
     }
 }

@@ -20,7 +20,7 @@ class ThankYou extends Component
         return self::$minutesFromCompletionBeforeThrowingNotFound;
     }
 
-    public function mount(Survey $survey): void
+    public function mount(Survey $survey,): void
     {
         $this->survey = $survey;
 
