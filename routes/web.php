@@ -1,14 +1,9 @@
 <?php
 
 use App\Http\Controllers\DownloadSurveyController;
-use App\Http\Controllers\PatientController;
-use App\Http\Controllers\QuestionnaireController;
-use App\Http\Controllers\SurveyController;
-use App\Http\Controllers\TemplatesController;
 use App\Livewire\Evaluation;
 use App\Livewire\Patients\CreatePatient;
 use App\Livewire\Patients\ShowPatient;
-use App\Livewire\Profile\ShowProfile;
 use App\Livewire\Questionnaires\CreateQuestionnaire;
 use App\Livewire\Questionnaires\ShowQuestionnaire;
 use App\Livewire\Surveys\CreateSurvey;
