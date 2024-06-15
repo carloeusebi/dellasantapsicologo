@@ -37,26 +37,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/download/valutazione/{survey}', DownloadSurveyController::class)->name('download.survey');
 
     Route::prefix('/pazienti')->name('patients.')->group(function () {
-        Route::get('/', [PatientController::class, 'index'])->name('index');
+        Route::view('/', 'patients.index')->name('index');
         Route::get('/crea', CreatePatient::class)->name('create');
         Route::get('/{patient}', ShowPatient::class)->name('show');
     });
 
     Route::prefix('/valutazioni')->name('surveys.')->group(function () {
         Route::prefix('/templates')->name('templates.')->group(function () {
-            Route::get('/', [TemplatesController::class, 'index'])->name('index');
+            Route::view('/', 'templates.index')->name('index');
             Route::get('/crea', CreateTemplate::class)->name('create');
             Route::get('/{template}', ShowTemplate::class)->name('show');
         });
 
 
-        Route::get('/', [SurveyController::class, 'index'])->name('index');
+        Route::view('/', 'surveys.index')->name('index');
         Route::get('/crea', CreateSurvey::class)->name('create');
         Route::get('/{survey}', ShowSurvey::class)->name('show');
     });
 
     Route::prefix('/questionari')->name('questionnaires.')->group(function () {
-        Route::get('/', [QuestionnaireController::class, 'index'])->name('index');
+        Route::view('/', 'questionnaires.index')->name('index');
         Route::get('/crea', CreateQuestionnaire::class)->name('create');
         Route::get('/{questionnaire}', ShowQuestionnaire::class)->name('show');
     });
