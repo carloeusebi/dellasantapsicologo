@@ -1,5 +1,6 @@
 @php
-  /** @var App\Models\Tag $tag */
+  use App\Models\Tag;
+  /** @var Tag $tag */
 
 $headers = [
     ['key' => 'tag', 'label' => 'Tag'],
@@ -31,8 +32,12 @@ $headers = [
       @scope('actions', $tag)
       <div>
         <div class="w-fit space-x-2">
-          <x-button wire:click="edit({{ $tag->id }})" icon="o-pencil" class="btn-sm"/>
-          <x-button onclick="deleteModalTag{{ $tag->id }}.showModal()" icon="o-trash" class="btn-sm"/>
+          @can('update', Tag::class)
+            <x-button wire:click="edit({{ $tag->id }})" icon="o-pencil" class="btn-sm"/>
+          @endcan
+          @can('delete', Tag::class)
+            <x-button onclick="deleteModalTag{{ $tag->id }}.showModal()" icon="o-trash" class="btn-sm"/>
+          @endcan
         </div>
 
         <x-modal id="deleteModalTag{{ $tag->id }}" title="Elimina Tag" class="backdrop-blur">

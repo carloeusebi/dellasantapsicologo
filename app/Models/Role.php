@@ -9,6 +9,7 @@ class Role extends Model
 {
     public static string $ADMIN = 'admin';
     public static string $DOCTOR = 'doctor';
+    public static string $SUPERUSER = 'superuser';
     public static string $PATIENT = 'patient';
 
     public $timestamps = false;

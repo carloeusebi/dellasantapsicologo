@@ -4,11 +4,13 @@
     <li>Tags</li>
   </x-slot:breadcrumb>
 
-  <div class="my-3 text-xl font-bold flex justify-end">
-    <a class="hover:underline select-none cursor-pointer" wire:click="create">
-      <h2 class="underline">Aggiungi Tag</h2>
-    </a>
-  </div>
+  @can('create', App\Models\Tag::class)
+    <div class="my-3 text-xl font-bold flex justify-end">
+      <a class="hover:underline select-none cursor-pointer" wire:click="create">
+        <h2 class="underline">Aggiungi Tag</h2>
+      </a>
+    </div>
+  @endcan
 
   <livewire:tags.tags-table lazy wire:key="{{ $key }}"/>
 

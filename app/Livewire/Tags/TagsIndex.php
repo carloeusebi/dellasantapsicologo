@@ -36,9 +36,11 @@ class TagsIndex extends Component
     public function save()
     {
         if ($this->form->tag) {
+            $this->authorize('update', Tag::class);
             $this->form->update();
             $action = 'aggiornato';
         } else {
+            $this->authorize('create', Tag::class);
             $this->form->store();
             $action = 'creato';
         }

@@ -69,6 +69,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->role?->name === Role::$ADMIN;
     }
 
+    public function isSuperUserOrAdmin(): bool
+    {
+        return $this->isSuperUser() || $this->isAdmin();
+    }
+
+    public function isSuperUser(): bool
+    {
+        return $this->role?->name === Role::$SUPERUSER;
+    }
+
     public function scopeDoctors(Builder $query): void
     {
         $query->whereRelation('role', 'name', Role::$DOCTOR);

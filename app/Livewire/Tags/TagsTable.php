@@ -32,6 +32,8 @@ class TagsTable extends TableComponent
 
     public function delete(int $id): void
     {
+        $this->authorize('delete', Tag::class);
+
         Tag::findOrFail($id)->delete();
 
         $this->success('Successo!', 'Tag eliminato con successo!');
