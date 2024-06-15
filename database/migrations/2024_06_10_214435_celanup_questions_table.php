@@ -8,7 +8,6 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->text('text')->nullable(false)->change();
             $table->dropColumn('custom_choices');
             $table->dropColumn('old_id');
         });
@@ -17,7 +16,6 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('questions', function (Blueprint $table) {
-            $table->text('text')->nullable()->change();
             $table->json('custom_choices')->nullable()->after('reversed');
             $table->tinyInteger('old_id')->nullable()->after('order');
         });
