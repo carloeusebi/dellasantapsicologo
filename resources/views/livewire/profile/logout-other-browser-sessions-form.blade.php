@@ -67,7 +67,8 @@
 
   <x-modal wire:model="confirmingLogout" title="Disconnetti altre Sessioni" class="backdrop-blur">
     <div
-        x-data="{}" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)"
+        class="mb-5" x-data="{}"
+        x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)"
     >
       <div class="mb-4">Per favore, inserisci la tua password per confermare che desideri disconnetterti dalle altre
         sessioni del browser su tutti i tuoi dispositivi
@@ -77,11 +78,13 @@
           x-ref="password" wire:keydown.enter="logoutOtherBrowserSessions"
       />
     </div>
-    <x-slot:actions>
-      <x-button wire:click="$toggle('confirmingLogout')" variant="white">Annulla</x-button>
-      <x-button wire:click="logoutOtherBrowserSessions" spinner="logoutOtherBrowserSessions">
+    <div class="flex flex-col gap-2 items-stretch">
+      <x-button wire:click="$toggle('confirmingLogout')" class="w-full btn-sm" variant="white">Annulla</x-button>
+      <x-button
+          wire:click="logoutOtherBrowserSessions" spinner="logoutOtherBrowserSessions" class="w-full"
+      >
         Disconnetti le altre Sessioni
       </x-button>
-    </x-slot:actions>
+    </div>
   </x-modal>
 </div>
