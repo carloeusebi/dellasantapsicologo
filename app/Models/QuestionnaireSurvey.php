@@ -53,7 +53,8 @@ class QuestionnaireSurvey extends Pivot
 
     public function questionnaire(): BelongsTo
     {
-        return $this->belongsTo(Questionnaire::class);
+        return $this->belongsTo(Questionnaire::class)
+            ->withTrashed();
     }
 
     public function answers(): HasMany

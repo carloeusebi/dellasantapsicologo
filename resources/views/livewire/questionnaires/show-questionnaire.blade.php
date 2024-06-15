@@ -20,16 +20,36 @@
     <x-slot:actions>
       <div class="flex flex-col md:flex-row gap-4 w-full justify-end">
         <x-button
-            label="Crea una copia del questionario"
-            icon="o-clipboard-document-list" x-on:click="alert('Feature in costruzione')"
+            label="Crea una copia del questionario" spinner="replicate"
+            icon="o-clipboard-document-list" wire:click="replicate"
         />
         @can('delete', $questionnaire)
+          <x-button icon="o-archive-box" label="Archivia" onclick="archiveModal.showModal()"/>
+          <x-modal id="archiveModal" title="Archivia Questionario" class="backdrop-blur">
+            <div class="space-y-3">
+              <p>
+                Questo questionario è utilizzato in uno o più test di valutazione.
+              </p>
+              <p>
+                Non è quindi possibile eliminarlo, ma puoi archiviarlo per nasconderlo dalla lista.
+              </p>
+              <x-checkbox wire:model="copyBeforeArchive" label="Crea una copia del questionario prima di archiviarlo."/>
+            </div>
+            <x-slot:actions>
+              <x-button onclick="archiveModal.close()" label="Annulla"/>
+              <x-button class="btn-error" icon="o-archive-box" wire:click="delete" spinner="delete" label="Archivia"/>
+            </x-slot:actions>
+          </x-modal>
+        @endcan
+        @can('forceDelete', $questionnaire)
           <x-button icon="o-trash" label="Elimina" onclick="deleteModal.showModal()"/>
           <x-modal id="deleteModal" title="Elimina Questionario" class="backdrop-blur">
             <p>Sei sicuro di voler eliminare il questionario?</p>
             <x-slot:actions>
               <x-button onclick="deleteModal.close()" label="Annulla"/>
-              <x-button class="btn-error" icon="o-trash" wire:click="delete" spinner="delete" label="Elimina"/>
+              <x-button
+                  class="btn-error" icon="o-trash" wire:click="forceDelete" spinner="forceDelete" label="Elimina"
+              />
             </x-slot:actions>
           </x-modal>
         @endcan

@@ -41,7 +41,12 @@ class QuestionnairePolicy
 
     public function delete(User $user, Questionnaire $questionnaire): bool
     {
-        $questionnaire = $this->withSurveysCount($questionnaire);
+        return ($user->isAdmin() || $questionnaire->user->is($user));
+    }
+
+    public function forceDelete(User $user, Questionnaire $questionnaire): bool
+    {
+        $questionnaire->loadCount('surveys');
         return ($user->isAdmin() || $questionnaire->user->is($user)) && $questionnaire->surveys_count === 0;
     }
 }
