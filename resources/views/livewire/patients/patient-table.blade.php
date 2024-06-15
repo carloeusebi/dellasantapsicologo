@@ -32,7 +32,7 @@
         class="w-full md:w-[175] xl:w-[320px]"
         wire:model.live.debounce="state"
         :options="[
-            ['id' => self::$archivedState, 'name' => 'Attivi'],
+            ['id' => self::$activeState, 'name' => 'Attivi'],
             ['id' => self::$allState, 'name' => 'Tutti'],
             ['id' => self::$archivedState, 'name' => 'Solo Archiviati'],
         ]"
