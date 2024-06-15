@@ -5,20 +5,15 @@ namespace App\Livewire\Questionnaires;
 use App\Actions\CloneQuestionnaire;
 use App\Livewire\Forms\QuestionnaireForm;
 use App\Models\Questionnaire;
-use App\Models\Tag;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
-/**
- * @property Collection<Tag> $tags
- */
 class ShowQuestionnaire extends Component
 {
     use Toast;

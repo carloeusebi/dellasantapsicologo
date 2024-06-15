@@ -37,7 +37,7 @@ class TemplatesTable extends TableComponent
     #[Computed(cache: true)]
     public function tags(): Collection
     {
-        return Tag::select(['id', 'tag', 'color'])->orderBy('tag')->get();
+        return Tag::select(['id', 'name', 'color'])->orderBy('name')->get();
     }
 
     public function render(
@@ -48,12 +48,12 @@ class TemplatesTable extends TableComponent
                 ->select([
                     'id', 'user_id', 'name', 'description', 'visible'
                 ])
-                ->with('user:id,name', 'tags:id,tag,color')
+                ->with('user:id,name', 'tags:id,name,color')
                 ->withCount('questionnaires')
                 ->when(count($this->tagsFilter), function ($query) {
                     $query->where(function (Builder $query) {
                         foreach ($this->tagsFilter as $tag) {
-                            $query->whereRelation('tags', 'tag', $tag);
+                            $query->whereRelation('tags', 'name', $tag);
                         }
                     });
                 })

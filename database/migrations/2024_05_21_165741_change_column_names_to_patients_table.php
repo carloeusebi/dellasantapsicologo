@@ -9,7 +9,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('patients', function (Blueprint $table) {
-            $table->foreignIdFor(User::class)->after('id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class)->after('id')->nullable()->constrained()->cascadeOnDelete();
             $table->renameColumn('fname', 'first_name');
             $table->renameColumn('lname', 'last_name');
             $table->renameColumn('sex', 'gender');

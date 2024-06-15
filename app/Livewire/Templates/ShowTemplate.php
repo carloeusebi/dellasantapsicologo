@@ -51,7 +51,7 @@ class ShowTemplate extends Component
     #[Computed(cache: true)]
     public function tags(): Collection
     {
-        return Tag::select(['id', 'tag', 'color'])->get();
+        return Tag::select(['id', 'name', 'color'])->orderBy('name')->get();
     }
 
     /** @param  array<array{'value': string, 'order': int}>  $newOrder */
@@ -80,8 +80,8 @@ class ShowTemplate extends Component
     public function render(
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
-        $this->template->load('tags:id,tag,color', 'user:id,name', 'questionnaires:id,title',
-            'questionnaires.tags:id,tag,color');
+        $this->template->load('tags:id,name,color', 'user:id,name', 'questionnaires:id,title',
+            'questionnaires.tags:id,name,color');
 
         return view('livewire.templates.show-template');
     }

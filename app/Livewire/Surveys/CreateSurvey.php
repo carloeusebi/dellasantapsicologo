@@ -166,8 +166,8 @@ class CreateSurvey extends Component
     #[Computed(cache: true)]
     public function tags(): Collection
     {
-        return Tag::select(['id', 'tag', 'color'])
-            ->orderBy('tag')
+        return Tag::select(['id', 'name', 'color'])
+            ->orderBy('name')
             ->get();
     }
 

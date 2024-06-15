@@ -31,7 +31,7 @@ class QuestionnairesTable extends TableComponent
     #[Computed(cache: true)]
     public function tags(): Collection
     {
-        return Tag::orderBy('tag')->get();
+        return Tag::orderBy('name')->get();
     }
 
     public function render(
@@ -41,11 +41,11 @@ class QuestionnairesTable extends TableComponent
             return Questionnaire::select(['id', 'user_id', 'title', 'created_at'])
                 ->withCount('surveys')
                 ->userScope()
-                ->with('tags:id,tag,color', 'user:id,name')
+                ->with('tags:id,name,color', 'user:id,name')
                 ->when(count($this->tagsFilter), function (Builder $query) {
                     $query->where(function (Builder $query) {
                         foreach ($this->tagsFilter as $tag) {
-                            $query->whereRelation('tags', 'tag', $tag);
+                            $query->whereRelation('tags', 'name', $tag);
                         }
                     });
                 })

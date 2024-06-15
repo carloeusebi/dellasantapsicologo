@@ -31,7 +31,7 @@ class TemplatesTable extends Component
     #[Computed]
     public function tags(): Collection
     {
-        return Tag::select(['id', 'tag', 'color'])->orderBy('tag')->get();
+        return Tag::select(['id', 'name', 'color'])->orderBy('name')->get();
     }
 
     public function chooseTemplate(int $id): void
@@ -49,11 +49,11 @@ class TemplatesTable extends Component
     {
         $templates = Template::userScope()
             ->select(['id', 'user_id', 'name', 'description'])
-            ->with('user:id,name', 'tags:id,color,tag')
+            ->with('user:id,name', 'tags:id,color,name')
             ->withCount('questionnaires')
             ->when($this->search, function (Builder $query, string $search) {
                 collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                    $query->whereRelation('tags', 'tag', 'like', "%$term%");
+                    $query->whereRelation('tags', 'name', 'like', "%$term%");
                 });
             })
             ->when($this->tagsFilter, function (Builder $query, array $tags) {

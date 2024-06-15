@@ -3,7 +3,7 @@
   /** @var Tag $tag */
 
 $headers = [
-    ['key' => 'tag', 'label' => 'Tag'],
+    ['key' => 'name', 'label' => 'Tag'],
     ['key' => 'color', 'label' => 'Colore', 'sortable' => false],
     ['key' => 'questionnaires_count', 'label' => 'Questionari', 'class' => 'w-10'],
 ]

@@ -68,13 +68,13 @@ class QuestionnairePicker extends Component
     public function questionnaires(): Collection
     {
         return Questionnaire::select(['id', 'title'])
-            ->with('tags:id,tag,color')
+            ->with('tags:id,name,color')
             ->userScope()
             ->filterByTitle($this->search)
             ->when($this->search, function (Builder $query, string $search) {
                 $query->orWhere(function (Builder $query) use ($search) {
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                        $query->whereRelation('tags', 'tag', 'like', "%$term%");
+                        $query->whereRelation('tags', 'name', 'like', "%$term%");
                     });
                 });
             })

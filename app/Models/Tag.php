@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tag extends Model
 {
-    protected $fillable = ['tag', 'color'];
+    protected $fillable = ['name', 'color'];
 
     public function questionnaires(): BelongsToMany
     {

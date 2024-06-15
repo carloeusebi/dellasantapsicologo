@@ -14,7 +14,7 @@
     <x-choices
         class="md:min-w-[420px] w-full" icon="o-tag" :options="$this->tags"
         wire:model.live.debounce="tagsFilter" label="Tags"
-        option-label="tag" option-value="id" placeholder="Cerca per tag"
+        option-label="name" option-value="id" placeholder="Cerca per tag"
     >
       @scope('item', $tag)
       <x-list-item :item="$tag" class="h-10">

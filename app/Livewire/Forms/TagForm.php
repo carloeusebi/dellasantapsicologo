@@ -20,7 +20,7 @@ class TagForm extends Form
     {
         $this->tag = $tag;
 
-        $this->name = $tag->tag;
+        $this->name = $tag->name;
         $this->color = $tag->color;
 
         $this->resetValidation();
@@ -31,7 +31,7 @@ class TagForm extends Form
         $this->validate();
 
         return Tag::create([
-            'tag' => $this->name,
+            'name' => $this->name,
             'color' => $this->color,
         ]);
     }
@@ -41,7 +41,7 @@ class TagForm extends Form
         $this->validate();
 
         $this->tag->update([
-            'tag' => $this->name,
+            'name' => $this->name,
             'color' => $this->color,
         ]);
 
