@@ -44,7 +44,7 @@ class TagsTable extends TableComponent
     {
         $tags = $this->goToFirstPageIfResultIsEmpty(function () {
             return Tag::query()
-                ->when($this->search, fn(Builder $query, string $search) => $query->where('tag', 'like', "%$search%"))
+                ->when($this->search, fn(Builder $query, string $search) => $query->where('name', 'like', "%$search%"))
                 ->withCount('questionnaires')
                 ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
                 ->paginate(10);

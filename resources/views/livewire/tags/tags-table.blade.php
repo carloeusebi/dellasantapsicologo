@@ -33,10 +33,10 @@ $headers = [
       <div>
         <div class="w-fit space-x-2">
           @can('update', Tag::class)
-            <x-button wire:click="edit({{ $tag->id }})" icon="o-pencil" class="btn-sm"/>
+            <x-button wire:click="edit({{ $tag->id }})" icon="o-pencil" class="btn-sm" data-update/>
           @endcan
           @can('delete', Tag::class)
-            <x-button onclick="deleteModalTag{{ $tag->id }}.showModal()" icon="o-trash" class="btn-sm"/>
+            <x-button onclick="deleteModalTag{{ $tag->id }}.showModal()" icon="o-trash" class="btn-sm" data-delete/>
           @endcan
         </div>
 

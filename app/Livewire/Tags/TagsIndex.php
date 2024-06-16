@@ -20,6 +20,8 @@ class TagsIndex extends Component
 
     public function create(): void
     {
+        $this->authorize('create', Tag::class);
+
         $this->form->reset();
 
         $this->tagModal = true;
@@ -28,6 +30,8 @@ class TagsIndex extends Component
     #[On('edit-tag')]
     public function edit(int $id): void
     {
+        $this->authorize('update', Tag::class);
+
         $this->form->setTag(Tag::findOrFail($id));
 
         $this->tagModal = true;
