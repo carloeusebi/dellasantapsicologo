@@ -1,33 +1,32 @@
-@php use App\Models\Survey; @endphp
 @php
-  /** @var Survey $survey */
+  use App\Models\Survey;
+ /** @var Survey $survey */
 
-   $headers = [['key' => 'title', 'label' => 'Titolo']];
+  $headers = [
+    ['key' => 'title', 'label' => 'Titolo'],
+    ['key' => 'patient.full_name', 'label' => 'Paziente', 'sortable' => false],
+    ['key' => 'created_at', 'label' => 'Creato'],
+    ['key' => 'updated_at', 'label' => 'Ultima modifica'],
+  ];
 
-   if (!$patient) {
-    $headers[] = ['key' => 'patient.full_name', 'label' => 'Paziente', 'sortable' => false];
-  }
-    $headers[] = ['key' => 'created_at', 'label' => 'Creato'];
-    $headers[] = ['key' => 'updated_at', 'label' => 'Ultima modifica'];
-
-  $rowDecoration = [
-      'table-success' => fn (Survey $survey) => $survey->completed,
-      'table-error' => fn (Survey $survey) => !$survey->completed,
-      'table-disabled' => fn (Survey $survey) => $survey->patient->isArchived(),
+ $rowDecoration = [
+     'table-success' => fn (Survey $survey) => $survey->completed,
+     'table-error' => fn (Survey $survey) => !$survey->completed,
+     'table-disabled' => fn (Survey $survey) => $survey->patient->isArchived(),
 ];
 
 @endphp
 
-<x-custom.table :rows="$surveys" :without-reset="$patient">
+<x-custom.table :rows="$surveys">
   <x-slot:filters>
     <x-select
         label="Completati"
         class="min-w-[150px] select w-full flex-shrink"
         wire:model.live.debounce="state"
         :options="[
-            ['id' => 'tutti', 'name' => 'Tutti'],
-            ['id' => 'completati', 'name' => 'Completati'],
-            ['id' => 'non_completati', 'name' => 'Non Completati'],
+            ['id' => self::$allState, 'name' => 'Tutti'],
+            ['id' => self::$completedState, 'name' => 'Completati'],
+            ['id' => self::$notCompletedState, 'name' => 'Non Completati'],
          ]"
     />
     <x-select
@@ -35,9 +34,9 @@
         class="min-w-[150px] select w-full flex-shrink"
         wire:model.live="patientState"
         :options="[
-            ['id' => 'tutti', 'name' => 'Tutti'],
-            ['id' => 'attuali', 'name' => 'Attuali'],
-            ['id' => 'archiviati', 'name' => 'Archiviati']
+            ['id' => self::$allState, 'name' => 'Tutti'],
+            ['id' => self::$currentState, 'name' => 'Attuali'],
+            ['id' => self::$archivedState, 'name' => 'Archiviati']
         ]"
     />
     <div class="[&>*]:!w-full grow">
@@ -74,13 +73,11 @@
       {!! get_formatted_date($survey->updated_at) !!}
       @endscope
 
-      @unless($patient)
-        @scope('actions', $survey)
-        <div class="hidden sm:flex gap-2">
-          <x-button class="btn-xs" icon="o-user" :link="route('patients.show', $survey->patient)"/>
-        </div>
-        @endscope
-      @endunless
+      @scope('actions', $survey)
+      <div class="hidden sm:flex gap-2">
+        <x-button class="btn-xs" icon="o-user" :link="route('patients.show', $survey->patient)"/>
+      </div>
+      @endscope
     </x-table>
   @else
     <x-alert icon="o-exclamation-triangle" title="Nessuna Valutazione trovata"/>

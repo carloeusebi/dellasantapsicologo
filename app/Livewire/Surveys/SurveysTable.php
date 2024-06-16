@@ -3,7 +3,6 @@
 namespace App\Livewire\Surveys;
 
 use App\Livewire\TableComponent;
-use App\Models\Patient;
 use App\Models\Survey;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -20,7 +19,11 @@ class SurveysTable extends TableComponent
 {
     use WithPagination;
 
-    public ?Patient $patient = null;
+    public static string $completedState = 'completati';
+    public static string $notCompletedState = 'non_completati';
+    public static string $allState = 'tutti';
+    public static string $archivedState = 'archiviati';
+    public static string $currentState = 'attuali';
 
     #[Url(as: 'ordina', except: ['column' => 'created_at', 'direction' => 'desc']), Session]
     public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
@@ -38,11 +41,8 @@ class SurveysTable extends TableComponent
     ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
     {
         $surveys = $this->goToFirstPageIfResultIsEmpty(function () {
-            return Survey::select(['id', 'title', 'patient_id', 'created_at', 'updated_at', 'completed'])
+            return Survey::query()
                 ->userScope()
-                ->when($this->patient, function (Builder $query, Patient $patient) {
-                    $query->whereRelation('patient', 'id', $patient->id);
-                })
                 ->with([
                     'patient' => function (BelongsTo $patient) {
                         return $patient->select('id', 'first_name', 'last_name',
@@ -59,26 +59,23 @@ class SurveysTable extends TableComponent
                         });
                     });
                 })
-                ->when($this->state === 'completati', function (Builder $query) {
+                ->when($this->state === self::$completedState, function (Builder $query) {
                     $query->where('completed', true);
                 })
-                ->when($this->state === 'non_completati', function (Builder $query) {
+                ->when($this->state === self::$notCompletedState, function (Builder $query) {
                     $query->where(function (Builder $query) {
                         $query->where('completed', false)
                             ->orwherenull('completed');
                     });
                 })
-                ->when($this->patientState === 'archiviati', function (Builder $query) {
+                ->when($this->patientState === self::$archivedState, function (Builder $query) {
                     $query->whereRelation('patient', 'archived_at', '<>');
                 })
-                ->when($this->patientState === 'attuali', function (Builder $query) {
+                ->when($this->patientState === self::$currentState, function (Builder $query) {
                     $query->whereRelation('patient', 'archived_at');
                 })
                 ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
-                ->paginate(
-                    $this->patient ? 5 : 10,
-                    pageName: self::$pageName
-                )->withQueryString();
+                ->paginate(pageName: self::$pageName);
         });
 
         return view('livewire.surveys.surveys-table', compact('surveys'));
