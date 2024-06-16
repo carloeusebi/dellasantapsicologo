@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Questionnaire::where('not_current', true)->forceDelete();
+        Questionnaire::where('not_current', true)->delete();
 
         Schema::table('questionnaires', function (Blueprint $table) {
             $table->foreignIdFor(User::class)->nullable()->after('id')->constrained()->nullOnDelete();

@@ -229,8 +229,8 @@ CREATE TABLE `questionnaire_survey` (
   PRIMARY KEY (`id`),
   KEY `question_survey_question_id_foreign` (`questionnaire_id`),
   KEY `question_survey_survey_id_foreign` (`survey_id`),
-  CONSTRAINT `question_survey_question_id_foreign` FOREIGN KEY (`questionnaire_id`) REFERENCES `questionnaires` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `question_survey_survey_id_foreign` FOREIGN KEY (`survey_id`) REFERENCES `surveys` (`id`) ON DELETE CASCADE
+  CONSTRAINT `questionnaire_survey_questionnaire_id_foreign` FOREIGN KEY (`questionnaire_id`) REFERENCES `questionnaires` (`id`) ON DELETE RESTRICT,
+  CONSTRAINT `questionnaire_survey_survey_id_foreign` FOREIGN KEY (`survey_id`) REFERENCES `surveys` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `questionnaire_tag`;
@@ -258,7 +258,7 @@ CREATE TABLE `questionnaire_template` (
   PRIMARY KEY (`id`),
   KEY `questionnaire_template_questionnaire_id_foreign` (`questionnaire_id`),
   KEY `questionnaire_template_template_id_foreign` (`template_id`),
-  CONSTRAINT `questionnaire_template_questionnaire_id_foreign` FOREIGN KEY (`questionnaire_id`) REFERENCES `questionnaires` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `questionnaire_template_questionnaire_id_foreign` FOREIGN KEY (`questionnaire_id`) REFERENCES `questionnaires` (`id`),
   CONSTRAINT `questionnaire_template_template_id_foreign` FOREIGN KEY (`template_id`) REFERENCES `templates` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

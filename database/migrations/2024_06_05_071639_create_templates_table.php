@@ -23,7 +23,7 @@ return new class extends Migration {
 
         Schema::create('questionnaire_template', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Questionnaire::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Questionnaire::class)->constrained();
             $table->foreignIdFor(Template::class)->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('order')->nullable();
         });
