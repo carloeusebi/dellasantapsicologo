@@ -1,3 +1,6 @@
+![Deploy](https://github.com/carloeusebi/dellasantapsicologo/actions/workflows/build.yml/badge.svg)
+![Tets](https://github.com/carloeusebi/dellasantapsicologo/actions/workflows/tests.yml/badge.svg)
+
 # Dellasanta Psicologo
 
 Links: [dellasantapsicologo.it](https://admin.dellasantapsicologo.it)
@@ -6,10 +9,7 @@ Links: [dellasantapsicologo.it](https://admin.dellasantapsicologo.it)
 
 ### Overview:
 
-Developed a comprehensive web solution for Dr. Dellasanta, a psychologist, to streamline his practice. The project
-consists of contact website in Laravel Blade, complemented by a dynamic admin panel created with Vue.js and Tailwind
-CSS.
-
+Developed a comprehensive web solution for Dr. Dellasanta, a psychologist, to streamline his practice.
 ### Key Features:
 
 - <strong>Psychological Evaluation Questionnaires</strong>: Designed a system where Dr. Dellasanta can effortlessly
