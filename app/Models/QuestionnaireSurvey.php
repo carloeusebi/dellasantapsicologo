@@ -14,6 +14,8 @@ class QuestionnaireSurvey extends Pivot
 {
     use HasFactory;
 
+    public $timestamps = true;
+
     public $incrementing = 'questionnaire_survey';
 
     protected $casts = [

@@ -78,7 +78,8 @@ class Survey extends Model
     public function questionnaires(): BelongsToMany
     {
         return $this->belongsToMany(Questionnaire::class)
-            ->using(QuestionnaireSurvey::class);
+            ->using(QuestionnaireSurvey::class)
+            ->withTimestamps();
     }
 
     public function questionnaireSurveys(): HasMany
