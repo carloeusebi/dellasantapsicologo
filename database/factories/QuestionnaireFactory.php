@@ -20,10 +20,20 @@ class QuestionnaireFactory extends Factory
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
             'title' => $this->faker->word(),
-            'visible' => $this->faker->boolean(),
+            'visible' => false,
 
             'user_id' => User::factory(),
         ];
+    }
+
+    public function visible(): QuestionnaireFactory
+    {
+        return $this->state(fn(array $attributes) => ['visible' => true]);
+    }
+
+    public function notVisible(): QuestionnaireFactory
+    {
+        return $this->state(fn(array $attributes) => ['visible' => false]);
     }
 
     public function configure(): QuestionnaireFactory
