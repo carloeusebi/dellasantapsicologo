@@ -42,6 +42,7 @@ it('does not render other user patients', function () {
     Patient::factory(3)->recycle($otherUser)->create();
 
     $this->livewire
+        ->refresh()
         ->assertViewHas('patients', fn(LengthAwarePaginator $collection) => $collection->isEmpty());
 });
 
