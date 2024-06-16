@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->boolean('completed')->nullable();
             $table->timestamps();
 
-            $table->foreign('question_id')->references('id');
+            $table->foreign('question_id')->references('id')->on('questions');
             $table->foreign('survey_id')->references('id')->on('surveys')->onDelete('cascade');
         });
     }

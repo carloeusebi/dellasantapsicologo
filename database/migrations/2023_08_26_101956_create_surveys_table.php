@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->boolean('completed')->default(0);
             $table->char('token', 32)->unique();
             $table->timestamps();
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('set null');
         });
     }
 
