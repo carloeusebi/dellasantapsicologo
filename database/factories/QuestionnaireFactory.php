@@ -19,7 +19,7 @@ class QuestionnaireFactory extends Factory
             'description' => $this->faker->text(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'title' => $this->faker->word(),
+            'title' => $this->faker->words(3, true),
             'visible' => false,
 
             'user_id' => User::factory(),

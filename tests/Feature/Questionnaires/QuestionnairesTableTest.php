@@ -5,6 +5,7 @@ use App\Models\Questionnaire;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+use function PHPUnit\Framework\assertEquals;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -64,7 +65,11 @@ it('show other users questionnaires if visible', function () {
 
 it('doesnt show other users questionnaires if not visible', function () {
     $otherUser = User::factory()->create();
-    $questionnaire = Questionnaire::factory()->recycle($otherUser)->notVisible()->create();
+    $questionnaire = Questionnaire::factory()->recycle($otherUser)->notVisible()->create([
+        'title' => 'Alakazam',
+    ]);
+
+    assertEquals($questionnaire->title, 'Alakazam');
 
     $this->livewire
         ->refresh()
