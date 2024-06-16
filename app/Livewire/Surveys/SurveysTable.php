@@ -75,7 +75,7 @@ class SurveysTable extends TableComponent
                     $query->whereRelation('patient', 'archived_at');
                 })
                 ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
-                ->paginate(pageName: self::$pageName);
+                ->paginate(10, pageName: self::$pageName);
         });
 
         return view('livewire.surveys.surveys-table', compact('surveys'));
