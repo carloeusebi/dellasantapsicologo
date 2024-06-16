@@ -32,6 +32,8 @@ class ShowPatient extends Component
 
     public function changeState(): void
     {
+        $this->authorize('update', $this->patient);
+
         try {
             if ($this->patient->isArchived()) {
                 $this->patient->unArchive();
