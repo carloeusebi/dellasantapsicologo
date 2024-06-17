@@ -16,6 +16,7 @@ use Mary\Traits\Toast;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 #[Lazy]
 class PatientFiles extends Component
@@ -31,11 +32,6 @@ class PatientFiles extends Component
     public string $fileName = '';
 
     public array $expanded = [];
-
-    public function fileUpdated()
-    {
-        dd($this->file);
-    }
 
     public function save()
     {
@@ -73,11 +69,17 @@ class PatientFiles extends Component
         return $this->patient->getMedia('files')->first(fn($file) => $file->id === (int) $id);
     }
 
-    public function download(string $id): Media
+    public function download(string $id)
     {
         $this->authorize('view', $this->patient);
 
-        return $this->retrieveMedia($id);
+        $media = $this->retrieveMedia($id);
+
+        try {
+            return response()->download($media->getPath(), $media->file_name);
+        } catch (FileNotFoundException) {
+            $this->error('Errore!', 'File non trovato!');
+        }
     }
 
     #[On('deleted')]

@@ -23,6 +23,7 @@
     "robsontenorio/mary": "^1.30",
     "silviolleite/laravelpwa": "^2.0",
     "spatie/browsershot": "^4.0",
+    "spatie/laravel-backup": "^8.8",
     "spatie/laravel-medialibrary": "^11.5",
     "wnx/sidecar-browsershot": "^2.3"
   },

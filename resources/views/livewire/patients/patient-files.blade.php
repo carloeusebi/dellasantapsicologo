@@ -47,7 +47,7 @@
       <div class="flex gap-2 ">
         <x-button
             class="btn-xs btn-info" responsive icon="o-arrow-down-tray" wire:click="download({{$file->id}})"
-            spinner="download"
+            spinner="download({{ $file->id }})"
         />
         <x-button class="btn-xs btn-error" responsive icon="o-trash" onclick="deleteFile{{$file->id}}.showModal()"/>
       </div>
