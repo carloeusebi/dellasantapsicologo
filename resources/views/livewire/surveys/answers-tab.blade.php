@@ -157,7 +157,9 @@
                 <div class="md:flex flex-wrap md:flex-nowrap gap-4 items-center justify-between">
                   <div class="text-wrap my-3 md:my-0 p-2">
                     <span>{{ $question->order }}. {{ $question->text }}</span>
-                    <span class="italic opacity-50">- {{ $answer->choice->text }}</span>
+                    @if ($answer)
+                      <span class="italic opacity-50">- {{ $answer->choice?->text }}</span>
+                    @endif
                     @if ($answer?->comment)
                       <div class="text-xs ms-2 opacity-50">
                         <span>Commento:&nbsp;</span>
