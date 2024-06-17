@@ -18,7 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->report(function (Throwable $exception) {
-            Mail::to(config('mail.developer.address'))
-                ->send(new ExceptionMail($exception));
+            if (app()->isProduction()) {
+                Mail::to(config('mail.developer.address'))
+                    ->queue(new ExceptionMail($exception));
+            }
         });
     })->create();
