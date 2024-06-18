@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\DB;
 
 class Question extends Model
 {
@@ -31,6 +32,18 @@ class Question extends Model
     ];
 
     protected $touches = ['questionnaire'];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::deleting(function (Question $question): void {
+            DB::table('choices')
+                ->where('questionable_type', 'App\Models\Question')
+                ->where('questionable_id', $question->id)
+                ->delete();
+        });
+    }
 
     public function calculateScore(Choice $choice): int
     {

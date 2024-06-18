@@ -8,6 +8,7 @@ use App\Models\Questionnaire;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\QueryException;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
@@ -32,6 +33,7 @@ class ShowQuestionnaire extends Component
 
     public bool $copyBeforeArchive = false;
 
+    public bool $forceDeleteModal = false;
 
     public function mount(): void
     {
@@ -48,6 +50,7 @@ class ShowQuestionnaire extends Component
 
         if ($this->copyBeforeArchive) {
             $this->replicate();
+            return;
         }
 
         $this->success('Successo!', 'Il questionario è stato archiviato con successo!',
@@ -63,18 +66,28 @@ class ShowQuestionnaire extends Component
                 redirectTo: route('questionnaires.show', $newQuestionnaire));
         } catch (Exception $e) {
             $this->error('Errore!',
-                'Si è verificato un errore durante la replicazione del questionario!<br>'.$e->getMessage());
+                'Si è verificato un errore durante la replicazione del questionario!<br>'.$e->getMessage(),
+                timeout: 10_000);
         }
     }
 
     public function forceDelete(): void
     {
+        $this->reset('forceDeleteModal');
+
         $this->authorize('forceDelete', $this->questionnaire);
 
-        $this->questionnaire->forceDelete();
+        try {
+            $this->questionnaire->forceDelete();
 
-        $this->success('Successo!', 'Il questionario è stato eliminato con successo!',
-            redirectTo: route('questionnaires.index'));
+            $this->success('Successo!', 'Il questionario è stato eliminato con successo!',
+                redirectTo: route('questionnaires.index'));
+        } catch (QueryException $e) {
+            report($e);
+            $this->error('Errore!',
+                'Si è verificato un errore durante l\'eliminazione del questionario!',
+                timeout: 10_000);
+        }
     }
 
     #[On('updated')]

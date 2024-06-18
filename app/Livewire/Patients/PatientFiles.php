@@ -16,6 +16,7 @@ use Mary\Traits\Toast;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 #[Lazy]
@@ -55,7 +56,7 @@ class PatientFiles extends Component
 
     public function delete(string $id): void
     {
-        $this->authorize('view', $this->patient);
+        $this->authorize('update', $this->patient);
 
         $this->retrieveMedia($id)->delete();
 
@@ -69,7 +70,7 @@ class PatientFiles extends Component
         return $this->patient->getMedia('files')->first(fn($file) => $file->id === (int) $id);
     }
 
-    public function download(string $id)
+    public function download(string $id): ?BinaryFileResponse
     {
         $this->authorize('view', $this->patient);
 
@@ -79,6 +80,7 @@ class PatientFiles extends Component
             return response()->download($media->getPath(), $media->file_name);
         } catch (FileNotFoundException) {
             $this->error('Errore!', 'File non trovato!');
+            return null;
         }
     }
 

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Questionnaire extends Model
 {
@@ -28,6 +29,30 @@ class Questionnaire extends Model
         'visible' => 'boolean'
     ];
 
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::deleting(function (Questionnaire $questionnaire): void {
+            DB::table('choices')
+                ->where('questionable_type', 'App\Models\Question')
+                ->whereIn('questionable_id', $questionnaire->questions->pluck('id'))
+                ->delete();
+
+            DB::table('choices')
+                ->where('questionable_type', 'App\Models\Questionnaire')
+                ->where('questionable_id', $questionnaire->id)
+                ->delete();
+        });
+    }
+
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class)
+            ->orderBy('order');
+    }
+
     /** @noinspection PhpUnused */
     public function scopeUserScope(Builder $query): void
     {
@@ -36,7 +61,6 @@ class Questionnaire extends Model
                 ->orWhereRelation('user', 'id', Auth::id());
         });
     }
-
 
     public function user(): BelongsTo
     {
@@ -59,12 +83,6 @@ class Questionnaire extends Model
     {
         return $this->belongsToMany(Survey::class)
             ->using(QuestionnaireSurvey::class);
-    }
-
-    public function questions(): HasMany
-    {
-        return $this->hasMany(Question::class)
-            ->orderBy('order');
     }
 
     public function choices(): MorphMany

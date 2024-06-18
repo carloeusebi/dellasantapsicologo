@@ -62,6 +62,8 @@ class QuestionsTab extends Component
 
     public function updateQuestionsOrder(array $orders): void
     {
+        $this->authorize('updateStructure', $this->questionnaire);
+
         $orders = array_map(fn(array $order) => [$order['value'], $order['order']], $orders);
         foreach ($orders as [$id, $order]) {
             $this->questionnaire?->questions()->find($id)->update(['order' => $order]);
