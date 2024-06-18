@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Surveys\SurveysTable;
+use App\Livewire\Surveys\Components\SurveysTable;
 use App\Models\Patient;
 use App\Models\Survey;
 use App\Models\User;

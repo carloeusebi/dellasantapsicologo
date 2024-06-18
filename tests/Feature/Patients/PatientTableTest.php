@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Patients\PatientTable;
+use App\Livewire\Patients\Components\PatientTable;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Questionnaires\QuestionnairesTable;
+use App\Livewire\Questionnaires\Components\QuestionnairesTable;
 use App\Models\Questionnaire;
 use App\Models\Tag;
 use App\Models\User;

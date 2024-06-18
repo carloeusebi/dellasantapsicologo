@@ -1,11 +1,11 @@
 <x-layouts.app title="Valutazioni">
-  <x-slot:breadcrumb>
-    <ul>
-      <li>Valutazioni</li>
-    </ul>
-  </x-slot:breadcrumb>
+    <x-slot:breadcrumb>
+        <ul>
+            <li>Valutazioni</li>
+        </ul>
+    </x-slot:breadcrumb>
 
-  <x-create-button route="surveys.create" label="Crea nuova valutazione"/>
+    <x-create-button route="surveys.create" label="Crea nuova valutazione"/>
 
-  <livewire:surveys.surveys-table/>
+    <livewire:surveys.components.surveys-table/>
 </x-layouts.app>

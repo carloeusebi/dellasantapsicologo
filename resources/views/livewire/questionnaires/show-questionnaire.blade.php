@@ -67,15 +67,15 @@
 
     <x-tabs wire:model="selectedTab">
         <x-tab :name="self::$TITLE" label="Titolo e Descrizione">
-            <livewire:questionnaires.title-tab :$questionnaire lazy/>
+            <livewire:questionnaires.tabs.title-tab :$questionnaire lazy/>
         </x-tab>
 
         <x-tab :name="self::$QUESTIONS" label="Domande">
-            <livewire:questionnaires.questions-tab :$questionnaire lazy/>
+            <livewire:questionnaires.tabs.questions-tab :$questionnaire lazy/>
         </x-tab>
 
         <x-tab :name="self::$VARIABLES" label="Variabili">
-            <livewire:questionnaires.variables-tab :$questionnaire lazy/>
+            <livewire:questionnaires.tabs.variables-tab :$questionnaire lazy/>
         </x-tab>
     </x-tabs>
 </div>

@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Tags\TagsTable;
+use App\Livewire\Tags\Components\TagsTable;
 use App\Models\Role;
 use App\Models\Tag;
 use App\Models\User;
