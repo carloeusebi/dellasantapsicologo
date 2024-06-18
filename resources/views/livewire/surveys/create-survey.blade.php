@@ -18,6 +18,7 @@
           placeholder="Seleziona un Paziente"
           :disabled="$queryStringPatientId != null"
           icon="o-user"
+          no-result-text="Nessun paziente trovato."
           min-chars="2"
           debounce="300ms"
           searchable
