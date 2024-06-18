@@ -12,21 +12,37 @@ return [
         'orientation' => 'any',
         'status_bar' => 'black',
         'icons' => [
+//            '48x48' => [
+//                'path' => '/images/icons/icon-48x48.png',
+//                'purpose' => 'any'
+//            ],
+//            '72x72' => [
+//                'path' => '/images/icons/icon-72x72.png',
+//                'purpose' => 'any'
+//            ],
+//            '96x96' => [
+//                'path' => '/images/icons/icon-96x96.png',
+//                'purpose' => 'any'
+//            ],
+//            '128x128' => [
+//                'path' => '/images/icons/icon-128x128.png',
+//                'purpose' => 'any'
+//            ],
             '48x48' => [
-                'path' => '/images/icons/icon-48x48.png',
-                'purpose' => 'any'
+                'path' => '/images/icons/maskable_icon_x48.png',
+                'purpose' => 'maskable'
             ],
             '72x72' => [
-                'path' => '/images/icons/icon-72x72.png',
-                'purpose' => 'any'
+                'path' => '/images/icons/maskable_icon_x72.png',
+                'purpose' => 'maskable'
             ],
             '96x96' => [
-                'path' => '/images/icons/icon-96x96.png',
-                'purpose' => 'any'
+                'path' => '/images/icons/maskable_icon_x96.png',
+                'purpose' => 'maskable'
             ],
             '128x128' => [
-                'path' => '/images/icons/icon-128x128.png',
-                'purpose' => 'any'
+                'path' => '/images/icons/maskable_icon_x128.png',
+                'purpose' => 'maskable'
             ],
             '144x144' => [
                 'path' => '/images/icons/icon-144x144.png',
@@ -62,20 +78,21 @@ return [
             '2048x2732' => '/images/icons/splash-2048x2732.png',
         ],
         'shortcuts' => [
-//            [
-//                'name' => 'Shortcut Link 1',
-//                'description' => 'Shortcut Link 1 Description',
-//                'url' => '/shortcutlink1',
-//                'icons' => [
-//                    "src" => "/images/icons/icon-72x72.png",
-//                    "purpose" => "any"
-//                ]
-//            ],
-//            [
-//                'name' => 'Shortcut Link 2',
-//                'description' => 'Shortcut Link 2 Description',
-//                'url' => '/shortcutlink2'
-//            ]
+            [
+                'name' => 'Pazienti',
+                'description' => 'Pazienti',
+                'url' => '/pazienti',
+            ],
+            [
+                'name' => 'Valutazioni',
+                'description' => 'Valutazioni',
+                'url' => '/valutazioni'
+            ],
+            [
+                'name' => 'Questionari',
+                'description' => 'Questionari',
+                'url' => '/questionari'
+            ]
         ],
         'custom' => []
     ]
