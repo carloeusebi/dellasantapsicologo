@@ -189,7 +189,7 @@
                                 'btn-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
                                 'btn-secondary': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }})
                               }"
-                              data-old-answer-text="{{ $question->choices->find($answer->choice_id)?->text ?? $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
+                              data-old-answer-text="{{ $question->choices->find($answer?->choice_id)?->text ?? $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
                               data-choice data-id="{{ $choice->id }}" data-text="{{ $choice?->text }}"
                               data-answer-id="{{ $answer?->id }}" data-question-id="{{ $question->id }}"
                               data-points="{{ $choice->points }}"
