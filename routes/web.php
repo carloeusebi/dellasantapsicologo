@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DownloadSurveyController;
+use App\Http\Controllers\PushController;
 use App\Livewire\Evaluation;
 use App\Livewire\Patients\CreatePatient;
 use App\Livewire\Patients\ShowPatient;
@@ -11,6 +12,9 @@ use App\Livewire\Surveys\ShowSurvey;
 use App\Livewire\Tags\TagsIndex;
 use App\Livewire\Templates\CreateTemplate;
 use App\Livewire\Templates\ShowTemplate;
+use App\Models\Survey;
+use App\Notifications\SurveyCompletedPushNotification;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/offline', 'laravelpwa::offline')->name('offline');
@@ -58,5 +62,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::get('/tags', TagsIndex::class)->name('tags.index');
-
 });
+
+Route::post('/push', PushController::class);
+
+Route::get('/testpush', function () {
+    Auth::user()->notify(new SurveyCompletedPushNotification(Survey::latest()->first()));
+    return redirect()->back();
+})->name('push');
