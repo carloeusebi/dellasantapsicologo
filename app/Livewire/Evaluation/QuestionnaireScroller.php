@@ -6,7 +6,8 @@ use App\Actions\AnswerQuestion;
 use App\Models\Question;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
-use App\Services\SurveyService;
+use App\Notifications\SurveyCompletedEmailNotification;
+use App\Notifications\SurveyCompletedPushNotification;
 use Error;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -83,7 +84,8 @@ class QuestionnaireScroller extends Component
         $this->reset('comment');
 
         if ($surveyCompleted) {
-            SurveyService::sendCompletedEmail($this->survey);
+            $this->survey->user->notify(new SurveyCompletedEmailNotification($this->survey));
+            $this->survey->user->notify(new SurveyCompletedPushNotification($this->survey));
             $this->redirectRoute('evaluation.thank-you', $this->survey, navigate: true);
             return;
         } elseif ($questionnaireSurveyCompleted) {

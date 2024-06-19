@@ -69,6 +69,18 @@ class Survey extends Model
         }
     }
 
+    public function user(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            User::class,
+            Patient::class,
+            'id',
+            'id',
+            'patient_id',
+            'user_id'
+        );
+    }
+
     public function patient(): BelongsTo
     {
         return $this->belongsTo(Patient::class)

@@ -28,7 +28,7 @@
         </div>
     </div>
     <x-hr/>
-    <div id="poll" :class="{'fixed inset-0 z-50 bg-base-200 p-5 overflow-y-scroll': fullscreenMode}" wire:poll.30s>
+    <div id="poll" :class="{'fixed inset-0 z-50 bg-base-200 p-5 overflow-y-scroll': fullscreenMode}" wire:poll.10s>
         <x-button
             x-show="fullscreenMode" x-on:click="fullscreenMode = false"
             x-on:keyup.escape.window="fullscreenMode = false"
@@ -315,13 +315,13 @@
                     this.updates = [];
                     $wire.massUpdateModal = false;
                     $wire.$refresh();
-                    document.getElementById('poll').setAttribute('wire:poll.30s', '');
+                    document.getElementById('poll').setAttribute('wire:poll.10s', '');
                 },
 
                 toggleQuickEditMode() {
                     if (!this.quickEditMode) {
                         this.quickEditMode = true;
-                        document.getElementById('poll').removeAttribute('wire:poll.30s');
+                        document.getElementById('poll').removeAttribute('wire:poll.10s');
                         this.initQuickEditMode();
                     } else {
                         this.reset();
