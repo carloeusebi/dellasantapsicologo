@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\DownloadSurveyController;
-use App\Http\Controllers\PushController;
+use App\Http\Controllers\PushSubscriptionsController;
 use App\Livewire\Evaluation\EvaluationPatientForm;
 use App\Livewire\Evaluation\Home;
 use App\Livewire\Evaluation\QuestionnaireScroller;
@@ -53,4 +53,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/tags', TagsIndex::class)->name('tags.index');
 });
 
-Route::post('/push', PushController::class);
+Route::post('/storePushNotification', [PushSubscriptionsController::class, 'store']);

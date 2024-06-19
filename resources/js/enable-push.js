@@ -9,9 +9,9 @@ function initSW() {
         return;
     }
 
-    navigator.serviceWorker.register('../sw.js')
+    navigator.serviceWorker.register('../push-notifications-sw.js')
         .then(() => {
-            console.log('serviceWorker installed!');
+            console.log('Push notifications service worker installed!');
             initPush();
         })
         .catch((err) => {
@@ -35,7 +35,8 @@ function initPush() {
     })
         .then((permissionResult) => {
             if (permissionResult !== 'granted') {
-                throw new Error('We weren\'t granted permission.');
+                console.error('Permission was not granted.');
+                return;
             }
             subscribeUser();
         });
@@ -77,7 +78,7 @@ function urlBase64ToUint8Array(base64String) {
 function storePushSubscription(pushSubscription) {
     const token = document.querySelector('meta[name=csrf-token]').getAttribute('content');
 
-    fetch('/push', {
+    fetch('/storePushNotification', {
         method: 'POST',
         body: JSON.stringify(pushSubscription),
         headers: {
@@ -86,12 +87,6 @@ function storePushSubscription(pushSubscription) {
             'X-CSRF-Token': token,
         },
     })
-        .then((res) => {
-            return res.json();
-        })
-        .then((res) => {
-            console.log(res);
-        })
         .catch((err) => {
             console.log(err);
         });
