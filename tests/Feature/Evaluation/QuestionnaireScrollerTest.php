@@ -7,9 +7,11 @@ use App\Models\Choice;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
+use App\Notifications\SurveyCompletedDatabaseNotification;
 use App\Notifications\SurveyCompletedEmailNotification;
 use App\Notifications\SurveyCompletedPushNotification;
 use Illuminate\Support\Facades\Notification;
+use Livewire\Livewire;
 use function PHPUnit\Framework\assertCount;
 use function PHPUnit\Framework\assertEquals;
 
@@ -105,19 +107,20 @@ it('redirects to thank you when last questionnaire survey is completed', functio
 });
 
 it('resets answers when max time between answers has passed', function () {
-    $hours = QuestionnaireScroller::getHoursBetweenAnswersBeforeReset() + 1;
+    $questionnaireSurvey = QuestionnaireSurvey::factory()->create([
+        'created_at' => now()->subHours(QuestionnaireScroller::getHoursBetweenAnswersBeforeReset() + 1),
+        'updated_at' => now()->subHours(QuestionnaireScroller::getHoursBetweenAnswersBeforeReset() + 1)
+    ]);
 
     AnswerQuestion::handle(
-        $this->qS->id,
-        $this->qS->questions()->first()->id,
+        $questionnaireSurvey->id,
+        $questionnaireSurvey->questions()->first()->id,
     );
 
-    $this->qS->updated_at = now()->subHours($hours);
-    $this->qS->save();
 
     Livewire::test(QuestionnaireScroller::class, [
-        'survey' => $this->qS->survey,
-        'questionnaireSurvey' => $this->qS
+        'survey' => $questionnaireSurvey->survey,
+        'questionnaireSurvey' => $questionnaireSurvey
     ]);
 
     assertCount(0, Answer::all());
@@ -155,5 +158,9 @@ it('sends an email notification when last survey is completed', function () {
         [$survey->user], SurveyCompletedPushNotification::class
     );
 
-    Notification::assertCount(2);
+    Notification::assertSentTo(
+        [$survey->user], SurveyCompletedDatabaseNotification::class
+    );
+
+    Notification::assertCount(3);
 });
