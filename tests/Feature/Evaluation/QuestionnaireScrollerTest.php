@@ -2,13 +2,14 @@
 
 use App\Actions\AnswerQuestion;
 use App\Livewire\Evaluation\QuestionnaireScroller;
-use App\Mail\SurveyCompletedNotificationMail;
 use App\Models\Answer;
 use App\Models\Choice;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
-use Illuminate\Support\Facades\Mail;
+use App\Notifications\SurveyCompletedEmailNotification;
+use App\Notifications\SurveyCompletedPushNotification;
+use Illuminate\Support\Facades\Notification;
 use function PHPUnit\Framework\assertCount;
 use function PHPUnit\Framework\assertEquals;
 
@@ -122,8 +123,8 @@ it('resets answers when max time between answers has passed', function () {
     assertCount(0, Answer::all());
 });
 
-it('sends an email when last survey is completed', function () {
-    Mail::fake();
+it('sends an email notification when last survey is completed', function () {
+    Notification::fake();
 
     $survey = Survey::factory()
         ->has(QuestionnaireSurvey::factory()->count(2))
@@ -146,8 +147,13 @@ it('sends an email when last survey is completed', function () {
             });
         });
 
-    Mail::assertQueued(function (SurveyCompletedNotificationMail $mail) use ($survey) {
-        return $mail->hasTo($survey->patient->user->email);
-    });
-    Mail::assertQueuedCount(1);
+    Notification::assertSentTo(
+        [$survey->user], SurveyCompletedEmailNotification::class
+    );
+
+    Notification::assertSentTo(
+        [$survey->user], SurveyCompletedPushNotification::class
+    );
+
+    Notification::assertCount(2);
 });
