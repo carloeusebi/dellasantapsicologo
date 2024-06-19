@@ -96,6 +96,7 @@ return [
                 'url' => '/pazienti',
                 'icons' => [
                     "src" => "/images/icons/maskable_icon_x96.png",
+                    'sizes' => '96x96',
                     "purpose" => "maskable"
                 ]
             ],
@@ -105,6 +106,7 @@ return [
                 'url' => '/valutazioni',
                 'icons' => [
                     "src" => "/images/icons/maskable_icon_x96.png",
+                    'sizes' => '96x96',
                     "purpose" => "maskable"
                 ]
             ],
@@ -114,6 +116,7 @@ return [
                 'url' => '/questionari',
                 'icons' => [
                     "src" => "/images/icons/maskable_icon_x96.png",
+                    'sizes' => '96x96',
                     "purpose" => "maskable"
                 ]
             ]
