@@ -11,6 +11,7 @@
     "php": "^8.3",
     "hammerstone/sidecar": "^0.6.1",
     "joelbutcher/laravel-archivable": "^1.4",
+    "laravel-notification-channels/webpush": "^8.0",
     "laravel/fortify": "^1.21",
     "laravel/framework": "^11.0",
     "laravel/jetstream": "^5.1",
