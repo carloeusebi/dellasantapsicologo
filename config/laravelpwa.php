@@ -28,6 +28,26 @@ return [
 //                'path' => '/images/icons/icon-128x128.png',
 //                'purpose' => 'any'
 //            ],
+//            '144x144' => [
+//                'path' => '/images/icons/icon-144x144.png',
+//                'purpose' => 'any'
+//            ],
+//            '152x152' => [
+//                'path' => '/images/icons/icon-152x152.png',
+//                'purpose' => 'any'
+//            ],
+//            '192x192' => [
+//                'path' => '/images/icons/icon-192x192.png',
+//                'purpose' => 'any'
+//            ],
+//            '384x384' => [
+//                'path' => '/images/icons/icon-384x384.png',
+//                'purpose' => 'any'
+//            ],
+//            '512x512' => [
+//                'path' => '/images/icons/icon-512x512.png',
+//                'purpose' => 'any'
+//            ],
             '48x48' => [
                 'path' => '/images/icons/maskable_icon_x48.png',
                 'purpose' => 'maskable'
@@ -44,25 +64,17 @@ return [
                 'path' => '/images/icons/maskable_icon_x128.png',
                 'purpose' => 'maskable'
             ],
-            '144x144' => [
-                'path' => '/images/icons/icon-144x144.png',
-                'purpose' => 'any'
-            ],
-            '152x152' => [
-                'path' => '/images/icons/icon-152x152.png',
-                'purpose' => 'any'
-            ],
             '192x192' => [
-                'path' => '/images/icons/icon-192x192.png',
-                'purpose' => 'any'
+                'path' => '/images/icons/maskable_icon_x192.png',
+                'purpose' => 'maskable'
             ],
             '384x384' => [
-                'path' => '/images/icons/icon-384x384.png',
-                'purpose' => 'any'
+                'path' => '/images/icons/maskable_icon_x384.png',
+                'purpose' => 'maskable'
             ],
             '512x512' => [
-                'path' => '/images/icons/icon-512x512.png',
-                'purpose' => 'any'
+                'path' => '/images/icons/maskable_icon_x512.png',
+                'purpose' => 'maskable'
             ],
         ],
         'splash' => [
