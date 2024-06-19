@@ -13,6 +13,7 @@ use App\Livewire\Templates\CreateTemplate;
 use App\Livewire\Templates\ShowTemplate;
 use Illuminate\Support\Facades\Route;
 
+Route::view('/offline', 'laravelpwa::offline')->name('offline');
 
 Route::prefix('/test-per-la-valutazione')->name('evaluation.')->group(function () {
     Route::get('/{survey:token}', Evaluation\Home::class)->name('home');

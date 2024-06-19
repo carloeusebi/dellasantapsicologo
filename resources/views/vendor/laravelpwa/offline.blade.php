@@ -1,1 +1,3 @@
-<h1>You are currently not connected to any networks.</h1>
+<h1>
+    Nessuna connessione a Internet
+</h1>

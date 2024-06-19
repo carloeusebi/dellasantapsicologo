@@ -3,14 +3,23 @@ var filesToCache = [
     '/offline',
     '/css/app.css',
     '/js/app.js',
-    '/images/icons/icon-72x72.png',
-    '/images/icons/icon-96x96.png',
-    '/images/icons/icon-128x128.png',
-    '/images/icons/icon-144x144.png',
-    '/images/icons/icon-152x152.png',
-    '/images/icons/icon-192x192.png',
-    '/images/icons/icon-384x384.png',
-    '/images/icons/icon-512x512.png',
+    '/images/icons/maskable_icon_x48.png',
+    '/images/icons/maskable_icon_x72.png',
+    '/images/icons/maskable_icon_x96.png',
+    '/images/icons/maskable_icon_x128.png',
+    '/images/icons/maskable_icon_x192.png',
+    '/images/icons/maskable_icon_x384.png',
+    '/images/icons/maskable_icon_x512.png',
+    '/images/icons/splash-640x1136.png',
+    '/images/icons/splash-750x1334.png',
+    '/images/icons/splash-828x1792.png',
+    '/images/icons/splash-1125x2436.png',
+    '/images/icons/splash-1242x2208.png',
+    '/images/icons/splash-1242x2688.png',
+    '/images/icons/splash-1536x2048.png',
+    '/images/icons/splash-1668x2224.png',
+    '/images/icons/splash-1668x2388.png',
+    '/images/icons/splash-2048x2732.png',
 ];
 
 // Cache on install
@@ -20,8 +29,8 @@ self.addEventListener("install", event => {
         caches.open(staticCacheName)
             .then(cache => {
                 return cache.addAll(filesToCache);
-            })
-    )
+            }),
+    );
 });
 
 // Clear cache on activate
@@ -32,9 +41,9 @@ self.addEventListener('activate', event => {
                 cacheNames
                     .filter(cacheName => (cacheName.startsWith("pwa-")))
                     .filter(cacheName => (cacheName !== staticCacheName))
-                    .map(cacheName => caches.delete(cacheName))
+                    .map(cacheName => caches.delete(cacheName)),
             );
-        })
+        }),
     );
 });
 
@@ -47,6 +56,6 @@ self.addEventListener("fetch", event => {
             })
             .catch(() => {
                 return caches.match('offline');
-            })
-    )
+            }),
+    );
 });
