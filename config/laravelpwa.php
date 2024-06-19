@@ -7,7 +7,7 @@ return [
         'short_name' => 'DSP',
         'start_url' => '/',
         'background_color' => '#ffffff',
-        'theme_color' => '#000000',
+        'theme_color' => '#6ecc84',
         'display' => 'standalone',
         'orientation' => 'any',
         'status_bar' => 'black',
@@ -94,16 +94,28 @@ return [
                 'name' => 'Pazienti',
                 'description' => 'Pazienti',
                 'url' => '/pazienti',
+                'icons' => [
+                    "src" => "/images/icons/maskable_icon_x96.png",
+                    "purpose" => "maskable"
+                ]
             ],
             [
                 'name' => 'Valutazioni',
                 'description' => 'Valutazioni',
-                'url' => '/valutazioni'
+                'url' => '/valutazioni',
+                'icons' => [
+                    "src" => "/images/icons/maskable_icon_x96.png",
+                    "purpose" => "maskable"
+                ]
             ],
             [
                 'name' => 'Questionari',
                 'description' => 'Questionari',
-                'url' => '/questionari'
+                'url' => '/questionari',
+                'icons' => [
+                    "src" => "/images/icons/maskable_icon_x96.png",
+                    "purpose" => "maskable"
+                ]
             ]
         ],
         'custom' => []
