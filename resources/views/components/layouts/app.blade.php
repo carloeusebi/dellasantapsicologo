@@ -65,7 +65,6 @@
                 </ul>
             </div>
         @endisset
-        <a href="{{ route('push') }}" target="_blank">Push</a>
     </x-slot:brand>
 
     {{-- Right side actions --}}
