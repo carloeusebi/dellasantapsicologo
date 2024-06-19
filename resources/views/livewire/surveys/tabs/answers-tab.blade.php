@@ -144,7 +144,7 @@
                         @foreach($questionnaireSurvey->questionnaire->questions as $question)
                             @php $answer = $question->answers->first(); @endphp
                             <div
-                                x-show="showQuestion({{ $answer?->value }}, {{ $question->id }})"
+                                x-show="showQuestion({{ $answer?->value ?? -99 }}, {{ $question->id }})"
                                 class="border-t border-2 border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif"
                                 :class="{
                     'focus:border-primary': quickEditMode,
