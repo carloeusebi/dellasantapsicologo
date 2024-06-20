@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use LaravelIdea\Helper\App\Models\_IH_QuestionnaireSurvey_C;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
@@ -42,7 +41,7 @@ class AnswersTab extends Component
     public bool $massUpdateModal = false;
 
     #[Computed]
-    public function questionnaires(): Collection|array|_IH_QuestionnaireSurvey_C
+    public function questionnaires(): Collection
     {
         return $this->survey->questionnaireSurveys()
             ->with('questionnaire.choices', 'questionnaire.tags', 'questionnaire.variables.questions:id')

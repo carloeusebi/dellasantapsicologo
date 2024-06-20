@@ -1,15 +1,6 @@
-@php use Illuminate\Support\Facades\Route; @endphp
-    <!DOCTYPE html>
-<html lang="it">
-<meta name="csrf-token" content="{{ csrf_token() }}">
-
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
 <head>
-    <script async crossorigin="anonymous">
-        const selectedTheme = localStorage.getItem("theme");
-        if (selectedTheme) {
-            document.documentElement.setAttribute("data-theme", selectedTheme);
-        }
-    </script>
 
     @laravelPWA
 
@@ -17,10 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Carlo Eusebi">
-    <meta
-        name="description"
-        content="Psicologo Cognitivo Comportamentale, mi occupo di consulenze psicologiche, sostegno e propongo percorsi individualizzati a Fano e online. Prenota la tua consulenza."
-    >
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>
         @isset($title)
             {{ $title }} |
@@ -31,7 +20,12 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico">
 
     @livewireStyles
+    @livewireScripts
+
     @vite('resources/css/app.css')
+
+    @vite(['resources/js/app.js', 'resources/js/enable-push.js'])
+    @stack('scripts')
 
 </head>
 
@@ -69,8 +63,10 @@
 
     {{-- Right side actions --}}
     <x-slot:actions>
-        <x-theme-changer/>
-        <livewire:components.user-notifications/>
+        <div class="flex">
+            <x-theme-toggle class="btn-sm"/>
+            <livewire:components.user-notifications/>
+        </div>
         {{--    <x-button label="Messages" icon="o-envelope" link="###" class="btn-ghost btn-sm" responsive/>--}}
     </x-slot:actions>
 </x-nav>
@@ -80,7 +76,10 @@
 
     {{-- This is a sidebar that works also as a drawer on small screens --}}
     {{-- Notice the `main-drawer` reference here --}}
-    <x-slot:sidebar drawer="main-drawer" collapsible collapse-text="Chiudi" class="bg-base-200 shadow-2xl">
+    <x-slot:sidebar
+        drawer="main-drawer" collapsible collapse-text="Chiudi"
+        class="bg-base-200 lg:bg-inherit max-w-96 lg:max-w-52 xl:max-w-96"
+    >
 
         {{-- User --}}
         @if($user = auth()->user())
@@ -141,9 +140,5 @@
 <x-scroll-top-button/>
 
 {{--  TOAST area --}}
-<x-toast/>
-
-@livewireScripts
-@vite(['resources/js/app.js', 'resources/js/enable-push.js'])
-@stack('scripts')
+<x-toast class="!bg-base-100"/>
 </body>
