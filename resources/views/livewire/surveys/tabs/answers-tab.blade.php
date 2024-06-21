@@ -199,6 +199,7 @@
                                                         '!bg-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
                                                         'opacity-50': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }}),
                                                         'bg-accent/50 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($comparisonAnswer && $comparisonAnswer->value === $choice->points) }}),
+                                                        'bg-accent/15 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice) && $comparisonAnswer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }}),
                                                       }"
                                                       data-old-answer-text="{{ $question->choices->find($answer?->choice_id)?->text ?? $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
                                                       data-choice data-id="{{ $choice->id }}"
@@ -245,10 +246,10 @@
                 spinner="changeAnswer"
                 class="btn-sm btn-success w-full"
                 wire:click="changeAnswer(
-              answer.questionnaireSurveyID,
-              answer.questionID,
-              answer.choiceID,
-            )"
+                  answer.questionnaireSurveyID,
+                  answer.questionID,
+                  answer.choiceID,
+                )"
             >Modifica
             </x-button>
         </div>
