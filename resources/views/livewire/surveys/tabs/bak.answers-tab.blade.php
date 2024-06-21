@@ -1,6 +1,6 @@
 <div x-data="answers" x-on:keyup.window="handleQuickMovement($event)">
     <div class="px-3 flex flex-wrap sm:flex-nowrap justify-end gap-4">
-        <div class="xl:flex justify-between w-full">
+        <div class="md:flex justify-between w-full">
             <div class="flex gap-2 items-center">
                 <x-button class="btn-sm hidden md:block" x-on:click="toggleQuickEditMode">
                     <span x-text=" quickEditMode ? 'Esci' : 'Modifica Rapida'"></span>
@@ -9,7 +9,7 @@
           Usa le frecce per muoverti, e la tastiera per rispondere alle domande
         </span>
             </div>
-            <div class="xl:flex grow justify-end items-end gap-4 space-y-4 xl:space-y-0">
+            <div class="md:flex grow justify-end gap-4 space-y-4 md:space-y-0">
                 <div class="hidden md:flex md:w-7 items-center">
                     <x-loading class="text-primary me-2" wire:loading/>
                 </div>
@@ -19,12 +19,11 @@
                     clearable x-on:keyup.esc="$wire.query = ''; $wire.$refresh()"
                 />
                 <x-button
-                    icon="o-arrows-pointing-out" responsive class="w-full xl:w-fit md:grow-0 btn-sm shadow"
+                    icon="o-arrows-pointing-out" responsive class="w-full md:w-fit md:grow-0 btn-sm shadow"
                     x-on:click="fullscreenMode = true"
                 >
                     Schermo Intero
                 </x-button>
-                <x-surveys-comparison :comparison-surveys="$this->comparisonSurveys"/>
             </div>
         </div>
     </div>
@@ -36,12 +35,6 @@
             icon="o-arrows-pointing-in" class="fixed right-2 top-2 z-[51] shadow-2xl btn-active"
         />
         @forelse($this->questionnaires as $questionnaireSurvey)
-            @php
-                $comparisonQuestionnaireSurvey = $comparisonQuestionnaireSurveys
-                    ?->firstWhere(function (App\Models\QuestionnaireSurvey $qS) use ($questionnaireSurvey) {
-                        return $qS->questionnaire->id === $questionnaireSurvey->questionnaire->id;
-                    })
-            @endphp
             <x-collapse
                 :name="$questionnaireSurvey->id" collapse-plus-minus :key="$questionnaireSurvey->id"
                 class="!rounded-none scroll-mt-20"
@@ -149,17 +142,14 @@
                             </div>
                         @endunless
                         @foreach($questionnaireSurvey->questionnaire->questions as $question)
-                            @php
-                                $answer = $question->answers->first();
-                                $comparisonAnswer = $comparisonQuestionnaireSurvey?->questions->firstWhere('id', $question->id)?->answers->first();
-                            @endphp
+                            @php $answer = $question->answers->first(); @endphp
                             <div
                                 x-show="showQuestion({{ $answer?->value ?? -99 }}, {{ $question->id }})"
                                 class="border-t border-2 border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif"
                                 :class="{
-                                'focus:border-primary': quickEditMode,
-                                'bg-primary/20': showReversed && {{ json_encode($question->reversed) }}
-                               }"
+                    'focus:border-primary': quickEditMode,
+                    'bg-primary/20': showReversed && {{ json_encode($question->reversed) }}
+                   }"
                                 data-question="{{ $question->id }}"
                                 data-questionnaire-survey="{{ $questionnaireSurvey->id }}"
                                 @if($question->reversed) data-reversed @endif
@@ -193,23 +183,20 @@
                                                 wire:ignore.self
                                                 x-on:click.stop="handleChoiceClick($event)"
                                             >
-                                                  <span
-                                                      class="btn w-full rounded-none no-animation"
-                                                      :class="{
-                                                        '!bg-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
-                                                        'opacity-50': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }}),
-                                                        'bg-accent/50 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($comparisonAnswer && $comparisonAnswer->value === $choice->points) }}),
-                                                      }"
-                                                      data-old-answer-text="{{ $question->choices->find($answer?->choice_id)?->text ?? $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
-                                                      data-choice data-id="{{ $choice->id }}"
-                                                      data-text="{{ $choice?->text }}"
-                                                      data-answer-id="{{ $answer?->id }}"
-                                                      data-question-id="{{ $question->id }}"
-                                                      data-points="{{ $choice->points }}"
-                                                      data-questionnaire-survey-id="{{ $questionnaireSurvey->id }}"
-                                                  >
-                                                {{ $choice->points }}
-                                                </span>
+                          <span
+                              class="btn w-full rounded-none no-animation"
+                              :class="{
+                                'btn-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
+                                'btn-secondary': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }})
+                              }"
+                              data-old-answer-text="{{ $question->choices->find($answer?->choice_id)?->text ?? $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
+                              data-choice data-id="{{ $choice->id }}" data-text="{{ $choice?->text }}"
+                              data-answer-id="{{ $answer?->id }}" data-question-id="{{ $question->id }}"
+                              data-points="{{ $choice->points }}"
+                              data-questionnaire-survey-id="{{ $questionnaireSurvey->id }}"
+                          >
+                        {{ $choice->points }}
+                        </span>
                                             </div>
                                         @endforeach
                                     </div>

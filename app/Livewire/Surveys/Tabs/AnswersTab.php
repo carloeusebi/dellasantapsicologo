@@ -6,11 +6,16 @@ use App\Actions\AnswerQuestion;
 use App\Models\Answer;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
+use App\Traits\QuickAnswers;
+use App\Traits\SurveysComparison;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
@@ -23,7 +28,7 @@ use Mary\Traits\Toast;
 #[Lazy(isolate: false)]
 class AnswersTab extends Component
 {
-    use Toast;
+    use SurveysComparison, Toast;
 
     public Survey $survey;
 
@@ -64,6 +69,12 @@ class AnswersTab extends Component
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
                         $query->where('text', 'like', "%$term%");
                     });
+                });
+            })
+            ->when($this->isComparing, function (Builder $query) {
+                $query->whereRelation('questionnaire', function (Builder $query) {
+                    $ids = $this->comparisonQuestionnaireSurveys->pluck('questionnaire_id')->toArray();
+                    $query->whereIn('id', $ids);
                 });
             })
             ->withCount('skippedAnswers')
@@ -138,5 +149,13 @@ class AnswersTab extends Component
             $this->updateModal = false;
             $this->success('Successo!', 'Risposta salvata!');
         }
+    }
+
+    public function render(
+    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application
+    {
+        $this->loadCompareSurvey();
+
+        return view('livewire.surveys.tabs.answers-tab');
     }
 }

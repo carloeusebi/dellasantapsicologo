@@ -4,6 +4,7 @@ namespace App\Livewire\Surveys\Tabs;
 
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
+use App\Traits\SurveysComparison;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,30 +19,15 @@ use Livewire\Component;
 #[Lazy]
 /**
  * @property Collection<QuestionnaireSurvey> $questionnaireSurveys
- * @property Collection<Survey> $comparisonSurveys
- * @property Collection<QuestionnaireSurvey> $comparisonQuestionnaireSurveys
  */
 class ResultsTab extends Component
 {
+    use SurveysComparison;
+
     public Survey $survey;
-
-    public ?Collection $comparisonQuestionnaireSurveys = null;
-
-    public ?Survey $comparisonSurvey = null;
-
-    public bool $isComparing = false;
-
-    public ?int $comparisonSurvey_id = null;
 
     #[Url]
     public ?string $questionnaireSurvey_id = null;
-
-    #[Computed]
-    public function comparisonSurveys(): Collection
-    {
-        return $this->survey->patient->surveys()->where('id', '!=', $this->survey->id)
-            ->get();
-    }
 
     public function render(
     ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application
@@ -49,27 +35,6 @@ class ResultsTab extends Component
         $this->loadCompareSurvey();
 
         return view('livewire.surveys.tabs.results-tab');
-    }
-
-    public function loadCompareSurvey(): void
-    {
-        if (!$this->comparisonSurvey_id || !$this->isComparing) {
-            return;
-        }
-
-        $this->comparisonSurvey = Survey::find($this->comparisonSurvey_id);
-
-        $this->comparisonQuestionnaireSurveys = $this->comparisonSurvey
-            ->questionnaireSurveys()
-            ->with('questionnaire', 'questionnaire.variables.cutoffs')
-            ->with([
-                'questionnaire.variables.questions.answers' => function (HasMany $query) {
-                    $query->whereRelation('questionnaireSurvey', 'survey_id', $this->comparisonSurvey_id);
-                }
-            ])
-            ->with('lastAnswer')
-            ->withCount('answers', 'questions', 'skippedAnswers')
-            ->get();
     }
 
     #[Computed]
@@ -91,21 +56,5 @@ class ResultsTab extends Component
                 });
             })
             ->get();
-    }
-
-    public function compare(): void
-    {
-        if ($this->comparisonSurvey_id) {
-            $this->isComparing = true;
-        } else {
-            $this->clearComparison();
-        }
-
-        $this->loadCompareSurvey();
-    }
-
-    public function clearComparison(): void
-    {
-        $this->reset('isComparing', 'comparisonSurvey_id', 'comparisonSurvey', 'comparisonQuestionnaireSurveys');
     }
 }

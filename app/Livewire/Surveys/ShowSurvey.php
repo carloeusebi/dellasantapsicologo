@@ -17,6 +17,8 @@ class ShowSurvey extends Component
 
     public Survey $survey;
 
+    public ?int $comparisonSurvey_id = null;
+
     #[Url(except: 'dettagli')]
     public string $tab = 'dettagli';
 
@@ -30,6 +32,18 @@ class ShowSurvey extends Component
     public function notify(string $type, string $title, string $description): void
     {
         $this->{$type}($title, $description);
+    }
+
+    #[On('comparing')]
+    public function compare(int $comparisonSurvey_id): void
+    {
+        $this->comparisonSurvey_id = $comparisonSurvey_id;
+    }
+
+    #[On('clearing-comparison')]
+    public function clearComparison(): void
+    {
+        $this->comparisonSurvey_id = null;
     }
 
     #[On(['removedComment', 'updatedAnswer'])]
