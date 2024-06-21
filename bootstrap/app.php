@@ -1,10 +1,12 @@
 <?php
 
-use App\Mail\ExceptionMail;
+use App\Models\Role;
+use App\Models\User;
+use App\Notifications\ExceptionNotification;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,9 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->report(function (Throwable $exception) {
-            if (app()->isProduction()) {
-                Mail::to(config('mail.developer.address'))
-                    ->queue(new ExceptionMail($exception));
-            }
+            Notification::send(
+                User::whereRelation('role', 'name', Role::$ADMIN)->get(),
+                new ExceptionNotification($exception)
+            );
         });
     })->create();
