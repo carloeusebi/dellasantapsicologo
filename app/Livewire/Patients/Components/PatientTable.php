@@ -77,7 +77,7 @@ class PatientTable extends TableComponent
         return view('livewire.patients.components.patient-table', compact('patients'));
     }
 
-    #[Computed(cache: true)]
+    #[Computed]
     public function doctors(): array
     {
         return User::all()->toArray();
