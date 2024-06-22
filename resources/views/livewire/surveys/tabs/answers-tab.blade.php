@@ -39,11 +39,11 @@
                 $comparisonQuestionnaireSurvey = $comparisonQuestionnaireSurveys
                     ?->firstWhere(function (App\Models\QuestionnaireSurvey $qS) use ($questionnaireSurvey) {
                         return $qS->questionnaire->id === $questionnaireSurvey->questionnaire->id;
-                    })
+                    });
             @endphp
             <x-collapse
                 :name="$questionnaireSurvey->id" collapse-plus-minus :key="$questionnaireSurvey->id"
-                class="!rounded-none scroll-mt-20"
+                class="!rounded-none scroll-mt-20" separator
                 data-questionnaire="{{ $questionnaireSurvey->id }}"
             >
 
@@ -112,9 +112,9 @@
                                 <div
                                     class="flex items-center gap-2 cursor-pointer"
                                     x-on:click="filteredAnswers.includes({{ $choice->points }})
-                        ? filteredAnswers=filteredAnswers.filter(a=> a !== {{ $choice->points }})
-                        : filteredAnswers.push({{ $choice->points }})
-                      "
+                                        ? filteredAnswers=filteredAnswers.filter(a=> a !== {{ $choice->points }})
+                                        : filteredAnswers.push({{ $choice->points }})
+                                    "
                                 >
                                     <x-button
                                         class="btn"
@@ -289,7 +289,6 @@
     @script
     <script>
         window.answers = function () {
-            /** @property {HTMLDivElement[]} questions */
             return {
                 fullscreenMode: false,
                 quickEditMode: false,
@@ -303,8 +302,12 @@
                     newAnswerText: null,
                 },
 
+                /** @type {HTMLDivElement[]} */
                 questions: [],
+
+                /** @type {array<{question_id: number; questionnaire_survey_id: number; choice_id: number }>} */
                 updates: [],
+
                 selectedQuestion: 0,
 
                 tap: new Audio('{{ asset('assets/tap.mp3') }}'),
@@ -358,7 +361,7 @@
                         this.focusQuestion(parseInt(e.target.dataset.questionId));
                         const choices = this.selectedQuestionEl.querySelectorAll('[data-choice]');
                         choices.forEach(el => el.classList.remove('btn-primary', 'bg-accent/50', '!bg-accent/15'));
-                        e.target.classList.add('!btn-primary');
+                        e.target.classList.add('btn-primary');
                         this.focusNextQuestion();
                         this.addChoice(
                             parseInt(e.target.dataset.questionId),
@@ -390,7 +393,7 @@
 
                     choices.forEach(el => el.classList.remove('btn-primary', 'bg-accent/50', '!bg-accent/15'));
                     const newChoiceEL = choices.find(el => el.dataset.points === e.key);
-                    newChoiceEL.classList.add('!btn-primary');
+                    newChoiceEL.classList.add('btn-primary');
 
                     this.addChoice(
                         parseInt(this.selectedQuestionEl.dataset.question),
@@ -400,15 +403,16 @@
                     this.focusNextQuestion();
                 },
 
-
                 /**
                  * @param {number} question_id
                  * @param {number} questionnaire_survey_id
                  * @param {number} choice_id
                  */
                 addChoice(question_id, questionnaire_survey_id, choice_id) {
-                    this.udpates = this.updates.filter(u => u.question_id !== question_id);
+                    this.updates = this.updates
+                        .filter(update => update.question_id !== question_id);
                     this.updates.push({question_id, questionnaire_survey_id, choice_id});
+
                     try {
                         this.tap.play();
                     } catch (err) {
