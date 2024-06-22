@@ -68,11 +68,11 @@
             </div>
 
             <div x-show="$wire.tab === 'risposte'">
-                <livewire:surveys.tabs.answers-tab :$survey lazy/>
+                <livewire:surveys.tabs.answers-tab :$survey :$comparisonSurvey_id lazy/>
             </div>
 
             <div x-show="$wire.tab === 'risultati'">
-                <livewire:surveys.tabs.results-tab :$survey lazy :key="rand(0,9999)"/>
+                <livewire:surveys.tabs.results-tab :$survey :$comparisonSurvey_id lazy/>
             </div>
 
             <div x-show="$wire.tab === 'commenti'">
