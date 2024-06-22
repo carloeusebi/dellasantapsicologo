@@ -1,8 +1,8 @@
-<div class="flex flex-col md:flex-row md:justify-end items-end gap-4 px-2 [&>div]:!w-full">
+<div class="flex flex-col md:flex-row md:justify-end items-end gap-4 [&>div]:!w-full">
     <x-select
         class="select-sm !w-full"
-        wire:model="comparisonSurvey_id" label="Confronta" :options="$comparisonSurveys"
-        option-value="id" option-label="title" placeholder="Seleziona questionario"
+        wire:model="comparisonSurvey_id" :options="$comparisonSurveys"
+        option-value="id" option-label="title" placeholder="Seleziona questionario per il confronto"
     >
         <x-slot:append>
             <x-button

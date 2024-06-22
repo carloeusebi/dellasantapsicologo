@@ -1,31 +1,30 @@
 <div x-data="answers" x-on:keyup.window="handleQuickMovement($event)">
-    <div class="px-3 flex flex-wrap sm:flex-nowrap justify-end gap-4">
-        <div class="xl:flex justify-between w-full">
-            <div class="flex gap-2 items-center">
-                <x-button class="btn-sm hidden md:block" x-on:click="toggleQuickEditMode">
-                    <span x-text=" quickEditMode ? 'Esci' : 'Modifica Rapida'"></span>
-                </x-button>
-                <span x-show="quickEditMode" class="text-xs text-base-content/75 italic">
-          Usa le frecce per muoverti, e la tastiera per rispondere alle domande
-        </span>
-            </div>
-            <div class="xl:flex grow justify-end items-end gap-4 space-y-4 xl:space-y-0">
-                <div class="hidden md:flex md:w-7 items-center">
-                    <x-loading class="text-primary me-2" wire:loading/>
-                </div>
-                <x-input
-                    class="input-sm w-full"
-                    icon="o-magnifying-glass" placeholder="Cerca una domanda" wire:model.live.debounce="query"
-                    clearable x-on:keyup.esc="$wire.query = ''; $wire.$refresh()"
-                />
-                <x-button
-                    icon="o-arrows-pointing-out" responsive class="w-full xl:w-fit md:grow-0 btn-sm shadow"
-                    x-on:click="fullscreenMode = true"
-                >
-                    Schermo Intero
-                </x-button>
-                <x-surveys-comparison :comparison-surveys="$this->comparisonSurveys"/>
-            </div>
+    <div>
+        <div class="mb-4">
+            <x-button class="btn-sm w-full xl:btn-wide" x-on:click="toggleQuickEditMode">
+                <span x-text=" quickEditMode ? 'Esci' : 'Modifica Rapida'"></span>
+            </x-button>
+            <span x-show="quickEditMode" class="text-xs text-base-content/75 italic">
+                  Usa le frecce per muoverti, e la tastiera per rispondere alle domande
+                </span>
+        </div>
+    </div>
+    <div class="xl:flex grow justify-between items-end gap-4 space-y-4 xl:space-y-0">
+        <x-button
+            icon="o-arrows-pointing-out" responsive class="w-full xl:btn-wide md:grow-0 btn-sm shadow"
+            x-on:click="fullscreenMode = true"
+        >
+            Schermo Intero
+        </x-button>
+        <div class="grow">
+            <x-input
+                class="input-sm w-full"
+                icon="o-magnifying-glass" placeholder="Cerca una domanda" wire:model.live.debounce="query"
+                clearable x-on:keyup.esc="$wire.query = ''; $wire.$refresh()"
+            />
+        </div>
+        <div class="grow">
+            <x-surveys-comparison :comparison-surveys="$this->comparisonSurveys"/>
         </div>
     </div>
     <x-hr/>
@@ -89,21 +88,21 @@
 
                     <div
                         x-data="{
-                showReversed: false,
-                filteredAnswers: [],
-                variableQuestionIds: [],
-                handleVariableClick(checked, questionIds) {
-                  if (checked) {
-                    this.variableQuestionIds = [...this.variableQuestionIds, ...questionIds];
-                  } else {
-                    this.variableQuestionIds = this.variableQuestionIds.filter(id => !questionIds.includes(id));
-                  }
-                },
-                showQuestion(value, questionId) {
-                  return (this.filteredAnswers.includes(value) || !this.filteredAnswers.length)
-                  && (this.variableQuestionIds.includes(questionId) || !this.variableQuestionIds.length)
-                }
-           }"
+                            showReversed: false,
+                            filteredAnswers: [],
+                            variableQuestionIds: [],
+                            handleVariableClick(checked, questionIds) {
+                              if (checked) {
+                                this.variableQuestionIds = [...this.variableQuestionIds, ...questionIds];
+                              } else {
+                                this.variableQuestionIds = this.variableQuestionIds.filter(id => !questionIds.includes(id));
+                              }
+                            },
+                            showQuestion(value, questionId) {
+                              return (this.filteredAnswers.includes(value) || !this.filteredAnswers.length)
+                              && (this.variableQuestionIds.includes(questionId) || !this.variableQuestionIds.length)
+                            }
+                       }"
                     >
                         <div
                             class="grid md:grid-flow-col mb-4 gap-2"
@@ -196,10 +195,10 @@
                                                   <span
                                                       class="btn w-full rounded-none no-animation"
                                                       :class="{
-                                                        '!bg-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
-                                                        'opacity-50': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }}),
+                                                        'btn-primary border-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
+                                                        'bg-primary/15 border-primary': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }}),
                                                         'bg-accent/50 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($comparisonAnswer && $comparisonAnswer->value === $choice->points) }}),
-                                                        'bg-accent/15 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice) && $comparisonAnswer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }}),
+                                                        '!bg-accent/15 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice) && $comparisonAnswer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }}),
                                                       }"
                                                       data-old-answer-text="{{ $question->choices->find($answer?->choice_id)?->text ?? $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
                                                       data-choice data-id="{{ $choice->id }}"
@@ -358,8 +357,8 @@
                     if (this.quickEditMode) {
                         this.focusQuestion(parseInt(e.target.dataset.questionId));
                         const choices = this.selectedQuestionEl.querySelectorAll('[data-choice]');
-                        choices.forEach(el => el.classList.remove('btn-primary'));
-                        e.target.classList.add('btn-primary');
+                        choices.forEach(el => el.classList.remove('btn-primary', 'bg-accent/50', '!bg-accent/15'));
+                        e.target.classList.add('!btn-primary');
                         this.focusNextQuestion();
                         this.addChoice(
                             parseInt(e.target.dataset.questionId),
@@ -389,9 +388,9 @@
 
                     if (!e.key || !choices.map(el => el.dataset.points).includes(e.key)) return;
 
-                    choices.forEach(el => el.classList.remove('btn-primary'));
+                    choices.forEach(el => el.classList.remove('btn-primary', 'bg-accent/50', '!bg-accent/15'));
                     const newChoiceEL = choices.find(el => el.dataset.points === e.key);
-                    newChoiceEL.classList.add('btn-primary');
+                    newChoiceEL.classList.add('!btn-primary');
 
                     this.addChoice(
                         parseInt(this.selectedQuestionEl.dataset.question),
