@@ -8,7 +8,7 @@
     <x-steps wire:model="step" class="border my-5 p-5 [&>div]:!overflow-visible">
 
         {{-- STEP 1--}}
-        <x-step step="{{ self::$CHOOSE_PATIENT }}" text="Paziente">
+        <x-step step="{{ self::CHOOSE_PATIENT }}" text="Paziente">
             <x-choices
                 wire:model.live="patientId"
                 label="Scegli il Paziente"
@@ -33,7 +33,7 @@
         </x-step>
 
         {{-- STEP 2 --}}
-        <x-step step="{{ self::$CHOOSE_QUESTIONNAIRES }}" text="Questionari" class="min-h-56 overflow-hidden">
+        <x-step step="{{ self::CHOOSE_QUESTIONNAIRES }}" text="Questionari" class="min-h-56 overflow-hidden">
             <div x-data="{ view: 'templates' }">
                 <div class="mb-5 lg:flex justify-between items-center">
                     <h2 class="font-bold mb-4">Paziente: {{ $patient?->full_name }} </h2>
@@ -56,7 +56,7 @@
         </x-step>
 
         {{-- STEP 3 --}}
-        <x-step step="{{ self::$CONFIRM }}" text="Conferma">
+        <x-step step="{{ self::CONFIRM }}" text="Conferma">
             <div class="space-y-3">
                 <x-input label="Titolo" placeholder="Dai un nome alla Valutazione" wire:model.live="title" required/>
                 @if ($patient?->email)
@@ -89,14 +89,14 @@
 
     {{-- BUTTONS --}}
     <div class="flex justify-end gap-2 items-center">
-        @unless($step === self::$CHOOSE_PATIENT)
+        @unless($step === self::CHOOSE_PATIENT)
             <x-button
                 wire:click="prev" x-bind:disabled="$wire.step === 1" spinner="prev" wire:loading.attr="disabled"
                 wire:target="prev,next,updateSelectedQuestionnaires,selectQ,removeQ"
             >Torna Indietro
             </x-button>
         @endif
-        @if ($step === self::$CONFIRM)
+        @if ($step === self::CONFIRM)
             <x-button
                 wire:click="store" spinner="store" wire:loading.attr="disabled"
                 wire:target="prev,next,updateSelectedQuestionnaires,selectQ,removeQ"
@@ -109,8 +109,8 @@
                 wire:click="next" spinner="next" wire:loading.attr="disabled"
                 wire:target="prev,next,updateSelectedQuestionnaires,selectQ,removeQ"
                 x-bind:disabled="
-            $wire.step === {{ self::$CHOOSE_PATIENT }} && ! $wire.patientId ||
-            $wire.step === {{ self::$CHOOSE_QUESTIONNAIRES }} && $wire.selectedQuestionnaires.length === 0
+            $wire.step === {{ self::CHOOSE_PATIENT }} && ! $wire.patientId ||
+            $wire.step === {{ self::CHOOSE_QUESTIONNAIRES }} && $wire.selectedQuestionnaires.length === 0
           "
             >Prosegui
             </x-button>

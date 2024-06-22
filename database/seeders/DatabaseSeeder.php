@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()->create([
             'email' => 'admin@example.com',
-        ])->role()->associate(Role::firstWhere('name', Role::$ADMIN))->save();
+        ])->role()->associate(Role::firstWhere('name', Role::ADMIN))->save();
 
         User::factory(10)
             ->hasPatients(20)

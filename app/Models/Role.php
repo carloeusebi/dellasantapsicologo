@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Role extends Model
 {
-    public static string $ADMIN = 'admin';
-    public static string $DOCTOR = 'doctor';
-    public static string $SUPERUSER = 'superuser';
-    public static string $PATIENT = 'patient';
+    const string ADMIN = 'admin';
+    const string DOCTOR = 'doctor';
+    const string SUPERUSER = 'superuser';
+    const string PATIENT = 'patient';
 
     public $timestamps = false;
 

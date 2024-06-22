@@ -4,10 +4,7 @@ namespace App\Livewire\Templates;
 
 use App\Livewire\Forms\TemplateForm;
 use App\Models\Tag;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -20,8 +17,8 @@ class CreateTemplate extends Component
 {
     use Toast;
 
-    public static int $CHOOSE_TITLE = 1;
-    public static int $CHOOSE_QUESTIONNAIRES = 2;
+    const int CHOOSE_TITLE = 1;
+    const int CHOOSE_QUESTIONNAIRES = 2;
 
     public int $step = 1;
 
@@ -29,11 +26,11 @@ class CreateTemplate extends Component
 
     public function next(): void
     {
-        if ($this->step === self::$CHOOSE_QUESTIONNAIRES) {
+        if ($this->step === self::CHOOSE_QUESTIONNAIRES) {
             return;
         }
 
-        if ($this->step === self::$CHOOSE_TITLE) {
+        if ($this->step === self::CHOOSE_TITLE) {
             $this->form->validateOnly('name');
             $this->form->validateOnly('description');
             $this->form->validateOnly('visible');
@@ -45,7 +42,7 @@ class CreateTemplate extends Component
 
     public function prev(): void
     {
-        if ($this->step === self::$CHOOSE_TITLE) {
+        if ($this->step === self::CHOOSE_TITLE) {
             return;
         }
 
@@ -70,11 +67,5 @@ class CreateTemplate extends Component
     public function updateSelectedQuestionnaires(array $questionnaires): void
     {
         $this->form->selectedQuestionnaires = collect($questionnaires)->pluck('id')->toArray();
-    }
-
-    public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
-        return view('livewire.templates.create-template');
     }
 }

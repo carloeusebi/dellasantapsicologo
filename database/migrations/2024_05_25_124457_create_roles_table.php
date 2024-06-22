@@ -18,9 +18,9 @@ return new class extends Migration {
             });
         }
 
-        $adminRole = Role::create(['name' => Role::$ADMIN, 'label' => 'Amministratore']);
-        $doctorRole = Role::create(['name' => Role::$DOCTOR, 'label' => 'Dottore']);
-        Role::create(['name' => Role::$PATIENT, 'label' => 'Paziente']);
+        $adminRole = Role::create(['name' => Role::ADMIN, 'label' => 'Amministratore']);
+        $doctorRole = Role::create(['name' => Role::DOCTOR, 'label' => 'Dottore']);
+        Role::create(['name' => Role::PATIENT, 'label' => 'Paziente']);
 
         if (!Schema::hasColumn('users', 'role_id')) {
             Schema::table('users', function (Blueprint $table) {

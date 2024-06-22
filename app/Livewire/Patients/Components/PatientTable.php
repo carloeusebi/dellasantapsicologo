@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -17,11 +18,14 @@ use Livewire\Attributes\Session;
 use Livewire\Attributes\Url;
 
 #[Lazy]
+/**
+ * @property Collection<User> $doctors
+ */
 class PatientTable extends TableComponent
 {
-    public static string $archivedState = 'archiviati';
-    public static string $allState = 'tutti';
-    public static string $activeState = 'attivi';
+    const string ARCHIVED_STATE = 'archiviati';
+    const string ALL_STATE = 'tutti';
+    const string ACTIVE_STATE = 'attivi';
 
     #[Url(as: 'ordina', except: ['column' => 'therapy_start_date', 'direction' => 'desc']), Session]
     public array $sortBy = [
@@ -59,10 +63,10 @@ class PatientTable extends TableComponent
                     }
                 ])
                 ->filterByName($this->search)
-                ->when($this->state === 'tutti', function (Builder $query) {
+                ->when($this->state === self::ALL_STATE, function (Builder $query) {
                     $query->withArchived();
                 })
-                ->when($this->state === 'archiviati', function (Builder $query) {
+                ->when($this->state === self::ARCHIVED_STATE, function (Builder $query) {
                     $query->onlyArchived();
                 })
                 ->when($this->sortBy['column'] === 'birth_date', function (Builder $query) {

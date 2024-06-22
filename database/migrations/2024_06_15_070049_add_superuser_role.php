@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         $role = Role::create([
-            'name' => Role::$SUPERUSER,
+            'name' => Role::SUPERUSER,
             'label' => 'Superuser',
         ]);
 

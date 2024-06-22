@@ -23,7 +23,7 @@ it('renders with all patients when state is set to all', function () {
     Patient::factory()->recycle($this->user)->archived()->create();
 
     $this->livewire
-        ->set('state', PatientTable::$allState)
+        ->set('state', PatientTable::ALL_STATE)
         ->assertViewHas('patients', fn(LengthAwarePaginator $collection) => $collection->count() === 4);
 });
 
@@ -32,7 +32,7 @@ it('renders with archived patients when state is set to archived', function () {
     Patient::factory(2)->recycle($this->user)->archived()->create();
 
     $this->livewire
-        ->set('state', PatientTable::$archivedState)
+        ->set('state', PatientTable::ARCHIVED_STATE)
         ->assertViewHas('patients', fn(LengthAwarePaginator $collection) => $collection->count() === 2);
 });
 

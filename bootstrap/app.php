@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->report(function (Throwable $exception) {
             Notification::send(
-                User::whereRelation('role', 'name', Role::$ADMIN)->get(),
+                User::whereRelation('role', 'name', Role::ADMIN)->get(),
                 new ExceptionNotification($exception)
             );
         });

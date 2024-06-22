@@ -20,7 +20,7 @@ beforeEach(function () {
 
 function setUserAsSuperUser(User $user)
 {
-    $user->role()->associate(Role::firstWhere('name', Role::$SUPERUSER));
+    $user->role()->associate(Role::firstWhere('name', Role::SUPERUSER));
     $user->save();
 }
 

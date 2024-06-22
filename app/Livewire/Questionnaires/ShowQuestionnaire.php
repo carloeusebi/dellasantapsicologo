@@ -19,9 +19,9 @@ class ShowQuestionnaire extends Component
 {
     use Toast;
 
-    public static string $TITLE = 'titolo';
-    public static string $QUESTIONS = 'domande';
-    public static string $VARIABLES = 'variabili';
+    const string TITLE = 'titolo';
+    const string QUESTIONS = 'domande';
+    const string VARIABLES = 'variabili';
 
     #[Url(as: 'tab')]
     public string $selectedTab = 'titolo';

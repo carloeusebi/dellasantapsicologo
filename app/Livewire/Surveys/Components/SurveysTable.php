@@ -19,11 +19,11 @@ class SurveysTable extends TableComponent
 {
     use WithPagination;
 
-    public static string $completedState = 'completati';
-    public static string $notCompletedState = 'non_completati';
-    public static string $allState = 'tutti';
-    public static string $archivedState = 'archiviati';
-    public static string $currentState = 'attuali';
+    const string COMPLETED = 'completati';
+    const string NOT_COMPLETED = 'non_completati';
+    const string ALL = 'tutti';
+    const string ARCHIVED = 'archiviati';
+    const string CURRENT = 'attuali';
 
     #[Url(as: 'ordina', except: ['column' => 'created_at', 'direction' => 'desc']), Session]
     public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
@@ -59,19 +59,19 @@ class SurveysTable extends TableComponent
                         });
                     });
                 })
-                ->when($this->state === self::$completedState, function (Builder $query) {
+                ->when($this->state === self::COMPLETED, function (Builder $query) {
                     $query->where('completed', true);
                 })
-                ->when($this->state === self::$notCompletedState, function (Builder $query) {
+                ->when($this->state === self::NOT_COMPLETED, function (Builder $query) {
                     $query->where(function (Builder $query) {
                         $query->where('completed', false)
                             ->orwherenull('completed');
                     });
                 })
-                ->when($this->patientState === self::$archivedState, function (Builder $query) {
+                ->when($this->patientState === self::ARCHIVED, function (Builder $query) {
                     $query->whereRelation('patient', 'archived_at', '<>');
                 })
-                ->when($this->patientState === self::$currentState, function (Builder $query) {
+                ->when($this->patientState === self::CURRENT, function (Builder $query) {
                     $query->whereRelation('patient', 'archived_at');
                 })
                 ->orderBy($this->sortBy['column'], $this->sortBy['direction'])

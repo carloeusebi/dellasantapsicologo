@@ -8,13 +8,10 @@ use App\Models\Questionnaire;
 use App\Models\Tag;
 use App\Services\SurveyService;
 use Exception;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
@@ -29,9 +26,9 @@ class CreateSurvey extends Component
 {
     use Toast;
 
-    public static int $CHOOSE_PATIENT = 1;
-    public static int $CHOOSE_QUESTIONNAIRES = 2;
-    public static int $CONFIRM = 3;
+    const int CHOOSE_PATIENT = 1;
+    const int CHOOSE_QUESTIONNAIRES = 2;
+    const int CONFIRM = 3;
 
     #[Url(as: 'patient_id', except: null)]
     public ?string $queryStringPatientId = null;
@@ -61,7 +58,7 @@ class CreateSurvey extends Component
         try {
             $this->validate(['queryStringPatientId' => 'nullable|exists:patients,id',]);
             $this->patientId = $this->queryStringPatientId;
-            if ($this->patientId && $this->step === self::$CHOOSE_PATIENT) {
+            if ($this->patientId && $this->step === self::CHOOSE_PATIENT) {
                 $this->next();
             }
         } catch (ValidationException) {
@@ -73,19 +70,19 @@ class CreateSurvey extends Component
 
     public function next(): void
     {
-        if ($this->step === self::$CHOOSE_PATIENT) {
+        if ($this->step === self::CHOOSE_PATIENT) {
             $this->validate(['patientId' => 'required|integer|exists:patients,id',],
                 attributes: ['patientId' => 'Paziente']
             );
             $this->patient = Patient::findOrFail($this->patientId);
-        } elseif ($this->step === self::$CHOOSE_QUESTIONNAIRES) {
+        } elseif ($this->step === self::CHOOSE_QUESTIONNAIRES) {
             $this->validate([
                 'selectedQuestionnaires' => 'required|array|min:1',
                 'selectedQuestionnaires.*.id' => 'required|integer|exists:questionnaires,id',
             ],
                 ['selectedQuestionnaires.*' => 'Seleziona almeno un questionario',]
             );
-        } elseif ($this->step === self::$CONFIRM) {
+        } elseif ($this->step === self::CONFIRM) {
             return;
         }
 
@@ -127,7 +124,7 @@ class CreateSurvey extends Component
 
     public function prev(): void
     {
-        if ($this->step === self::$CHOOSE_PATIENT) {
+        if ($this->step === self::CHOOSE_PATIENT) {
             return;
         }
 
@@ -185,11 +182,5 @@ class CreateSurvey extends Component
         return Tag::select(['id', 'name', 'color'])
             ->orderBy('name')
             ->get();
-    }
-
-    public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
-        return view('livewire.surveys.create-survey');
     }
 }

@@ -43,12 +43,12 @@ class User extends Authenticatable implements MustVerifyEmail
         parent::boot();
 
         static::creating(function (User $user): void {
-            $user->role()->associate(Role::where('name', Role::$DOCTOR)->firstOrFail());
+            $user->role()->associate(Role::where('name', Role::DOCTOR)->firstOrFail());
         });
 
         static::created(function (User $user): void {
             Notification::send(
-                User::whereRelation('role', 'name', Role::$ADMIN)->get(),
+                User::whereRelation('role', 'name', Role::ADMIN)->get(),
                 new NewUserRegisteredNotification($user)
             );
         });
@@ -76,7 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin(): bool
     {
-        return $this->role?->name === Role::$ADMIN;
+        return $this->role?->name === Role::ADMIN;
     }
 
     public function isSuperUserOrAdmin(): bool
@@ -86,12 +86,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isSuperUser(): bool
     {
-        return $this->role?->name === Role::$SUPERUSER;
+        return $this->role?->name === Role::SUPERUSER;
     }
 
     public function scopeDoctors(Builder $query): void
     {
-        $query->whereRelation('role', 'name', Role::$DOCTOR);
+        $query->whereRelation('role', 'name', Role::DOCTOR);
     }
 
     public function questionnaires(): HasMany

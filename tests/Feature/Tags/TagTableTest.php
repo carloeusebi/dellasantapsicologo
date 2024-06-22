@@ -34,7 +34,7 @@ it('filters tags by search term', function () {
 });
 
 it('shows crud buttons if user is at least superuser', function () {
-    $this->user->role()->associate(Role::whereName(Role::$SUPERUSER)->first());
+    $this->user->role()->associate(Role::whereName(Role::SUPERUSER)->first());
     assertTrue($this->user->isSuperUserOrAdmin());
 
     $this->livewire
@@ -58,7 +58,7 @@ it('doesnt allow to delete tags if user isnt at least superuser', function () {
 });
 
 it('allows to delete tags if user is at least superuser', function () {
-    $this->user->role()->associate(Role::whereName(Role::$SUPERUSER)->first());
+    $this->user->role()->associate(Role::whereName(Role::SUPERUSER)->first());
     assertTrue($this->user->isSuperUserOrAdmin());
     $tagToDelete = $this->tags->first();
 
