@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
-use Mary\Traits\Toast;
 
 /**
  * @property DatabaseNotificationCollection $notifications
@@ -15,22 +14,23 @@ use Mary\Traits\Toast;
 #[Lazy]
 class UserNotifications extends Component
 {
-    use Toast;
-
     public int $unreadNotificationsCount = 0;
+
+    public bool $drawer = false;
 
     public function mount(): void
     {
         $this->unreadNotificationsCount = Auth::user()->unreadNotifications->count();
     }
 
-    public function updateUnreadNotificationsCount(): void
+    public function markAllAsRead(): void
     {
-        $this->unreadNotificationsCount = Auth::user()->unreadNotifications->count();
+        Auth::user()->unreadNotifications->markAsRead();
+
+        $this->unreadNotificationsCount = 0;
     }
 
-
-    public function markAsRead($notificationId): void
+    public function markAsRead(string $notificationId): void
     {
         $notification = Auth::user()->notifications()
             ->whereId($notificationId)
@@ -48,15 +48,34 @@ class UserNotifications extends Component
     #[Computed]
     public function notifications()
     {
-        return Auth::user()->notifications->take(5);
+        return Auth::user()->notifications;
+    }
+
+    public function updateUnreadNotificationsCount(): void
+    {
+        $this->unreadNotificationsCount = Auth::user()->unreadNotifications->count();
+    }
+
+    public function deleteAll(): void
+    {
+        $this->drawer = false;
+
+        Auth::user()->notifications()->delete();
+
+        $this->unreadNotificationsCount = 0;
+    }
+
+    public function delete(string $id): void
+    {
+        Auth::user()->notifications()->whereId($id)->delete();
     }
 
     public function placeholder(): string
     {
         return <<<'HTML'
-<div>
- <x-button label="Notifiche" icon="o-bell" class="btn-ghost btn-sm" responsive />
-</div>
-HTML;
+            <div>
+             <x-button icon="o-bell" class="btn-ghost btn-sm hover:bg-inherit" responsive />
+            </div>
+        HTML;
     }
 }
