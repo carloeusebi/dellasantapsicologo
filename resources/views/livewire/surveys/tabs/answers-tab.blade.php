@@ -195,10 +195,10 @@
                                                   <span
                                                       class="btn w-full rounded-none no-animation"
                                                       :class="{
-                                                        'btn-primary border-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
+                                                        'bg-primary border-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $answer->value === $choice->points) }}),
                                                         'bg-primary/15 border-primary': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }}),
                                                         'bg-accent/50 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($comparisonAnswer && $comparisonAnswer->value === $choice->points) }}),
-                                                        '!bg-accent/15 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice) && $comparisonAnswer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }}),
+                                                        '!bg-accent/15 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice) && $comparisonAnswer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }})
                                                       }"
                                                       data-old-answer-text="{{ $question->choices->find($answer?->choice_id)?->text ?? $questionnaireSurvey->questionnaire->choices->find($answer?->choice_id)?->text }}"
                                                       data-choice data-id="{{ $choice->id }}"
@@ -360,8 +360,8 @@
                     if (this.quickEditMode) {
                         this.focusQuestion(parseInt(e.target.dataset.questionId));
                         const choices = this.selectedQuestionEl.querySelectorAll('[data-choice]');
-                        choices.forEach(el => el.classList.remove('btn-primary', 'bg-accent/50', '!bg-accent/15'));
-                        e.target.classList.add('btn-primary');
+                        choices.forEach(el => el.classList.remove('bg-primary', 'bg-accent/50', '!bg-accent/15'));
+                        e.target.classList.add('bg-primary');
                         this.focusNextQuestion();
                         this.addChoice(
                             parseInt(e.target.dataset.questionId),
@@ -391,9 +391,9 @@
 
                     if (!e.key || !choices.map(el => el.dataset.points).includes(e.key)) return;
 
-                    choices.forEach(el => el.classList.remove('btn-primary', 'bg-accent/50', '!bg-accent/15'));
+                    choices.forEach(el => el.classList.remove('bg-primary', 'bg-accent/50', '!bg-accent/15'));
                     const newChoiceEL = choices.find(el => el.dataset.points === e.key);
-                    newChoiceEL.classList.add('btn-primary');
+                    newChoiceEL.classList.add('bg-primary');
 
                     this.addChoice(
                         parseInt(this.selectedQuestionEl.dataset.question),
