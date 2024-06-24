@@ -107,6 +107,9 @@
         {{-- Activates the menu item when a route matches the `link` property --}}
         @auth()
             <x-menu :title="null" activate-by-route>
+                @admin
+                <x-menu-item title="Pulse" link="/pulse"/>
+                @endadmin
                 <x-custom-menu-sub title="Pazienti" icon="o-user-group" route="patients.*">
                     <x-menu-item title="Pazienti" :link="route('patients.index')" route="patients.index"/>
                     <x-menu-item title="Nuovo" :link="route('patients.create')" route="patients.create"/>
