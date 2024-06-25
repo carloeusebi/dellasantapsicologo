@@ -7,9 +7,7 @@ use App\Models\Choice;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
-use App\Notifications\SurveyCompletedDatabaseNotification;
-use App\Notifications\SurveyCompletedEmailNotification;
-use App\Notifications\SurveyCompletedPushNotification;
+use App\Notifications\SurveyCompletedNotification;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 use function PHPUnit\Framework\assertCount;
@@ -151,16 +149,8 @@ it('sends an email notification when last survey is completed', function () {
         });
 
     Notification::assertSentTo(
-        [$survey->user], SurveyCompletedEmailNotification::class
+        [$survey->user], SurveyCompletedNotification::class
     );
 
-    Notification::assertSentTo(
-        [$survey->user], SurveyCompletedPushNotification::class
-    );
-
-    Notification::assertSentTo(
-        [$survey->user], SurveyCompletedDatabaseNotification::class
-    );
-
-    Notification::assertCount(3);
+    Notification::assertCount(1);
 });

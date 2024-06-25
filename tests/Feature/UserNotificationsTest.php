@@ -3,7 +3,7 @@
 use App\Livewire\Components\UserNotifications;
 use App\Models\Survey;
 use App\Models\User;
-use App\Notifications\SurveyCompletedDatabaseNotification;
+use App\Notifications\SurveyCompletedNotification;
 use function PHPUnit\Framework\assertCount;
 
 beforeEach(function () {
@@ -17,7 +17,7 @@ beforeEach(function () {
 
 function notifyUser(User $user, Survey $survey): void
 {
-    $user->notify(new SurveyCompletedDatabaseNotification($survey));
+    $user->notify(new SurveyCompletedNotification($survey));
 }
 
 it('can marks a notification as read', function () {
