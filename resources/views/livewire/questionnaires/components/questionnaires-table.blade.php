@@ -7,7 +7,7 @@
     ['key' => 'tags', 'label' => 'Tags', 'sortable' => false],
     ['key' => 'surveys_count', 'label' => 'Utilizzi'],
     ['key' => 'created_at', 'label' => 'Creato'],
-    ['key' => 'user.name', 'label' => 'Creato da'],
+    ['key' => 'user.name', 'label' => 'Creato da', 'sortable' => false],
   ];
 @endphp
 <div class="[&_.reset-button]:h-[46px]">
