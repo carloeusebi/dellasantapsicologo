@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 /**
  * @property bool $completed
@@ -33,7 +34,7 @@ class Survey extends Model
         parent::boot();
 
         static::creating(function (Survey $survey): void {
-            $survey->token = md5(rand(0, 1000000));
+            $survey->token = Str::password(symbols: false);
         });
     }
 
