@@ -82,7 +82,7 @@ return [
         'buffer' => env('PULSE_INGEST_BUFFER', 5_000),
 
         'trim' => [
-            'lottery' => [1, 1_000],
+            'lottery' => [1, 1],
             'keep' => '7 days',
         ],
 
