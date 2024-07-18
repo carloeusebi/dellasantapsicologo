@@ -31,9 +31,12 @@ return [
     'disks' => [
 
         'backups' => [
-            'driver' => 'local',
-            'root' => storage_path('app/backups'),
-            'throw' => false,
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST'),
+            'username' => env('FTP_USERNAME'),
+            'password' => env('FTP_PASSWORD'),
+            'root' => env('FTP_ROOT'),
+            'port' => env('FTP_PORT')
         ],
 
         'patients' => [
