@@ -38,6 +38,7 @@ class DownloadSurveyController extends Controller
             )
             ->footerHtml('<div style="font-size: 10px; width: 100%; text-align: center;">Pagina <span class="pageNumber"></span> / <span class="totalPages"></span></div>')
             ->setOption('printBackground', true)
+            ->format('A4')
             ->base64pdf();
 
         $filename = Str::kebab("$survey->title di {$survey->patient->full_name}.pdf");
