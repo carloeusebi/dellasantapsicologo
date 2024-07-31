@@ -36,7 +36,7 @@ return [
             'username' => env('FTP_USERNAME'),
             'password' => env('FTP_PASSWORD'),
             'root' => env('FTP_ROOT'),
-            'port' => env('FTP_PORT')
+            'port' => (int) env('FTP_PORT')
         ],
 
         'patients' => [
