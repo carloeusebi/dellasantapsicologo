@@ -222,7 +222,7 @@ return [
         'notifiable' => Notifiable::class,
 
         'mail' => [
-            'to' => [env('MAIL_DEVELOPER'), env('MAIL_OWNER')],
+            'to' => [env('MAIL_DEVELOPER', 'hello@hexample.com'), env('MAIL_OWNER','hello@example.com')],
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
