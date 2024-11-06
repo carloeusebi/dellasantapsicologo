@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import theme from 'daisyui/src/theming/themes';
+import daisyui from 'daisyui';
 export default {
     content: [
         "./resources/**/*.blade.php",
@@ -23,14 +25,14 @@ export default {
         themes: [
             {
                 light: {
-                    ...require('daisyui/src/theming/themes').light,
+                    ...theme.light,
                     primary: '#6ecc84',
                     secondary: '#264e32',
                     accent: '#ff00d3',
                 },
             }, {
                 dark: {
-                    ...require('daisyui/src/theming/themes').dark,
+                    ...theme.dark,
                     primary: '#6ecc84',
                     secondary: '#264e32',
                     accent: '#ff00d3',
@@ -69,7 +71,7 @@ export default {
         ],
     },
     plugins: [
-        require('daisyui'),
+        daisyui,
     ],
 };
 
