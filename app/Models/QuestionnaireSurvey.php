@@ -37,6 +37,8 @@ class QuestionnaireSurvey extends Pivot
      */
     public function updateCompletedStatus(): array
     {
+        $this->touch();
+
         $this->loadCount('answers', 'questions');
 
         $previousStatus = $this->completed;

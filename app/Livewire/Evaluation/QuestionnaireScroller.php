@@ -20,7 +20,7 @@ class QuestionnaireScroller extends Component
 {
     use Toast;
 
-    protected static float $hoursBetweenAnswersBeforeReset = 2;
+    protected static float $hoursBetweenAnswersBeforeReset = 2; // hours
     public Survey $survey;
     public QuestionnaireSurvey $questionnaireSurvey;
     public ?Question $question;
@@ -47,8 +47,21 @@ class QuestionnaireScroller extends Component
             $this->redirectRoute('evaluation.home', $survey);
         }
 
-        if ($this->questionnaireSurvey->updated_at?->diffInHours() > self::$hoursBetweenAnswersBeforeReset && $this->questionnaireSurvey->answers->isNotEmpty()) {
-            $this->questionnaireSurvey->answers()->delete();
+        if (
+            $this->questionnaireSurvey->updated_at?->diffInHours() > self::$hoursBetweenAnswersBeforeReset &&
+            $this->questionnaireSurvey->answers->isNotEmpty()
+        ) {
+            // LOG FOR DEBUGGIN PURPOSES
+            info('                                                                                                                                                  ');
+            info('**************************************************************************************************************************************************');
+            info('Deleting answers for questionnaire survey '.$this->questionnaireSurvey->id);
+            info('Last updated at '.$this->questionnaireSurvey->updated_at);
+
+            $this->questionnaireSurvey->answers()->get()->each->delete();
+
+            info('**************************************************************************************************************************************************');
+            info('                                                                                                                                                  ');
+
             $this->questionnaireSurvey->touch();
             $this->warning(
                 'Sono passate più di due ore dall\'ultima risposta',

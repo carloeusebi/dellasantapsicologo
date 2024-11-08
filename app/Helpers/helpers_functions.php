@@ -18,3 +18,13 @@ function get_formatted_date(Carbon|null $date, string $format = 'd F Y'): string
 
     return "<span>$diff</span>&nbsp;<span class='text-xs'>({$date->translatedFormat($format)})</span>";
 }
+
+function log_non_vendor_stack_trace(): void
+{
+    $backtrace = debug_backtrace();
+    foreach ($backtrace as $trace) {
+        if (isset($trace['file']) && !str_contains($trace['file'], 'vendor')) {
+            info($trace['file'].':'.$trace['line']);
+        }
+    }
+}

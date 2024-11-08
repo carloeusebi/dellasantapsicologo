@@ -20,6 +20,14 @@ class Answer extends Model
         'skipped',
     ];
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Answer $answer) {
+            info('Deleting answer '.$answer->id);
+            log_non_vendor_stack_trace();
+        });
+    }
+
     public function chosenCustomChoice(Question $question): string
     {
         if (!$question->custom_choices) {
