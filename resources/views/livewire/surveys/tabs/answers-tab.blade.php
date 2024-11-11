@@ -51,22 +51,42 @@
                 <x-slot:heading>
                     <x-header size=" text-lg" class="!mb-0">
                         <x-slot:title>
-                            <h3>{{ $questionnaireSurvey->questionnaire->title }}</h3>
-                            @if($questionnaireSurvey->completed)
-                                <div class="text-xs text-base-content/50 font-semibold">Completato
-                                    il {{ $questionnaireSurvey->updated_at->translatedFormat('d F Y H:i') }}</div>
-                            @else
-                                <div class="text-xs text-error">Non completato</div>
-                            @endif
+                            <div class="flex justify-between">
+                                <div>
+                                    <h3>{{ $questionnaireSurvey->questionnaire->title }}</h3>
+                                    @if($questionnaireSurvey->completed)
+                                        <div class="text-xs text-base-content/50 font-semibold">Completato
+                                            il {{ $questionnaireSurvey->updated_at->translatedFormat('d F Y H:i') }}</div>
+                                    @else
+                                        <div class="text-xs text-error">Non completato</div>
+                                    @endif
 
-                            @if ($questionnaireSurvey->skipped_answers_count > 0)
-                                <div class="text-xs text-error">Domande
-                                    saltate: {{ $questionnaireSurvey->skipped_answers_count }}</div>
-                            @endif
+                                    @if ($questionnaireSurvey->skipped_answers_count > 0)
+                                        <div class="text-xs text-error">Domande
+                                            saltate: {{ $questionnaireSurvey->skipped_answers_count }}</div>
+                                    @endif
 
-                            @foreach($questionnaireSurvey->questionnaire->tags as $tag)
-                                <x-questionnaires.tag :$tag :key="$tag->id"/>
-                            @endforeach
+                                    @foreach($questionnaireSurvey->questionnaire->tags as $tag)
+                                        <x-questionnaires.tag :$tag :key="$tag->id"/>
+                                    @endforeach
+                                </div>
+                                <div>
+                                    @if($this->comparisonSurvey)
+                                        <div class="flex justify-end gap-4 my-3 font-bold text-sm">
+                                            <div class="flex items-center gap-2">
+                                                <button class="inline-block h-5 w-5 bg-primary border border-base-300"
+                                                        disabled></button>
+                                                <span>{{ $this->survey->title }}</span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <button class="inline-block h-5 w-5 bg-accent/50 border border-base-300"
+                                                        disabled></button>
+                                                <span>{{ $this->comparisonSurvey->title }}</span>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
                         </x-slot:title>
                         <x-slot:subtitle>
                             <p class="text-justify">{{ $questionnaireSurvey->questionnaire->description }}</p>
@@ -220,7 +240,7 @@
                 </x-slot:content>
             </x-collapse>
         @empty
-            <div class="italic text-base-content/50 my-5 text-center">Nessun questionario trovato</div>
+            <div class="italic text-base-content/50 my-5 text-center">Nessun questionario in comune trovato</div>
         @endforelse
     </div>
 

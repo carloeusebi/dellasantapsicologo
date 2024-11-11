@@ -196,6 +196,10 @@
       <path value="$PROJECT_DIR$/vendor/spomky-labs/pki-framework" />
       <path value="$PROJECT_DIR$/vendor/hammerstone/sidecar" />
       <path value="$PROJECT_DIR$/vendor/joelbutcher/laravel-archivable" />
+      <path value="$PROJECT_DIR$/vendor/larastan/larastan" />
+      <path value="$PROJECT_DIR$/vendor/phpmyadmin/sql-parser" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
+      <path value="$PROJECT_DIR$/vendor/_laravel_idea" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

@@ -41,8 +41,9 @@
                 </div>
             @empty
                 <div class="my-5 text-center text-base-content/50 italic">
-                    Nessun questionario trovato.
+                    Nessun questionario in comune trovato.
                 </div>
             @endforelse
         </div>
     </div>
+</div>
