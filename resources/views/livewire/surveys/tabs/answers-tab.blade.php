@@ -51,7 +51,7 @@
                 <x-slot:heading>
                     <x-header size=" text-lg" class="!mb-0">
                         <x-slot:title>
-                            <div class="flex justify-between">
+                            <div class="lg:flex justify-between">
                                 <div>
                                     <h3>{{ $questionnaireSurvey->questionnaire->title }}</h3>
                                     @if($questionnaireSurvey->completed)
@@ -72,7 +72,7 @@
                                 </div>
                                 <div>
                                     @if($this->comparisonSurvey)
-                                        <div class="flex justify-end gap-4 my-3 font-bold text-sm">
+                                        <div class="flex gap-4 my-3 font-bold text-sm">
                                             <div class="flex items-center gap-2">
                                                 <button class="inline-block h-5 w-5 bg-primary border border-base-300"
                                                         disabled></button>
