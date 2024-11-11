@@ -49,29 +49,33 @@ class AnswersTab extends Component
     public function questionnaires(): Collection
     {
         return $this->survey->questionnaireSurveys()
-            ->with('questionnaire.choices', 'questionnaire.tags', 'questionnaire.variables.questions:id')
             ->with([
+                'questionnaire.tags',
+                'questionnaire.choices',
+                'questionnaire.variables.questions:id',
                 'questionnaire.questions' => function (HasMany $query) {
-                    $query->when($this->query, function (Builder $query, string $search) {
+                    $query->when($this->query, function (HasMany $query, string $search) {
                         collect(explode(' ', $search))->each(function (string $term) use ($query) {
                             $query->where('text', 'like', "%$term%");
                         });
                     })
-                        ->with('answers', function (HasMany $query) {
-                            $query->whereRelation('questionnaireSurvey.survey', 'id', $this->survey->id)
-                                ->with('choice');
-                        })
-                        ->with('choices');
+                        ->with([
+                            'choices',
+                            'answers' => function (HasMany $query) {
+                                $query->whereRelation('questionnaireSurvey.survey', 'id', $this->survey->id)
+                                    ->with('choice');
+                            }
+                        ]);
                 }
             ])
-            ->when($this->query, function (Builder $query, string $search) {
+            ->when($this->query, function (HasMany $query, string $search) {
                 $query->whereHas('questionnaire.questions', function (Builder $query) use ($search) {
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
                         $query->where('text', 'like', "%$term%");
                     });
                 });
             })
-            ->when($this->isComparing, function (Builder $query) {
+            ->when($this->isComparing, function (HasMany $query) {
                 $query->whereRelation('questionnaire', function (Builder $query) {
                     $ids = $this->comparisonQuestionnaireSurveys->pluck('questionnaire_id')->toArray();
                     $query->whereIn('id', $ids);

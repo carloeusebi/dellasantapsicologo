@@ -20,11 +20,13 @@ class UserNotifications extends Component
 
     public function mount(): void
     {
+        // @phpstan-ignore-next-line
         $this->unreadNotificationsCount = Auth::user()->unreadNotifications->count();
     }
 
     public function markAllAsRead(): void
     {
+        // @phpstan-ignore-next-line
         Auth::user()->unreadNotifications->markAsRead();
 
         $this->unreadNotificationsCount = 0;
@@ -53,6 +55,7 @@ class UserNotifications extends Component
 
     public function updateUnreadNotificationsCount(): void
     {
+        // @phpstan-ignore-next-line
         $this->unreadNotificationsCount = Auth::user()->unreadNotifications->count();
     }
 

@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Mail\LinkToTestMail;
-use App\Mail\SurveyCompletedNotificationMail;
 use App\Models\Survey;
 use Exception;
 use Illuminate\Support\Facades\Mail;
@@ -35,18 +34,5 @@ class SurveyService
         }
 
         return true;
-    }
-
-    static function sendCompletedEmail(Survey $survey): void
-    {
-        $survey->patient->load('user:id,name,email');
-
-        Mail::to($survey->patient->user->email)
-            ->queue(new SurveyCompletedNotificationMail(
-                $survey->patient->full_name,
-                $survey->title,
-                now(),
-                $survey->id
-            ));
     }
 }

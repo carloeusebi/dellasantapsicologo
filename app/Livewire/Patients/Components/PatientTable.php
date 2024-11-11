@@ -9,7 +9,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
@@ -51,10 +50,10 @@ class PatientTable extends TableComponent
             ])
                 ->userScope()
                 ->when(Auth::user()->isAdmin(), function (Builder $query) {
-                    $query->with(['user' => fn(BelongsTo $query) => $query->select('id', 'name')]);
-                    $query->when($this->user_id, function (Builder $query, int $id) {
-                        $query->whereRelation('user', 'id', $id);
-                    });
+                    $query->with('user:id,name')
+                        ->when($this->user_id, function (Builder $query, int $id) {
+                            $query->whereRelation('user', 'id', $id);
+                        });
                 })
                 ->withCount([
                     'surveys as pending_surveys' => function (Builder $query) {
@@ -64,9 +63,11 @@ class PatientTable extends TableComponent
                 ])
                 ->filterByName($this->search)
                 ->when($this->state === self::ALL_STATE, function (Builder $query) {
+                    // @phpstan-ignore-next-line
                     $query->withArchived();
                 })
                 ->when($this->state === self::ARCHIVED_STATE, function (Builder $query) {
+                    // @phpstan-ignore-next-line
                     $query->onlyArchived();
                 })
                 ->when($this->sortBy['column'] === 'birth_date', function (Builder $query) {

@@ -7,7 +7,6 @@ use App\Models\Survey;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\View\View;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Session;
@@ -43,12 +42,7 @@ class SurveysTable extends TableComponent
         $surveys = $this->goToFirstPageIfResultIsEmpty(function () {
             return Survey::query()
                 ->userScope()
-                ->with([
-                    'patient' => function (BelongsTo $patient) {
-                        return $patient->select('id', 'first_name', 'last_name',
-                            'archived_at');
-                    }
-                ])
+                ->with('patient:id,first_name,last_name,archived_at')
                 ->has('patient')
                 ->when($this->search, function (Builder $query, string $search) {
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {

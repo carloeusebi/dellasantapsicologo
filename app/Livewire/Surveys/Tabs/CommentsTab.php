@@ -8,7 +8,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
-use LaravelIdea\Helper\App\Models\_IH_Answer_C;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -43,7 +42,7 @@ class CommentsTab extends Component
     }
 
     #[Computed]
-    public function comments(): Collection|_IH_Answer_C|array
+    public function comments(): Collection
     {
         return $this->survey->comments()
             ->with('question.questionnaire', 'choice')

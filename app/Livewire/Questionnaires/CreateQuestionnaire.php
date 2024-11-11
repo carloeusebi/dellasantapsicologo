@@ -28,7 +28,7 @@ class CreateQuestionnaire extends Component
     {
         $questionnaire = $this->form->store();
 
-        $this->redirectRoute('questionnaires.show', [$questionnaire, 'tab' => ShowQuestionnaire::$QUESTIONS],
+        $this->redirectRoute('questionnaires.show', [$questionnaire, 'tab' => ShowQuestionnaire::QUESTIONS],
             navigate: true);
     }
 }

@@ -45,10 +45,13 @@ class Survey extends Model
         ];
     }
 
-    public function url(): Attribute
+    /**
+     * @return Attribute<string, never>
+     */
+    protected function url(): Attribute
     {
-        return Attribute::get(
-            fn(mixed $value, array $attributes) => route('evaluation.home', $attributes['token'])
+        return Attribute::make(
+            get: fn(mixed $value, array $attributes) => route('evaluation.home', $attributes['token'])
         );
     }
 
@@ -82,10 +85,13 @@ class Survey extends Model
         );
     }
 
+    /**
+     * @return BelongsTo<Patient, $this>
+     */
     public function patient(): BelongsTo
     {
-        return $this->belongsTo(Patient::class)
-            ->withArchived();
+        return $this->belongsTo(Patient::class) //@phpstan-ignore-line
+        ->withArchived();
     }
 
     public function questionnaires(): BelongsToMany

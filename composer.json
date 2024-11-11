@@ -34,7 +34,11 @@
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.13",
     "fakerphp/faker": "^1.23",
+<<<<<<< HEAD
     "laravel-lang/lang": "^15.9",
+=======
+    "larastan/larastan": "^2.0",
+>>>>>>> 7552028 (Installed larastan and fixed all type 5 errors)
     "laravel/pint": "^1.13",
     "laravel/sail": "^1.26",
     "mockery/mockery": "^1.6",

@@ -185,7 +185,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/web-token/jwt-util-ecc" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/wnx/sidecar-browsershot" />
+<<<<<<< HEAD
       <excludeFolder url="file://$MODULE_DIR$/public/build" />
+<<<<<<< HEAD
       <excludeFolder url="file://$MODULE_DIR$/vendor/archtechx/enums" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dragon-code/contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dragon-code/pretty-array" />
@@ -199,6 +201,14 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/native-locale-names" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/publisher" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php81" />
+=======
+=======
+      <excludeFolder url="file://$MODULE_DIR$/vendor/_laravel_idea" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/larastan/larastan" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpmyadmin/sql-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpstan/phpstan" />
+>>>>>>> 251d5e4 (Installed larastan and fixed all type 5 errors)
+>>>>>>> 7552028 (Installed larastan and fixed all type 5 errors)
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

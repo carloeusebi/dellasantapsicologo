@@ -41,15 +41,16 @@ class ResultsTab extends Component
     public function questionnaireSurveys(): Collection
     {
         return $this->survey->questionnaireSurveys()
-            ->with('questionnaire', 'questionnaire.variables.cutoffs')
             ->with([
+                'lastAnswer',
+                'questionnaire',
+                'questionnaire.variables.cutoffs',
                 'questionnaire.variables.questions.answers' => function (HasMany $query) {
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->survey->id);
                 }
             ])
-            ->with('lastAnswer')
             ->withCount('answers', 'questions', 'skippedAnswers')
-            ->when($this->isComparing, function (Builder $query) {
+            ->when($this->isComparing, function (HasMany $query) {
                 $query->whereRelation('questionnaire', function (Builder $query) {
                     $ids = $this->comparisonQuestionnaireSurveys->pluck('questionnaire_id')->toArray();
                     $query->whereIn('id', $ids);

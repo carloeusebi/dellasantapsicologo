@@ -22,11 +22,11 @@ class Questionnaire extends Model
     protected $fillable = [
         'title',
         'description',
-        'visible',
+        'is_visible',
     ];
 
     protected $casts = [
-        'visible' => 'boolean'
+        'is_visible' => 'boolean'
     ];
 
     protected static function boot(): void
@@ -57,7 +57,7 @@ class Questionnaire extends Model
     public function scopeUserScope(Builder $query): void
     {
         $query->when(Auth::user()->isNotAdmin(), function (Builder $query) {
-            $query->where('visible', true)
+            $query->where('is_visible', true)
                 ->orWhereRelation('user', 'id', Auth::id());
         });
     }
