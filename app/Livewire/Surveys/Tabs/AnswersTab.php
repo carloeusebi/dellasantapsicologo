@@ -68,16 +68,20 @@ class AnswersTab extends Component
                         ]);
                 }
             ])
-            ->when($this->query, function (HasMany $query, string $search) {
-                $query->whereHas('questionnaire.questions', function (Builder $query) use ($search) {
+            ->when($this->query, function ($query, string $search) {
+                /** @var Builder $query */
+                $query->whereHas('questionnaire.questions', function ($query) use ($search) {
+                    /** @var Builder $query */
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
                         $query->where('text', 'like', "%$term%");
                     });
                 });
             })
-            ->when($this->isComparing, function (HasMany $query) {
-                $query->whereRelation('questionnaire', function (Builder $query) {
+            ->when($this->isComparing, function ($query) {
+                /** @var Builder $query */
+                $query->whereRelation('questionnaire', function ($query) {
                     $ids = $this->comparisonQuestionnaireSurveys->pluck('questionnaire_id')->toArray();
+                    /** @var Builder $query */
                     $query->whereIn('id', $ids);
                 });
             })

@@ -45,12 +45,14 @@ class ResultsTab extends Component
                 'lastAnswer',
                 'questionnaire',
                 'questionnaire.variables.cutoffs',
-                'questionnaire.variables.questions.answers' => function (HasMany $query) {
+                'questionnaire.variables.questions.answers' => function ($query) {
+                    /** @var HasMany $query */
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->survey->id);
                 }
             ])
             ->withCount('answers', 'questions', 'skippedAnswers')
-            ->when($this->isComparing, function (HasMany $query) {
+            ->when($this->isComparing, function ($query) {
+                /** @var HasMany $query */
                 $query->whereRelation('questionnaire', function (Builder $query) {
                     $ids = $this->comparisonQuestionnaireSurveys->pluck('questionnaire_id')->toArray();
                     $query->whereIn('id', $ids);
