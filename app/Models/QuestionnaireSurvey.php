@@ -67,7 +67,7 @@ class QuestionnaireSurvey extends Pivot
             'id',
             'questionnaire_id',
             'questionnaire_id',
-        );
+        )->withTrashedParents();
     }
 
     public function questionnaire(): BelongsTo
