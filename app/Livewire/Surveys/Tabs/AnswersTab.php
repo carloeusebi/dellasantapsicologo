@@ -53,8 +53,10 @@ class AnswersTab extends Component
                 'questionnaire.tags',
                 'questionnaire.choices',
                 'questionnaire.variables.questions:id',
-                'questionnaire.questions' => function (HasMany $query) {
-                    $query->when($this->query, function (HasMany $query, string $search) {
+                'questionnaire.questions' => function ($query) {
+                    /** @var HasMany $query */
+                    $query->when($this->query, function ( $query, string $search) {
+                    /** @var HasMany $query */
                         collect(explode(' ', $search))->each(function (string $term) use ($query) {
                             $query->where('text', 'like', "%$term%");
                         });
