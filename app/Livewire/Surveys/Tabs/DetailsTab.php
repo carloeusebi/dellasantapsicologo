@@ -52,7 +52,7 @@ class DetailsTab extends Component
             'questionnaireSurveys' => function (HasMany $query) {
                 $query->with(['questionnaire', 'lastAnswer'])
                     ->withCount('answers', 'questions');
-            }
+            },
         ])
             ->loadCount('answers', 'skippedQuestions', 'comments');
     }
@@ -92,8 +92,7 @@ class DetailsTab extends Component
     }
 
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->loadSurvey();
 
         return view('livewire.surveys.tabs.details-tab');

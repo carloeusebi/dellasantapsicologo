@@ -27,7 +27,9 @@ class CreateSurvey extends Component
     use Toast;
 
     const int CHOOSE_PATIENT = 1;
+
     const int CHOOSE_QUESTIONNAIRES = 2;
+
     const int CONFIRM = 3;
 
     #[Url(as: 'patient_id', except: null)]
@@ -56,7 +58,7 @@ class CreateSurvey extends Component
     public function mount(): void
     {
         try {
-            $this->validate(['queryStringPatientId' => 'nullable|exists:patients,id',]);
+            $this->validate(['queryStringPatientId' => 'nullable|exists:patients,id']);
             $this->patientId = $this->queryStringPatientId;
             if ($this->patientId && $this->step === self::CHOOSE_PATIENT) {
                 $this->next();
@@ -71,7 +73,7 @@ class CreateSurvey extends Component
     public function next(): void
     {
         if ($this->step === self::CHOOSE_PATIENT) {
-            $this->validate(['patientId' => 'required|integer|exists:patients,id',],
+            $this->validate(['patientId' => 'required|integer|exists:patients,id'],
                 attributes: ['patientId' => 'Paziente']
             );
             $this->patient = Patient::findOrFail($this->patientId);
@@ -80,7 +82,7 @@ class CreateSurvey extends Component
                 'selectedQuestionnaires' => 'required|array|min:1',
                 'selectedQuestionnaires.*.id' => 'required|integer|exists:questionnaires,id',
             ],
-                ['selectedQuestionnaires.*' => 'Seleziona almeno un questionario',]
+                ['selectedQuestionnaires.*' => 'Seleziona almeno un questionario']
             );
         } elseif ($this->step === self::CONFIRM) {
             return;

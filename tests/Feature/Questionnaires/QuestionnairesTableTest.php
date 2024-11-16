@@ -5,6 +5,7 @@ use App\Models\Questionnaire;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+
 use function PHPUnit\Framework\assertEquals;
 
 beforeEach(function () {
@@ -22,7 +23,7 @@ it('renders the questionnaires', function () {
     $this->livewire
         ->assertOk()
         ->assertViewHas('questionnaires',
-            fn(LengthAwarePaginator $questionnaires) => $questionnaires->count() === 3)
+            fn (LengthAwarePaginator $questionnaires) => $questionnaires->count() === 3)
         ->assertSee($this->questionnaires->pluck('title')->toArray());
 });
 
@@ -34,7 +35,7 @@ it('filters questionnaires by title', function () {
     $this->livewire
         ->set('search', $questionnaire->title)
         ->assertViewHas('questionnaires',
-            fn(LengthAwarePaginator $questionnaires) => $questionnaires->count() === 1)
+            fn (LengthAwarePaginator $questionnaires) => $questionnaires->count() === 1)
         ->assertSee($questionnaire->title)
         ->assertDontSee($this->questionnaires->skip(1)->first()->title);
 });
@@ -47,7 +48,7 @@ it('filters questionnaires by tag', function () {
     $this->livewire
         ->set('tagsFilter', [$tag->name])
         ->assertViewHas('questionnaires',
-            fn(LengthAwarePaginator $questionnaires) => $questionnaires->count() === 1)
+            fn (LengthAwarePaginator $questionnaires) => $questionnaires->count() === 1)
         ->assertSee($questionnaire->title)
         ->assertSee($tag->name)
         ->assertDontSee($this->questionnaires->skip(1)->first()->title);
@@ -59,7 +60,7 @@ it('show other users questionnaires if visible', function () {
 
     $this->livewire
         ->refresh()
-        ->assertViewHas('questionnaires', fn(LengthAwarePaginator $questionnaires) => $questionnaires->count() === 4)
+        ->assertViewHas('questionnaires', fn (LengthAwarePaginator $questionnaires) => $questionnaires->count() === 4)
         ->assertSee($questionnaire->title);
 });
 
@@ -73,6 +74,6 @@ it('doesnt show other users questionnaires if not visible', function () {
 
     $this->livewire
         ->refresh()
-        ->assertViewHas('questionnaires', fn(LengthAwarePaginator $questionnaires) => $questionnaires->count() === 3)
+        ->assertViewHas('questionnaires', fn (LengthAwarePaginator $questionnaires) => $questionnaires->count() === 3)
         ->assertDontSee($questionnaire->title);
 });

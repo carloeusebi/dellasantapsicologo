@@ -32,5 +32,4 @@ class PatientPolicy
     {
         return $user->isAdmin() || $patient->user->is($user);
     }
-
 }

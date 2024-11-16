@@ -14,8 +14,7 @@ class NewUserRegisteredNotification extends Notification implements ShouldQueue
 
     public function __construct(
         protected User $user
-    ) {
-    }
+    ) {}
 
     public function via($notifiable): array
     {

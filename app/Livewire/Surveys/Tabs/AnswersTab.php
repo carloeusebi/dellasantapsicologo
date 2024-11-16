@@ -6,7 +6,6 @@ use App\Actions\AnswerQuestion;
 use App\Models\Answer;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
-use App\Traits\QuickAnswers;
 use App\Traits\SurveysComparison;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -62,7 +61,7 @@ class AnswersTab extends Component
                                 ->with('choice');
                         })
                         ->with('choices');
-                }
+                },
             ])
             ->when($this->query, function (Builder $query, string $search) {
                 $query->whereHas('questionnaire.questions', function (Builder $query) use ($search) {
@@ -144,7 +143,7 @@ class AnswersTab extends Component
             $choice_id,
         );
 
-        if (!$isMassUpdate) {
+        if (! $isMassUpdate) {
             $this->dispatch('updatedAnswer');
             $this->updateModal = false;
             $this->success('Successo!', 'Risposta salvata!');
@@ -152,8 +151,7 @@ class AnswersTab extends Component
     }
 
     public function render(
-    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application
-    {
+    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application {
         $this->loadCompareSurvey();
 
         return view('livewire.surveys.tabs.answers-tab');

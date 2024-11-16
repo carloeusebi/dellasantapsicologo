@@ -15,7 +15,7 @@ class PatientForm extends Form
     public $address = null;
 
     #[Validate([
-        'nullable', 'regex:/^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-EHLMPR-T][0-9LMNPQRSTUV]{2}[A-Z][0-9]{3}[A-Z]$/'
+        'nullable', 'regex:/^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-EHLMPR-T][0-9LMNPQRSTUV]{2}[A-Z][0-9]{3}[A-Z]$/',
     ], as: 'Codice Fiscale')]
     public $codice_fiscale = null;
 

@@ -45,8 +45,7 @@ class TemplatesTable extends Component
     }
 
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $templates = Template::userScope()
             ->select(['id', 'user_id', 'name', 'description'])
             ->with('user:id,name', 'tags:id,color,name')

@@ -19,8 +19,7 @@ class SurveysTable extends Component
 
     #[Computed]
     public function surveys(
-    ): \Illuminate\Contracts\Pagination\LengthAwarePaginator|array|_IH_Survey_C|LengthAwarePaginator
-    {
+    ): \Illuminate\Contracts\Pagination\LengthAwarePaginator|array|_IH_Survey_C|LengthAwarePaginator {
         return $this->patient->surveys()
             ->paginate(3, pageName: 'pagina_valutazioni');
     }

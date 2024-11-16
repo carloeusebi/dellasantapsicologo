@@ -64,17 +64,15 @@ class QuestionsTab extends Component
     {
         $this->authorize('updateStructure', $this->questionnaire);
 
-        $orders = array_map(fn(array $order) => [$order['value'], $order['order']], $orders);
+        $orders = array_map(fn (array $order) => [$order['value'], $order['order']], $orders);
         foreach ($orders as [$id, $order]) {
             $this->questionnaire?->questions()->find($id)->update(['order' => $order]);
         }
     }
 
-
     #[On(['choice-deleted', 'question-deleted'])]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->questionnaire->load('questions.choices');
 
         return view('livewire.questionnaires.tabs.questions-tab');

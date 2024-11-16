@@ -66,6 +66,7 @@ class Cutoff extends Model
                 } elseif (isset($attributes['fem_from']) && isset($attributes['fem_to'])) { // $attributes['type'] === 'range'
                     return 'Tra '.$attributes['fem_from'].' e '.$attributes['fem_to'].' (F)';
                 }
+
                 return $this->well_formed_target;
             }
         );

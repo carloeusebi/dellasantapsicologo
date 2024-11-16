@@ -48,8 +48,7 @@ class ShowSurvey extends Component
 
     #[On(['removedComment', 'updatedAnswer'])]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->authorize('view', $this->survey);
 
         $this->survey->load('patient')

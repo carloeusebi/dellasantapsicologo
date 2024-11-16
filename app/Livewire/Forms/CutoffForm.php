@@ -73,7 +73,7 @@ class CutoffForm extends Form
                 'from' => 'Da',
                 'fem_from' => 'Da femminile',
             ]);
-        } elseif ($this->type === 'range' && !$variable->gender_based) {
+        } elseif ($this->type === 'range' && ! $variable->gender_based) {
             $this->validate([
                 'from' => 'lt:to',
             ], attributes: [

@@ -26,7 +26,7 @@ class Questionnaire extends Model
     ];
 
     protected $casts = [
-        'visible' => 'boolean'
+        'visible' => 'boolean',
     ];
 
     protected static function boot(): void
@@ -45,7 +45,6 @@ class Questionnaire extends Model
                 ->delete();
         });
     }
-
 
     public function questions(): HasMany
     {
@@ -68,7 +67,7 @@ class Questionnaire extends Model
     }
 
     /** @noinspection PhpUnused */
-    function scopeFilterByTitle(Builder $query, string $search): void
+    public function scopeFilterByTitle(Builder $query, string $search): void
     {
         $query->when($search, function (Builder $query, string $search) {
             $query->where(function (Builder $query) use ($search) {

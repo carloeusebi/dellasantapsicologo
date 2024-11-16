@@ -15,7 +15,7 @@ use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasPushSubscriptions;
+    use HasFactory, HasPushSubscriptions, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -71,7 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isNotAdmin(): bool
     {
-        return !$this->isAdmin();
+        return ! $this->isAdmin();
     }
 
     public function isAdmin(): bool

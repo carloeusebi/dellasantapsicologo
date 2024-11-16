@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             TagSeeder::class, QuestionnaireSeeder::class, QuestionSeeder::class, ChoiceSeeder::class,
-            VariableSeeder::class, CutoffSeeder::class
+            VariableSeeder::class, CutoffSeeder::class,
         ]);
     }
 }

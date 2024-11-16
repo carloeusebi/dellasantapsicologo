@@ -4,6 +4,7 @@ use App\Actions\AnswerQuestion;
 use App\Livewire\Evaluation\EvaluationPatientForm;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
+
 use function PHPUnit\Framework\assertEquals;
 
 it('mounts with incomplete survey', function () {
@@ -74,6 +75,6 @@ it('redirects to questionnaire', function () {
         ->call('save')
         ->assertRedirectToRoute('evaluation.questionnaire', [
             $survey->token,
-            $survey->questionnaireSurveys->first()->id
+            $survey->questionnaireSurveys->first()->id,
         ]);
 });

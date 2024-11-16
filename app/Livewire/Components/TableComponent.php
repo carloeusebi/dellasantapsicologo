@@ -40,6 +40,7 @@ abstract class TableComponent extends Component
             }
             $this->resetPage(self::$pageName);
         }
+
         return $result;
     }
 }

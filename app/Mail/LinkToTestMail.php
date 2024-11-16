@@ -16,8 +16,7 @@ class LinkToTestMail extends Mailable
         public $subject,
         public string $body,
         public string $link
-    ) {
-    }
+    ) {}
 
     public function envelope(): Envelope
     {

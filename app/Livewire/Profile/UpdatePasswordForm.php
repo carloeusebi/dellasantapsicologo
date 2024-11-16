@@ -12,7 +12,9 @@ class UpdatePasswordForm extends Component
     use Toast;
 
     public string $current_password = '';
+
     public string $password = '';
+
     public string $password_confirmation = '';
 
     public function updatePassword(UpdatesUserPasswords $updater): void

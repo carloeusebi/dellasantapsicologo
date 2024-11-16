@@ -35,8 +35,7 @@ class QuestionnairesTable extends TableComponent
     }
 
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $questionnaires = $this->goToFirstPageIfResultIsEmpty(function () {
             return Questionnaire::select(['id', 'user_id', 'title', 'created_at'])
                 ->withCount('surveys')

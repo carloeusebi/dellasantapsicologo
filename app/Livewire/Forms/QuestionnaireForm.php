@@ -65,5 +65,4 @@ class QuestionnaireForm extends Form
 
         $this->questionnaire->tags()->sync($this->selectedTags);
     }
-
 }

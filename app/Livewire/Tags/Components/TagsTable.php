@@ -40,11 +40,10 @@ class TagsTable extends TableComponent
     }
 
     public function render(
-    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application
-    {
+    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application {
         $tags = $this->goToFirstPageIfResultIsEmpty(function () {
             return Tag::query()
-                ->when($this->search, fn(Builder $query, string $search) => $query->where('name', 'like', "%$search%"))
+                ->when($this->search, fn (Builder $query, string $search) => $query->where('name', 'like', "%$search%"))
                 ->withCount('questionnaires')
                 ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
                 ->paginate(10);

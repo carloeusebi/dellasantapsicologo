@@ -14,7 +14,9 @@ use Livewire\Attributes\Computed;
 trait SurveysComparison
 {
     public ?Survey $comparisonSurvey = null;
+
     public bool $isComparing = false;
+
     public ?int $comparisonSurvey_id = null;
 
     public Collection $comparisonQuestionnaireSurveys;
@@ -46,7 +48,7 @@ trait SurveysComparison
 
     public function loadCompareSurvey(): void
     {
-        if (!$this->comparisonSurvey_id || !$this->isComparing) {
+        if (! $this->comparisonSurvey_id || ! $this->isComparing) {
             return;
         }
 
@@ -59,17 +61,16 @@ trait SurveysComparison
                 'questionnaire.variables.questions.answers' => function (HasMany $query) {
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->comparisonSurvey_id)
                         ->with('choice');
-                }
+                },
             ])
             ->with([
                 'questions.answers' => function (HasMany $query) {
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->comparisonSurvey_id)
                         ->with('choice');
-                }
+                },
             ])
             ->with('lastAnswer')
             ->withCount('answers', 'questions', 'skippedAnswers')
             ->get();
     }
-
 }

@@ -67,7 +67,7 @@ class PatientFiles extends Component
 
     protected function retrieveMedia(string $id): Media
     {
-        return $this->patient->getMedia('files')->first(fn($file) => $file->id === (int) $id);
+        return $this->patient->getMedia('files')->first(fn ($file) => $file->id === (int) $id);
     }
 
     public function download(string $id): ?BinaryFileResponse
@@ -80,14 +80,14 @@ class PatientFiles extends Component
             return response()->download($media->getPath(), $media->file_name);
         } catch (FileNotFoundException) {
             $this->error('Errore!', 'File non trovato!');
+
             return null;
         }
     }
 
     #[On('deleted')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         return view('livewire.patients.components.patient-files');
     }
 }

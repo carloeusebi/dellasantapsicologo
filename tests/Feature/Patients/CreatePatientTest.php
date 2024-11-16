@@ -3,6 +3,7 @@
 use App\Livewire\Patients\CreatePatient;
 use App\Models\Patient;
 use App\Models\User;
+
 use function PHPUnit\Framework\assertCount;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertNull;
@@ -23,7 +24,6 @@ it('creates a new patient and redirects', function () {
     assertEquals('John', Patient::first()->first_name);
     assertEquals('Doe', Patient::first()->last_name);
 });
-
 
 it('resets the form', function () {
     $this->livewire

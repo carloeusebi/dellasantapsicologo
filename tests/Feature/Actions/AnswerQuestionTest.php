@@ -6,6 +6,7 @@ use App\Models\Choice;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireSurvey;
+
 use function Pest\Laravel\assertDatabaseHas;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertFalse;
@@ -135,4 +136,3 @@ it('correctly calculates the value of a reversed question', function () {
     assertEquals(1, $answers->skip(3)->first()->value);
     assertEquals(0, $answers->last()->value);
 });
-
