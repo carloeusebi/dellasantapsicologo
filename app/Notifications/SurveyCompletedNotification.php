@@ -14,9 +14,7 @@ class SurveyCompletedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(public Survey $survey)
-    {
-    }
+    public function __construct(public Survey $survey) {}
 
     public function via(): array
     {
@@ -40,7 +38,7 @@ class SurveyCompletedNotification extends Notification implements ShouldQueue
         return [
             'type' => 'Valutazione Completata',
             'survey_id' => $this->survey->id,
-            'message' => "{$this->survey->title} di {$this->survey->patient->full_name}"
+            'message' => "{$this->survey->title} di {$this->survey->patient->full_name}",
         ];
     }
 
@@ -54,5 +52,4 @@ class SurveyCompletedNotification extends Notification implements ShouldQueue
             ->options(['TTL' => 3000])
             ->data(['url' => route('surveys.show', $this->survey)]);
     }
-
 }

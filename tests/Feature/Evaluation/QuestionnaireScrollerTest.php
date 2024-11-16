@@ -10,6 +10,7 @@ use App\Models\Survey;
 use App\Notifications\SurveyCompletedNotification;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
+
 use function PHPUnit\Framework\assertCount;
 use function PHPUnit\Framework\assertEquals;
 
@@ -17,7 +18,7 @@ beforeEach(function () {
     $this->qS = QuestionnaireSurvey::factory()->create();
     $this->livewire = Livewire::test(QuestionnaireScroller::class, [
         'survey' => $this->qS->survey,
-        'questionnaireSurvey' => $this->qS
+        'questionnaireSurvey' => $this->qS,
     ]);
 });
 
@@ -40,7 +41,7 @@ it('redirects if questionnaire survey is completed', function () {
 
     Livewire::test(QuestionnaireScroller::class, [
         'survey' => $qS->survey,
-        'questionnaireSurvey' => $qS
+        'questionnaireSurvey' => $qS,
     ])
         ->assertRedirectToRoute('evaluation.home', $qS->survey);
 });
@@ -107,7 +108,7 @@ it('redirects to thank you when last questionnaire survey is completed', functio
 it('resets answers when max time between answers has passed', function () {
     $questionnaireSurvey = QuestionnaireSurvey::factory()->create([
         'created_at' => now()->subHours(QuestionnaireScroller::getHoursBetweenAnswersBeforeReset() + 1),
-        'updated_at' => now()->subHours(QuestionnaireScroller::getHoursBetweenAnswersBeforeReset() + 1)
+        'updated_at' => now()->subHours(QuestionnaireScroller::getHoursBetweenAnswersBeforeReset() + 1),
     ]);
 
     AnswerQuestion::handle(
@@ -115,10 +116,9 @@ it('resets answers when max time between answers has passed', function () {
         $questionnaireSurvey->questions()->first()->id,
     );
 
-
     Livewire::test(QuestionnaireScroller::class, [
         'survey' => $questionnaireSurvey->survey,
-        'questionnaireSurvey' => $questionnaireSurvey
+        'questionnaireSurvey' => $questionnaireSurvey,
     ]);
 
     assertCount(0, Answer::all());
@@ -142,7 +142,7 @@ it('sends an email notification when last survey is completed', function () {
             $qS->questions->each(function () use ($qS, $survey) {
                 Livewire::test(QuestionnaireScroller::class, [
                     'survey' => $survey->fresh(),
-                    'questionnaireSurvey' => $qS
+                    'questionnaireSurvey' => $qS,
                 ])->assertOk()
                     ->call('answerQuestion', $qS->questionnaire->choices->random()->id);
             });

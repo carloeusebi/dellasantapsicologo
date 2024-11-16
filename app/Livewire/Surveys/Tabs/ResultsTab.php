@@ -30,8 +30,7 @@ class ResultsTab extends Component
     public ?string $questionnaireSurvey_id = null;
 
     public function render(
-    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application
-    {
+    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application {
         $this->loadCompareSurvey();
 
         return view('livewire.surveys.tabs.results-tab');
@@ -45,7 +44,7 @@ class ResultsTab extends Component
             ->with([
                 'questionnaire.variables.questions.answers' => function (HasMany $query) {
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->survey->id);
-                }
+                },
             ])
             ->with('lastAnswer')
             ->withCount('answers', 'questions', 'skippedAnswers')

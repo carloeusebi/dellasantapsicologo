@@ -26,17 +26,17 @@ class AppServiceProvider extends ServiceProvider
     {
         Route::resourceVerbs([
             'create' => 'crea',
-            'edit' => 'modifica'
+            'edit' => 'modifica',
         ]);
 
-        Model::preventLazyLoading(!app()->isProduction());
+        Model::preventLazyLoading(! app()->isProduction());
 
         Blade::directive('admin', function () {
-            return "<?php if(auth()->check() && auth()->user()->isAdmin()): ?>";
+            return '<?php if(auth()->check() && auth()->user()->isAdmin()): ?>';
         });
-        
+
         Blade::directive('endadmin', function () {
-            return "<?php endif; ?>";
+            return '<?php endif; ?>';
         });
 
         Gate::define('viewPulse', function (User $user) {

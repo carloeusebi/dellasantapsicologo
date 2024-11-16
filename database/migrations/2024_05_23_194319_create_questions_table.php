@@ -6,10 +6,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
-        if (!Schema::hasTable('questions')) {
+        if (! Schema::hasTable('questions')) {
             Schema::create('questions', function (Blueprint $table) {
                 $table->id();
                 $table->foreignIdFor(Questionnaire::class)->constrained()->cascadeOnDelete();
@@ -45,7 +46,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('questionnaires', function (Blueprint $table) {
-            if (!Schema::hasColumn('questionnaires', 'items')) {
+            if (! Schema::hasColumn('questionnaires', 'items')) {
                 $table->text('items')->nullable()->after('type');
             }
         });

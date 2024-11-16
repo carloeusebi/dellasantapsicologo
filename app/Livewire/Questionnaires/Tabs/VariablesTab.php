@@ -39,7 +39,7 @@ class VariablesTab extends Component
 
         $this->questionnaire->variables()->create([
             'name' => $this->name,
-            'gender_based' => $this->genderBased
+            'gender_based' => $this->genderBased,
         ]);
 
         $this->reset('genderBased', 'name', 'newVariableModal');
@@ -47,8 +47,7 @@ class VariablesTab extends Component
 
     #[On('variable-deleted')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->questionnaire->load('variables.cutoffs');
 
         return view('livewire.questionnaires.tabs.variables-tab');

@@ -7,10 +7,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
-        if (!Schema::hasTable('roles')) {
+        if (! Schema::hasTable('roles')) {
             Schema::create('roles', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
@@ -22,13 +23,13 @@ return new class extends Migration {
         $doctorRole = Role::create(['name' => Role::DOCTOR, 'label' => 'Dottore']);
         Role::create(['name' => Role::PATIENT, 'label' => 'Paziente']);
 
-        if (!Schema::hasColumn('users', 'role_id')) {
+        if (! Schema::hasColumn('users', 'role_id')) {
             Schema::table('users', function (Blueprint $table) {
                 $table->foreignIdFor(Role::class)->after('id')->nullable()->constrained()->nullOnDelete();
             });
         }
 
-        if (!Schema::hasColumn('users', 'name')) {
+        if (! Schema::hasColumn('users', 'name')) {
             Schema::table('users', function (Blueprint $table) {
                 $table->string('name')->after('role_id');
             });
@@ -45,7 +46,7 @@ return new class extends Migration {
             ->withTrashed()
             ->get()
             ?->each(function (Patient $patient) use ($doctor) {
-                if (!$patient->user()->exists()) {
+                if (! $patient->user()->exists()) {
                     $patient->user()->associate($doctor)->save();
                 }
             });

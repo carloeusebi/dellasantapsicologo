@@ -13,28 +13,28 @@ class TemplatePolicy
 
     public function view(User $user, Template $template): Response
     {
-        return ($user->is($template->user)) || $template->visible || $user->isAdmin()
+        return $user->is($template->user) || $template->visible || $user->isAdmin()
             ? Response::allow()
             : Response::denyAsNotFound();
     }
 
     public function update(User $user, Template $template): bool
     {
-        return ($user->is($template->user)) || $user->isAdmin();
+        return $user->is($template->user) || $user->isAdmin();
     }
 
     public function delete(User $user, Template $template): bool
     {
-        return ($user->is($template->user)) || $user->isAdmin();
+        return $user->is($template->user) || $user->isAdmin();
     }
 
     public function restore(User $user, Template $template): bool
     {
-        return ($user->is($template->user)) || $user->isAdmin();
+        return $user->is($template->user) || $user->isAdmin();
     }
 
     public function forceDelete(User $user, Template $template): bool
     {
-        return ($user->is($template->user)) || $user->isAdmin();
+        return $user->is($template->user) || $user->isAdmin();
     }
 }

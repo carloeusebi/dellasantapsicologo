@@ -38,6 +38,6 @@ return [
     'browsershot' => [
         'npm_path' => env('BROWSERSHOT_NPM_PATH', '/usr/local/bin/npm'),
         'node_path' => env('BROWSERSHOT_NODE_PATH', '/usr/local/bin/node'),
-    ]
+    ],
 
 ];

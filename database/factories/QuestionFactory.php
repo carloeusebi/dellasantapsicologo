@@ -23,6 +23,6 @@ class QuestionFactory extends Factory
 
     public function reversed(): QuestionFactory
     {
-        return $this->state(fn(array $attributes) => ['reversed' => true]);
+        return $this->state(fn (array $attributes) => ['reversed' => true]);
     }
 }

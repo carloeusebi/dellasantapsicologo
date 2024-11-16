@@ -5,7 +5,8 @@ use App\Models\Question;
 use App\Models\Questionnaire;
 use Illuminate\Database\Migrations\Migration;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Question::whereNull('text')->delete();
@@ -15,7 +16,7 @@ return new class extends Migration {
             ->withCount('choices')
             ->firstWhere('title', 'SCID 5-PD Questionario');
 
-        if (!$scid || $scid->choices_count > 0) {
+        if (! $scid || $scid->choices_count > 0) {
             return;
         }
 

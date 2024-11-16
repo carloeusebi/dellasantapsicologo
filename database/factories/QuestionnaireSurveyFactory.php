@@ -26,6 +26,6 @@ class QuestionnaireSurveyFactory extends Factory
 
     public function completed(): QuestionnaireSurveyFactory
     {
-        return $this->state(fn(array $attributes) => ['completed' => true]);
+        return $this->state(fn (array $attributes) => ['completed' => true]);
     }
 }

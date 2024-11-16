@@ -18,6 +18,7 @@ class CreateTemplate extends Component
     use Toast;
 
     const int CHOOSE_TITLE = 1;
+
     const int CHOOSE_QUESTIONNAIRES = 2;
 
     public int $step = 1;

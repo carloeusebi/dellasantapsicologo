@@ -13,7 +13,7 @@ class SurveyService
     /**
      * @throws Exception if the email is not sent
      */
-    static function sendEmailWithLinkToTest(
+    public static function sendEmailWithLinkToTest(
         Survey $survey,
         ?string $email = null,
         ?string $subject = 'Questionario per la valutazione',
@@ -37,7 +37,7 @@ class SurveyService
         return true;
     }
 
-    static function sendCompletedEmail(Survey $survey): void
+    public static function sendCompletedEmail(Survey $survey): void
     {
         $survey->patient->load('user:id,name,email');
 

@@ -20,7 +20,7 @@ class EvaluationPatientForm extends Component
     public function mount(Survey $survey): void
     {
         if ($survey->completed) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         if ($survey->lastAnswer) {
@@ -50,7 +50,7 @@ class EvaluationPatientForm extends Component
             'evaluation.questionnaire',
             [
                 $this->survey->token,
-                $this->survey->questionnaireSurveys->first()->id
+                $this->survey->questionnaireSurveys->first()->id,
             ],
             navigate: true
         );
@@ -58,8 +58,7 @@ class EvaluationPatientForm extends Component
 
     #[Layout('components.layouts.evaluation')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         return view('livewire.evaluation.patient');
     }
 }

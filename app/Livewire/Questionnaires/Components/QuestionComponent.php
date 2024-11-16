@@ -17,7 +17,7 @@ class QuestionComponent extends Component
 {
     use Toast;
 
-    public Question|null $question = null;
+    public ?Question $question = null;
 
     public Questionnaire $questionnaire;
 
@@ -89,13 +89,12 @@ class QuestionComponent extends Component
 
     public function toggleExpanded(): void
     {
-        $this->expanded = !$this->expanded;
+        $this->expanded = ! $this->expanded;
     }
 
     #[On('choice-deleted')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->question->load('choices');
 
         return view('livewire.questionnaires.components.question-component');

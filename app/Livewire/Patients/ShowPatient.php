@@ -67,15 +67,13 @@ class ShowPatient extends Component
 
     #[Computed]
     public function surveys(
-    ): \Illuminate\Contracts\Pagination\LengthAwarePaginator|array|_IH_Survey_C|LengthAwarePaginator
-    {
+    ): \Illuminate\Contracts\Pagination\LengthAwarePaginator|array|_IH_Survey_C|LengthAwarePaginator {
         return $this->patient->surveys()->paginate(3, pageName: 'pagina_valutazioni');
     }
 
     #[On('updated')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->authorize('view', $this->patient);
 
         return view('livewire.patients.show-patient');

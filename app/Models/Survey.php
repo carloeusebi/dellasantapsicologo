@@ -48,7 +48,7 @@ class Survey extends Model
     public function url(): Attribute
     {
         return Attribute::get(
-            fn(mixed $value, array $attributes) => route('evaluation.home', $attributes['token'])
+            fn (mixed $value, array $attributes) => route('evaluation.home', $attributes['token'])
         );
     }
 

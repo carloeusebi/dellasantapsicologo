@@ -24,7 +24,7 @@ class DownloadSurveyController extends Controller
                 'questionnaireSurveys.questionnaire.questions.answers' => function (HasMany $query) use ($survey) {
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $survey->id)
                         ->with('choice');
-                }
+                },
             ]);
 
         $base64 = BrowsershotLambda::html(view('pdf.survey', compact('survey')))

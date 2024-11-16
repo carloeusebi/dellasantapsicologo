@@ -30,7 +30,7 @@ class Answer extends Model
 
     public function chosenCustomChoice(Question $question): string
     {
-        if (!$question->custom_choices) {
+        if (! $question->custom_choices) {
             return '';
         }
 

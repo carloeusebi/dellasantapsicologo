@@ -1,10 +1,13 @@
-<?php /** @noinspection PhpUnhandledExceptionInspection */
+<?php
+
+/** @noinspection PhpUnhandledExceptionInspection */
 
 use App\Actions\CloneQuestionnaire;
 use App\Models\Cutoff;
 use App\Models\Questionnaire;
 use App\Models\Variable;
 use Illuminate\Support\Facades\DB;
+
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertNotEquals;
 
@@ -35,6 +38,6 @@ it('throws an exception when cloning fails', function () {
         ->once()
         ->andThrow(new Exception('Transaction failed'));
 
-    expect(fn() => (new CloneQuestionnaire)->handle($questionnaire))
+    expect(fn () => (new CloneQuestionnaire)->handle($questionnaire))
         ->toThrow(Exception::class);
 });

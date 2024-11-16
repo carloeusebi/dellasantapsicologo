@@ -4,6 +4,7 @@ use App\Livewire\Patients\ShowPatient;
 use App\Models\Patient;
 use App\Models\User;
 use Livewire\Livewire;
+
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertTrue;
 

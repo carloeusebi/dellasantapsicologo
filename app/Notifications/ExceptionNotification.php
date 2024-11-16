@@ -14,8 +14,7 @@ class ExceptionNotification extends Notification implements ShouldQueue
 
     public function __construct(
         protected Throwable $exception
-    ) {
-    }
+    ) {}
 
     public function via($notifiable): array
     {

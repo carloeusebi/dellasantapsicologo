@@ -37,8 +37,7 @@ class CommentsTab extends Component
     }
 
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         return view('livewire.surveys.tabs.comments-tab');
     }
 

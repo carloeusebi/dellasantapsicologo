@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
-        if (!Schema::hasTable('cutoffs')) {
+        if (! Schema::hasTable('cutoffs')) {
             Schema::create('cutoffs', function (Blueprint $table) {
                 $table->id();
                 $table->foreignIdFor(Variable::class)->constrained()->cascadeOnDelete();
@@ -60,7 +61,7 @@ return new class extends Migration {
 
     public function down(): void
     {
-        if (!Schema::hasColumn('questionnaires', 'variables')) {
+        if (! Schema::hasColumn('questionnaires', 'variables')) {
             Schema::table('questionnaires', function (Blueprint $table) {
                 $table->text('variables')->nullable()->after('legend');
             });
@@ -94,11 +95,10 @@ return new class extends Migration {
                 });
 
             /** @noinspection SqlResolve / it triggers an error because variable column doesn't exist anymore */
-            DB::statement("UPDATE `questionnaires` SET `variables` = ? WHERE `id` = ?",
+            DB::statement('UPDATE `questionnaires` SET `variables` = ? WHERE `id` = ?',
                 [json_encode($variables), $questionnaire->id]);
         });
 
         Schema::dropIfExists('cutoffs');
     }
-
 };

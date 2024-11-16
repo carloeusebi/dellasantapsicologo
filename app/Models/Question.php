@@ -47,13 +47,14 @@ class Question extends Model
 
     public function calculateScore(Choice $choice): int
     {
-        if (!$this->reversed) {
+        if (! $this->reversed) {
             return $choice->points;
         }
 
         $choices = $this->choices->isEmpty() ? $this->questionnaire->choices : $this->choices;
-        $chosenIndex = $choices->search(fn(Choice $c) => $c->id === $choice->id);
+        $chosenIndex = $choices->search(fn (Choice $c) => $c->id === $choice->id);
         $reversedIndex = $choices->count() - 1 - $chosenIndex;
+
         return $choices->get($reversedIndex)?->points;
     }
 
@@ -71,5 +72,4 @@ class Question extends Model
     {
         return $this->morphMany(Choice::class, 'questionable');
     }
-
 }
