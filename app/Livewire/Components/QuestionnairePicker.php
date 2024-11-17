@@ -41,7 +41,7 @@ class QuestionnairePicker extends Component
 
     public function selectQ(int $id): void
     {
-        if (!$this->selectedQuestionnaires->contains('id', $id)) {
+        if (! $this->selectedQuestionnaires->contains('id', $id)) {
             $this->selectedQuestionnaires->push($this->questionnaires->firstWhere('id', $id));
         }
         $this->nonSelectedQuestionnaires->reject(function ($questionnaire) use ($id) {
@@ -53,7 +53,7 @@ class QuestionnairePicker extends Component
 
     public function removeQ(int $id): void
     {
-        $this->selectedQuestionnaires = $this->selectedQuestionnaires->reject(fn(Questionnaire $questionnaire
+        $this->selectedQuestionnaires = $this->selectedQuestionnaires->reject(fn (Questionnaire $questionnaire
         ) => $questionnaire->id === $id);
         $this->dispatch('questionnairesUpdated', $this->selectedQuestionnaires);
     }
@@ -86,8 +86,7 @@ class QuestionnairePicker extends Component
     }
 
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->nonSelectedQuestionnaires = $this->questionnaires->diff($this->selectedQuestionnaires);
 
         return view('livewire.components.questionnaire-picker');

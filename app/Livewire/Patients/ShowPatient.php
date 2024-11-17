@@ -72,8 +72,7 @@ class ShowPatient extends Component
 
     #[On('updated')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->authorize('view', $this->patient);
 
         return view('livewire.patients.show-patient');

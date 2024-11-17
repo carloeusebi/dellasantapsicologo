@@ -27,18 +27,18 @@ class Answer extends Model
         });
     }
 
-//    public function chosenCustomChoice(Question $question): string
-//    {
-//        if (!$question->custom_choices) {
-//            return '';
-//        }
-//
-//        $choices = Arr::first($question->custom_choices, function (array $answer) {
-//            return $answer['points'] === $this->value;
-//        });
-//
-//        return $choices['customAnswer'] ?? '';
-//    }
+    //    public function chosenCustomChoice(Question $question): string
+    //    {
+    //        if (!$question->custom_choices) {
+    //            return '';
+    //        }
+    //
+    //        $choices = Arr::first($question->custom_choices, function (array $answer) {
+    //            return $answer['points'] === $this->value;
+    //        });
+    //
+    //        return $choices['customAnswer'] ?? '';
+    //    }
 
     public function questionnaireSurvey(): BelongsTo
     {

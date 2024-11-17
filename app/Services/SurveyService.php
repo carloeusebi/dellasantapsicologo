@@ -12,7 +12,7 @@ class SurveyService
     /**
      * @throws Exception if the email is not sent
      */
-    static function sendEmailWithLinkToTest(
+    public static function sendEmailWithLinkToTest(
         Survey $survey,
         ?string $email = null,
         ?string $subject = 'Questionario per la valutazione',

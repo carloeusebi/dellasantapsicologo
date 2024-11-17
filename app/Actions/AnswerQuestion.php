@@ -13,12 +13,6 @@ class AnswerQuestion
     use AsAction;
 
     /**
-     * @param  int  $questionnaire_survey_id
-     * @param  int  $question_id
-     * @param  int|null  $choice_id
-     * @param  string|null  $comment
-     * @param  bool  $skipped
-     *
      * @return array{0: bool, 1: bool} [$questionnaireSurveyCompleted, $surveyCompleted]
      */
     public static function handle(
@@ -44,7 +38,7 @@ class AnswerQuestion
                 'choice_id' => $choice_id,
                 'comment' => $comment,
                 'skipped' => $skipped,
-                'value' => $value
+                'value' => $value,
             ]
         );
 

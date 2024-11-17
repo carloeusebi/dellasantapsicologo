@@ -82,7 +82,7 @@ class Patient extends Model implements HasMedia
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value, array $attributes) => $attributes['first_name'].' '.$attributes['last_name']
+            get: fn (mixed $value, array $attributes) => $attributes['first_name'].' '.$attributes['last_name']
         );
     }
 
@@ -144,7 +144,7 @@ class Patient extends Model implements HasMedia
     public function resolveRouteBinding($value, $field = null): ?Patient
     {
         return $this->whereId($value) // @phpstan-ignore-line
-        ->withArchived()
+            ->withArchived()
             ->firstOrFail();
     }
 }

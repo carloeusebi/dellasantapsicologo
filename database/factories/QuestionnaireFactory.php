@@ -28,12 +28,12 @@ class QuestionnaireFactory extends Factory
 
     public function visible(): QuestionnaireFactory
     {
-        return $this->state(fn(array $attributes) => ['is_visible' => true]);
+        return $this->state(fn (array $attributes) => ['is_visible' => true]);
     }
 
     public function notVisible(): QuestionnaireFactory
     {
-        return $this->state(fn(array $attributes) => ['is_visible' => false]);
+        return $this->state(fn (array $attributes) => ['is_visible' => false]);
     }
 
     public function configure(): QuestionnaireFactory

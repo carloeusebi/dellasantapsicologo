@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Template extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -31,7 +31,7 @@ class Template extends Model
     public function otherUsersCanSee(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value, array $attributes) => $attributes['is_visible'] ? 'Sì' : 'No',
+            get: fn (mixed $value, array $attributes) => $attributes['is_visible'] ? 'Sì' : 'No',
         );
     }
 

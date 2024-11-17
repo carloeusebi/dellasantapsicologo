@@ -14,8 +14,6 @@ class LinkToTestMail extends Mailable
 
     /**
      * @param  string  $subject
-     * @param  string  $body
-     * @param  string  $link
      */
     public function __construct(
         public $subject,

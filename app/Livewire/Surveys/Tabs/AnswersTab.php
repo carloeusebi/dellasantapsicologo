@@ -6,7 +6,6 @@ use App\Actions\AnswerQuestion;
 use App\Models\Answer;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
-use App\Traits\QuickAnswers;
 use App\Traits\SurveysComparison;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -55,8 +54,8 @@ class AnswersTab extends Component
                 'questionnaire.variables.questions:id',
                 'questionnaire.questions' => function ($query) {
                     /** @var HasMany $query */
-                    $query->when($this->query, function ( $query, string $search) {
-                    /** @var HasMany $query */
+                    $query->when($this->query, function ($query, string $search) {
+                        /** @var HasMany $query */
                         collect(explode(' ', $search))->each(function (string $term) use ($query) {
                             $query->where('text', 'like', "%$term%");
                         });
@@ -66,9 +65,9 @@ class AnswersTab extends Component
                             'answers' => function (HasMany $query) {
                                 $query->whereRelation('questionnaireSurvey.survey', 'id', $this->survey->id)
                                     ->with('choice');
-                            }
+                            },
                         ]);
-                }
+                },
             ])
             ->when($this->query, function ($query, string $search) {
                 /** @var Builder $query */
@@ -154,7 +153,7 @@ class AnswersTab extends Component
             $choice_id,
         );
 
-        if (!$isMassUpdate) {
+        if (! $isMassUpdate) {
             $this->dispatch('updatedAnswer');
             $this->updateModal = false;
             $this->success('Successo!', 'Risposta salvata!');
@@ -162,8 +161,7 @@ class AnswersTab extends Component
     }
 
     public function render(
-    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application
-    {
+    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application {
         $this->loadCompareSurvey();
 
         return view('livewire.surveys.tabs.answers-tab');

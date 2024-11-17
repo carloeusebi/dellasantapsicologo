@@ -51,7 +51,7 @@ class Survey extends Model
     protected function url(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value, array $attributes) => route('evaluation.home', $attributes['token'])
+            get: fn (mixed $value, array $attributes) => route('evaluation.home', $attributes['token'])
         );
     }
 
@@ -91,7 +91,7 @@ class Survey extends Model
     public function patient(): BelongsTo
     {
         return $this->belongsTo(Patient::class) //@phpstan-ignore-line
-        ->withArchived();
+            ->withArchived();
     }
 
     public function questionnaires(): BelongsToMany

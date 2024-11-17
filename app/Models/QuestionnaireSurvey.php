@@ -28,7 +28,7 @@ class QuestionnaireSurvey extends Pivot
     protected function hasBeenUpdated(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value, array $attributes) => $attributes['created_at'] !== $attributes['updated_at']
+            get: fn (mixed $value, array $attributes) => $attributes['created_at'] !== $attributes['updated_at']
         );
     }
 

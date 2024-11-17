@@ -19,9 +19,13 @@ class SurveysTable extends TableComponent
     use WithPagination;
 
     const string COMPLETED = 'completati';
+
     const string NOT_COMPLETED = 'non_completati';
+
     const string ALL = 'tutti';
+
     const string ARCHIVED = 'archiviati';
+
     const string CURRENT = 'attuali';
 
     #[Url(as: 'ordina', except: ['column' => 'created_at', 'direction' => 'desc']), Session]
@@ -37,8 +41,7 @@ class SurveysTable extends TableComponent
     public string $patientState = '';
 
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $surveys = $this->goToFirstPageIfResultIsEmpty(function () {
             return Survey::query()
                 ->userScope()

@@ -40,12 +40,11 @@ class TemplatesTable extends TableComponent
     }
 
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $templates = $this->goToFirstPageIfResultIsEmpty(function () {
             return Template::userScope()
                 ->select([
-                    'id', 'user_id', 'name', 'description', 'is_visible'
+                    'id', 'user_id', 'name', 'description', 'is_visible',
                 ])
                 ->with('user:id,name', 'tags:id,name,color')
                 ->withCount('questionnaires')

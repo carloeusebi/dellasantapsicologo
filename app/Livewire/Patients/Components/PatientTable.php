@@ -23,7 +23,9 @@ use Livewire\Attributes\Url;
 class PatientTable extends TableComponent
 {
     const string ARCHIVED_STATE = 'archiviati';
+
     const string ALL_STATE = 'tutti';
+
     const string ACTIVE_STATE = 'attivi';
 
     #[Url(as: 'ordina', except: ['column' => 'therapy_start_date', 'direction' => 'desc']), Session]
@@ -39,14 +41,13 @@ class PatientTable extends TableComponent
     public string $search = '';
 
     #[Url, Session]
-    public int|null $user_id = null;
+    public ?int $user_id = null;
 
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $patients = $this->goToFirstPageIfResultIsEmpty(function () {
             return Patient::select([
-                'id', 'first_name', 'last_name', 'birth_date', 'email', 'therapy_start_date', 'user_id', 'archived_at'
+                'id', 'first_name', 'last_name', 'birth_date', 'email', 'therapy_start_date', 'user_id', 'archived_at',
             ])
                 ->userScope()
                 ->when(Auth::user()->isAdmin(), function (Builder $query) {
@@ -59,7 +60,7 @@ class PatientTable extends TableComponent
                     'surveys as pending_surveys' => function (Builder $query) {
                         $query->where('completed', false)
                             ->orWhereNull('completed');
-                    }
+                    },
                 ])
                 ->filterByName($this->search)
                 ->when($this->state === self::ALL_STATE, function (Builder $query) {
@@ -77,7 +78,6 @@ class PatientTable extends TableComponent
                 ->paginate(10, pageName: self::$pageName)
                 ->withQueryString();
         });
-
 
         return view('livewire.patients.components.patient-table', compact('patients'));
     }
