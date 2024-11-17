@@ -12,6 +12,9 @@ class LinkToTestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * @param  string  $subject
+     */
     public function __construct(
         public $subject,
         public string $body,

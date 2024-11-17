@@ -56,20 +56,19 @@ trait SurveysComparison
 
         $this->comparisonQuestionnaireSurveys = $this->comparisonSurvey
             ->questionnaireSurveys()
-            ->with('questionnaire', 'questionnaire.variables.cutoffs')
             ->with([
+                'lastAnswer',
+                'questionnaire',
+                'questionnaire.variables.cutoffs',
                 'questionnaire.variables.questions.answers' => function (HasMany $query) {
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->comparisonSurvey_id)
                         ->with('choice');
                 },
-            ])
-            ->with([
                 'questions.answers' => function (HasMany $query) {
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->comparisonSurvey_id)
                         ->with('choice');
                 },
             ])
-            ->with('lastAnswer')
             ->withCount('answers', 'questions', 'skippedAnswers')
             ->get();
     }

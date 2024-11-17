@@ -16,7 +16,7 @@ class QuestionnaireSurvey extends Pivot
 
     public $timestamps = true;
 
-    public $incrementing = 'questionnaire_survey';
+    public $incrementing = true;
 
     protected $casts = [
         'completed' => 'boolean',
@@ -24,16 +24,16 @@ class QuestionnaireSurvey extends Pivot
         'created_at' => 'datetime',
     ];
 
-    /** @noinspection PhpUnused */
-    public function hasBeenUpdated(): Attribute
+    /** @return Attribute<bool, never> */
+    protected function hasBeenUpdated(): Attribute
     {
-        return Attribute::get(
-            fn (mixed $value, array $attributes) => $attributes['created_at'] !== $attributes['updated_at']
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $attributes['created_at'] !== $attributes['updated_at']
         );
     }
 
     /**
-     * @return array<bool, bool> [$questionnaireSurveyCompleted, $surveyCompleted]
+     * @return array{0: bool, 1: bool} [$questionnaireSurveyCompleted, $surveyCompleted]
      */
     public function updateCompletedStatus(): array
     {

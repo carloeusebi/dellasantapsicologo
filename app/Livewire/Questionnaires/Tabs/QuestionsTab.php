@@ -33,7 +33,7 @@ class QuestionsTab extends Component
             'newChoiceText' => 'Testo',
         ]);
 
-        $this->questionnaire?->choices()->create([
+        $this->questionnaire->choices()->create([
             'points' => $this->newChoicePoints,
             'text' => $this->newChoiceText,
         ]);
@@ -49,9 +49,9 @@ class QuestionsTab extends Component
             'newQuestionText' => 'Testo',
         ]);
 
-        $this->questionnaire?->loadCount('questions');
+        $this->questionnaire->loadCount('questions');
 
-        $this->questionnaire?->questions()->create([
+        $this->questionnaire->questions()->create([
             'text' => $this->newQuestionText,
             'reversed' => $this->newQuestionReversed,
             'order' => $this->questionnaire->questions_count + 1,
@@ -66,7 +66,7 @@ class QuestionsTab extends Component
 
         $orders = array_map(fn (array $order) => [$order['value'], $order['order']], $orders);
         foreach ($orders as [$id, $order]) {
-            $this->questionnaire?->questions()->find($id)->update(['order' => $order]);
+            $this->questionnaire->questions()->find($id)->update(['order' => $order]);
         }
     }
 

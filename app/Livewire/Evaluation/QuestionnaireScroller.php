@@ -123,7 +123,8 @@ class QuestionnaireScroller extends Component
     public function getNextQuestion(): ?Question
     {
         return $this->questionnaireSurvey->questions->load([
-            'answers' => function (HasMany $query) {
+            'answers' => function ($query) {
+                /** @var HasMany $query */
                 $query->whereRelation('questionnaireSurvey', 'id', $this->questionnaireSurvey->id);
             },
         ])

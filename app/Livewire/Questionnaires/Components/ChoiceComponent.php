@@ -11,7 +11,7 @@ class ChoiceComponent extends Component
 
     public string $text = '';
 
-    public string $points = '';
+    public int $points;
 
     public bool $isFirst = false;
 

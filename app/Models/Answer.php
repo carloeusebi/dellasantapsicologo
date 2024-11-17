@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Arr;
 
 class Answer extends Model
 {
@@ -28,18 +27,18 @@ class Answer extends Model
         });
     }
 
-    public function chosenCustomChoice(Question $question): string
-    {
-        if (! $question->custom_choices) {
-            return '';
-        }
-
-        $choices = Arr::first($question->custom_choices, function (array $answer) {
-            return $answer['points'] === $this->value;
-        });
-
-        return $choices['customAnswer'] ?? '';
-    }
+    //    public function chosenCustomChoice(Question $question): string
+    //    {
+    //        if (!$question->custom_choices) {
+    //            return '';
+    //        }
+    //
+    //        $choices = Arr::first($question->custom_choices, function (array $answer) {
+    //            return $answer['points'] === $this->value;
+    //        });
+    //
+    //        return $choices['customAnswer'] ?? '';
+    //    }
 
     public function questionnaireSurvey(): BelongsTo
     {

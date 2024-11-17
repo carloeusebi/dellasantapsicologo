@@ -44,7 +44,10 @@ class QuestionnairePicker extends Component
         if (! $this->selectedQuestionnaires->contains('id', $id)) {
             $this->selectedQuestionnaires->push($this->questionnaires->firstWhere('id', $id));
         }
-        $this->nonSelectedQuestionnaires->reject(fn (Questionnaire $questionnaire) => $questionnaire->id === $id);
+        $this->nonSelectedQuestionnaires->reject(function ($questionnaire) use ($id) {
+            /** @var Questionnaire $questionnaire */
+            return $questionnaire->id === $id;
+        });
         $this->dispatch('questionnairesUpdated', $this->selectedQuestionnaires);
     }
 

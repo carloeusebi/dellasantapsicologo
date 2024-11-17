@@ -3,8 +3,8 @@ name: Fix Code Style
 on:
   push:
     branches:
-      - '*'
-      - '!main''
+      - '**'
+      - '!main'
 
 jobs:
   lint:

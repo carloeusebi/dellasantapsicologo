@@ -38,8 +38,10 @@ class Cutoff extends Model
         }
     }
 
-    /** @noinspection PhpUnused */
-    public function wellFormedTarget(): Attribute
+    /**
+     * @return Attribute<string, never>
+     */
+    protected function wellFormedTarget(): Attribute
     {
         return Attribute::make(
             get: function (mixed $value, array $attributes) {

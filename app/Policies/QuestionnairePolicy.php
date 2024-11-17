@@ -12,7 +12,7 @@ class QuestionnairePolicy
 
     public function view(User $user, Questionnaire $questionnaire): bool
     {
-        return $user->isAdmin() || $questionnaire->visible || $questionnaire->user->is($user);
+        return $questionnaire->is_visible || $questionnaire->user->is($user) || $user->isAdmin();
     }
 
     public function update(User $user, Questionnaire $questionnaire): bool

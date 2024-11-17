@@ -1,5 +1,6 @@
 ![Deploy](https://github.com/carloeusebi/dellasantapsicologo/actions/workflows/build.yml/badge.svg)
 ![Tets](https://github.com/carloeusebi/dellasantapsicologo/actions/workflows/tests.yml/badge.svg)
+![PhpStan](https://github.com/carloeusebi/dellasantapsicologo/actions/workflows/phpstan.yml/badge.svg)
 
 # Dellasanta Psicologo
 
@@ -10,6 +11,7 @@ Links: [dellasantapsicologo.it](https://admin.dellasantapsicologo.it)
 ### Overview:
 
 Developed a comprehensive web solution for Dr. Dellasanta, a psychologist, to streamline his practice.
+
 ### Key Features:
 
 - <strong>Psychological Evaluation Questionnaires</strong>: Designed a system where Dr. Dellasanta can effortlessly

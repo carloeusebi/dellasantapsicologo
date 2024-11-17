@@ -9,7 +9,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\View\View;
-use LaravelIdea\Helper\App\Models\_IH_Survey_C;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -66,8 +65,8 @@ class ShowPatient extends Component
     }
 
     #[Computed]
-    public function surveys(
-    ): \Illuminate\Contracts\Pagination\LengthAwarePaginator|array|_IH_Survey_C|LengthAwarePaginator {
+    public function surveys(): \Illuminate\Contracts\Pagination\LengthAwarePaginator|array|LengthAwarePaginator
+    {
         return $this->patient->surveys()->paginate(3, pageName: 'pagina_valutazioni');
     }
 

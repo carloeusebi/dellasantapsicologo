@@ -76,17 +76,20 @@ class Patient extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
-    /** @noinspection PhpUnused */
-    public function fullName(): Attribute
+    /**
+     * @return Attribute<string, never>
+     */
+    protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: function (mixed $value, array $attributes) {
-                return $attributes['first_name'].' '.$attributes['last_name'];
-            }
+            get: fn (mixed $value, array $attributes) => $attributes['first_name'].' '.$attributes['last_name']
         );
     }
 
-    public function age(): Attribute
+    /**
+     * @return Attribute<int, never>
+     */
+    protected function age(): Attribute
     {
         return Attribute::make(
             get: function (mixed $value, array $attributes) {
@@ -140,7 +143,7 @@ class Patient extends Model implements HasMedia
 
     public function resolveRouteBinding($value, $field = null): ?Patient
     {
-        return $this->whereId($value)
+        return $this->whereId($value) // @phpstan-ignore-line
             ->withArchived()
             ->firstOrFail();
     }

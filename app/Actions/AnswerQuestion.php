@@ -13,7 +13,7 @@ class AnswerQuestion
     use AsAction;
 
     /**
-     * @return array<bool, bool> [$questionnaireSurveyCompleted, $surveyCompleted]
+     * @return array{0: bool, 1: bool} [$questionnaireSurveyCompleted, $surveyCompleted]
      */
     public static function handle(
         int $questionnaire_survey_id,

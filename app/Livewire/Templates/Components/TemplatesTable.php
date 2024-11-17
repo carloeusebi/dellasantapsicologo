@@ -33,7 +33,6 @@ class TemplatesTable extends TableComponent
 
     public array $expanded = [];
 
-    /** @var Collection<Tag> $tags @ */
     #[Computed(cache: true)]
     public function tags(): Collection
     {
@@ -45,7 +44,7 @@ class TemplatesTable extends TableComponent
         $templates = $this->goToFirstPageIfResultIsEmpty(function () {
             return Template::userScope()
                 ->select([
-                    'id', 'user_id', 'name', 'description', 'visible',
+                    'id', 'user_id', 'name', 'description', 'is_visible',
                 ])
                 ->with('user:id,name', 'tags:id,name,color')
                 ->withCount('questionnaires')

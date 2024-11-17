@@ -4,7 +4,6 @@ namespace App\Livewire\Patients\Components;
 
 use App\Models\Patient;
 use Illuminate\Pagination\LengthAwarePaginator;
-use LaravelIdea\Helper\App\Models\_IH_Survey_C;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
@@ -18,8 +17,8 @@ class SurveysTable extends Component
     public Patient $patient;
 
     #[Computed]
-    public function surveys(
-    ): \Illuminate\Contracts\Pagination\LengthAwarePaginator|array|_IH_Survey_C|LengthAwarePaginator {
+    public function surveys(): \Illuminate\Contracts\Pagination\LengthAwarePaginator|array|LengthAwarePaginator
+    {
         return $this->patient->surveys()
             ->paginate(3, pageName: 'pagina_valutazioni');
     }

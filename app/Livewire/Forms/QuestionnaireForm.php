@@ -33,7 +33,7 @@ class QuestionnaireForm extends Form
 
         $this->title = $questionnaire->title;
         $this->description = $questionnaire->description;
-        $this->visible = $questionnaire->visible;
+        $this->visible = $questionnaire->is_visible;
         $this->selectedTags = $questionnaire->tags->pluck('id')->toArray();
         $this->choices = $questionnaire->choices;
         $this->questions = $questionnaire->questions;

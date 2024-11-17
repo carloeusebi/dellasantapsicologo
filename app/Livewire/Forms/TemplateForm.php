@@ -31,7 +31,7 @@ class TemplateForm extends Form
         $this->template = $template;
         $this->name = $template->name;
         $this->description = $template->description;
-        $this->visible = $template->visible;
+        $this->visible = $template->is_visible;
         $this->selectedTags = $template->tags->pluck('id')->toArray();
         $this->selectedQuestionnaires = $template->questionnaires->pluck('id')->toArray();
 
