@@ -213,6 +213,7 @@
       <path value="$PROJECT_DIR$/vendor/dragon-code/contracts" />
       <path value="$PROJECT_DIR$/vendor/dragon-code/pretty-array" />
       <path value="$PROJECT_DIR$/vendor/dragon-code/support" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-pdf" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

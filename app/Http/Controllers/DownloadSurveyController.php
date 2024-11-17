@@ -6,7 +6,8 @@ use App\Models\Survey;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
-use Wnx\SidecarBrowsershot\BrowsershotLambda;
+use Spatie\LaravelPdf\Enums\Format;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class DownloadSurveyController extends Controller
 {
@@ -27,24 +28,12 @@ class DownloadSurveyController extends Controller
                 },
             ]);
 
-        $base64 = BrowsershotLambda::html(view('pdf.survey', compact('survey')))
-            ->margins(15, 0, 15, 0)
-            ->showBrowserHeaderAndFooter()
-            ->headerHtml(
-                '<div style="display:flex; justify-content: space-between; font-size: 10px; width: 100%; margin: 0 24px">
-                    <span>'.now()->translatedFormat('d F Y H:i').'</span>
-                    <span>'.$survey->title.' di '.$survey->patient->full_name.'</span>
-                </div>'
-            )
-            ->footerHtml('<div style="font-size: 10px; width: 100%; text-align: center;">Pagina <span class="pageNumber"></span> / <span class="totalPages"></span></div>')
-            ->setOption('printBackground', true)
-            ->format('A4')
-            ->base64pdf();
-
-        $filename = Str::kebab("$survey->title di {$survey->patient->full_name}.pdf");
-
-        file_put_contents($filename, base64_decode($base64));
-
-        return response()->file($filename)->deleteFileAfterSend();
+        return Pdf::view('pdf.survey', ['survey' => $survey])
+            ->onLambda()
+            ->margins(top: 15, bottom: 15)
+            ->name(Str::kebab("$survey->title di {$survey->patient->full_name}.pdf"))
+            ->headerhtml(view('pdf.components.survey.header', ['survey' => $survey]))
+            ->footerhtml(view('pdf.components.survey.footer'))
+            ->format(Format::A4);
     }
 }
