@@ -22,6 +22,6 @@ class VariableFactory extends Factory
 
     public function genderBased(): VariableFactory
     {
-        return $this->state(fn(array $attributes) => [$attributes['gender_based'] => false]);
+        return $this->state(fn (array $attributes) => [$attributes['gender_based'] => false]);
     }
 }

@@ -57,7 +57,7 @@ class LogoutOtherBrowserSessionsForm extends Component
 
     protected function createAgent($session)
     {
-        return tap(new Agent(), fn($agent) => $agent->setUserAgent($session->user_agent));
+        return tap(new Agent, fn ($agent) => $agent->setUserAgent($session->user_agent));
     }
 
     public function logoutOtherBrowserSessions(StatefulGuard $guard): void
@@ -68,7 +68,7 @@ class LogoutOtherBrowserSessionsForm extends Component
 
         $this->resetErrorBag();
 
-        if (!Hash::check($this->password, Auth::user()->password)) {
+        if (! Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([
                 'password' => [__('validation.current_password')],
             ]);

@@ -3,7 +3,8 @@
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         User::whereIn('id', [1, 2])->get()->each(function (User $user) {

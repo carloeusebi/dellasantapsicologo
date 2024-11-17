@@ -28,6 +28,7 @@ class QuestionnairePolicy
     public function updateStructure(User $user, Questionnaire $questionnaire): bool
     {
         $questionnaire = $this->withSurveysCount($questionnaire);
+
         return ($user->isAdmin() || $questionnaire->user->is($user)) && $questionnaire->surveys_count === 0;
     }
 
@@ -36,17 +37,19 @@ class QuestionnairePolicy
         if ($questionnaire->surveys_count === null) {
             $questionnaire->loadCount('surveys');
         }
+
         return $questionnaire;
     }
 
     public function delete(User $user, Questionnaire $questionnaire): bool
     {
-        return ($user->isAdmin() || $questionnaire->user->is($user));
+        return $user->isAdmin() || $questionnaire->user->is($user);
     }
 
     public function forceDelete(User $user, Questionnaire $questionnaire): bool
     {
         $questionnaire = $this->withSurveysCount($questionnaire);
+
         return ($user->isAdmin() || $questionnaire->user->is($user)) && $questionnaire->surveys_count === 0;
     }
 }

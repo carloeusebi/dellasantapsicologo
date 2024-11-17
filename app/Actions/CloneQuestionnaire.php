@@ -13,8 +13,6 @@ class CloneQuestionnaire
     use AsAction;
 
     /**
-     * @param  Questionnaire  $questionnaire
-     * @return Questionnaire
      * @throws Exception
      */
     public function handle(Questionnaire $questionnaire): Questionnaire
@@ -72,5 +70,4 @@ class CloneQuestionnaire
             throw $e;
         }
     }
-
 }

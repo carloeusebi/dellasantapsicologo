@@ -17,7 +17,7 @@ class Variable extends Model
 
     protected $fillable = [
         'name',
-        'gender_based'
+        'gender_based',
     ];
 
     protected $touches = ['questionnaire'];
@@ -25,16 +25,16 @@ class Variable extends Model
     public function casts(): array
     {
         return [
-            'gender_based' => 'boolean'
+            'gender_based' => 'boolean',
         ];
     }
 
     /** @noinspection PhpUnused */
     public function score(): Attribute
     {
-        return Attribute::make(fn() => array_reduce($this->questions->map(
-            fn(Question $question) => $question->answers->first()?->value ?? 0)->flatten()->toArray(),
-            fn(int $total, $answerValue) => $total + $answerValue, 0)
+        return Attribute::make(fn () => array_reduce($this->questions->map(
+            fn (Question $question) => $question->answers->first()?->value ?? 0)->flatten()->toArray(),
+            fn (int $total, $answerValue) => $total + $answerValue, 0)
         );
     }
 

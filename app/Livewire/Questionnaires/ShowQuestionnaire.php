@@ -20,11 +20,14 @@ class ShowQuestionnaire extends Component
     use Toast;
 
     const string TITLE = 'titolo';
+
     const string QUESTIONS = 'domande';
+
     const string VARIABLES = 'variabili';
 
     #[Url(as: 'tab')]
     public string $selectedTab = 'titolo';
+
     public int $step = 1;
 
     public QuestionnaireForm $form;
@@ -50,6 +53,7 @@ class ShowQuestionnaire extends Component
 
         if ($this->copyBeforeArchive) {
             $this->replicate();
+
             return;
         }
 
@@ -97,8 +101,7 @@ class ShowQuestionnaire extends Component
     }
 
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->questionnaire?->loadCount('surveys');
 
         return view('livewire.questionnaires.show-questionnaire');

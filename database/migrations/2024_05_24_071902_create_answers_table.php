@@ -11,10 +11,11 @@ use Illuminate\Support\Facades\Schema;
 use Laravel\Prompts\Output\ConsoleOutput;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
-        if (!Schema::hasTable('answers')) {
+        if (! Schema::hasTable('answers')) {
             Schema::create('answers', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('questionnaire_survey_id')->references('id')->on('questionnaire_survey')->cascadeOnDelete();
@@ -35,7 +36,7 @@ return new class extends Migration {
 
         $questionnaireSurveyCount = QuestionnaireSurvey::count();
 
-        $progress = new ProgressBar(new ConsoleOutput(), $questionnaireSurveyCount);
+        $progress = new ProgressBar(new ConsoleOutput, $questionnaireSurveyCount);
 
         $showProgress = $questionnaireSurveyCount > 10;
 
@@ -46,7 +47,7 @@ return new class extends Migration {
             ->get()
             ?->each(function (QuestionnaireSurvey $qs) use ($progress, $showProgress) {
                 $answers_assoc = json_decode($qs->answers, true);
-                if (!$answers_assoc) {
+                if (! $answers_assoc) {
                     return;
                 }
                 foreach ($answers_assoc as $answer_assoc) {
@@ -93,6 +94,7 @@ return new class extends Migration {
                                 5 => 'Sempre',
                                 default => null
                             };
+
                             return $choice->text === $choiceText;
                         });
 
@@ -119,7 +121,7 @@ return new class extends Migration {
 
     public function down(): void
     {
-        if (!Schema::hasColumn('questionnaire_survey', 'answers')) {
+        if (! Schema::hasColumn('questionnaire_survey', 'answers')) {
             Schema::table('questionnaire_survey', function (Blueprint $table) {
                 $table->json('answers')->nullable()->after('survey_id');
             });
@@ -138,7 +140,7 @@ return new class extends Migration {
                 $answers[] = $new_assoc_answer;
             });
             /** @noinspection SqlResolve */
-            Db::statement("UPDATE questionnaire_survey SET answers = ? WHERE `questionnaire_survey`.`id` = ?",
+            Db::statement('UPDATE questionnaire_survey SET answers = ? WHERE `questionnaire_survey`.`id` = ?',
                 [json_encode($answers), $qs->id]);
         });
 

@@ -30,7 +30,7 @@ Route::view('/profilo', 'profile.show-profile')->middleware('auth:web')->name('p
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::get('/', fn() => to_route('patients.index'))->name('home');
+    Route::get('/', fn () => to_route('patients.index'))->name('home');
 
     Route::get('/download/valutazione/{survey}', DownloadSurveyController::class)->name('download.survey');
 

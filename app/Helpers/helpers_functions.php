@@ -2,9 +2,9 @@
 
 use Carbon\Carbon;
 
-function get_formatted_date(Carbon|null $date, string $format = 'd F Y'): string
+function get_formatted_date(?Carbon $date, string $format = 'd F Y'): string
 {
-    if (!$date) {
+    if (! $date) {
         return '';
     }
 
@@ -23,7 +23,7 @@ function log_non_vendor_stack_trace(): void
 {
     $backtrace = debug_backtrace();
     foreach ($backtrace as $trace) {
-        if (isset($trace['file']) && !str_contains($trace['file'], 'vendor')) {
+        if (isset($trace['file']) && ! str_contains($trace['file'], 'vendor')) {
             info($trace['file'].':'.$trace['line']);
         }
     }

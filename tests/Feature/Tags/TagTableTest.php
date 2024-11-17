@@ -5,6 +5,7 @@ use App\Models\Role;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+
 use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertTrue;
 
@@ -20,7 +21,7 @@ beforeEach(function () {
 it('renders tags', function () {
     $this->livewire
         ->assertOk()
-        ->assertViewHas('tags', fn(LengthAwarePaginator $tags) => $tags->count() === 10)
+        ->assertViewHas('tags', fn (LengthAwarePaginator $tags) => $tags->count() === 10)
         ->assertSee($this->tags->pluck('name')->first());
 });
 
@@ -29,7 +30,7 @@ it('filters tags by search term', function () {
 
     $this->livewire
         ->set('search', $tag->name)
-        ->assertViewHas('tags', fn(LengthAwarePaginator $tags) => $tags->count() === 1)
+        ->assertViewHas('tags', fn (LengthAwarePaginator $tags) => $tags->count() === 1)
         ->assertSee($tag->name);
 });
 
@@ -64,6 +65,6 @@ it('allows to delete tags if user is at least superuser', function () {
 
     $this->livewire
         ->call('delete', $tagToDelete->id)
-        ->assertViewHas('tags', fn(LengthAwarePaginator $tags) => $tags->count() === 9)
+        ->assertViewHas('tags', fn (LengthAwarePaginator $tags) => $tags->count() === 9)
         ->assertDontSee($tagToDelete->name);
 });

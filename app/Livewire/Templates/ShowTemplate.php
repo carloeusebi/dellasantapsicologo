@@ -78,8 +78,7 @@ class ShowTemplate extends Component
 
     #[On('updated')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->template->load('tags:id,name,color', 'user:id,name', 'questionnaires:id,title',
             'questionnaires.tags:id,name,color');
 

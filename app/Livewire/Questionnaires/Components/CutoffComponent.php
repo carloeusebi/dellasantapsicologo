@@ -56,8 +56,7 @@ class CutoffComponent extends Component
 
     #[On('cutoff-updated')]
     public function render(
-    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application
-    {
+    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application {
         return view('livewire.questionnaires.components.cutoff-component');
     }
 }

@@ -18,7 +18,7 @@ beforeEach(function () {
 it('renders the surveys table', function () {
     $this->livewire
         ->assertOk()
-        ->assertViewHas('surveys', fn(LengthAwarePaginator $surveys) => $surveys->count() === 3)
+        ->assertViewHas('surveys', fn (LengthAwarePaginator $surveys) => $surveys->count() === 3)
         ->assertSee($this->surveys->pluck('title')->toArray());
 });
 
@@ -29,7 +29,7 @@ it('renders survey by search term', function () {
 
     $this->livewire
         ->set('search', $survey->title)
-        ->assertViewHas('surveys', fn(LengthAwarePaginator $surveys) => $surveys->count() === 1)
+        ->assertViewHas('surveys', fn (LengthAwarePaginator $surveys) => $surveys->count() === 1)
         ->assertSee($survey->title);
 });
 
@@ -42,11 +42,11 @@ it('filters surveys by patient state', function () {
 
     $this->livewire
         ->refresh()
-        ->assertViewHas('surveys', fn(LengthAwarePaginator $surveys) => $surveys->count() === 4)
+        ->assertViewHas('surveys', fn (LengthAwarePaginator $surveys) => $surveys->count() === 4)
         ->set('patientState', SurveysTable::CURRENT)
-        ->assertViewHas('surveys', fn(LengthAwarePaginator $surveys) => $surveys->count() === 3)
+        ->assertViewHas('surveys', fn (LengthAwarePaginator $surveys) => $surveys->count() === 3)
         ->set('patientState', SurveysTable::ARCHIVED)
-        ->assertViewHas('surveys', fn(LengthAwarePaginator $surveys) => $surveys->count() === 1)
+        ->assertViewHas('surveys', fn (LengthAwarePaginator $surveys) => $surveys->count() === 1)
         ->assertSee($patient->surveys->first()->title);
 });
 
@@ -55,11 +55,11 @@ it('filters surveys by state', function () {
 
     $this->livewire
         ->refresh()
-        ->assertViewHas('surveys', fn(LengthAwarePaginator $surveys) => $surveys->count() === 4)
+        ->assertViewHas('surveys', fn (LengthAwarePaginator $surveys) => $surveys->count() === 4)
         ->set('state', SurveysTable::NOT_COMPLETED)
-        ->assertViewHas('surveys', fn(LengthAwarePaginator $surveys) => $surveys->count() === 3)
+        ->assertViewHas('surveys', fn (LengthAwarePaginator $surveys) => $surveys->count() === 3)
         ->set('state', SurveysTable::COMPLETED)
-        ->assertViewHas('surveys', fn(LengthAwarePaginator $surveys) => $surveys->count() === 1)
+        ->assertViewHas('surveys', fn (LengthAwarePaginator $surveys) => $surveys->count() === 1)
         ->assertSee($survey->title);
 });
 
@@ -69,5 +69,5 @@ it('only shows surveys for the current user', function () {
 
     $this->livewire
         ->refresh()
-        ->assertViewHas('surveys', fn(LengthAwarePaginator $surveys) => $surveys->count() === 3);
+        ->assertViewHas('surveys', fn (LengthAwarePaginator $surveys) => $surveys->count() === 3);
 });

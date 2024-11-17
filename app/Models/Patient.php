@@ -20,9 +20,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 class Patient extends Model implements HasMedia
 {
+    use Archivable;
     use HasFactory;
     use InteractsWithMedia;
-    use Archivable;
     use SoftDeletes;
 
     protected $fillable = [
@@ -63,7 +63,6 @@ class Patient extends Model implements HasMedia
         });
     }
 
-
     /** @noinspection PhpUnused */
     public function scopeUserScope(Builder $query): void
     {
@@ -103,19 +102,19 @@ class Patient extends Model implements HasMedia
 
     public function isFemale(): Attribute
     {
-        return Attribute::make(fn(mixed $value, array $attributes) => $attributes['gender'] === 'F');
+        return Attribute::make(fn (mixed $value, array $attributes) => $attributes['gender'] === 'F');
     }
 
     public function gender(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value) => match ($value) {
+            get: fn (mixed $value) => match ($value) {
                 'M' => 'Maschio',
                 'F' => 'Femmina',
                 'O' => 'Altro',
                 default => null
             },
-            set: fn(mixed $value) => match ($value) {
+            set: fn (mixed $value) => match ($value) {
                 'Maschio' => 'M',
                 'Femmina' => 'F',
                 'Altro' => 'O',
@@ -142,7 +141,7 @@ class Patient extends Model implements HasMedia
         });
     }
 
-    public function resolveRouteBinding($value, $field = null): Patient|null
+    public function resolveRouteBinding($value, $field = null): ?Patient
     {
         return $this->whereId($value) // @phpstan-ignore-line
         ->withArchived()

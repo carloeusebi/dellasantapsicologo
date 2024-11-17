@@ -21,12 +21,16 @@ class QuestionnaireScroller extends Component
     use Toast;
 
     protected static float $hoursBetweenAnswersBeforeReset = 2; // hours
+
     public Survey $survey;
+
     public QuestionnaireSurvey $questionnaireSurvey;
+
     public ?Question $question;
+
     public ?string $comment = null;
 
-    static function getHoursBetweenAnswersBeforeReset(): float|int
+    public static function getHoursBetweenAnswersBeforeReset(): float|int
     {
         return self::$hoursBetweenAnswersBeforeReset;
     }
@@ -35,7 +39,7 @@ class QuestionnaireScroller extends Component
         Survey $survey,
         QuestionnaireSurvey $questionnaireSurvey
     ): void {
-        if (!$questionnaireSurvey->survey->is($survey)) {
+        if (! $questionnaireSurvey->survey->is($survey)) {
             throw new Error('Invalid questionnaire survey');
         }
 
@@ -43,7 +47,7 @@ class QuestionnaireScroller extends Component
             ->where('completed', false)
             ->first();
 
-        if ($this->questionnaireSurvey->completed || !$this->questionnaireSurvey->is($firstNotCompletedQuestionnaireSurvey)) {
+        if ($this->questionnaireSurvey->completed || ! $this->questionnaireSurvey->is($firstNotCompletedQuestionnaireSurvey)) {
             $this->redirectRoute('evaluation.home', $survey);
         }
 
@@ -80,8 +84,9 @@ class QuestionnaireScroller extends Component
 
     public function answerQuestion(?int $choiceId = null): void
     {
-        if (!$choiceId && !$this->comment) {
+        if (! $choiceId && ! $this->comment) {
             $this->error('Per favore inserisci un <br>commento se vuoi saltare la domanda');
+
             return;
         }
 
@@ -90,7 +95,7 @@ class QuestionnaireScroller extends Component
             $this->question->id,
             $choiceId,
             $this->comment,
-            !$choiceId
+            ! $choiceId
         );
 
         $this->reset('comment');
@@ -98,9 +103,11 @@ class QuestionnaireScroller extends Component
         if ($surveyCompleted) {
             $this->survey->user->notify(new SurveyCompletedNotification($this->survey));
             $this->redirectRoute('evaluation.thank-you', $this->survey, navigate: true);
+
             return;
         } elseif ($questionnaireSurveyCompleted) {
             $this->redirectRoute('evaluation.home', $this->survey, navigate: true);
+
             return;
         }
 
@@ -113,26 +120,22 @@ class QuestionnaireScroller extends Component
         }
     }
 
-    /**
-     * @return Question|null
-     */
     public function getNextQuestion(): ?Question
     {
         return $this->questionnaireSurvey->questions->load([
             'answers' => function ($query) {
                 /** @var HasMany $query */
                 $query->whereRelation('questionnaireSurvey', 'id', $this->questionnaireSurvey->id);
-            }
+            },
         ])
-            ->where(fn(Question $question) => $question->answers->isEmpty())
+            ->where(fn (Question $question) => $question->answers->isEmpty())
             ->load('choices')
             ->first();
     }
 
     #[Layout('components.layouts.evaluation')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         $this->survey->loadCount('questionnaireSurveys', 'completedQuestionnaireSurvey');
 
         $this->questionnaireSurvey->load('questionnaire.choices', 'questions')

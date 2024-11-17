@@ -209,7 +209,7 @@ return [
             'ignore' => [
                 '#^/'.env('PULSE_PATH', 'pulse').'$#', // Pulse dashboard...
                 '#^/telescope#', // Telescope dashboard...
-                '/login'
+                '/login',
             ],
         ],
 

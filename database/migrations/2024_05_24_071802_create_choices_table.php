@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Monolog\Utils;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
-        if (!Schema::hasTable('choices')) {
+        if (! Schema::hasTable('choices')) {
             Schema::create('choices', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('questionable_id');
@@ -25,7 +26,7 @@ return new class extends Migration {
 
         Questionnaire::all()->each(function (Questionnaire $questionnaire) {
             $legends = json_decode($questionnaire->legend, true);
-            if (!$legends) {
+            if (! $legends) {
                 return;
             }
             foreach ($legends as $key => $legend) {
@@ -37,7 +38,7 @@ return new class extends Migration {
 
                 $questionnaire->choices()->create([
                     'text' => $legend['legend'],
-                    'points' => $points
+                    'points' => $points,
                 ]);
             }
         });
@@ -46,7 +47,7 @@ return new class extends Migration {
             $choices = collect($question->custom_choices)->map(function (array $choice) {
                 return new Choice([
                     'text' => $choice['customAnswer'],
-                    'points' => $choice['points']
+                    'points' => $choice['points'],
                 ]);
             });
             $question->choices()->saveMany($choices);
@@ -59,7 +60,7 @@ return new class extends Migration {
 
     public function down(): void
     {
-        if (!Schema::hasColumn('questionnaires', 'legend')) {
+        if (! Schema::hasColumn('questionnaires', 'legend')) {
             Schema::table('questionnaires', function (Blueprint $table) {
                 $table->text('legend')->after('type');
             });
@@ -70,7 +71,7 @@ return new class extends Migration {
             $questionnaire->choices->each(function (Choice $choice, int $key) use (&$legend, $questionnaire) {
                 $legend[] = [
                     'id' => $key + 1,
-                    'legend' => $choice->text
+                    'legend' => $choice->text,
                 ];
                 /** @noinspection SqlResolve */
                 DB::statement('UPDATE `questionnaires` SET `legend` = ? WHERE `id` = ?',

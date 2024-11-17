@@ -17,7 +17,7 @@ class Home extends Component
     public function mount(Survey $survey): void
     {
         if ($survey->completed) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
 
         if ($survey->lastAnswer) {
@@ -33,11 +33,9 @@ class Home extends Component
         $this->survey = $survey;
     }
 
-
     #[Layout('components.layouts.evaluation')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         return view('livewire.evaluation.home');
     }
 }

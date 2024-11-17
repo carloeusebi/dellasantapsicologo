@@ -13,30 +13,30 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ThankYou extends Component
 {
     protected static int $minutesFromCompletionBeforeThrowingNotFound = 5;
+
     public Survey $survey;
 
-    static function getMinutesFromCompletionBeforeThrowingNotFound(): int
+    public static function getMinutesFromCompletionBeforeThrowingNotFound(): int
     {
         return self::$minutesFromCompletionBeforeThrowingNotFound;
     }
 
-    public function mount(Survey $survey,): void
+    public function mount(Survey $survey): void
     {
         $this->survey = $survey;
 
-        if (!$this->survey->completed) {
+        if (! $this->survey->completed) {
             $this->redirectRoute('evaluation.home', $this->survey);
         }
 
         if ($this->survey->updated_at->diffInMinutes() > self::$minutesFromCompletionBeforeThrowingNotFound) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException;
         }
     }
 
     #[Layout('components.layouts.evaluation')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
-    {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
         return view('livewire.evaluation.thank-you');
     }
 }

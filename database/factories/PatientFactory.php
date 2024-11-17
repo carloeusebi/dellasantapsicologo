@@ -41,7 +41,7 @@ class PatientFactory extends Factory
 
     public function archived(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'archived_at' => now(),
         ]);
     }
