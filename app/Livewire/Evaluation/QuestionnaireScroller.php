@@ -7,14 +7,12 @@ use App\Models\Question;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
 use App\Notifications\SurveyCompletedNotification;
-use Error;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Symfony\Component\HttpFoundation\Response;
 
 class QuestionnaireScroller extends Component
 {
@@ -24,7 +22,7 @@ class QuestionnaireScroller extends Component
 
     public Survey $survey;
 
-    public QuestionnaireSurvey $questionnaireSurvey;
+    public ?QuestionnaireSurvey $questionnaireSurvey;
 
     public ?Question $question;
 
@@ -35,20 +33,20 @@ class QuestionnaireScroller extends Component
         return self::$hoursBetweenAnswersBeforeReset;
     }
 
-    public function mount(
-        Survey $survey,
-        QuestionnaireSurvey $questionnaireSurvey
-    ): void {
-        if (! $questionnaireSurvey->survey->is($survey)) {
-            throw new Error('Invalid questionnaire survey');
+    public function mount(Survey $survey, QuestionnaireSurvey $questionnaireSurvey): void
+    {
+        if (!$questionnaireSurvey->survey->is($survey) || $survey->completed) {
+            abort(Response::HTTP_NOT_FOUND);
         }
 
         $firstNotCompletedQuestionnaireSurvey = $survey->questionnaireSurveys
             ->where('completed', false)
             ->first();
 
-        if ($this->questionnaireSurvey->completed || ! $this->questionnaireSurvey->is($firstNotCompletedQuestionnaireSurvey)) {
+        if ($questionnaireSurvey->completed || !$questionnaireSurvey->is($firstNotCompletedQuestionnaireSurvey)) {
             $this->redirectRoute('evaluation.home', $survey);
+
+            return;
         }
 
         if (
@@ -84,18 +82,18 @@ class QuestionnaireScroller extends Component
 
     public function answerQuestion(?int $choiceId = null): void
     {
-        if (! $choiceId && ! $this->comment) {
+        if (!$choiceId && !$this->comment) {
             $this->error('Per favore inserisci un <br>commento se vuoi saltare la domanda');
 
             return;
         }
 
         [$questionnaireSurveyCompleted, $surveyCompleted] = AnswerQuestion::handle(
-            $this->questionnaireSurvey->id,
-            $this->question->id,
-            $choiceId,
-            $this->comment,
-            ! $choiceId
+            questionnaire_survey_id: $this->questionnaireSurvey->id,
+            question_id: $this->question->id,
+            choice_id: $choiceId,
+            comment: $this->comment,
+            skipped: !$choiceId
         );
 
         $this->reset('comment');
@@ -128,14 +126,14 @@ class QuestionnaireScroller extends Component
                 $query->whereRelation('questionnaireSurvey', 'id', $this->questionnaireSurvey->id);
             },
         ])
-            ->where(fn (Question $question) => $question->answers->isEmpty())
+            ->where(fn(Question $question) => $question->answers->isEmpty())
             ->load('choices')
             ->first();
     }
 
     #[Layout('components.layouts.evaluation')]
-    public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
+    public function render(): View
+    {
         $this->survey->loadCount('questionnaireSurveys', 'completedQuestionnaireSurvey');
 
         $this->questionnaireSurvey->load('questionnaire.choices', 'questions')
