@@ -35,7 +35,7 @@ class QuestionnaireScroller extends Component
 
     public function mount(Survey $survey, QuestionnaireSurvey $questionnaireSurvey): void
     {
-        if (!$questionnaireSurvey->survey->is($survey) || $survey->completed) {
+        if (! $questionnaireSurvey->survey->is($survey) || $survey->completed) {
             abort(Response::HTTP_NOT_FOUND);
         }
 
@@ -43,7 +43,7 @@ class QuestionnaireScroller extends Component
             ->where('completed', false)
             ->first();
 
-        if ($questionnaireSurvey->completed || !$questionnaireSurvey->is($firstNotCompletedQuestionnaireSurvey)) {
+        if ($questionnaireSurvey->completed || ! $questionnaireSurvey->is($firstNotCompletedQuestionnaireSurvey)) {
             $this->redirectRoute('evaluation.home', $survey);
 
             return;
@@ -82,7 +82,7 @@ class QuestionnaireScroller extends Component
 
     public function answerQuestion(?int $choiceId = null): void
     {
-        if (!$choiceId && !$this->comment) {
+        if (! $choiceId && ! $this->comment) {
             $this->error('Per favore inserisci un <br>commento se vuoi saltare la domanda');
 
             return;
@@ -93,7 +93,7 @@ class QuestionnaireScroller extends Component
             question_id: $this->question->id,
             choice_id: $choiceId,
             comment: $this->comment,
-            skipped: !$choiceId
+            skipped: ! $choiceId
         );
 
         $this->reset('comment');
@@ -126,7 +126,7 @@ class QuestionnaireScroller extends Component
                 $query->whereRelation('questionnaireSurvey', 'id', $this->questionnaireSurvey->id);
             },
         ])
-            ->where(fn(Question $question) => $question->answers->isEmpty())
+            ->where(fn (Question $question) => $question->answers->isEmpty())
             ->load('choices')
             ->first();
     }
