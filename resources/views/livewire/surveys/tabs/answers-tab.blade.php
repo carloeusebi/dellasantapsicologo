@@ -171,9 +171,10 @@
                             @php
                                 $answer = $question->answers->first();
                                 $comparisonAnswer = $comparisonQuestionnaireSurvey?->questions->firstWhere('id', $question->id)?->answers->first();
+                                $actualChoiceId = get_actual_choice_id($answer, $question, $questionnaireSurvey->questionnaire);
                             @endphp
                             <div
-                                x-show="showQuestion({{ $answer?->getReversedChoiceId($question, $questionnaireSurvey->questionnaire) ?? -99 }}, {{ $question->id }})"
+                                x-show="showQuestion({{ $actualChoiceId ?? -99 }}, {{ $question->id }})"
                                 class="border-t border-2 border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif"
                                 :class="{
                                 'focus:border-primary': quickEditMode,
@@ -215,7 +216,7 @@
                                                   <span
                                                       class="btn w-full rounded-none no-animation"
                                                       :class="{
-                                                        'bg-primary border-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $answer?->getReversedChoiceId($question, $questionnaireSurvey->questionnaire) }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $answer->getReversedChoiceId($question, $questionnaireSurvey->questionnaire) == $choice->id) }}),
+                                                        'bg-primary border-primary': {{ json_encode($answer && $answer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $actualChoiceId }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($answer && $actualChoiceId == $choice->id) }}),
                                                         'bg-primary/15 border-primary': {{ json_encode($answer && $answer->choice?->is($choice) && $answer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }}),
                                                         'bg-accent/50 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice)) }} || ((filteredAnswers.length && filteredAnswers.includes({{ $choice->points }}) || showReversed && {{ json_encode($question->reversed) }}) && {{ json_encode($comparisonAnswer && $comparisonAnswer->value === $choice->points) }}),
                                                         '!bg-accent/15 border-accent': {{ json_encode($comparisonAnswer && $comparisonAnswer->choice?->is($choice) && $comparisonAnswer->value !== $choice->points) }} && (filteredAnswers.length || showReversed && {{ json_encode($question->reversed) }})

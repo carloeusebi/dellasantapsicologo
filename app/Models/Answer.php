@@ -28,25 +28,6 @@ class Answer extends Model
         });
     }
 
-    public function getReversedChoiceId(Question $question, Questionnaire $questionnaire)
-    {
-        if (!$this->choice_id) {
-            return null;
-        }
-
-        $choices = $question->choices->isEmpty() ? $questionnaire->choices : $question->choices;
-        $choice = $choices->first(fn(Choice $choice) => $choice->id === $this->choice_id);
-
-        if (!$question->reversed) {
-            return $choice->id;
-        }
-
-        $chosenIndex = $choices->search(fn(Choice $c) => $c->id === $choice->id);
-        $reversedIndex = $choices->count() - 1 - $chosenIndex;
-
-        return $choices->get($reversedIndex)?->id;
-    }
-
     /** @return Attribute<?int, never> */
     protected function reversedChoiceId(): Attribute
     {

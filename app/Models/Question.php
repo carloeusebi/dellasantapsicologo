@@ -47,15 +47,13 @@ class Question extends Model
 
     public function calculateScore(Choice $choice): int
     {
-        if (! $this->reversed) {
+        if (!$this->reversed) {
             return $choice->points;
         }
 
         $choices = $this->choices->isEmpty() ? $this->questionnaire->choices : $this->choices;
-        $chosenIndex = $choices->search(fn (Choice $c) => $c->id === $choice->id);
-        $reversedIndex = $choices->count() - 1 - $chosenIndex;
 
-        return $choices->get($reversedIndex)?->points;
+        return get_reversed_choice($choices, $choice)->points;
     }
 
     public function questionnaire(): BelongsTo
