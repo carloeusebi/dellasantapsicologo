@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,6 +26,30 @@ class Answer extends Model
             info('Deleting answer '.$answer->id);
             log_non_vendor_stack_trace();
         });
+    }
+
+    /** @return Attribute<?int, never> */
+    protected function reversedChoiceId(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                if (! $attributes['choice_id']) {
+                    return null;
+                }
+
+                $choices = $this->question->choices->isEmpty() ? $this->question->questionnaire->choices : $this->question->choices;
+                $choice = $choices->first(fn (Choice $choice) => $choice->id === $attributes['choice_id']);
+
+                if (! $this->question->reversed) {
+                    return $choice->id;
+                }
+
+                $chosenIndex = $choices->search(fn (Choice $c) => $c->id === $choice->id);
+                $reversedIndex = $choices->count() - 1 - $chosenIndex;
+
+                return $choices->get($reversedIndex)?->id;
+            }
+        );
     }
 
     //    public function chosenCustomChoice(Question $question): string
