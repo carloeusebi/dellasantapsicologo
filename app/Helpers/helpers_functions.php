@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 function get_formatted_date(?Carbon $date, string $format = 'd F Y'): string
 {
-    if (!$date) {
+    if (! $date) {
         return '';
     }
 
@@ -28,7 +28,7 @@ function log_non_vendor_stack_trace(): void
 {
     $backtrace = debug_backtrace();
     foreach ($backtrace as $trace) {
-        if (isset($trace['file']) && !str_contains($trace['file'], 'vendor')) {
+        if (isset($trace['file']) && ! str_contains($trace['file'], 'vendor')) {
             info($trace['file'].':'.$trace['line']);
         }
     }
@@ -36,12 +36,10 @@ function log_non_vendor_stack_trace(): void
 
 /**
  * @param  Collection<int, Choice>  $choices
- * @param  Choice  $choice
- * @return Choice|null
  */
 function get_reversed_choice(Collection $choices, Choice $choice): ?Choice
 {
-    $chosenIndex = $choices->search(fn(Choice $c) => $c->id === $choice->id);
+    $chosenIndex = $choices->search(fn (Choice $c) => $c->id === $choice->id);
     $reversedIndex = $choices->count() - 1 - $chosenIndex;
 
     return $choices->get($reversedIndex);
@@ -49,16 +47,16 @@ function get_reversed_choice(Collection $choices, Choice $choice): ?Choice
 
 function get_actual_choice_id(?Answer $answer, Question $question, Questionnaire $questionnaire): ?int
 {
-    if (!$answer || !$answer->choice_id) {
+    if (! $answer || ! $answer->choice_id) {
         return null;
     }
 
-    if (!$question->reversed) {
+    if (! $question->reversed) {
         return $answer->choice->id;
     }
 
     $choices = $answer->choice->questionable_type === Question::class ? $question->choices : $questionnaire->choices;
-    $selectedChoice = $choices->first(fn(Choice $choice) => $answer->choice?->is($choice));
+    $selectedChoice = $choices->first(fn (Choice $choice) => $answer->choice?->is($choice));
 
     return get_reversed_choice($choices, $selectedChoice)?->id;
 }

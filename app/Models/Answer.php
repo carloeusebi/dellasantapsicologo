@@ -33,18 +33,18 @@ class Answer extends Model
     {
         return Attribute::make(
             get: function (mixed $value, array $attributes) {
-                if (!$attributes['choice_id']) {
+                if (! $attributes['choice_id']) {
                     return null;
                 }
 
                 $choices = $this->question->choices->isEmpty() ? $this->question->questionnaire->choices : $this->question->choices;
-                $choice = $choices->first(fn(Choice $choice) => $choice->id === $attributes['choice_id']);
+                $choice = $choices->first(fn (Choice $choice) => $choice->id === $attributes['choice_id']);
 
-                if (!$this->question->reversed) {
+                if (! $this->question->reversed) {
                     return $choice->id;
                 }
 
-                $chosenIndex = $choices->search(fn(Choice $c) => $c->id === $choice->id);
+                $chosenIndex = $choices->search(fn (Choice $c) => $c->id === $choice->id);
                 $reversedIndex = $choices->count() - 1 - $chosenIndex;
 
                 return $choices->get($reversedIndex)?->id;

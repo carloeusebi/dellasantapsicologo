@@ -47,7 +47,7 @@ class Question extends Model
 
     public function calculateScore(Choice $choice): int
     {
-        if (!$this->reversed) {
+        if (! $this->reversed) {
             return $choice->points;
         }
 
