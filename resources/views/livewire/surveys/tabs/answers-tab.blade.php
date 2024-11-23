@@ -131,14 +131,14 @@
                             @foreach($questionnaireSurvey->questionnaire->choices as $choice)
                                 <div
                                     class="flex items-center gap-2 cursor-pointer"
-                                    x-on:click="filteredAnswers.includes({{ $choice->points }})
-                                        ? filteredAnswers=filteredAnswers.filter(a=> a !== {{ $choice->points }})
-                                        : filteredAnswers.push({{ $choice->points }})
+                                    x-on:click="filteredAnswers.includes({{ $choice->id }})
+                                        ? filteredAnswers = filteredAnswers.filter(a=> a !== {{ $choice->id }})
+                                        : filteredAnswers.push({{ $choice->id }})
                                     "
                                 >
                                     <x-button
                                         class="btn"
-                                        x-bind:class="{ 'btn-primary': filteredAnswers.includes({{ $choice->points }}) }"
+                                        x-bind:class="{ 'btn-primary': filteredAnswers.includes({{ $choice->id }}) }"
                                     >
                                         {{ $choice?->points }}
                                     </x-button>
@@ -173,7 +173,7 @@
                                 $comparisonAnswer = $comparisonQuestionnaireSurvey?->questions->firstWhere('id', $question->id)?->answers->first();
                             @endphp
                             <div
-                                x-show="showQuestion({{ $answer?->value ?? -99 }}, {{ $question->id }})"
+                                x-show="showQuestion({{ $answer?->choice->id ?? -99 }}, {{ $question->id }})"
                                 class="border-t border-2 border-b scroll-mt-20 @if($answer?->skipped) bg-error/10 @endif"
                                 :class="{
                                 'focus:border-primary': quickEditMode,
