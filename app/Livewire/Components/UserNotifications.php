@@ -53,11 +53,11 @@ class UserNotifications extends Component
         return Auth::user()->notifications;
     }
 
-    public function updateUnreadNotificationsCount(): void
-    {
-        // @phpstan-ignore-next-line
-        $this->unreadNotificationsCount = Auth::user()->unreadNotifications->count();
-    }
+//    public function updateUnreadNotificationsCount(): void
+//    {
+//        // @phpstan-ignore-next-line
+//        $this->unreadNotificationsCount = Auth::user()->unreadNotifications->count();
+//    }
 
     public function deleteAll(): void
     {
