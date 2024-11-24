@@ -42,7 +42,7 @@ class PatientFiles extends Component
 
         try {
             $this->patient->addMedia($this->file)
-                ->toMediaCollection('files', 'patients');
+                ->toMediaCollection(Patient::MEDIA_COLLECTION, Patient::MEDIA_DISK);
         } catch (FileDoesNotExist $e) {
             $this->error('Errore!', $e->getMessage());
         } catch (FileIsTooBig) {
@@ -67,7 +67,7 @@ class PatientFiles extends Component
 
     protected function retrieveMedia(string $id): Media
     {
-        return $this->patient->getMedia('files')->first(fn($file) => $file->id === (int) $id);
+        return $this->patient->getMedia(Patient::MEDIA_COLLECTION)->first(fn($file) => $file->id === (int) $id);
     }
 
     public function download(string $id): ?BinaryFileResponse
