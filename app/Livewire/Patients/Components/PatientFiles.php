@@ -42,7 +42,7 @@ class PatientFiles extends Component
 
         try {
             $this->patient->addMedia($this->file)
-                ->toMediaCollection('files');
+                ->toMediaCollection('files', 'patients');
         } catch (FileDoesNotExist $e) {
             $this->error('Errore!', $e->getMessage());
         } catch (FileIsTooBig) {
@@ -67,7 +67,7 @@ class PatientFiles extends Component
 
     protected function retrieveMedia(string $id): Media
     {
-        return $this->patient->getMedia('files')->first(fn ($file) => $file->id === (int) $id);
+        return $this->patient->getMedia('files')->first(fn($file) => $file->id === (int) $id);
     }
 
     public function download(string $id): ?BinaryFileResponse
@@ -87,7 +87,8 @@ class PatientFiles extends Component
 
     #[On('deleted')]
     public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application {
+    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
+    {
         return view('livewire.patients.components.patient-files');
     }
 }

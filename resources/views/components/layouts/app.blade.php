@@ -23,6 +23,7 @@
     @livewireScripts
 
     @vite('resources/css/app.css')
+    @stack('styles')
 
     @vite(['resources/js/app.js', 'resources/js/enable-push.js'])
     @stack('scripts')
@@ -44,9 +45,8 @@
         </label>
 
         {{-- Brand --}}
-        <div>
-            <img class="hidden xl:block h-14" src="{{ asset('images/Logo.webp') }}" alt="logo"/>
-            <img class="hidden md:block xl:hidden h-12" src="{{ asset('favicon.ico') }}" alt="logo"/>
+        <div class="hidden md:block h-12 xl:h-14 min-w-[6rem]">
+            <livewire:app-logo/>
         </div>
 
         @isset($breadcrumb)

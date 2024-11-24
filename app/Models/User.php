@@ -11,11 +11,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Notification;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use NotificationChannels\WebPush\HasPushSubscriptions;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasMedia
 {
-    use HasFactory, HasPushSubscriptions, Notifiable;
+    use HasFactory, HasPushSubscriptions, Notifiable, InteractsWithMedia;
+
+    const string LOGO_COLLECTION = 'logo';
 
     /**
      * The attributes that are mass assignable.
@@ -54,6 +61,36 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    public function hasLogo(): bool
+    {
+        return $this->getFirstMedia(self::LOGO_COLLECTION) !== null;
+    }
+
+    public function logoUrl(): string
+    {
+        return $this->hasLogo()
+            ? $this->getFirstMediaUrl(self::LOGO_COLLECTION)
+            : asset('images/Logo.png');
+    }
+
+    /**
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
+     */
+    public function updateLogo(TemporaryUploadedFile $logo): void
+    {
+        $justUploadedLogo = $this->addMedia($logo)
+            ->toMediaCollection(self::LOGO_COLLECTION);
+
+        $this->clearMediaCollectionExcept(self::LOGO_COLLECTION, $justUploadedLogo);
+    }
+
+    public function deleteLogo(): void
+    {
+        $this->clearMediaCollection(self::LOGO_COLLECTION);
+    }
+
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
@@ -71,7 +108,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isNotAdmin(): bool
     {
-        return ! $this->isAdmin();
+        return !$this->isAdmin();
     }
 
     public function isAdmin(): bool
