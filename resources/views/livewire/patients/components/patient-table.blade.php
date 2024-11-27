@@ -15,7 +15,7 @@
       }
 
       if (auth()->user()->isAdmin()) {
-        $headers[] = ['key' => 'user.name', 'label' => 'Dottore'];
+        $headers[] = ['key' => 'user.name', 'label' => 'Dottore', 'sortable' => false];
       }
 
       $rowDecoration = [
