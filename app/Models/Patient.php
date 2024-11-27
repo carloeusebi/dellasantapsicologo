@@ -25,6 +25,10 @@ class Patient extends Model implements HasMedia
     use InteractsWithMedia;
     use SoftDeletes;
 
+    const string MEDIA_DISK = 'patients';
+
+    const string MEDIA_COLLECTION = 'files';
+
     protected $fillable = [
         'first_name',
         'last_name',
@@ -86,9 +90,7 @@ class Patient extends Model implements HasMedia
         );
     }
 
-    /**
-     * @return Attribute<int, never>
-     */
+    /** @return Attribute<int, never> */
     protected function age(): Attribute
     {
         return Attribute::make(
@@ -100,11 +102,13 @@ class Patient extends Model implements HasMedia
         );
     }
 
+    /** @return Attribute<string, never> */
     public function isFemale(): Attribute
     {
         return Attribute::make(fn (mixed $value, array $attributes) => $attributes['gender'] === 'F');
     }
 
+    /** @return Attribute<?string, ?string> */
     public function gender(): Attribute
     {
         return Attribute::make(

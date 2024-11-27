@@ -6,25 +6,30 @@
 @tailwind utilities;
 
 #nprogress .bar {
-    background: oklch(var(--p)) !important;
+  background: oklch(var(--p)) !important;
 }
 
 .toast {
-    @apply text-wrap;
+  @apply text-wrap;
 }
 
 .drawer-content {
-    @apply !px-2
+  @apply !px-2
 }
 
 .full-width-modal .modal-box {
-    @apply !max-w-4xl
+  @apply !max-w-4xl
 }
 
 input, select, .select, textarea {
-    @apply !border-base-content/25
+  @apply !border-base-content/25
 }
 
 input.input-error {
-    @apply !border-error
+  @apply !border-error
+}
+
+.cropper-point {
+  width: 10px !important;
+  height: 10px !important;
 }
