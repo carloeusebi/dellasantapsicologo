@@ -18,9 +18,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
-class User extends Authenticatable implements MustVerifyEmail, HasMedia
+class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
-    use HasFactory, HasPushSubscriptions, Notifiable, InteractsWithMedia;
+    use HasFactory, HasPushSubscriptions, InteractsWithMedia, Notifiable;
 
     const string LOGO_COLLECTION = 'logo';
 
@@ -90,7 +90,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         $this->clearMediaCollection(self::LOGO_COLLECTION);
     }
 
-
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
@@ -108,7 +107,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
 
     public function isNotAdmin(): bool
     {
-        return !$this->isAdmin();
+        return ! $this->isAdmin();
     }
 
     public function isAdmin(): bool

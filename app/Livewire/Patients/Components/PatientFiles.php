@@ -3,9 +3,7 @@
 namespace App\Livewire\Patients\Components;
 
 use App\Models\Patient;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -42,7 +40,11 @@ class PatientFiles extends Component
 
         try {
             $this->patient->addMedia($this->file)
-                ->toMediaCollection(Patient::MEDIA_COLLECTION, Patient::MEDIA_DISK);
+                ->toMediaCollection(
+                    collectionName: Patient::MEDIA_COLLECTION,
+                    diskName: Patient::MEDIA_DISK
+                );
+
         } catch (FileDoesNotExist $e) {
             $this->error('Errore!', $e->getMessage());
         } catch (FileIsTooBig) {
@@ -67,7 +69,9 @@ class PatientFiles extends Component
 
     protected function retrieveMedia(string $id): Media
     {
-        return $this->patient->getMedia(Patient::MEDIA_COLLECTION)->first(fn($file) => $file->id === (int) $id);
+        return $this->patient
+            ->getMedia(Patient::MEDIA_COLLECTION)
+            ->first(fn ($file) => $file->id === (int) $id);
     }
 
     public function download(string $id): ?BinaryFileResponse
@@ -86,8 +90,7 @@ class PatientFiles extends Component
     }
 
     #[On('deleted')]
-    public function render(
-    ): Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|View|Application
+    public function render(): View
     {
         return view('livewire.patients.components.patient-files');
     }

@@ -26,6 +26,7 @@ class Patient extends Model implements HasMedia
     use SoftDeletes;
 
     const string MEDIA_DISK = 'patients';
+
     const string MEDIA_COLLECTION = 'files';
 
     protected $fillable = [
@@ -85,13 +86,11 @@ class Patient extends Model implements HasMedia
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value, array $attributes) => $attributes['first_name'].' '.$attributes['last_name']
+            get: fn (mixed $value, array $attributes) => $attributes['first_name'].' '.$attributes['last_name']
         );
     }
 
-    /**
-     * @return Attribute<int, never>
-     */
+    /** @return Attribute<int, never> */
     protected function age(): Attribute
     {
         return Attribute::make(
@@ -103,21 +102,23 @@ class Patient extends Model implements HasMedia
         );
     }
 
+    /** @return Attribute<string, never> */
     public function isFemale(): Attribute
     {
-        return Attribute::make(fn(mixed $value, array $attributes) => $attributes['gender'] === 'F');
+        return Attribute::make(fn (mixed $value, array $attributes) => $attributes['gender'] === 'F');
     }
 
+    /** @return Attribute<?string, ?string> */
     public function gender(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value) => match ($value) {
+            get: fn (mixed $value) => match ($value) {
                 'M' => 'Maschio',
                 'F' => 'Femmina',
                 'O' => 'Altro',
                 default => null
             },
-            set: fn(mixed $value) => match ($value) {
+            set: fn (mixed $value) => match ($value) {
                 'Maschio' => 'M',
                 'Femmina' => 'F',
                 'Altro' => 'O',
@@ -147,7 +148,7 @@ class Patient extends Model implements HasMedia
     public function resolveRouteBinding($value, $field = null): ?Patient
     {
         return $this->whereId($value) // @phpstan-ignore-line
-        ->withArchived()
+            ->withArchived()
             ->firstOrFail();
     }
 }

@@ -14,8 +14,8 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class UpdateThemeSettings extends Component
 {
-    use WithFileUploads;
     use Toast;
+    use WithFileUploads;
 
     protected $listeners = ['logoDeleted' => '$refresh'];
 
