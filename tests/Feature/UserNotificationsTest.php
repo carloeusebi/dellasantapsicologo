@@ -4,7 +4,6 @@ use App\Livewire\Components\UserNotifications;
 use App\Models\Survey;
 use App\Models\User;
 use App\Notifications\SurveyCompletedNotification;
-
 use function PHPUnit\Framework\assertCount;
 
 beforeEach(function () {

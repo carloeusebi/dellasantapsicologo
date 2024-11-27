@@ -1,4 +1,4 @@
-<div wire:poll="updateUnreadNotificationsCount">
+<div wire:poll.30s="updateUnreadNotificationsCount">
     <div>
         <x-button icon="o-bell" class="btn-ghost btn-sm relative hover:bg-inherit" wire:click="$toggle('drawer')">
             @if ($unreadNotificationsCount)
