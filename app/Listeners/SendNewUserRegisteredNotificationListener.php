@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Notification;
 
 class SendNewUserRegisteredNotificationListener
 {
-    public function __construct() {}
-
     public function handle(Registered $event): void
     {
         /** @var User $user */

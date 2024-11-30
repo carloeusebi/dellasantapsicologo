@@ -124,7 +124,7 @@ it('resets answers when max time between answers has passed', function () {
     assertCount(0, Answer::all());
 });
 
-it('sends an email notification when last survey is completed', function () {
+it('sends an email notification when last questionnaire survey is completed', function () {
     Notification::fake();
 
     $survey = Survey::factory()

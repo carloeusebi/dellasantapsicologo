@@ -3,10 +3,10 @@
 namespace App\Livewire\Evaluation;
 
 use App\Actions\AnswerQuestion;
+use App\Events\SurveyCompleted;
 use App\Models\Question;
 use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
-use App\Notifications\SurveyCompletedNotification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Livewire\Attributes\Layout;
@@ -99,7 +99,7 @@ class QuestionnaireScroller extends Component
         $this->reset('comment');
 
         if ($surveyCompleted) {
-            $this->survey->user->notify(new SurveyCompletedNotification($this->survey));
+            SurveyCompleted::dispatch($this->survey);
             $this->redirectRoute('evaluation.thank-you', $this->survey, navigate: true);
 
             return;
