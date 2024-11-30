@@ -10,16 +10,16 @@ class TagSeeder extends Seeder
     public function run(): void
     {
         $tags = [
-            ['tag' => 'Bambini', 'color' => '#08b6d9'],
-            ['tag' => 'Ansia', 'color' => '#ff00ff'],
-            ['tag' => 'Rabbia', 'color' => '#ff0000'],
-            ['tag' => 'Adulti', 'color' => '#1d00fa'],
-            ['tag' => 'DCA', 'color' => '#e53edf'],
-            ['tag' => 'Rimuginio/Ruminazione', 'color' => '#7d8b18'],
-            ['tag' => 'Perfezionismo', 'color' => '#14eb4a'],
-            ['tag' => 'Depressione', 'color' => '#927c7c'],
-            ['tag' => 'DOC', 'color' => '#d73737'],
-            ['tag' => 'Attaccamento', 'color' => '#f46d25'],
+            ['name' => 'Bambini', 'color' => '#08b6d9'],
+            ['name' => 'Ansia', 'color' => '#ff00ff'],
+            ['name' => 'Rabbia', 'color' => '#ff0000'],
+            ['name' => 'Adulti', 'color' => '#1d00fa'],
+            ['name' => 'DCA', 'color' => '#e53edf'],
+            ['name' => 'Rimuginio/Ruminazione', 'color' => '#7d8b18'],
+            ['name' => 'Perfezionismo', 'color' => '#14eb4a'],
+            ['name' => 'Depressione', 'color' => '#927c7c'],
+            ['name' => 'DOC', 'color' => '#d73737'],
+            ['name' => 'Attaccamento', 'color' => '#f46d25'],
         ];
 
         foreach ($tags as $tag) {

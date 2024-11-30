@@ -12,169 +12,169 @@ class VariableSeeder extends Seeder
         $variables = [
             [
                 'id' => '1', 'questionnaire_id' => '1', 'name' => 'Controllo Emotivo', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:44', 'updated_at' => '2024-06-10 21:33:44',
+
             ],
             [
                 'id' => '2', 'questionnaire_id' => '1', 'name' => 'Controllo della Minaccia', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:44', 'updated_at' => '2024-06-10 21:33:44',
+
             ],
             [
                 'id' => '3', 'questionnaire_id' => '1', 'name' => 'Controllo dei livelli di stress',
-                'gender_based' => '0', 'deleted_at' => null, 'created_at' => '2024-06-10 21:33:44',
-                'updated_at' => '2024-06-10 21:33:44',
+                'gender_based' => '0',
+
             ],
             [
-                'id' => '4', 'questionnaire_id' => '2', 'name' => 'Totale', 'gender_based' => '0', 'deleted_at' => null,
-                'created_at' => '2024-06-10 21:33:44', 'updated_at' => '2024-06-10 21:33:44',
+                'id' => '4', 'questionnaire_id' => '2', 'name' => 'Totale', 'gender_based' => '0',
+
             ],
             [
                 'id' => '5', 'questionnaire_id' => '3', 'name' => 'Fiducia', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:44', 'updated_at' => '2024-06-10 21:33:44',
+
             ],
             [
                 'id' => '6', 'questionnaire_id' => '3', 'name' => 'Disagio nelle relazioni intime',
-                'gender_based' => '0', 'deleted_at' => null, 'created_at' => '2024-06-10 21:33:44',
-                'updated_at' => '2024-06-10 21:33:44',
+                'gender_based' => '0',
+
             ],
             [
                 'id' => '7', 'questionnaire_id' => '3', 'name' => 'Relazioni considerate come secondarie',
-                'gender_based' => '0', 'deleted_at' => null, 'created_at' => '2024-06-10 21:33:44',
-                'updated_at' => '2024-06-10 21:33:44',
+                'gender_based' => '0',
+
             ],
             [
                 'id' => '8', 'questionnaire_id' => '3', 'name' => 'Preoccupazioni riguardo alle relazioni intime',
-                'gender_based' => '0', 'deleted_at' => null, 'created_at' => '2024-06-10 21:33:44',
-                'updated_at' => '2024-06-10 21:33:44',
+                'gender_based' => '0',
+
             ],
             [
                 'id' => '9', 'questionnaire_id' => '3', 'name' => 'Bisogno di approvazione', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:44', 'updated_at' => '2024-06-10 21:33:44',
+
             ],
             [
                 'id' => '11', 'questionnaire_id' => '5', 'name' => 'Punteggio Totale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:45', 'updated_at' => '2024-06-10 21:33:45',
+
             ],
             [
                 'id' => '12', 'questionnaire_id' => '6', 'name' => 'Tendenza a dimagrire', 'gender_based' => '1',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:45', 'updated_at' => '2024-06-10 21:33:45',
+
             ],
             [
                 'id' => '13', 'questionnaire_id' => '6', 'name' => 'Bulimia', 'gender_based' => '1',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:45', 'updated_at' => '2024-06-10 21:33:45',
+
             ],
             [
                 'id' => '14', 'questionnaire_id' => '6', 'name' => 'Insoddisfazione corporea', 'gender_based' => '1',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:45', 'updated_at' => '2024-06-10 21:33:45',
+
             ],
             [
                 'id' => '15', 'questionnaire_id' => '7', 'name' => 'Totale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:45', 'updated_at' => '2024-06-10 21:33:45',
+
             ],
             [
                 'id' => '16', 'questionnaire_id' => '8', 'name' => 'Critiche rivolte a sé stesso',
-                'gender_based' => '0', 'deleted_at' => null, 'created_at' => '2024-06-10 21:33:45',
-                'updated_at' => '2024-06-10 21:33:46',
+                'gender_based' => '0',
+
             ],
             [
                 'id' => '17', 'questionnaire_id' => '8',
                 'name' => 'Critiche rivolte a sé stesso in relazione agli altri', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:46',
+
             ],
             [
                 'id' => '18', 'questionnaire_id' => '9', 'name' => 'Obiettivi personali', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:46',
+
             ],
             [
                 'id' => '19', 'questionnaire_id' => '9', 'name' => 'Timore degli errori', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:46',
+
             ],
             [
                 'id' => '20', 'questionnaire_id' => '9', 'name' => 'Critiche genitoriali', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:46',
+
             ],
             [
                 'id' => '21', 'questionnaire_id' => '9', 'name' => 'Aspettative genitoriali', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:46',
+
             ],
             [
                 'id' => '22', 'questionnaire_id' => '9', 'name' => 'Dubbi sulle azioni', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:46',
+
             ],
             [
                 'id' => '23', 'questionnaire_id' => '9', 'name' => 'Organizzazione', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:46',
+
             ],
             [
                 'id' => '24', 'questionnaire_id' => '10', 'name' => 'Vantaggi del pensiero rimuginativo',
-                'gender_based' => '0', 'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46',
-                'updated_at' => '2024-06-10 21:33:46',
+                'gender_based' => '0',
+
             ],
             [
                 'id' => '25', 'questionnaire_id' => '10',
                 'name' => 'Minaccia e incontrollabilità del pensiero rimuginativo', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:46',
+
             ],
             [
                 'id' => '26', 'questionnaire_id' => '10', 'name' => 'Capacità di gestione dei pensieri',
-                'gender_based' => '0', 'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46',
-                'updated_at' => '2024-06-10 21:33:46',
+                'gender_based' => '0',
+
             ],
             [
                 'id' => '27', 'questionnaire_id' => '10', 'name' => 'Controllo dei pensieri', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:46',
+
             ],
             [
                 'id' => '28', 'questionnaire_id' => '10', 'name' => 'Monitoraggio dei pensieri', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:46',
+
             ],
             [
                 'id' => '29', 'questionnaire_id' => '10', 'name' => 'Totale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:46', 'updated_at' => '2024-06-10 21:33:47',
+
             ],
             [
                 'id' => '30', 'questionnaire_id' => '11', 'name' => 'Funzionamento psicosociale globale',
-                'gender_based' => '0', 'deleted_at' => null, 'created_at' => '2024-06-10 21:33:47',
-                'updated_at' => '2024-06-10 21:33:47',
+                'gender_based' => '0',
+
             ],
             [
                 'id' => '31', 'questionnaire_id' => '11', 'name' => 'Sintomi', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:47', 'updated_at' => '2024-06-10 21:33:47',
+
             ],
             [
                 'id' => '32', 'questionnaire_id' => '11', 'name' => 'Relazioni interpersonali', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:47', 'updated_at' => '2024-06-10 21:33:47',
+
             ],
             [
                 'id' => '33', 'questionnaire_id' => '11', 'name' => 'Ruolo sociale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:47', 'updated_at' => '2024-06-10 21:33:48',
+
             ],
             [
                 'id' => '34', 'questionnaire_id' => '12', 'name' => 'Totale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:48', 'updated_at' => '2024-06-10 21:33:48',
+
             ],
             [
                 'id' => '35', 'questionnaire_id' => '13', 'name' => 'Totale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:48', 'updated_at' => '2024-06-10 21:33:48',
+
             ],
             [
                 'id' => '36', 'questionnaire_id' => '14', 'name' => 'Totale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:48', 'updated_at' => '2024-06-10 21:33:48',
+
             ],
             [
                 'id' => '37', 'questionnaire_id' => '15', 'name' => 'Totale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:48', 'updated_at' => '2024-06-10 21:33:48',
+
             ],
             [
                 'id' => '38', 'questionnaire_id' => '16', 'name' => 'Totale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:48', 'updated_at' => '2024-06-10 21:33:49',
+
             ],
             [
                 'id' => '39', 'questionnaire_id' => '17', 'name' => 'Punteggio Totale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:49', 'updated_at' => '2024-06-10 21:33:49',
+
             ],
             [
                 'id' => '40', 'questionnaire_id' => '23', 'name' => 'Totale', 'gender_based' => '0',
-                'deleted_at' => null, 'created_at' => '2024-06-10 21:33:49', 'updated_at' => '2024-06-10 21:33:49',
+
             ],
         ];
 
