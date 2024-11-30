@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Notifications\NewUserRegisteredNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,29 +9,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Notification;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, HasPushSubscriptions, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -43,30 +31,18 @@ class User extends Authenticatable implements MustVerifyEmail
         parent::boot();
 
         static::creating(function (User $user): void {
-            $user->role()->associate(Role::where('name', Role::DOCTOR)->firstOrFail());
-        });
-
-        static::created(function (User $user): void {
-            Notification::send(
-                User::whereRelation('role', 'name', Role::ADMIN)->get(),
-                new NewUserRegisteredNotification($user)
-            );
+            if (! $user->role_id) {
+                $user->role()->associate(Role::where('name', Role::DOCTOR)->firstOrFail());
+            }
         });
     }
 
-    public function role(): BelongsTo
+    protected function casts(): array
     {
-        return $this->belongsTo(Role::class);
-    }
-
-    public function patients(): HasMany
-    {
-        return $this->hasMany(Patient::class);
-    }
-
-    public function templates(): HasMany
-    {
-        return $this->hasMany(Template::class);
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 
     public function isNotAdmin(): bool
@@ -94,21 +70,23 @@ class User extends Authenticatable implements MustVerifyEmail
         $query->whereRelation('role', 'name', Role::DOCTOR);
     }
 
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function patients(): HasMany
+    {
+        return $this->hasMany(Patient::class);
+    }
+
     public function questionnaires(): HasMany
     {
         return $this->hasMany(Questionnaire::class);
     }
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function templates(): HasMany
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Template::class);
     }
 }

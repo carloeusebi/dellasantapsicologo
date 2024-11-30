@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Role;
+use App\Models\User;
+use App\Notifications\NewUserRegisteredNotification;
 use Laravel\Fortify\Features;
 use Laravel\Jetstream\Jetstream;
 
@@ -33,3 +36,21 @@ test('new users can register', function () {
 })->skip(function () {
     return ! Features::enabled(Features::registration());
 }, 'Registration support is not enabled.');
+
+test('a notification is sent to the admin when a new user registers', function () {
+    User::factory()->for(Role::whereName(Role::ADMIN)->first())->create();
+
+    Notification::fake();
+
+    $this->post('/register', [
+        'name' => 'Test User',
+        'email' => 'test@email.it',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ]);
+
+    Notification::assertSentTo(
+        User::whereRelation('role', 'name', Role::ADMIN)->get(),
+        NewUserRegisteredNotification::class
+    );
+});
