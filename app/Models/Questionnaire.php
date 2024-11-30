@@ -33,7 +33,7 @@ class Questionnaire extends Model
     {
         parent::boot();
 
-        static::deleting(function (Questionnaire $questionnaire): void {
+        static::forceDeleting(function (Questionnaire $questionnaire): void {
             DB::table('choices')
                 ->where('questionable_type', 'App\Models\Question')
                 ->whereIn('questionable_id', $questionnaire->questions->pluck('id'))
