@@ -70,24 +70,32 @@
                                         <x-questionnaires.tag :$tag :key="$tag->id"/>
                                     @endforeach
                                 </div>
-                                <div>
-                                    @if($this->comparisonSurvey)
-                                        <div class="flex gap-4 my-3 font-bold text-sm">
-                                            <div class="flex items-center gap-2">
-                                                <button class="inline-block h-5 w-5 bg-primary border border-base-300"
-                                                        disabled></button>
-                                                <span>{{ $this->survey->title }}</span>
-                                            </div>
-                                            <div class="flex items-center gap-2">
-                                                <button class="inline-block h-5 w-5 bg-accent/50 border border-base-300"
-                                                        disabled></button>
-                                                <span>{{ $this->comparisonSurvey->title }}</span>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
                             </div>
                         </x-slot:title>
+                        <x-slot:actions>
+                            <div>
+                                @if($this->comparisonSurvey)
+                                    <div class="flex  gap-4 my-3 font-bold text-sm">
+                                        <div class="flex items-center gap-2">
+                                            <button class="inline-block h-5 w-5 bg-primary border border-base-300"
+                                                    disabled></button>
+                                            <span>{{ $this->survey->title }}</span>
+                                            <span class="text-xs text-base-content/50">
+                                                ({{ $this->survey->created_at->translatedFormat('d F Y') }})
+                                            </span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <button class="inline-block h-5 w-5 bg-accent/50 border border-base-300"
+                                                    disabled></button>
+                                            <span>{{ $this->comparisonSurvey->title }}</span>
+                                            <span class="text-xs text-base-content/50">
+                                                ({{ $this->comparisonSurvey->created_at->translatedFormat('d F Y') }})
+                                           </span>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </x-slot:actions>
                         <x-slot:subtitle>
                             <p class="text-justify">{{ $questionnaireSurvey->questionnaire->description }}</p>
                         </x-slot:subtitle>
