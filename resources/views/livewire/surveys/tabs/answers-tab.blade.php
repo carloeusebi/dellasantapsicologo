@@ -75,7 +75,7 @@
                         <x-slot:actions>
                             <div>
                                 @if($this->comparisonSurvey)
-                                    <div class="flex  gap-4 my-3 font-bold text-sm">
+                                    <div class="md:flex gap-4 my-3 font-bold text-sm">
                                         <div class="flex items-center gap-2">
                                             <button class="inline-block h-5 w-5 bg-primary border border-base-300"
                                                     disabled></button>
