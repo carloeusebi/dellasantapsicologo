@@ -45,17 +45,6 @@ class Question extends Model
         });
     }
 
-    public function calculateScore(Choice $choice): int
-    {
-        if (! $this->reversed) {
-            return $choice->points;
-        }
-
-        $choices = $this->choices->isEmpty() ? $this->questionnaire->choices : $this->choices;
-
-        return get_reversed_choice($choices, $choice)->points;
-    }
-
     public function questionnaire(): BelongsTo
     {
         return $this->belongsTo(Questionnaire::class);

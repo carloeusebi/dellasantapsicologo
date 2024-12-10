@@ -8,13 +8,11 @@ use App\Models\QuestionnaireSurvey;
 use App\Models\Survey;
 use App\Traits\SurveysComparison;
 use Exception;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
@@ -126,10 +124,10 @@ class AnswersTab extends Component
     {
         foreach ($updates as $update) {
             $this->changeAnswer(
-                $update['questionnaire_survey_id'],
-                $update['question_id'],
-                $update['choice_id'],
-                true,
+                questionnaire_survey_id: $update['questionnaire_survey_id'],
+                question_id: $update['question_id'],
+                choice_id: $update['choice_id'],
+                isMassUpdate: true,
             );
         }
 
@@ -147,10 +145,10 @@ class AnswersTab extends Component
         bool $isMassUpdate = false,
     ): void {
 
-        (new AnswerQuestion)->handle(
-            $questionnaire_survey_id,
-            $question_id,
-            $choice_id,
+        AnswerQuestion::run(
+            questionnaire_survey_id: $questionnaire_survey_id,
+            question_id: $question_id,
+            choice_id: $choice_id
         );
 
         if (! $isMassUpdate) {
@@ -160,8 +158,8 @@ class AnswersTab extends Component
         }
     }
 
-    public function render(
-    ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application {
+    public function render(): View
+    {
         $this->loadCompareSurvey();
 
         return view('livewire.surveys.tabs.answers-tab');

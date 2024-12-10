@@ -23,7 +23,7 @@ beforeEach(function () {
 });
 
 it('mounts with incomplete questionnaire survey', function () {
-    AnswerQuestion::handle(
+    AnswerQuestion::run(
         $this->qS->id,
         $this->qS->questions()->first()->id,
     );
@@ -111,7 +111,7 @@ it('resets answers when max time between answers has passed', function () {
         'updated_at' => now()->subHours(QuestionnaireScroller::getHoursBetweenAnswersBeforeReset() + 1),
     ]);
 
-    AnswerQuestion::handle(
+    AnswerQuestion::run(
         $questionnaireSurvey->id,
         $questionnaireSurvey->questions()->first()->id,
     );
