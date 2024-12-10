@@ -20,7 +20,7 @@ it('clones a questionnaire', function () {
         )
         ->create();
 
-    $clone = (new CloneQuestionnaire)->handle($questionnaire);
+    $clone = CloneQuestionnaire::run($questionnaire);
 
     $clone->load('questions.choices', 'variables.cutoffs', 'tags', 'choices');
 
@@ -38,6 +38,6 @@ it('throws an exception when cloning fails', function () {
         ->once()
         ->andThrow(new Exception('Transaction failed'));
 
-    expect(fn () => (new CloneQuestionnaire)->handle($questionnaire))
+    expect(fn () => CloneQuestionnaire::run($questionnaire))
         ->toThrow(Exception::class);
 });

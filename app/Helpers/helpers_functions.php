@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\GetActualChoiceId;
 use App\Models\Answer;
 use App\Models\Choice;
 use App\Models\Question;
@@ -47,16 +48,5 @@ function get_reversed_choice(Collection $choices, Choice $choice): ?Choice
 
 function get_actual_choice_id(?Answer $answer, Question $question, Questionnaire $questionnaire): ?int
 {
-    if (! $answer || ! $answer->choice_id) {
-        return null;
-    }
-
-    if (! $question->reversed) {
-        return $answer->choice->id;
-    }
-
-    $choices = $answer->choice->questionable_type === Question::class ? $question->choices : $questionnaire->choices;
-    $selectedChoice = $choices->first(fn (Choice $choice) => $answer->choice?->is($choice));
-
-    return get_reversed_choice($choices, $selectedChoice)?->id;
+    return GetActualChoiceId::run($answer, $question, $questionnaire);
 }

@@ -88,7 +88,7 @@ class QuestionnaireScroller extends Component
             return;
         }
 
-        [$questionnaireSurveyCompleted, $surveyCompleted] = AnswerQuestion::handle(
+        [$questionnaireSurveyCompleted, $surveyCompleted] = AnswerQuestion::run(
             questionnaire_survey_id: $this->questionnaireSurvey->id,
             question_id: $this->question->id,
             choice_id: $choiceId,

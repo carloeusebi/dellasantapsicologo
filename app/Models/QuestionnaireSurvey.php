@@ -14,6 +14,8 @@ class QuestionnaireSurvey extends Pivot
 {
     use HasFactory;
 
+    protected $touches = ['survey'];
+
     public $timestamps = true;
 
     public $incrementing = true;

@@ -28,7 +28,7 @@ it('redirects to first non completed survey', function () {
         ->has(QuestionnaireSurvey::factory())
         ->create();
 
-    AnswerQuestion::handle(
+    AnswerQuestion::run(
         $survey->questionnaireSurveys->first()?->id,
         $survey->questionnaireSurveys->first()->questions()->first()->id
     );

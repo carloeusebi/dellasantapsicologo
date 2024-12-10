@@ -11,6 +11,8 @@ class Answer extends Model
 {
     use SoftDeletes;
 
+    protected $touches = ['questionnaireSurvey'];
+
     protected $fillable = [
         'questionnaire_survey_id',
         'question_id',

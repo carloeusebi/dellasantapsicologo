@@ -8,14 +8,14 @@ use App\Models\Question;
 use App\Models\QuestionnaireSurvey;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class AnswerQuestion
+final class AnswerQuestion
 {
     use AsAction;
 
     /**
      * @return array{0: bool, 1: bool} [$questionnaireSurveyCompleted, $surveyCompleted]
      */
-    public static function handle(
+    public function handle(
         int $questionnaire_survey_id,
         int $question_id,
         ?int $choice_id = null,
@@ -27,8 +27,6 @@ class AnswerQuestion
 
         $choice = Choice::find($choice_id);
 
-        $value = $choice ? $question->calculateScore($choice) : null;
-
         Answer::updateOrCreate(
             [
                 'questionnaire_survey_id' => $questionnaire_survey_id,
@@ -38,7 +36,7 @@ class AnswerQuestion
                 'choice_id' => $choice_id,
                 'comment' => $comment,
                 'skipped' => $skipped,
-                'value' => $value,
+                'value' => CalculateScore::run($question, $choice),
             ]
         );
 
