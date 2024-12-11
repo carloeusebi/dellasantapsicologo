@@ -1,4 +1,4 @@
-<x-form wire:submit="save" class="[&_label]:!pb-0 !gap-2">
+<x-form wire:submit="save" class="[&_.label]:!pb-0 !gap-2">
 
     <div class="grid md:grid-cols-2 gap-x-4">
         <x-input
