@@ -26,7 +26,7 @@
     "mobiledetect/mobiledetectlib": "^4.8",
     "robsontenorio/mary": "^1.30",
     "silviolleite/laravelpwa": "^2.0",
-    "spatie/browsershot": "^4.0",
+    "spatie/browsershot": "^5.0",
     "spatie/laravel-backup": "^9.0",
     "spatie/laravel-medialibrary": "^11.5",
     "spatie/laravel-pdf": "*",
