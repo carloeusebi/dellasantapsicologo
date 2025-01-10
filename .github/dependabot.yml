@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # For PHP dependencies managed by Composer
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "composer"
+    open-pull-requests-limit: 10
+
+  # For JavaScript dependencies managed by npm or yarn
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "npm"
+    open-pull-requests-limit: 10
