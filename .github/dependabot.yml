@@ -7,7 +7,11 @@ updates:
       interval: "monthly"
     commit-message:
       prefix: "composer"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
 
   # For JavaScript dependencies managed by npm or yarn
   - package-ecosystem: "npm"
@@ -16,4 +20,8 @@ updates:
       interval: "monthly"
     commit-message:
       prefix: "npm"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 1
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
