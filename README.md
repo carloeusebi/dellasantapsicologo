@@ -1,6 +1,5 @@
 ![Deploy](https://github.com/carloeusebi/dellasantapsicologo/actions/workflows/build.yml/badge.svg)
 ![Tets](https://github.com/carloeusebi/dellasantapsicologo/actions/workflows/tests.yml/badge.svg)
-![PhpStan](https://github.com/carloeusebi/dellasantapsicologo/actions/workflows/phpstan.yml/badge.svg)
 
 # Dellasanta Psicologo
 

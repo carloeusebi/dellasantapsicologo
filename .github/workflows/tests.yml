@@ -25,5 +25,8 @@ jobs:
           cp .env.example .env
           php artisan key:generate
 
+      - name: Phpstan
+        run: ./vendor/bin/phpstan analyse
+
       - name: Tests
         run: ./vendor/bin/pest -p
