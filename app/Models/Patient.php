@@ -71,6 +71,9 @@ class Patient extends Model implements HasMedia
         }
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -123,6 +126,9 @@ class Patient extends Model implements HasMedia
         );
     }
 
+    /**
+     * @return HasMany<Survey, $this>
+     */
     public function surveys(): HasMany
     {
         return $this->hasMany(Survey::class)

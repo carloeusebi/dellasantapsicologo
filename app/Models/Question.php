@@ -45,6 +45,9 @@ class Question extends Model
         });
     }
 
+    /**
+     * @return BelongsTo<Questionnaire, $this>
+     */
     public function questionnaire(): BelongsTo
     {
         return $this->belongsTo(Questionnaire::class);
@@ -55,6 +58,9 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
+    /**
+     * @return MorphMany<Choice, $this>
+     */
     public function choices(): MorphMany
     {
         return $this->morphMany(Choice::class, 'questionable');

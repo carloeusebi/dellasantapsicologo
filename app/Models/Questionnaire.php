@@ -46,6 +46,9 @@ class Questionnaire extends Model
         });
     }
 
+    /**
+     * @return HasMany<Question, $this>
+     */
     public function questions(): HasMany
     {
         return $this->hasMany(Question::class)
@@ -84,21 +87,33 @@ class Questionnaire extends Model
             ->using(QuestionnaireSurvey::class);
     }
 
+    /**
+     * @return MorphMany<Choice, $this>
+     */
     public function choices(): MorphMany
     {
         return $this->morphMany(Choice::class, 'questionable');
     }
 
+    /**
+     * @return HasMany<Variable, $this>
+     */
     public function variables(): HasMany
     {
         return $this->hasMany(Variable::class);
     }
 
+    /**
+     * @return HasManyThrough<Cutoff, Variable, $this>
+     */
     public function cutoffs(): HasManyThrough
     {
         return $this->hasManyThrough(Cutoff::class, Variable::class);
     }
 
+    /**
+     * @return BelongsToMany<Tag, $this>
+     */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);

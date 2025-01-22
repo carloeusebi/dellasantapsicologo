@@ -2,9 +2,10 @@
 
 namespace App\Traits;
 
+use App\Models\Answer;
 use App\Models\Survey;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Livewire\Attributes\Computed;
 
 /**
@@ -60,11 +61,13 @@ trait SurveysComparison
                 'lastAnswer',
                 'questionnaire',
                 'questionnaire.variables.cutoffs',
-                'questionnaire.variables.questions.answers' => function (HasMany $query) {
+                'questionnaire.variables.questions.answers' => function ($query) {
+                    /** @var Builder<Answer> $query */
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->comparisonSurvey_id)
                         ->with('choice');
                 },
-                'questions.answers' => function (HasMany $query) {
+                'questions.answers' => function ($query) {
+                    /** @var Builder<Answer> $query */
                     $query->whereRelation('questionnaireSurvey', 'survey_id', $this->comparisonSurvey_id)
                         ->with('choice');
                 },

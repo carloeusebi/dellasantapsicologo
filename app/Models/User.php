@@ -70,21 +70,33 @@ class User extends Authenticatable implements MustVerifyEmail
         $query->whereRelation('role', 'name', Role::DOCTOR);
     }
 
+    /**
+     * @return BelongsTo<Role, $this>
+     */
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
 
+    /**
+     * @return HasMany<Patient, $this>
+     */
     public function patients(): HasMany
     {
         return $this->hasMany(Patient::class);
     }
 
+    /**
+     * @return HasMany<Questionnaire, $this>
+     */
     public function questionnaires(): HasMany
     {
         return $this->hasMany(Questionnaire::class);
     }
 
+    /**
+     * @return HasMany<Template, $this>
+     */
     public function templates(): HasMany
     {
         return $this->hasMany(Template::class);

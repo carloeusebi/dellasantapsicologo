@@ -51,7 +51,7 @@ class ResultsTab extends Component
             ])
             ->withCount('answers', 'questions', 'skippedAnswers')
             ->when($this->isComparing, function ($query) {
-                /** @var HasMany $query */
+                /** @var Builder<QuestionnaireSurvey> $query */
                 $query->whereRelation('questionnaire', function (Builder $query) {
                     $ids = $this->comparisonQuestionnaireSurveys->pluck('questionnaire_id')->toArray();
                     $query->whereIn('id', $ids);

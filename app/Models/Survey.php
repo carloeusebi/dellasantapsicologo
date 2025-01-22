@@ -73,6 +73,9 @@ class Survey extends Model
         }
     }
 
+    /**
+     * @return HasOneThrough<User, Patient, $this>
+     */
     public function user(): HasOneThrough
     {
         return $this->hasOneThrough(
@@ -94,6 +97,9 @@ class Survey extends Model
             ->withArchived();
     }
 
+    /**
+     * @return BelongsToMany<Questionnaire, $this>
+     */
     public function questionnaires(): BelongsToMany
     {
         return $this->belongsToMany(Questionnaire::class)
@@ -101,6 +107,9 @@ class Survey extends Model
             ->withTimestamps();
     }
 
+    /**
+     * @return HasMany<QuestionnaireSurvey, $this>
+     */
     public function questionnaireSurveys(): HasMany
     {
         return $this->hasMany(QuestionnaireSurvey::class);

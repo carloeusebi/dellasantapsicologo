@@ -33,21 +33,31 @@ class Variable extends Model
     public function score(): Attribute
     {
         return Attribute::make(fn () => array_reduce($this->questions->map(
-            fn (Question $question) => $question->answers->first()?->value ?? 0)->flatten()->toArray(),
+            fn(Question $question) => $question->answers->first()->value ?? 0
+        )->flatten()->toArray(),
             fn (int $total, $answerValue) => $total + $answerValue, 0)
         );
     }
 
+    /**
+     * @return BelongsTo<Questionnaire, $this>
+     */
     public function questionnaire(): BelongsTo
     {
         return $this->belongsTo(Questionnaire::class);
     }
 
+    /**
+     * @return BelongsToMany<Question, $this>
+     */
     public function questions(): BelongsToMany
     {
         return $this->belongsToMany(Question::class);
     }
 
+    /**
+     * @return HasMany<Cutoff, $this>
+     */
     public function cutoffs(): HasMany
     {
         return $this->hasMany(Cutoff::class);

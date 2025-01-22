@@ -67,16 +67,25 @@ class Answer extends Model
     //        return $choices['customAnswer'] ?? '';
     //    }
 
+    /**
+     * @return BelongsTo<QuestionnaireSurvey, $this>
+     */
     public function questionnaireSurvey(): BelongsTo
     {
         return $this->belongsTo(QuestionnaireSurvey::class);
     }
 
+    /**
+     * @return BelongsTo<Choice, $this>
+     */
     public function choice(): BelongsTo
     {
         return $this->belongsTo(Choice::class);
     }
 
+    /**
+     * @return BelongsTo<Question, $this>
+     */
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);

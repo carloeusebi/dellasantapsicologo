@@ -56,11 +56,17 @@ class QuestionnaireSurvey extends Pivot
         return [$completed, $this->survey->fresh()->completed];
     }
 
+    /**
+     * @return BelongsTo<Survey, $this>
+     */
     public function survey(): BelongsTo
     {
         return $this->belongsTo(Survey::class);
     }
 
+    /**
+     * @return HasManyThrough<Question, Questionnaire, $this>
+     */
     public function questions(): HasManyThrough
     {
         return $this->hasManyThrough(
@@ -72,23 +78,35 @@ class QuestionnaireSurvey extends Pivot
         )->withTrashedParents();
     }
 
+    /**
+     * @return BelongsTo<Questionnaire, $this>
+     */
     public function questionnaire(): BelongsTo
     {
         return $this->belongsTo(Questionnaire::class)
             ->withTrashed();
     }
 
+    /**
+     * @return HasMany<Answer, $this>
+     */
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class, 'questionnaire_survey_id', 'id');
     }
 
+    /**
+     * @return HasMany<Answer, $this>
+     */
     public function skippedAnswers(): HasMany
     {
         return $this->hasMany(Answer::class, 'questionnaire_survey_id', 'id')
             ->whereSkipped(true);
     }
 
+    /**
+     * @return HasOne<Answer, $this>
+     */
     public function lastAnswer(): HasOne
     {
         return $this->hasOne(Answer::class, 'questionnaire_survey_id', 'id')

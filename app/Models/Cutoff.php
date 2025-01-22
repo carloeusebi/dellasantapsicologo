@@ -74,6 +74,9 @@ class Cutoff extends Model
         );
     }
 
+    /**
+     * @return BelongsTo<Variable, $this>
+     */
     public function variable(): BelongsTo
     {
         return $this->belongsTo(Variable::class);
