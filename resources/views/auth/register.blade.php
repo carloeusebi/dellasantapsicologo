@@ -5,6 +5,7 @@
       x-on:submit="loading = true"
   >
     @csrf
+    <input type="text" name="website" value="" autocomplete="off" tabindex="-1" style="display:none" aria-hidden="true">
     <x-input
         class="input-sm" name="name" type="text" label="Nome" icon="o-user" error-field="name" value="{{ old('name') }}"
         placeholder="Nome e Cognome" autofocus
