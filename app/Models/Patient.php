@@ -149,8 +149,8 @@ class Patient extends Model implements HasMedia
 
     public function resolveRouteBinding($value, $field = null): ?Patient
     {
-        return $this->whereId($value) // @phpstan-ignore-line
-            ->withArchived()
+        return $this->whereId($value)
+            ->withArchived() /** @phpstan-ignore method.notFound */
             ->firstOrFail();
     }
 }

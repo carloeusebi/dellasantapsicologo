@@ -93,8 +93,8 @@ class Survey extends Model
      */
     public function patient(): BelongsTo
     {
-        return $this->belongsTo(Patient::class) //@phpstan-ignore-line
-            ->withArchived();
+        return $this->belongsTo(Patient::class)
+            ->withArchived(); /** @phpstan-ignore method.notFound  */
     }
 
     /**
@@ -102,7 +102,7 @@ class Survey extends Model
      */
     public function questionnaires(): BelongsToMany
     {
-        return $this->belongsToMany(Questionnaire::class)
+        return $this->belongsToMany(Questionnaire::class) /** @phpstan-ignore return.type  */
             ->using(QuestionnaireSurvey::class)
             ->withTimestamps();
     }
@@ -112,7 +112,7 @@ class Survey extends Model
      */
     public function questionnaireSurveys(): HasMany
     {
-        return $this->hasMany(QuestionnaireSurvey::class);
+        return $this->hasMany(QuestionnaireSurvey::class)->orderBy('id');
     }
 
     public function completedQuestionnaireSurvey(): HasMany

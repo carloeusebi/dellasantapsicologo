@@ -10,11 +10,11 @@
   "require": {
     "php": "^8.3",
     "ext-zip": "*",
-    "hammerstone/sidecar": "^0.6.1",
+    "hammerstone/sidecar": "^0.8.0",
     "joelbutcher/laravel-archivable": "^1.4",
-    "laravel-notification-channels/webpush": "^9.0",
+    "laravel-notification-channels/webpush": "^10.0",
     "laravel/fortify": "^1.21",
-    "laravel/framework": "^11.3",
+    "laravel/framework": "^12.61.1",
     "laravel/jetstream": "^5.1",
     "laravel/pulse": "^1.2",
     "laravel/sanctum": "^4.0",
@@ -24,10 +24,10 @@
     "livewire/volt": "^1.6",
     "lorisleiva/laravel-actions": "^2.8",
     "mobiledetect/mobiledetectlib": "^4.8",
-    "robsontenorio/mary": "^1.30",
+    "robsontenorio/mary": "^2.0",
     "silviolleite/laravelpwa": "^2.0",
     "spatie/browsershot": "^5.0",
-    "spatie/laravel-backup": "^9.0",
+    "spatie/laravel-backup": "^10.0",
     "spatie/laravel-medialibrary": "^11.5",
     "spatie/laravel-pdf": "*",
     "wnx/sidecar-browsershot": "^2.3"
@@ -41,8 +41,8 @@
     "laravel/sail": "^1.26",
     "mockery/mockery": "^1.6",
     "nunomaduro/collision": "^8.0",
-    "pestphp/pest": "^2.34",
-    "pestphp/pest-plugin-laravel": "^2.4",
+    "pestphp/pest": "^3.0",
+    "pestphp/pest-plugin-laravel": "^3.0",
     "spatie/laravel-ignition": "^2.4"
   },
   "autoload": {

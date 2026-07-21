@@ -34,7 +34,7 @@ class QuestionnairePolicy
 
     private function withSurveysCount(Questionnaire $questionnaire): Questionnaire
     {
-        if ($questionnaire->surveys_count === null) {
+        if ($questionnaire->surveys_count === null) { /** @phpstan-ignore identical.alwaysFalse  */
             $questionnaire->loadCount('surveys');
         }
 

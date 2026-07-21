@@ -1,5 +1,7 @@
+@reference "./app.css";
+
 #nprogress .bar {
-  background: theme('colors.brand') !important;
+  background: var(--color-brand) !important;
 }
 
 .label-text {

@@ -18,6 +18,11 @@ class Variable extends Model
     protected $fillable = [
         'name',
         'gender_based',
+        'type',
+        'from',
+        'to',
+        'fem_from',
+        'fem_to',
     ];
 
     protected $touches = ['questionnaire'];
