@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="flex flex-col order-1 items-end gap-2">
-                    <a href="{{ route('download.survey', $survey) }}" target="_blank" class="block w-full xl:w-fit">
+                    <a href="{{ route('download.survey', $survey) }}" target="_blank" class="block w-full xl:btn-wide">
                         <x-button class="w-full xl:btn-wide" icon="o-printer" wire:click="editModal = true">Stampa
                         </x-button>
                     </a>
