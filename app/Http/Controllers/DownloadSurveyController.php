@@ -6,6 +6,7 @@ use App\Models\Survey;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
+use Spatie\Browsershot\Browsershot;
 use Spatie\LaravelPdf\Enums\Format;
 use Spatie\LaravelPdf\Facades\Pdf;
 
@@ -29,7 +30,12 @@ class DownloadSurveyController extends Controller
             ]);
 
         return Pdf::view('pdf.survey', ['survey' => $survey])
-            ->onLambda()
+            ->withBrowsershot(function (Browsershot $browsershot) {
+                $browsershot
+                    ->setNodeBinary(config('services.browsershot.node_path'))
+                    ->setNpmBinary(config('services.browsershot.npm_path'))
+                    ->noSandbox();
+            })
             ->margins(top: 15, bottom: 15)
             ->name(Str::kebab("$survey->title di {$survey->patient->full_name}.pdf"))
             ->headerhtml(view('pdf.components.survey.header', ['survey' => $survey]))
