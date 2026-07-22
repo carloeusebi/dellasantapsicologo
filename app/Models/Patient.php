@@ -140,8 +140,8 @@ class Patient extends Model implements HasMedia
         $query->when($search, function (Builder $query, string $search) {
             collect(explode(' ', $search))->each(function (string $term) use ($query) {
                 $query->where(function (Builder $query) use ($term) {
-                    $query->where('first_name', 'ILIKE', "%$term%")
-                        ->orwhere('last_name', 'ILIKE', "%$term%");
+                    $query->whereLike('first_name', "%$term%")
+                        ->orWhereLike('last_name', "%$term%");
                 });
             });
         });

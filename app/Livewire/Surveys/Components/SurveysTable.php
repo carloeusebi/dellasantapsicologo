@@ -50,9 +50,9 @@ class SurveysTable extends TableComponent
                 ->when($this->search, function (Builder $query, string $search) {
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
                         $query->where(function (Builder $query) use ($term) {
-                            $query->whereILike('title', "%$term%")
-                                ->orWhereRelation('patient', 'first_name', 'ilike', "%$term%")
-                                ->orWhereRelation('patient', 'last_name', 'ilike', "%$term%");
+                            $query->whereLike('title', "%$term%")
+                                ->orWhereHas('patient', fn (Builder $q) => $q->whereLike('first_name', "%$term%"))
+                                ->orWhereHas('patient', fn (Builder $q) => $q->whereLike('last_name', "%$term%"));
                         });
                     });
                 })

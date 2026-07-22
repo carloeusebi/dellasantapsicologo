@@ -57,7 +57,7 @@ class TemplatesTable extends TableComponent
                 })
                 ->when($this->search, function (Builder $query, string $search) {
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                        $query->whereILike('name', "%$term%");
+                        $query->whereLike('name', "%$term%");
                     });
                 })
                 ->orderBy($this->sortBy['column'], $this->sortBy['direction'])

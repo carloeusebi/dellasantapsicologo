@@ -52,7 +52,7 @@ class TemplatesTable extends Component
             ->withCount('questionnaires')
             ->when($this->search, function (Builder $query, string $search) {
                 collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                    $query->whereRelation('tags', 'name', 'ilike', "%$term%");
+                    $query->whereHas('tags', fn (Builder $q) => $q->whereLike('name', "%$term%"));
                 });
             })
             ->when($this->tagsFilter, function (Builder $query, array $tags) {

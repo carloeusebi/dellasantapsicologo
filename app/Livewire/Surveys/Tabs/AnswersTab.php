@@ -13,7 +13,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Url;
@@ -56,7 +55,7 @@ class AnswersTab extends Component
                     $query->when($this->query, function ($query, string $search) {
                         /** @var Builder<Question> $query */
                         collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                            $query->whereILike('text', "%$term%");
+                            $query->whereLike('text', "%$term%");
                         });
                     })
                         ->with([
@@ -74,7 +73,7 @@ class AnswersTab extends Component
                 $query->whereHas('questionnaire.questions', function ($query) use ($search) {
                     /** @var Builder<Question> $query */
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                        $query->whereILike('text', "%$term%");
+                        $query->whereLike('text', "%$term%");
                     });
                 });
             })

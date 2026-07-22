@@ -75,7 +75,7 @@ class Questionnaire extends Model
         $query->when($search, function (Builder $query, string $search) {
             $query->where(function (Builder $query) use ($search) {
                 collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                    $query->where('title', 'ILIKE', "%$term%");
+                    $query->whereLike('title', "%$term%");
                 });
             });
         });

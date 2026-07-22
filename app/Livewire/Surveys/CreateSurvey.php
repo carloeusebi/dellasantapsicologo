@@ -98,7 +98,7 @@ class CreateSurvey extends Component
         $this->searchablePatients = Patient::userScope()
             ->when($search, function (Builder $query, string $search) {
                 collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                    $query->whereAny(['first_name', 'last_name'], 'ilike', "%$term%");
+                    $query->where(fn (Builder $q) => $q->whereLike('first_name', "%$term%")->orWhereLike('last_name', "%$term%"));
                 });
             })
             ->orderBy('first_name')
