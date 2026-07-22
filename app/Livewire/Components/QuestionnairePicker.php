@@ -77,7 +77,7 @@ class QuestionnairePicker extends Component
             ->when($this->search, function (Builder $query, string $search) {
                 $query->orWhere(function (Builder $query) use ($search) {
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                        $query->whereRelation('tags', 'name', 'like', "%$term%");
+                        $query->whereRelation('tags', 'name', 'ilike', "%$term%");
                     });
                 });
             })

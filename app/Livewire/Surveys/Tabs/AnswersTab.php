@@ -56,7 +56,7 @@ class AnswersTab extends Component
                     $query->when($this->query, function ($query, string $search) {
                         /** @var Builder<Question> $query */
                         collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                            $query->whereLike('text', "%$term%");
+                            $query->whereILike('text', "%$term%");
                         });
                     })
                         ->with([
@@ -74,7 +74,7 @@ class AnswersTab extends Component
                 $query->whereHas('questionnaire.questions', function ($query) use ($search) {
                     /** @var Builder<Question> $query */
                     collect(explode(' ', $search))->each(function (string $term) use ($query) {
-                        $query->whereLike('text', "%$term%");
+                        $query->whereILike('text', "%$term%");
                     });
                 });
             })

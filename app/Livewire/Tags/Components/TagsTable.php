@@ -43,7 +43,7 @@ class TagsTable extends TableComponent
     ): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Factory|View|Application {
         $tags = $this->goToFirstPageIfResultIsEmpty(function () {
             return Tag::query()
-                ->when($this->search, fn (Builder $query, string $search) => $query->whereLike('name', "%$search%"))
+                ->when($this->search, fn (Builder $query, string $search) => $query->whereILike('name', "%$search%"))
                 ->withCount('questionnaires')
                 ->orderBy($this->sortBy['column'], $this->sortBy['direction'])
                 ->paginate(10);
