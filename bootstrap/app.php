@@ -20,10 +20,14 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->report(function (Throwable $exception) {
             if (app()->isProduction()) {
-                Notification::send(
-                    User::whereRelation('role', 'name', Role::ADMIN)->get(),
-                    new ExceptionNotification($exception)
-                );
+                try {
+                    Notification::send(
+                        User::whereRelation('role', 'name', Role::ADMIN)->get(),
+                        new ExceptionNotification($exception)
+                    );
+                } catch (Throwable) {
+                    // Silently ignore to prevent recursive exception reporting loops
+                }
             }
         });
     })->create();
