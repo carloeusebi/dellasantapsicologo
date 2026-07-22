@@ -4,13 +4,8 @@
   background: var(--color-brand) !important;
 }
 
-.label-text {
+.fieldset-legend {
   color: black !important;
-}
-
-.label-text + div > .rounded-r-lg {
-  background-color: white !important;
-  border: 1px solid #e2e8f0 !important;
 }
 
 textarea {
